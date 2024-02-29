@@ -24127,6 +24127,13 @@ unsigned int color_read_Green(void);
 
 
 unsigned int color_read_Blue(void);
+
+
+
+
+
+
+unsigned int color_read_Clear(void);
 # 12 "main.c" 2
 
 # 1 "./i2c.h" 1
@@ -24229,11 +24236,14 @@ void main(void) {
     unsigned int battery_level;
     unsigned int red;
     unsigned int blue;
-    unsigned green;
+    unsigned int green;
+    unsigned int clear;
+
     char buf[50];
     char red_char[50];
     char blue_char[50];
     char green_char[50];
+    char clear_char[50];
 
     while (1) {
         battery_level = ADC_getval();
@@ -24241,18 +24251,21 @@ void main(void) {
         red = color_read_Red();
         blue = color_read_Blue();
         green = color_read_Green();
+        clear = color_read_Clear();
 
 
         ADC2String(buf, battery_level);
         sprintf(red_char,"Red=%d,  ",red);
         sprintf(blue_char,"Blue=%d,  ",blue);
         sprintf(green_char,"Green=%d,  ",green);
+        sprintf(clear_char,"Clear=%d,  \r\n",clear);
 
 
         sendStringSerial4(buf);
         sendStringSerial4(red_char);
         sendStringSerial4(blue_char);
         sendStringSerial4(green_char);
+        sendStringSerial4(clear_char);
 
 
     }

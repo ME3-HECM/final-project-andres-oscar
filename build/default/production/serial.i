@@ -24424,4 +24424,6 @@ void ADC2String(char *buf, unsigned int ADC_val){
     unsigned int frac_part=(ADC_val*100)/77 - int_part*100;
 
     sprintf(buf,"Voltage = %d.%02d,  ",int_part,frac_part);
+
+    _delay((unsigned long)((1000)*(64000000/4000.0)));
 }

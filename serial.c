@@ -137,6 +137,8 @@ void ADC2String(char *buf, unsigned int ADC_val){
     unsigned int frac_part=(ADC_val*100)/77 - int_part*100; //calculates fractional part
     
     sprintf(buf,"Voltage = %d.%02d,  ",int_part,frac_part); //stores both separate parts in buf
+    
+    __delay_ms(1000);
 }
 
 

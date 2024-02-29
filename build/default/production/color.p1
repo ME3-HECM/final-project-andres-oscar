@@ -2181,3 +2181,46 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;color.c: 69: }
 [e :UE 2019 ]
 }
+"72
+[; ;color.c: 72: unsigned int color_read_Clear(void)
+[v _color_read_Clear `(ui ~T0 @X0 1 ef ]
+"73
+[; ;color.c: 73: {
+{
+[e :U _color_read_Clear ]
+[f ]
+"74
+[; ;color.c: 74:  unsigned int tmp;
+[v _tmp `ui ~T0 @X0 1 a ]
+"75
+[; ;color.c: 75:  I2C_2_Master_Start();
+[e ( _I2C_2_Master_Start ..  ]
+"76
+[; ;color.c: 76:  I2C_2_Master_Write(0x52 | 0x00);
+[e ( _I2C_2_Master_Write (1 -> | -> 82 `i -> 0 `i `uc ]
+"77
+[; ;color.c: 77:  I2C_2_Master_Write(0xA0 | 0x14);
+[e ( _I2C_2_Master_Write (1 -> | -> 160 `i -> 20 `i `uc ]
+"78
+[; ;color.c: 78:  I2C_2_Master_RepStart();
+[e ( _I2C_2_Master_RepStart ..  ]
+"79
+[; ;color.c: 79:  I2C_2_Master_Write(0x52 | 0x01);
+[e ( _I2C_2_Master_Write (1 -> | -> 82 `i -> 1 `i `uc ]
+"80
+[; ;color.c: 80:  tmp=I2C_2_Master_Read(1);
+[e = _tmp -> ( _I2C_2_Master_Read (1 -> -> 1 `i `uc `ui ]
+"81
+[; ;color.c: 81:  tmp=tmp | (I2C_2_Master_Read(0)<<8);
+[e = _tmp | _tmp -> << -> ( _I2C_2_Master_Read (1 -> -> 0 `i `uc `i -> 8 `i `ui ]
+"82
+[; ;color.c: 82:  I2C_2_Master_Stop();
+[e ( _I2C_2_Master_Stop ..  ]
+"83
+[; ;color.c: 83:  return tmp;
+[e ) _tmp ]
+[e $UE 2020  ]
+"84
+[; ;color.c: 84: }
+[e :UE 2020 ]
+}

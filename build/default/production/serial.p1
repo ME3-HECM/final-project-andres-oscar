@@ -2448,8 +2448,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 "139
 [; ;serial.c: 139:     sprintf(buf,"Voltage = %d.%02d,  ",int_part,frac_part);
 [e ( _sprintf (1 , , (. , _buf :s 1C _int_part _frac_part ]
-"140
-[; ;serial.c: 140: }
+"141
+[; ;serial.c: 141:     _delay((unsigned long)((1000)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"142
+[; ;serial.c: 142: }
 [e :UE 2052 ]
 }
 [p f _sprintf 8421508 ]

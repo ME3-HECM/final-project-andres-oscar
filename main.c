@@ -41,11 +41,14 @@ void main(void) {
     unsigned int battery_level;
     unsigned int red;
     unsigned int blue;
-    unsigned green;
+    unsigned int green;
+    unsigned int clear;
+    
     char buf[50];
     char red_char[50];
     char blue_char[50];
     char green_char[50];
+    char clear_char[50];
     
     while (1) {
         battery_level = ADC_getval();
@@ -53,18 +56,21 @@ void main(void) {
         red = color_read_Red();
         blue = color_read_Blue();
         green = color_read_Green();
+        clear = color_read_Clear();
         
         //convert values to strings
         ADC2String(buf, battery_level);
         sprintf(red_char,"Red=%d,  ",red); //stores both separate parts in buf
         sprintf(blue_char,"Blue=%d,  ",blue); //stores both separate parts in buf
         sprintf(green_char,"Green=%d,  ",green); //stores both separate parts in buf
+        sprintf(clear_char,"Clear=%d,  \r\n",clear); //stores both separate parts in buf
 
         //send the strings over USART
         sendStringSerial4(buf); //Send ADC VAL to realterm program
         sendStringSerial4(red_char);
         sendStringSerial4(blue_char);
         sendStringSerial4(green_char);
+        sendStringSerial4(clear_char);
         
         
     }

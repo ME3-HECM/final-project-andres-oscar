@@ -36,4 +36,11 @@ unsigned int color_read_Green(void);
  ***********************************************/
 unsigned int color_read_Blue(void);
 
+
+/********************************************//**
+ *  Function to read the Clear channel
+ *	Returns a 16 bit ADC value representing colour intensity
+ ***********************************************/
+unsigned int color_read_Clear(void);
+
 #endif
