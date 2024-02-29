@@ -3,4 +3,6 @@ main.c  \
 color.h  \
 i2c.h  \
 ADC.h  \
-serial.h 
+serial.h  \
+dc_motor.h  \
+functions.h 

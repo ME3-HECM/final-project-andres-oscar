@@ -13,6 +13,8 @@
 #include "i2c.h"
 #include "ADC.h"
 #include "serial.h"
+#include "dc_motor.h"
+#include "functions.h"
 
 /************************************
  * #define directives...
@@ -29,6 +31,24 @@ void main(void) {
     color_click_init();
     initUSART4();
     
+        //initializing DC motors
+    unsigned int PWMcycle = 99;
+    initDCmotorsPWM(PWMcycle);
+
+    //set initial values for the motorL and motorR structures
+    motorL.power = 0;
+    motorL.direction = 1;  
+    motorL.brakemode = 1; 
+    motorL.PWMperiod = PWMcycle;
+    motorL.posDutyHighByte = (unsigned char *)(&CCPR1H); //assign the correct CCP register address
+    motorL.negDutyHighByte = (unsigned char *)(&CCPR2H); //assign the correct CCP register address
+
+    motorR.power = 0;
+    motorR.direction = 1;  
+    motorR.brakemode = 1;
+    motorR.PWMperiod = PWMcycle;
+    motorR.posDutyHighByte = (unsigned char *)(&CCPR3H); //assign the correct CCP register address
+    motorR.negDutyHighByte = (unsigned char *)(&CCPR4H); //assign the correct CCP register address
     
     // setup LEFT pin for output of battery status
     LATDbits.LATD7=0;   //set initial output state
@@ -66,11 +86,13 @@ void main(void) {
         sprintf(clear_char,"Clear=%d,  \r\n",clear); //stores both separate parts in buf
 
         //send the strings over USART
+//        write2USART(buf, red_char, blue_char, green_char, clear_char);
         sendStringSerial4(buf); //Send ADC VAL to realterm program
         sendStringSerial4(red_char);
         sendStringSerial4(blue_char);
         sendStringSerial4(green_char);
         sendStringSerial4(clear_char);
+        //square(1);
         
         
     }

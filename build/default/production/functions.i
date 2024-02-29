@@ -1,4 +1,4 @@
-# 1 "main.c"
+# 1 "functions.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,18 +6,7 @@
 # 1 "<built-in>" 2
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "main.c" 2
-
-
-
-#pragma config FEXTOSC = HS
-#pragma config RSTOSC = EXTOSC_4PLL
-#pragma config WDTE = OFF
-
-
-
-
-
+# 1 "functions.c" 2
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\xc.h" 1 3
 # 18 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -24097,81 +24086,9 @@ __attribute__((__unsupported__("The READTIMER" "0" "() macro is not available wi
 unsigned char __t1rd16on(void);
 unsigned char __t3rd16on(void);
 # 33 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\xc.h" 2 3
-# 11 "main.c" 2
+# 1 "functions.c" 2
 
-# 1 "./color.h" 1
-# 12 "./color.h"
-void color_click_init(void);
-
-
-
-
-
-
-void color_writetoaddr(char address, char value);
-
-
-
-
-
-unsigned int color_read_Red(void);
-
-
-
-
-
-unsigned int color_read_Green(void);
-
-
-
-
-
-unsigned int color_read_Blue(void);
-
-
-
-
-
-
-unsigned int color_read_Clear(void);
-# 12 "main.c" 2
-
-# 1 "./i2c.h" 1
-# 13 "./i2c.h"
-void I2C_2_Master_Init(void);
-
-
-
-
-void I2C_2_Master_Idle(void);
-
-
-
-
-void I2C_2_Master_Start(void);
-
-
-
-
-void I2C_2_Master_RepStart(void);
-
-
-
-
-void I2C_2_Master_Stop(void);
-
-
-
-
-void I2C_2_Master_Write(unsigned char data_byte);
-
-
-
-
-unsigned char I2C_2_Master_Read(unsigned char ack);
-# 13 "main.c" 2
-
-# 1 "./ADC.h" 1
+# 1 "./functions.h" 1
 
 
 
@@ -24179,9 +24096,9 @@ unsigned char I2C_2_Master_Read(unsigned char ack);
 
 
 
-void ADC_init(void);
-unsigned int ADC_getval(void);
-# 14 "main.c" 2
+
+void write2USART(char buf, char red_char, char blue_char, char green_char, char clear_char);
+# 2 "functions.c" 2
 
 # 1 "./serial.h" 1
 # 14 "./serial.h"
@@ -24216,121 +24133,14 @@ void TxBufferedString(char *string);
 void sendTxBuf(void);
 void sendAllReadings(void);
 void ADC2String(char *buf, unsigned int ADC_val);
-# 15 "main.c" 2
-
-# 1 "./dc_motor.h" 1
+# 3 "functions.c" 2
 
 
-
-
-
-
-
-typedef struct DC_motor {
-    char power;
-    char direction;
-    char brakemode;
-    unsigned int PWMperiod;
-    unsigned char *posDutyHighByte;
-    unsigned char *negDutyHighByte;
-} DC_motor;
-
-struct DC_motor motorL, motorR;
-
-
-
-void initDCmotorsPWM(unsigned int PWMperiod);
-void setMotorPWM(DC_motor *m);
-void stop(DC_motor *mL, DC_motor *mR);
-void turnLeft(DC_motor *mL, DC_motor *mR);
-void turnRight(DC_motor *mL, DC_motor *mR);
-void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
-void right90(struct DC_motor *mL, struct DC_motor *mR);
-void left90(struct DC_motor *mL, struct DC_motor *mR);
-void square(unsigned int direction);
-# 16 "main.c" 2
-
-# 1 "./functions.h" 1
-
-
-
-
-
-
-
-
-void write2USART(char buf, char red_char, char blue_char, char green_char, char clear_char);
-# 17 "main.c" 2
-# 28 "main.c"
-void main(void) {
-
-    ADC_init();
-    color_click_init();
-    initUSART4();
-
-
-    unsigned int PWMcycle = 99;
-    initDCmotorsPWM(PWMcycle);
-
-
-    motorL.power = 0;
-    motorL.direction = 1;
-    motorL.brakemode = 1;
-    motorL.PWMperiod = PWMcycle;
-    motorL.posDutyHighByte = (unsigned char *)(&CCPR1H);
-    motorL.negDutyHighByte = (unsigned char *)(&CCPR2H);
-
-    motorR.power = 0;
-    motorR.direction = 1;
-    motorR.brakemode = 1;
-    motorR.PWMperiod = PWMcycle;
-    motorR.posDutyHighByte = (unsigned char *)(&CCPR3H);
-    motorR.negDutyHighByte = (unsigned char *)(&CCPR4H);
-
-
-    LATDbits.LATD7=0;
-    TRISDbits.TRISD7=0;
-
-
-
-
-
-    unsigned int battery_level;
-    unsigned int red;
-    unsigned int blue;
-    unsigned int green;
-    unsigned int clear;
-
-    char buf[50];
-    char red_char[50];
-    char blue_char[50];
-    char green_char[50];
-    char clear_char[50];
-
-    while (1) {
-        battery_level = ADC_getval();
-
-        red = color_read_Red();
-        blue = color_read_Blue();
-        green = color_read_Green();
-        clear = color_read_Clear();
-
-
-        ADC2String(buf, battery_level);
-        sprintf(red_char,"Red=%d,  ",red);
-        sprintf(blue_char,"Blue=%d,  ",blue);
-        sprintf(green_char,"Green=%d,  ",green);
-        sprintf(clear_char,"Clear=%d,  \r\n",clear);
-
-
-
-        sendStringSerial4(buf);
-        sendStringSerial4(red_char);
-        sendStringSerial4(blue_char);
-        sendStringSerial4(green_char);
-        sendStringSerial4(clear_char);
-
-
-
-    }
+void write2USART(char buf, char red_char, char blue_char, char green_char, char clear_char)
+{
+    sendStringSerial4(buf);
+    sendStringSerial4(red_char);
+    sendStringSerial4(blue_char);
+    sendStringSerial4(green_char);
+    sendStringSerial4(clear_char);
 }
