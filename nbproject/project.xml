@@ -4,11 +4,13 @@
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
             <name>final-project-andres-oscar</name>
-            <creation-uuid>c5d9b8ee-8cde-47c6-ab58-c51f9191ce4c</creation-uuid>
+            <creation-uuid>be2188c5-c99e-4de9-82c5-e62b568313ea</creation-uuid>
             <make-project-type>0</make-project-type>
             <sourceEncoding>ISO-8859-1</sourceEncoding>
             <make-dep-projects/>
-            <sourceRootList/>
+            <sourceRootList>
+                <sourceRootElem>.</sourceRootElem>
+            </sourceRootList>
             <confList>
                 <confElem>
                     <name>default</name>
