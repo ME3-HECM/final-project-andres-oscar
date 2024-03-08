@@ -114,6 +114,8 @@ void sendTxBuf(void){
     }
 }
 
+
+//COULD DELETE THIS?
 void sendAllReadings() {
     char buffer[10];
     for (unsigned char i = 0; i < readingIndex; ++i) {
@@ -141,5 +143,20 @@ void ADC2String(char *buf, unsigned int ADC_val){
     __delay_ms(1000);
 }
 
+void send2USART(battery_level, red, green, blue, clear){
+    //convert values to strings
+        ADC2String(buf, battery_level);
+        sprintf(red_char,"Red=%d,  ",red); //stores both separate parts in buf
+        sprintf(blue_char,"Blue=%d,  ",blue); //stores both separate parts in buf
+        sprintf(green_char,"Green=%d,  ",green); //stores both separate parts in buf
+        sprintf(clear_char,"Clear=%d,  \r\n",clear); //stores both separate parts in buf
 
+        //send the strings over USART
+        //write2USART(buf, red_char, blue_char, green_char, clear_char);
+        sendStringSerial4(buf); //Send ADC VAL to realterm program
+        sendStringSerial4(red_char);
+        sendStringSerial4(blue_char);
+        sendStringSerial4(green_char);
+        sendStringSerial4(clear_char);
+}
 

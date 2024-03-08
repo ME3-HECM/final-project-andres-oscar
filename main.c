@@ -86,7 +86,7 @@ void main(void) {
         sprintf(clear_char,"Clear=%d,  \r\n",clear); //stores both separate parts in buf
 
         //send the strings over USART
-//        write2USART(buf, red_char, blue_char, green_char, clear_char);
+        //write2USART(buf, red_char, blue_char, green_char, clear_char);
         sendStringSerial4(buf); //Send ADC VAL to realterm program
         sendStringSerial4(red_char);
         sendStringSerial4(blue_char);

@@ -83,3 +83,13 @@ unsigned int color_read_Clear(void)
 	return tmp;
 }
 
+unsigned int color_decide(Red,Green,Blue)
+{
+    unsigned int color;
+    if (Red>Green && Red>Blue){color = 1;} //Red is dominant color
+    else if (Green>Red && Green>Blue){color = 2;} //Green is dominant color
+    else if (Blue>Red && Blue>Green){color = 3;} //Blue is dominant color
+    
+    return color
+        
+}
