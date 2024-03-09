@@ -24123,6 +24123,9 @@ unsigned int color_read_Blue(void);
 
 
 unsigned int color_read_Clear(void);
+
+
+void test(unsigned int battery_level);
 # 2 "color.c" 2
 
 # 1 "./i2c.h" 1
@@ -24159,6 +24162,42 @@ void I2C_2_Master_Write(unsigned char data_byte);
 
 unsigned char I2C_2_Master_Read(unsigned char ack);
 # 3 "color.c" 2
+
+# 1 "./serial.h" 1
+# 14 "./serial.h"
+volatile char EUSART4RXbuf[20];
+volatile char RxBufWriteCnt=0;
+volatile char RxBufReadCnt=0;
+
+volatile char EUSART4TXbuf[60];
+volatile char TxBufWriteCnt=0;
+volatile char TxBufReadCnt=0;
+
+
+volatile char dataFlag=1;
+
+
+
+void initUSART4(void);
+char getCharSerial4(void);
+void sendCharSerial4(char charToSend);
+void sendStringSerial4(char *string);
+
+
+char getCharFromRxBuf(void);
+void putCharToRxBuf(char byte);
+char isDataInRxBuf (void);
+
+
+char getCharFromTxBuf(void);
+void putCharToTxBuf(char byte);
+char isDataInTxBuf (void);
+void TxBufferedString(char *string);
+void sendTxBuf(void);
+void sendAllReadings(void);
+void ADC2String(char *buf, unsigned int ADC_val);
+void send2USART(unsigned int battery_level, unsigned int red, unsigned int green, unsigned int blue, unsigned int clear);
+# 4 "color.c" 2
 
 
 void color_click_init(void)
@@ -24240,4 +24279,37 @@ unsigned int color_read_Clear(void)
  tmp=tmp | (I2C_2_Master_Read(0)<<8);
  I2C_2_Master_Stop();
  return tmp;
+}
+# 98 "color.c"
+void test(unsigned int battery_level) {
+
+
+    for (unsigned int combo = 0; combo < 8; ++combo) {
+
+        LATGbits.LATG0 = (combo & 0x1) ? 1 : 0;
+        LATEbits.LATE7 = (combo & 0x2) ? 1 : 0;
+        LATAbits.LATA3 = (combo & 0x4) ? 1 : 0;
+
+
+        unsigned int red = color_read_Red();
+        unsigned int blue = color_read_Blue();
+        unsigned int green = color_read_Green();
+        unsigned int clear = color_read_Clear();
+
+
+        char red_bit[50];
+        char green_bit[50];
+        char blue_bit[50];
+
+        sprintf(red_bit,"Red_light=%d,  ", LATGbits.LATG0);
+        sprintf(green_bit,"Green_light=%d,  ", LATEbits.LATE7);
+        sprintf(blue_bit,"Blue_light=%d \n\r", LATAbits.LATA3);
+
+
+        sendStringSerial4(red_bit);
+        sendStringSerial4(green_bit);
+        sendStringSerial4(blue_bit);
+
+        send2USART(battery_level, red, green, blue, clear);
+    }
 }

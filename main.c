@@ -55,6 +55,14 @@ void main(void) {
     TRISDbits.TRISD7=0; //set TRIS value for pin (output)
     
     
+    //Colored LED initialization
+    TRISGbits.TRISG0 = 0;
+    LATGbits.LATG0 = 0; //Red is G0
+    TRISEbits.TRISE7 = 0;
+    LATEbits.LATE7 = 0; //Green is E7
+    TRISAbits.TRISA3 = 0;
+    LATAbits.LATA3 = 0; //Blue is A3
+    
     //finding current battery value, max 255 (we think), so putting it in infinite while loop with LED indicating low battery
 
     
@@ -64,12 +72,7 @@ void main(void) {
     unsigned int green;
     unsigned int clear;
     
-    char buf[50];
-    char red_char[50];
-    char blue_char[50];
-    char green_char[50];
-    char clear_char[50];
-    
+
     while (1) {
         battery_level = ADC_getval();
         //while (battery_level < 50) {LATDbits.LATD7 = 1;}
@@ -78,22 +81,10 @@ void main(void) {
         green = color_read_Green();
         clear = color_read_Clear();
         
-        //convert values to strings
-        ADC2String(buf, battery_level);
-        sprintf(red_char,"Red=%d,  ",red); //stores both separate parts in buf
-        sprintf(blue_char,"Blue=%d,  ",blue); //stores both separate parts in buf
-        sprintf(green_char,"Green=%d,  ",green); //stores both separate parts in buf
-        sprintf(clear_char,"Clear=%d,  \r\n",clear); //stores both separate parts in buf
 
-        //send the strings over USART
-        //write2USART(buf, red_char, blue_char, green_char, clear_char);
-        sendStringSerial4(buf); //Send ADC VAL to realterm program
-        sendStringSerial4(red_char);
-        sendStringSerial4(blue_char);
-        sendStringSerial4(green_char);
-        sendStringSerial4(clear_char);
+        send2USART(battery_level, red, green, blue, clear);
         //square(1);
-        
+        test(battery_level);
         
     }
 }

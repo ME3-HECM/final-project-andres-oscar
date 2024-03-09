@@ -43,4 +43,7 @@ unsigned int color_read_Blue(void);
  ***********************************************/
 unsigned int color_read_Clear(void);
 
+
+void test(unsigned int battery_level);
+
 #endif

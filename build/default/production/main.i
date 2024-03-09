@@ -24134,6 +24134,9 @@ unsigned int color_read_Blue(void);
 
 
 unsigned int color_read_Clear(void);
+
+
+void test(unsigned int battery_level);
 # 12 "main.c" 2
 
 # 1 "./i2c.h" 1
@@ -24216,6 +24219,7 @@ void TxBufferedString(char *string);
 void sendTxBuf(void);
 void sendAllReadings(void);
 void ADC2String(char *buf, unsigned int ADC_val);
+void send2USART(unsigned int battery_level, unsigned int red, unsigned int green, unsigned int blue, unsigned int clear);
 # 15 "main.c" 2
 
 # 1 "./dc_motor.h" 1
@@ -24293,6 +24297,14 @@ void main(void) {
 
 
 
+    TRISGbits.TRISG0 = 0;
+    LATGbits.LATG0 = 0;
+    TRISEbits.TRISE7 = 0;
+    LATEbits.LATE7 = 0;
+    TRISAbits.TRISA3 = 0;
+    LATAbits.LATA3 = 0;
+
+
 
 
     unsigned int battery_level;
@@ -24301,11 +24313,6 @@ void main(void) {
     unsigned int green;
     unsigned int clear;
 
-    char buf[50];
-    char red_char[50];
-    char blue_char[50];
-    char green_char[50];
-    char clear_char[50];
 
     while (1) {
         battery_level = ADC_getval();
@@ -24316,21 +24323,9 @@ void main(void) {
         clear = color_read_Clear();
 
 
-        ADC2String(buf, battery_level);
-        sprintf(red_char,"Red=%d,  ",red);
-        sprintf(blue_char,"Blue=%d,  ",blue);
-        sprintf(green_char,"Green=%d,  ",green);
-        sprintf(clear_char,"Clear=%d,  \r\n",clear);
+        send2USART(battery_level, red, green, blue, clear);
 
-
-
-        sendStringSerial4(buf);
-        sendStringSerial4(red_char);
-        sendStringSerial4(blue_char);
-        sendStringSerial4(green_char);
-        sendStringSerial4(clear_char);
-
-
+        test(battery_level);
 
     }
 }

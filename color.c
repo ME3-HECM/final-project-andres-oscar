@@ -1,6 +1,7 @@
 #include <xc.h>
 #include "color.h"
 #include "i2c.h"
+#include "serial.h"
 
 void color_click_init(void)
 {   
@@ -83,13 +84,46 @@ unsigned int color_read_Clear(void)
 	return tmp;
 }
 
-unsigned int color_decide(Red,Green,Blue)
-{
-    unsigned int color;
-    if (Red>Green && Red>Blue){color = 1;} //Red is dominant color
-    else if (Green>Red && Green>Blue){color = 2;} //Green is dominant color
-    else if (Blue>Red && Blue>Green){color = 3;} //Blue is dominant color
-    
-    return color
+//unsigned int color_decide(Red,Green,Blue)
+//{
+//    unsigned int color;
+//    if (Red>Green && Red>Blue){color = 1;} //Red is dominant color
+//    else if (Green>Red && Green>Blue){color = 2;} //Green is dominant color
+//    else if (Blue>Red && Blue>Green){color = 3;} //Blue is dominant color
+//    
+//    return color;
+//        
+//}
+
+void test(unsigned int battery_level) {
+    // Assuming LATGbits.LATG0, LATEbits.LATE7, and LATAbits.LATA3 are directly writable and affect the LED states.
+    // This loop iterates through all combinations from 0 (000 in binary) to 7 (111 in binary)
+    for (unsigned int combo = 0; combo < 8; ++combo) {
+        // Set each LED based on the corresponding bit in 'combo'
+        LATGbits.LATG0 = (combo & 0x1) ? 1 : 0; // If the first bit is set, turn on the Red LED
+        LATEbits.LATE7 = (combo & 0x2) ? 1 : 0; // If the second bit is set, turn on the Green LED
+        LATAbits.LATA3 = (combo & 0x4) ? 1 : 0; // If the third bit is set, turn on the Blue LED
         
+        // Read color values
+        unsigned int red = color_read_Red();
+        unsigned int blue = color_read_Blue();
+        unsigned int green = color_read_Green();
+        unsigned int clear = color_read_Clear();
+        
+        // Prepare strings for serial transmission
+        char red_bit[50];
+        char green_bit[50];
+        char blue_bit[50];
+        
+        sprintf(red_bit,"Red_light=%d,  ", LATGbits.LATG0); 
+        sprintf(green_bit,"Green_light=%d,  ", LATEbits.LATE7); 
+        sprintf(blue_bit,"Blue_light=%d \n\r", LATAbits.LATA3); 
+        
+        // Send color states and readings over serial
+        sendStringSerial4(red_bit);
+        sendStringSerial4(green_bit);
+        sendStringSerial4(blue_bit);
+        
+        send2USART(battery_level, red, green, blue, clear);
+    }
 }
