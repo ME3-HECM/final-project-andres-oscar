@@ -96,34 +96,65 @@ unsigned int color_read_Clear(void)
 //}
 
 void test(unsigned int battery_level) {
-    // Assuming LATGbits.LATG0, LATEbits.LATE7, and LATAbits.LATA3 are directly writable and affect the LED states.
-    // This loop iterates through all combinations from 0 (000 in binary) to 7 (111 in binary)
-    for (unsigned int combo = 0; combo < 8; ++combo) {
-        // Set each LED based on the corresponding bit in 'combo'
-        LATGbits.LATG0 = (combo & 0x1) ? 1 : 0; // If the first bit is set, turn on the Red LED
-        LATEbits.LATE7 = (combo & 0x2) ? 1 : 0; // If the second bit is set, turn on the Green LED
-        LATAbits.LATA3 = (combo & 0x4) ? 1 : 0; // If the third bit is set, turn on the Blue LED
+
+     // Prepare strings for serial transmission
+    char led_state[50];
+
+    
+    for (unsigned int combo = 0; combo < 4; ++combo) {
+   
+        // Check for specific combos and set LEDs accordingly
+        if (combo == 0) {
+            // Turn on Red LED only
+            LATGbits.LATG0 = 1; // Red LED on
+            LATEbits.LATE7 = 0; // Green LED on
+            LATAbits.LATA3 = 0; // Green LED on
+            sprintf(led_state,"Red_light=%d, \n\r", LATGbits.LATG0); 
+
+
+        } 
         
+        if (combo == 1) {
+            LATGbits.LATG0 = 0; // Red LED on
+            LATEbits.LATE7 = 1; // Green LED on
+            LATAbits.LATA3 = 0; // Green LED on    
+            sprintf(led_state,"Green_light=%d, \n\r", LATEbits.LATE7); 
+
+        }
+        
+        if (combo == 2) {
+            LATGbits.LATG0 = 0; // Red LED on
+            LATEbits.LATE7 = 0; // Green LED on
+            LATAbits.LATA3 = 1; // Green LED on 
+            sprintf(led_state,"Blue_light=%d \n\r", LATAbits.LATA3); 
+
+
+        
+        }
+        
+        if (combo == 3) {
+            LATGbits.LATG0 = 1; // Red LED on
+            LATEbits.LATE7 = 1; // Green LED on
+            LATAbits.LATA3 = 1; // Green LED on
+            sprintf(led_state,"All_lights=%d \n\r", 1); 
+
+            
+        }
+        
+        sendStringSerial4(led_state);
+
         // Read color values
         unsigned int red = color_read_Red();
         unsigned int blue = color_read_Blue();
         unsigned int green = color_read_Green();
         unsigned int clear = color_read_Clear();
         
-        // Prepare strings for serial transmission
-        char red_bit[50];
-        char green_bit[50];
-        char blue_bit[50];
+       
         
-        sprintf(red_bit,"Red_light=%d,  ", LATGbits.LATG0); 
-        sprintf(green_bit,"Green_light=%d,  ", LATEbits.LATE7); 
-        sprintf(blue_bit,"Blue_light=%d \n\r", LATAbits.LATA3); 
-        
-        // Send color states and readings over serial
-        sendStringSerial4(red_bit);
-        sendStringSerial4(green_bit);
-        sendStringSerial4(blue_bit);
-        
+                
+
+       
+
         send2USART(battery_level, red, green, blue, clear);
     }
 }

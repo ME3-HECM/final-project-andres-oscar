@@ -74,15 +74,15 @@ void main(void) {
     
 
     while (1) {
-        battery_level = ADC_getval();
-        //while (battery_level < 50) {LATDbits.LATD7 = 1;}
-        red = color_read_Red();
-        blue = color_read_Blue();
-        green = color_read_Green();
-        clear = color_read_Clear();
-        
-
-        send2USART(battery_level, red, green, blue, clear);
+//        battery_level = ADC_getval();
+//        //while (battery_level < 50) {LATDbits.LATD7 = 1;}
+//        red = color_read_Red();
+//        blue = color_read_Blue();
+//        green = color_read_Green();
+//        clear = color_read_Clear();
+//        
+//
+//        send2USART(battery_level, red, green, blue, clear);
         //square(1);
         test(battery_level);
         

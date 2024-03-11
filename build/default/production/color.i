@@ -24284,11 +24284,50 @@ unsigned int color_read_Clear(void)
 void test(unsigned int battery_level) {
 
 
-    for (unsigned int combo = 0; combo < 8; ++combo) {
+    char led_state[50];
 
-        LATGbits.LATG0 = (combo & 0x1) ? 1 : 0;
-        LATEbits.LATE7 = (combo & 0x2) ? 1 : 0;
-        LATAbits.LATA3 = (combo & 0x4) ? 1 : 0;
+
+    for (unsigned int combo = 0; combo < 4; ++combo) {
+
+
+        if (combo == 0) {
+
+            LATGbits.LATG0 = 1;
+            LATEbits.LATE7 = 0;
+            LATAbits.LATA3 = 0;
+            sprintf(led_state,"Red_light=%d, \n\r", LATGbits.LATG0);
+
+
+        }
+
+        if (combo == 1) {
+            LATGbits.LATG0 = 0;
+            LATEbits.LATE7 = 1;
+            LATAbits.LATA3 = 0;
+            sprintf(led_state,"Green_light=%d, \n\r", LATEbits.LATE7);
+
+        }
+
+        if (combo == 2) {
+            LATGbits.LATG0 = 0;
+            LATEbits.LATE7 = 0;
+            LATAbits.LATA3 = 1;
+            sprintf(led_state,"Blue_light=%d \n\r", LATAbits.LATA3);
+
+
+
+        }
+
+        if (combo == 3) {
+            LATGbits.LATG0 = 1;
+            LATEbits.LATE7 = 1;
+            LATAbits.LATA3 = 1;
+            sprintf(led_state,"All_lights=%d \n\r", 1);
+
+
+        }
+
+        sendStringSerial4(led_state);
 
 
         unsigned int red = color_read_Red();
@@ -24297,18 +24336,10 @@ void test(unsigned int battery_level) {
         unsigned int clear = color_read_Clear();
 
 
-        char red_bit[50];
-        char green_bit[50];
-        char blue_bit[50];
-
-        sprintf(red_bit,"Red_light=%d,  ", LATGbits.LATG0);
-        sprintf(green_bit,"Green_light=%d,  ", LATEbits.LATE7);
-        sprintf(blue_bit,"Blue_light=%d \n\r", LATAbits.LATA3);
 
 
-        sendStringSerial4(red_bit);
-        sendStringSerial4(green_bit);
-        sendStringSerial4(blue_bit);
+
+
 
         send2USART(battery_level, red, green, blue, clear);
     }

@@ -132,24 +132,6 @@ Version 4.0 HI-TECH Software Intermediate Code
 "28172
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28172: extern volatile LATAbits_t LATAbits __attribute__((address(0xF79)));
 [v _LATAbits `VS1339 ~T0 @X0 0 e@3961 ]
-"9 ./ADC.h
-[; ;./ADC.h: 9: unsigned int ADC_getval(void);
-[v _ADC_getval `(ui ~T0 @X0 0 ef ]
-"25 ./color.h
-[; ;./color.h: 25: unsigned int color_read_Red(void);
-[v _color_read_Red `(ui ~T0 @X0 0 ef ]
-"37
-[; ;./color.h: 37: unsigned int color_read_Blue(void);
-[v _color_read_Blue `(ui ~T0 @X0 0 ef ]
-"31
-[; ;./color.h: 31: unsigned int color_read_Green(void);
-[v _color_read_Green `(ui ~T0 @X0 0 ef ]
-"44
-[; ;./color.h: 44: unsigned int color_read_Clear(void);
-[v _color_read_Clear `(ui ~T0 @X0 0 ef ]
-"45 ./serial.h
-[; ;./serial.h: 45: void send2USART(unsigned int battery_level, unsigned int red, unsigned int green, unsigned int blue, unsigned int clear);
-[v _send2USART `(v ~T0 @X0 0 ef5`ui`ui`ui`ui`ui ]
 "47 ./color.h
 [; ;./color.h: 47: void test(unsigned int battery_level);
 [v _test `(v ~T0 @X0 0 ef1`ui ]
@@ -2275,24 +2257,6 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 76:     while (1) {
 [e :U 2018 ]
 {
-"77
-[; ;main.c: 77:         battery_level = ADC_getval();
-[e = _battery_level ( _ADC_getval ..  ]
-"79
-[; ;main.c: 79:         red = color_read_Red();
-[e = _red ( _color_read_Red ..  ]
-"80
-[; ;main.c: 80:         blue = color_read_Blue();
-[e = _blue ( _color_read_Blue ..  ]
-"81
-[; ;main.c: 81:         green = color_read_Green();
-[e = _green ( _color_read_Green ..  ]
-"82
-[; ;main.c: 82:         clear = color_read_Clear();
-[e = _clear ( _color_read_Clear ..  ]
-"85
-[; ;main.c: 85:         send2USART(battery_level, red, green, blue, clear);
-[e ( _send2USART (4 , , , , _battery_level _red _green _blue _clear ]
 "87
 [; ;main.c: 87:         test(battery_level);
 [e ( _test (1 _battery_level ]

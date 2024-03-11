@@ -24315,16 +24315,7 @@ void main(void) {
 
 
     while (1) {
-        battery_level = ADC_getval();
-
-        red = color_read_Red();
-        blue = color_read_Blue();
-        green = color_read_Green();
-        clear = color_read_Clear();
-
-
-        send2USART(battery_level, red, green, blue, clear);
-
+# 87 "main.c"
         test(battery_level);
 
     }

@@ -24444,7 +24444,7 @@ void send2USART(unsigned int battery_level, unsigned int red, unsigned int green
         sprintf(red_char,"Red=%05d,  ",red);
         sprintf(blue_char,"Blue=%05d,  ",blue);
         sprintf(green_char,"Green=%05d,  ",green);
-        sprintf(clear_char,"Clear=%05d,  \n\r",clear);
+        sprintf(clear_char,"Clear=%05d,  \n\n\r",clear);
 
 
 

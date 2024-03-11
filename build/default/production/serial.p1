@@ -2494,7 +2494,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;serial.c: 158:         sprintf(green_char,"Green=%05d,  ",green);
 [e ( _sprintf (1 , (. , &U _green_char :s 4C _green ]
 "159
-[; ;serial.c: 159:         sprintf(clear_char,"Clear=%05d,  \n\r",clear);
+[; ;serial.c: 159:         sprintf(clear_char,"Clear=%05d,  \n\n\r",clear);
 [e ( _sprintf (1 , (. , &U _clear_char :s 5C _clear ]
 "163
 [; ;serial.c: 163:         sendStringSerial4(buf);
@@ -2520,4 +2520,4 @@ Version 4.0 HI-TECH Software Intermediate Code
 [a 3C 66 108 117 101 61 37 48 53 100 44 32 32 0 ]
 [a 2C 82 101 100 61 37 48 53 100 44 32 32 0 ]
 [a 1C 86 111 108 116 97 103 101 32 61 32 37 100 46 37 48 50 100 44 32 32 0 ]
-[a 5C 67 108 101 97 114 61 37 48 53 100 44 32 32 10 13 0 ]
+[a 5C 67 108 101 97 114 61 37 48 53 100 44 32 32 10 10 13 0 ]

@@ -156,7 +156,7 @@ void send2USART(unsigned int battery_level, unsigned int red, unsigned int green
         sprintf(red_char,"Red=%05d,  ",red); //stores both separate parts in buf
         sprintf(blue_char,"Blue=%05d,  ",blue); //stores both separate parts in buf
         sprintf(green_char,"Green=%05d,  ",green); //stores both separate parts in buf
-        sprintf(clear_char,"Clear=%05d,  \n\r",clear); //stores both separate parts in buf
+        sprintf(clear_char,"Clear=%05d,  \n\n\r",clear); //stores both separate parts in buf
 
         //send the strings over USART
         //write2USART(buf, red_char, blue_char, green_char, clear_char);
