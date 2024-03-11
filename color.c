@@ -95,7 +95,7 @@ unsigned int color_read_Clear(void)
 //        
 //}
 
-unsigned int convert_rbg2hue(colors *cMax, colors *cCurr)
+unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
 {
     unsigned int hue;
     unsigned int r = ((cCurr->red)*(cMax->blue)*(cMax->green))/((cCurr->red)*(cMax->blue)*(cMax->green)+(cCurr->blue)*(cMax->red)*(cMax->green)+(cCurr->green)*(cMax->blue)*(cMax->red));
@@ -140,25 +140,25 @@ void test(unsigned int battery_level)
         if (combo == 0) {
             // Turn on Red LED only
             LATGbits.LATG0 = 1; // Red LED on
-            LATEbits.LATE7 = 0; // Green LED on
-            LATAbits.LATA3 = 0; // Green LED on
+            LATEbits.LATE7 = 0; // Green LED off
+            LATAbits.LATA3 = 0; // Blue LED off
             sprintf(led_state,"Red_light=%d, \n\r", LATGbits.LATG0); 
 
 
         } 
         
         if (combo == 1) {
-            LATGbits.LATG0 = 0; // Red LED on
+            LATGbits.LATG0 = 0; // Red LED off
             LATEbits.LATE7 = 1; // Green LED on
-            LATAbits.LATA3 = 0; // Green LED on    
+            LATAbits.LATA3 = 0; // Blue LED off   
             sprintf(led_state,"Green_light=%d, \n\r", LATEbits.LATE7); 
 
         }
         
         if (combo == 2) {
-            LATGbits.LATG0 = 0; // Red LED on
-            LATEbits.LATE7 = 0; // Green LED on
-            LATAbits.LATA3 = 1; // Green LED on 
+            LATGbits.LATG0 = 0; // Red LED off
+            LATEbits.LATE7 = 0; // Green LED off
+            LATAbits.LATA3 = 1; // Blue LED on 
             sprintf(led_state,"Blue_light=%d \n\r", LATAbits.LATA3); 
 
 
@@ -168,7 +168,7 @@ void test(unsigned int battery_level)
         if (combo == 3) {
             LATGbits.LATG0 = 1; // Red LED on
             LATEbits.LATE7 = 1; // Green LED on
-            LATAbits.LATA3 = 1; // Green LED on
+            LATAbits.LATA3 = 1; // Blue LED on
             sprintf(led_state,"All_lights=%d \n\r", 1); 
 
             
@@ -176,47 +176,95 @@ void test(unsigned int battery_level)
         
         sendStringSerial4(led_state);
 
-        // Read color values
-        unsigned int red = color_read_Red();
-        unsigned int blue = color_read_Blue();
-        unsigned int green = color_read_Green();
-        unsigned int clear = color_read_Clear();
+        reading_values(&colorCurrent);
         
-       
+        unsigned int hue = convert_rgb2hue(&colorCalibration, &colorCurrent);
         
                 
 
        
 
-        send2USART(battery_level, red, green, blue, clear);
+        send2USART(battery_level,hue);
     }
 }
 
-void calibration_routine(colors *cCal){
-    LATFbits.LATF2 = 0;
-    TRISFbits.TRISF2 = 1;
+void calibration_routine(colors *cCal)
+{
+  
+    LATGbits.LATG0 = 0; // Red LED off
+    LATEbits.LATE7 = 0; // Green LED off
+    LATAbits.LATA3 = 0; // Green LED off
     
+    char cal_state[20];
+    
+     
+
+    sprintf(cal_state,"Calibration state=red", ".");
+    sendStringSerial4(cal_state);
+
     //wait until button is un pressed
-    while(LATFbits.LATF2 == 1);
-    __delay_ms(100);
+    while(PORTFbits.RF2 == 1){
+        
+    }
+    
+    LATGbits.LATG0 = 1; // Red LED on
+    __delay_ms(500);
     (cCal->red) = color_read_Red();
+    LATGbits.LATG0 = 0; // Red LED off
+
     
-        //wait until button is un pressed
-    while(LATFbits.LATF2 == 1);
-    __delay_ms(100);
+    sprintf(cal_state,"Calibration state=gree", "green \n\r");
+    sendStringSerial4(&cal_state);
+    
+    while(PORTFbits.RF2 == 1){
+        
+    }
+    
+    LATEbits.LATE7 = 1; // Green LED on
+    __delay_ms(500);
     (cCal->green) = color_read_Green();
+    LATEbits.LATE7 = 0; // Green LED off
+
     
-        //wait until button is un pressed
-    while(LATFbits.LATF2 == 1);
-    __delay_ms(100);
+    sprintf(cal_state,"Calibration state=", "blue \n\r");
+    sendStringSerial4(&cal_state);
+    
+    while(PORTFbits.RF2 == 1){
+        
+    }
+    
+    LATAbits.LATA3 = 1; // Blue LED on
+    __delay_ms(500);
     (cCal->blue) = color_read_Blue();
+    LATAbits.LATA3 = 0; // Green LED on
     
-        //wait until button is un pressed
-    while(LATFbits.LATF2 == 1);
-    __delay_ms(100);
+    
+    sprintf(cal_state,"Calibration state=", "ambient \n\r");
+    sendStringSerial4(&cal_state);    
+    
+    while(PORTFbits.RF2 == 1){
+        
+    }
+    LATGbits.LATG0 = 1; // Red LED on
+    LATEbits.LATE7 = 1; // Green LED on
+    LATAbits.LATA3 = 1; // Blue LED on
+    __delay_ms(500);
     (cCal->clear) = color_read_Clear();
-            
-            
+    LATGbits.LATG0 = 0; // Red LED off
+    LATEbits.LATE7 = 0; // Green LED off
+    LATAbits.LATA3 = 0; // Green LED off
+
     
+    sprintf(cal_state,"Calibration state=", "TESTING COMPLETED \n\r");
+    sendStringSerial4(&cal_state);
+}
+
+void reading_values(colors *cCurr)
+{
     
+    // Read color values
+    (cCurr->red)= color_read_Red();
+    (cCurr->blue) = color_read_Blue();
+    (cCurr->green) = color_read_Green();
+    (cCurr->clear) = color_read_Clear();
 }

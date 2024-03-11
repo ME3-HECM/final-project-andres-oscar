@@ -71,19 +71,22 @@ void main(void) {
     unsigned int blue;
     unsigned int green;
     unsigned int clear;
-    
+    TRISHbits.TRISH3 = 0;
+    LATHbits.LATH3 = 1;
+    __delay_ms(300);
+    LATHbits.LATH3 = 0;
+    LATFbits.LATF2 = 0;
+    TRISFbits.TRISF2 = 1;
+    ANSELFbits.ANSELF2 = 0;
+    calibration_routine(&colorCalibration);
+
 
     while (1) {
-//        battery_level = ADC_getval();
-//        //while (battery_level < 50) {LATDbits.LATD7 = 1;}
-//        red = color_read_Red();
-//        blue = color_read_Blue();
-//        green = color_read_Green();
-//        clear = color_read_Clear();
-//        
-//
-//        send2USART(battery_level, red, green, blue, clear);
-        //square(1);
+
+
+
+        
+        __delay_ms(1000);
         test(battery_level);
         
     }

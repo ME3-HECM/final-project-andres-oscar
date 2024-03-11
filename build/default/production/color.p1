@@ -1,9 +1,13 @@
 Version 4.0 HI-TECH Software Intermediate Code
+"8 ./color.h
+[; ;./color.h: 8: typedef struct colors {
+[s S2015 `ui 1 `ui 1 `ui 1 `ui 1 ]
+[n S2015 colors red green blue clear ]
 "13 ./i2c.h
 [; ;./i2c.h: 13: void I2C_2_Master_Init(void);
 [v _I2C_2_Master_Init `(v ~T0 @X0 0 ef ]
-"19 ./color.h
-[; ;./color.h: 19: void color_writetoaddr(char address, char value);
+"29 ./color.h
+[; ;./color.h: 29: void color_writetoaddr(char address, char value);
 [v _color_writetoaddr `(v ~T0 @X0 0 ef2`uc`uc ]
 [v F205 `(v ~T0 @X0 1 tf1`ul ]
 "20 C:\Program Files\Microchip\xc8\v2.45\pic\include\builtins.h
@@ -69,15 +73,33 @@ Version 4.0 HI-TECH Software Intermediate Code
 "28172
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28172: extern volatile LATAbits_t LATAbits __attribute__((address(0xF79)));
 [v _LATAbits `VS1339 ~T0 @X0 0 e@3961 ]
-"112 color.c
-[; ;color.c: 112:             sprintf(led_state,"Red_light=%d, \n\r", LATGbits.LATG0);
+"145 color.c
+[; ;color.c: 145:             sprintf(led_state,"Red_light=%d, \n\r", LATGbits.LATG0);
 [v _sprintf `(i ~T0 @X0 0 e? ]
 "30 ./serial.h
 [; ;./serial.h: 30: void sendStringSerial4(char *string);
 [v _sendStringSerial4 `(v ~T0 @X0 0 ef1`*uc ]
-"45
-[; ;./serial.h: 45: void send2USART(unsigned int battery_level, unsigned int red, unsigned int green, unsigned int blue, unsigned int clear);
-[v _send2USART `(v ~T0 @X0 0 ef5`ui`ui`ui`ui`ui ]
+"63 ./color.h
+[; ;./color.h: 63: void reading_values(colors *cCurr);
+[v _reading_values `(v ~T0 @X0 0 ef1`*S2015 ]
+"45 ./serial.h
+[; ;./serial.h: 45: void send2USART(unsigned int battery_level, unsigned int hue);
+[v _send2USART `(v ~T0 @X0 0 ef2`ui`ui ]
+"30262 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 30262:     struct {
+[s S1412 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1412 . RF0 RF1 RF2 RF3 RF4 RF5 RF6 RF7 ]
+"30272
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 30272:     struct {
+[s S1413 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1413 . . C2OUTF C1OUTF ]
+"30261
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 30261: typedef union {
+[u S1411 `S1412 1 `S1413 1 ]
+[n S1411 . . . ]
+"30278
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 30278: extern volatile PORTFbits_t PORTFbits __attribute__((address(0xF8E)));
+[v _PORTFbits `VS1411 ~T0 @X0 0 e@3982 ]
 "54 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 54: __asm("PPSLOCK equ 0DEFh");
 [; <" PPSLOCK equ 0DEFh ;# ">
@@ -2052,6 +2074,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "40592
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 40592: __asm("TOSU equ 0FFFh");
 [; <" TOSU equ 0FFFh ;# ">
+"17 ./color.h
+[; ;./color.h: 17: struct colors colorCalibration, colorCurrent;
+[v _colorCalibration `S2015 ~T0 @X0 1 e ]
+[v _colorCurrent `S2015 ~T0 @X0 1 e ]
 "14 ./serial.h
 [; ;./serial.h: 14: volatile char EUSART4RXbuf[20];
 [v _EUSART4RXbuf `Vuc ~T0 @X0 -> 20 `i e ]
@@ -2113,7 +2139,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _color_writetoaddr (2 , -> -> 1 `i `uc -> -> 213 `i `uc ]
 "20
 [; ;color.c: 20: }
-[e :UE 2015 ]
+[e :UE 2016 ]
 }
 "22
 [; ;color.c: 22: void color_writetoaddr(char address, char value){
@@ -2140,7 +2166,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _I2C_2_Master_Stop ..  ]
 "28
 [; ;color.c: 28: }
-[e :UE 2016 ]
+[e :UE 2017 ]
 }
 "30
 [; ;color.c: 30: unsigned int color_read_Red(void)
@@ -2180,10 +2206,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "41
 [; ;color.c: 41:  return tmp;
 [e ) _tmp ]
-[e $UE 2017  ]
+[e $UE 2018  ]
 "42
 [; ;color.c: 42: }
-[e :UE 2017 ]
+[e :UE 2018 ]
 }
 "44
 [; ;color.c: 44: unsigned int color_read_Green(void)
@@ -2223,10 +2249,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "55
 [; ;color.c: 55:  return tmp;
 [e ) _tmp ]
-[e $UE 2018  ]
+[e $UE 2019  ]
 "56
 [; ;color.c: 56: }
-[e :UE 2018 ]
+[e :UE 2019 ]
 }
 "58
 [; ;color.c: 58: unsigned int color_read_Blue(void)
@@ -2266,10 +2292,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "69
 [; ;color.c: 69:  return tmp;
 [e ) _tmp ]
-[e $UE 2019  ]
+[e $UE 2020  ]
 "70
 [; ;color.c: 70: }
-[e :UE 2019 ]
+[e :UE 2020 ]
 }
 "73
 [; ;color.c: 73: unsigned int color_read_Clear(void)
@@ -2309,144 +2335,472 @@ Version 4.0 HI-TECH Software Intermediate Code
 "84
 [; ;color.c: 84:  return tmp;
 [e ) _tmp ]
-[e $UE 2020  ]
+[e $UE 2021  ]
 "85
 [; ;color.c: 85: }
-[e :UE 2020 ]
+[e :UE 2021 ]
 }
 "98
-[; ;color.c: 98: void test(unsigned int battery_level) {
+[; ;color.c: 98: unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
+[v _convert_rgb2hue `(ui ~T0 @X0 1 ef2`*S2015`*S2015 ]
+"99
+[; ;color.c: 99: {
+{
+[e :U _convert_rgb2hue ]
+"98
+[; ;color.c: 98: unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
+[v _cMax `*S2015 ~T0 @X0 1 r1 ]
+[v _cCurr `*S2015 ~T0 @X0 1 r2 ]
+"99
+[; ;color.c: 99: {
+[f ]
+"100
+[; ;color.c: 100:     unsigned int hue;
+[v _hue `ui ~T0 @X0 1 a ]
+"101
+[; ;color.c: 101:     unsigned int r = ((cCurr->red)*(cMax->blue)*(cMax->green))/((cCurr->red)*(cMax->blue)*(cMax->green)+(cCurr->blue)*(cMax->red)*(cMax->green)+(cCurr->green)*(cMax->blue)*(cMax->red));
+[v _r `ui ~T0 @X0 1 a ]
+[e = _r / * * . *U _cCurr 0 . *U _cMax 2 . *U _cMax 1 + + * * . *U _cCurr 0 . *U _cMax 2 . *U _cMax 1 * * . *U _cCurr 2 . *U _cMax 0 . *U _cMax 1 * * . *U _cCurr 1 . *U _cMax 2 . *U _cMax 0 ]
+"102
+[; ;color.c: 102:     unsigned int g = ((cCurr->green)*(cMax->blue)*(cMax->red))/((cCurr->red)*(cMax->blue)*(cMax->green)+(cCurr->blue)*(cMax->red)*(cMax->green)+(cCurr->green)*(cMax->blue)*(cMax->red));
+[v _g `ui ~T0 @X0 1 a ]
+[e = _g / * * . *U _cCurr 1 . *U _cMax 2 . *U _cMax 0 + + * * . *U _cCurr 0 . *U _cMax 2 . *U _cMax 1 * * . *U _cCurr 2 . *U _cMax 0 . *U _cMax 1 * * . *U _cCurr 1 . *U _cMax 2 . *U _cMax 0 ]
+"103
+[; ;color.c: 103:     unsigned int b = 1-r-g;
+[v _b `ui ~T0 @X0 1 a ]
+[e = _b - - -> -> 1 `i `ui _r _g ]
+"105
+[; ;color.c: 105:     if (r>g & r>b){
+[e $ ! & > _r _g > _r _b 2023  ]
+{
+"106
+[; ;color.c: 106:         if (b>g){
+[e $ ! > _b _g 2024  ]
+{
+"107
+[; ;color.c: 107:             hue=(g-b)/(r-g);
+[e = _hue / - _g _b - _r _g ]
+"108
+[; ;color.c: 108:         } else {
+}
+[e $U 2025  ]
+[e :U 2024 ]
+{
+"109
+[; ;color.c: 109:             hue=(g-b)/(r-b);
+[e = _hue / - _g _b - _r _b ]
+"110
+[; ;color.c: 110:         }
+}
+[e :U 2025 ]
+"111
+[; ;color.c: 111:     }
+}
+[e :U 2023 ]
+"113
+[; ;color.c: 113:     if (g>r & g>b){
+[e $ ! & > _g _r > _g _b 2026  ]
+{
+"114
+[; ;color.c: 114:         if (r>b){
+[e $ ! > _r _b 2027  ]
+{
+"115
+[; ;color.c: 115:             hue=2+(b-r)/(g-b);
+[e = _hue + -> -> 2 `i `ui / - _b _r - _g _b ]
+"116
+[; ;color.c: 116:         } else {
+}
+[e $U 2028  ]
+[e :U 2027 ]
+{
+"117
+[; ;color.c: 117:             hue=2+(b-r)/(g-r);
+[e = _hue + -> -> 2 `i `ui / - _b _r - _g _r ]
+"118
+[; ;color.c: 118:         }
+}
+[e :U 2028 ]
+"119
+[; ;color.c: 119:     }
+}
+[e :U 2026 ]
+"120
+[; ;color.c: 120:     if (b>r & b>g){
+[e $ ! & > _b _r > _b _g 2029  ]
+{
+"121
+[; ;color.c: 121:         if (r>g){
+[e $ ! > _r _g 2030  ]
+{
+"122
+[; ;color.c: 122:             hue=4+(r-g)/(b-g);
+[e = _hue + -> -> 4 `i `ui / - _r _g - _b _g ]
+"123
+[; ;color.c: 123:         } else {
+}
+[e $U 2031  ]
+[e :U 2030 ]
+{
+"124
+[; ;color.c: 124:             hue=4+(r-g)/(b-r);
+[e = _hue + -> -> 4 `i `ui / - _r _g - _b _r ]
+"125
+[; ;color.c: 125:         }
+}
+[e :U 2031 ]
+"126
+[; ;color.c: 126:     return hue;
+[e ) _hue ]
+[e $UE 2022  ]
+"127
+[; ;color.c: 127: }
+}
+[e :U 2029 ]
+"129
+[; ;color.c: 129: }
+[e :UE 2022 ]
+}
+"130
+[; ;color.c: 130: void test(unsigned int battery_level)
 [v _test `(v ~T0 @X0 1 ef1`ui ]
+"131
+[; ;color.c: 131: {
 {
 [e :U _test ]
+"130
+[; ;color.c: 130: void test(unsigned int battery_level)
 [v _battery_level `ui ~T0 @X0 1 r1 ]
+"131
+[; ;color.c: 131: {
 [f ]
-"101
-[; ;color.c: 101:     char led_state[50];
+"134
+[; ;color.c: 134:     char led_state[50];
 [v _led_state `uc ~T0 @X0 -> 50 `i a ]
-"104
-[; ;color.c: 104:     for (unsigned int combo = 0; combo < 4; ++combo) {
+"137
+[; ;color.c: 137:     for (unsigned int combo = 0; combo < 4; ++combo) {
 {
 [v _combo `ui ~T0 @X0 1 a ]
 [e = _combo -> -> 0 `i `ui ]
-[e $ < _combo -> -> 4 `i `ui 2022  ]
-[e $U 2023  ]
-[e :U 2022 ]
+[e $ < _combo -> -> 4 `i `ui 2033  ]
+[e $U 2034  ]
+[e :U 2033 ]
 {
-"107
-[; ;color.c: 107:         if (combo == 0) {
-[e $ ! == _combo -> -> 0 `i `ui 2025  ]
+"140
+[; ;color.c: 140:         if (combo == 0) {
+[e $ ! == _combo -> -> 0 `i `ui 2036  ]
 {
-"109
-[; ;color.c: 109:             LATGbits.LATG0 = 1;
-[e = . . _LATGbits 0 0 -> -> 1 `i `uc ]
-"110
-[; ;color.c: 110:             LATEbits.LATE7 = 0;
-[e = . . _LATEbits 0 7 -> -> 0 `i `uc ]
-"111
-[; ;color.c: 111:             LATAbits.LATA3 = 0;
-[e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
-"112
-[; ;color.c: 112:             sprintf(led_state,"Red_light=%d, \n\r", LATGbits.LATG0);
-[e ( _sprintf , , &U _led_state :s 1C -> . . _LATGbits 0 0 `i ]
-"115
-[; ;color.c: 115:         }
-}
-[e :U 2025 ]
-"117
-[; ;color.c: 117:         if (combo == 1) {
-[e $ ! == _combo -> -> 1 `i `ui 2026  ]
-{
-"118
-[; ;color.c: 118:             LATGbits.LATG0 = 0;
-[e = . . _LATGbits 0 0 -> -> 0 `i `uc ]
-"119
-[; ;color.c: 119:             LATEbits.LATE7 = 1;
-[e = . . _LATEbits 0 7 -> -> 1 `i `uc ]
-"120
-[; ;color.c: 120:             LATAbits.LATA3 = 0;
-[e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
-"121
-[; ;color.c: 121:             sprintf(led_state,"Green_light=%d, \n\r", LATEbits.LATE7);
-[e ( _sprintf , , &U _led_state :s 2C -> . . _LATEbits 0 7 `i ]
-"123
-[; ;color.c: 123:         }
-}
-[e :U 2026 ]
-"125
-[; ;color.c: 125:         if (combo == 2) {
-[e $ ! == _combo -> -> 2 `i `ui 2027  ]
-{
-"126
-[; ;color.c: 126:             LATGbits.LATG0 = 0;
-[e = . . _LATGbits 0 0 -> -> 0 `i `uc ]
-"127
-[; ;color.c: 127:             LATEbits.LATE7 = 0;
-[e = . . _LATEbits 0 7 -> -> 0 `i `uc ]
-"128
-[; ;color.c: 128:             LATAbits.LATA3 = 1;
-[e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
-"129
-[; ;color.c: 129:             sprintf(led_state,"Blue_light=%d \n\r", LATAbits.LATA3);
-[e ( _sprintf , , &U _led_state :s 3C -> . . _LATAbits 0 3 `i ]
-"133
-[; ;color.c: 133:         }
-}
-[e :U 2027 ]
-"135
-[; ;color.c: 135:         if (combo == 3) {
-[e $ ! == _combo -> -> 3 `i `ui 2028  ]
-{
-"136
-[; ;color.c: 136:             LATGbits.LATG0 = 1;
-[e = . . _LATGbits 0 0 -> -> 1 `i `uc ]
-"137
-[; ;color.c: 137:             LATEbits.LATE7 = 1;
-[e = . . _LATEbits 0 7 -> -> 1 `i `uc ]
-"138
-[; ;color.c: 138:             LATAbits.LATA3 = 1;
-[e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
-"139
-[; ;color.c: 139:             sprintf(led_state,"All_lights=%d \n\r", 1);
-[e ( _sprintf , , &U _led_state :s 4C -> 1 `i ]
 "142
-[; ;color.c: 142:         }
-}
-[e :U 2028 ]
+[; ;color.c: 142:             LATGbits.LATG0 = 1;
+[e = . . _LATGbits 0 0 -> -> 1 `i `uc ]
+"143
+[; ;color.c: 143:             LATEbits.LATE7 = 0;
+[e = . . _LATEbits 0 7 -> -> 0 `i `uc ]
 "144
-[; ;color.c: 144:         sendStringSerial4(led_state);
-[e ( _sendStringSerial4 (1 &U _led_state ]
-"147
-[; ;color.c: 147:         unsigned int red = color_read_Red();
-[v _red `ui ~T0 @X0 1 a ]
-[e = _red ( _color_read_Red ..  ]
+[; ;color.c: 144:             LATAbits.LATA3 = 0;
+[e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
+"145
+[; ;color.c: 145:             sprintf(led_state,"Red_light=%d, \n\r", LATGbits.LATG0);
+[e ( _sprintf , , &U _led_state :s 1C -> . . _LATGbits 0 0 `i ]
 "148
-[; ;color.c: 148:         unsigned int blue = color_read_Blue();
-[v _blue `ui ~T0 @X0 1 a ]
-[e = _blue ( _color_read_Blue ..  ]
-"149
-[; ;color.c: 149:         unsigned int green = color_read_Green();
-[v _green `ui ~T0 @X0 1 a ]
-[e = _green ( _color_read_Green ..  ]
+[; ;color.c: 148:         }
+}
+[e :U 2036 ]
 "150
-[; ;color.c: 150:         unsigned int clear = color_read_Clear();
-[v _clear `ui ~T0 @X0 1 a ]
-[e = _clear ( _color_read_Clear ..  ]
+[; ;color.c: 150:         if (combo == 1) {
+[e $ ! == _combo -> -> 1 `i `ui 2037  ]
+{
+"151
+[; ;color.c: 151:             LATGbits.LATG0 = 0;
+[e = . . _LATGbits 0 0 -> -> 0 `i `uc ]
+"152
+[; ;color.c: 152:             LATEbits.LATE7 = 1;
+[e = . . _LATEbits 0 7 -> -> 1 `i `uc ]
+"153
+[; ;color.c: 153:             LATAbits.LATA3 = 0;
+[e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
+"154
+[; ;color.c: 154:             sprintf(led_state,"Green_light=%d, \n\r", LATEbits.LATE7);
+[e ( _sprintf , , &U _led_state :s 2C -> . . _LATEbits 0 7 `i ]
+"156
+[; ;color.c: 156:         }
+}
+[e :U 2037 ]
 "158
-[; ;color.c: 158:         send2USART(battery_level, red, green, blue, clear);
-[e ( _send2USART (4 , , , , _battery_level _red _green _blue _clear ]
+[; ;color.c: 158:         if (combo == 2) {
+[e $ ! == _combo -> -> 2 `i `ui 2038  ]
+{
 "159
-[; ;color.c: 159:     }
+[; ;color.c: 159:             LATGbits.LATG0 = 0;
+[e = . . _LATGbits 0 0 -> -> 0 `i `uc ]
+"160
+[; ;color.c: 160:             LATEbits.LATE7 = 0;
+[e = . . _LATEbits 0 7 -> -> 0 `i `uc ]
+"161
+[; ;color.c: 161:             LATAbits.LATA3 = 1;
+[e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
+"162
+[; ;color.c: 162:             sprintf(led_state,"Blue_light=%d \n\r", LATAbits.LATA3);
+[e ( _sprintf , , &U _led_state :s 3C -> . . _LATAbits 0 3 `i ]
+"166
+[; ;color.c: 166:         }
+}
+[e :U 2038 ]
+"168
+[; ;color.c: 168:         if (combo == 3) {
+[e $ ! == _combo -> -> 3 `i `ui 2039  ]
+{
+"169
+[; ;color.c: 169:             LATGbits.LATG0 = 1;
+[e = . . _LATGbits 0 0 -> -> 1 `i `uc ]
+"170
+[; ;color.c: 170:             LATEbits.LATE7 = 1;
+[e = . . _LATEbits 0 7 -> -> 1 `i `uc ]
+"171
+[; ;color.c: 171:             LATAbits.LATA3 = 1;
+[e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
+"172
+[; ;color.c: 172:             sprintf(led_state,"All_lights=%d \n\r", 1);
+[e ( _sprintf , , &U _led_state :s 4C -> 1 `i ]
+"175
+[; ;color.c: 175:         }
+}
+[e :U 2039 ]
+"177
+[; ;color.c: 177:         sendStringSerial4(led_state);
+[e ( _sendStringSerial4 (1 &U _led_state ]
+"179
+[; ;color.c: 179:         reading_values(&colorCurrent);
+[e ( _reading_values (1 &U _colorCurrent ]
+"181
+[; ;color.c: 181:         unsigned int hue = convert_rgb2hue(&colorCalibration, &colorCurrent);
+[v _hue `ui ~T0 @X0 1 a ]
+[e = _hue ( _convert_rgb2hue (2 , &U _colorCalibration &U _colorCurrent ]
+"187
+[; ;color.c: 187:         send2USART(battery_level,hue);
+[e ( _send2USART (2 , _battery_level _hue ]
+"188
+[; ;color.c: 188:     }
 }
 [e =+ _combo -> -> 1 `i `ui ]
-[e $ < _combo -> -> 4 `i `ui 2022  ]
-[e :U 2023 ]
+[e $ < _combo -> -> 4 `i `ui 2033  ]
+[e :U 2034 ]
 }
-"160
-[; ;color.c: 160: }
-[e :UE 2021 ]
+"189
+[; ;color.c: 189: }
+[e :UE 2032 ]
 }
+"191
+[; ;color.c: 191: void calibration_routine(colors *cCal)
+[v _calibration_routine `(v ~T0 @X0 1 ef1`*S2015 ]
+"192
+[; ;color.c: 192: {
+{
+[e :U _calibration_routine ]
+"191
+[; ;color.c: 191: void calibration_routine(colors *cCal)
+[v _cCal `*S2015 ~T0 @X0 1 r1 ]
+"192
+[; ;color.c: 192: {
+[f ]
+"194
+[; ;color.c: 194:     LATGbits.LATG0 = 0;
+[e = . . _LATGbits 0 0 -> -> 0 `i `uc ]
+"195
+[; ;color.c: 195:     LATEbits.LATE7 = 0;
+[e = . . _LATEbits 0 7 -> -> 0 `i `uc ]
+"196
+[; ;color.c: 196:     LATAbits.LATA3 = 0;
+[e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
+"198
+[; ;color.c: 198:     char cal_state[20];
+[v _cal_state `uc ~T0 @X0 -> 20 `i a ]
+"202
+[; ;color.c: 202:     sprintf(cal_state,"Calibration state=red", ".");
+[e ( _sprintf , , &U _cal_state :s 5C :s 6C ]
+"203
+[; ;color.c: 203:     sendStringSerial4(cal_state);
+[e ( _sendStringSerial4 (1 &U _cal_state ]
+"206
+[; ;color.c: 206:     while(PORTFbits.RF2 == 1){
+[e $U 2041  ]
+[e :U 2042 ]
+{
+"208
+[; ;color.c: 208:     }
+}
+[e :U 2041 ]
+"206
+[; ;color.c: 206:     while(PORTFbits.RF2 == 1){
+[e $ == -> . . _PORTFbits 0 2 `i -> 1 `i 2042  ]
+[e :U 2043 ]
+"210
+[; ;color.c: 210:     LATGbits.LATG0 = 1;
+[e = . . _LATGbits 0 0 -> -> 1 `i `uc ]
+"211
+[; ;color.c: 211:     _delay((unsigned long)((500)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"212
+[; ;color.c: 212:     (cCal->red) = color_read_Red();
+[e = . *U _cCal 0 ( _color_read_Red ..  ]
+"213
+[; ;color.c: 213:     LATGbits.LATG0 = 0;
+[e = . . _LATGbits 0 0 -> -> 0 `i `uc ]
+"216
+[; ;color.c: 216:     sprintf(cal_state,"Calibration state=gree", "green \n\r");
+[e ( _sprintf , , &U _cal_state :s 7C :s 8C ]
+"217
+[; ;color.c: 217:     sendStringSerial4(&cal_state);
+[e ( _sendStringSerial4 (1 -> &U _cal_state `*uc ]
+"219
+[; ;color.c: 219:     while(PORTFbits.RF2 == 1){
+[e $U 2044  ]
+[e :U 2045 ]
+{
+"221
+[; ;color.c: 221:     }
+}
+[e :U 2044 ]
+"219
+[; ;color.c: 219:     while(PORTFbits.RF2 == 1){
+[e $ == -> . . _PORTFbits 0 2 `i -> 1 `i 2045  ]
+[e :U 2046 ]
+"223
+[; ;color.c: 223:     LATEbits.LATE7 = 1;
+[e = . . _LATEbits 0 7 -> -> 1 `i `uc ]
+"224
+[; ;color.c: 224:     _delay((unsigned long)((500)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"225
+[; ;color.c: 225:     (cCal->green) = color_read_Green();
+[e = . *U _cCal 1 ( _color_read_Green ..  ]
+"226
+[; ;color.c: 226:     LATEbits.LATE7 = 0;
+[e = . . _LATEbits 0 7 -> -> 0 `i `uc ]
+"229
+[; ;color.c: 229:     sprintf(cal_state,"Calibration state=", "blue \n\r");
+[e ( _sprintf , , &U _cal_state :s 9C :s 10C ]
+"230
+[; ;color.c: 230:     sendStringSerial4(&cal_state);
+[e ( _sendStringSerial4 (1 -> &U _cal_state `*uc ]
+"232
+[; ;color.c: 232:     while(PORTFbits.RF2 == 1){
+[e $U 2047  ]
+[e :U 2048 ]
+{
+"234
+[; ;color.c: 234:     }
+}
+[e :U 2047 ]
+"232
+[; ;color.c: 232:     while(PORTFbits.RF2 == 1){
+[e $ == -> . . _PORTFbits 0 2 `i -> 1 `i 2048  ]
+[e :U 2049 ]
+"236
+[; ;color.c: 236:     LATAbits.LATA3 = 1;
+[e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
+"237
+[; ;color.c: 237:     _delay((unsigned long)((500)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"238
+[; ;color.c: 238:     (cCal->blue) = color_read_Blue();
+[e = . *U _cCal 2 ( _color_read_Blue ..  ]
+"239
+[; ;color.c: 239:     LATAbits.LATA3 = 0;
+[e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
+"242
+[; ;color.c: 242:     sprintf(cal_state,"Calibration state=", "ambient \n\r");
+[e ( _sprintf , , &U _cal_state :s 11C :s 12C ]
+"243
+[; ;color.c: 243:     sendStringSerial4(&cal_state);
+[e ( _sendStringSerial4 (1 -> &U _cal_state `*uc ]
+"245
+[; ;color.c: 245:     while(PORTFbits.RF2 == 1){
+[e $U 2050  ]
+[e :U 2051 ]
+{
+"247
+[; ;color.c: 247:     }
+}
+[e :U 2050 ]
+"245
+[; ;color.c: 245:     while(PORTFbits.RF2 == 1){
+[e $ == -> . . _PORTFbits 0 2 `i -> 1 `i 2051  ]
+[e :U 2052 ]
+"248
+[; ;color.c: 248:     LATGbits.LATG0 = 1;
+[e = . . _LATGbits 0 0 -> -> 1 `i `uc ]
+"249
+[; ;color.c: 249:     LATEbits.LATE7 = 1;
+[e = . . _LATEbits 0 7 -> -> 1 `i `uc ]
+"250
+[; ;color.c: 250:     LATAbits.LATA3 = 1;
+[e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
+"251
+[; ;color.c: 251:     _delay((unsigned long)((500)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"252
+[; ;color.c: 252:     (cCal->clear) = color_read_Clear();
+[e = . *U _cCal 3 ( _color_read_Clear ..  ]
+"253
+[; ;color.c: 253:     LATGbits.LATG0 = 0;
+[e = . . _LATGbits 0 0 -> -> 0 `i `uc ]
+"254
+[; ;color.c: 254:     LATEbits.LATE7 = 0;
+[e = . . _LATEbits 0 7 -> -> 0 `i `uc ]
+"255
+[; ;color.c: 255:     LATAbits.LATA3 = 0;
+[e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
+"258
+[; ;color.c: 258:     sprintf(cal_state,"Calibration state=", "TESTING COMPLETED \n\r");
+[e ( _sprintf , , &U _cal_state :s 13C :s 14C ]
+"259
+[; ;color.c: 259:     sendStringSerial4(&cal_state);
+[e ( _sendStringSerial4 (1 -> &U _cal_state `*uc ]
+"260
+[; ;color.c: 260: }
+[e :UE 2040 ]
+}
+"262
+[; ;color.c: 262: void reading_values(colors *cCurr)
+[v _reading_values `(v ~T0 @X0 1 ef1`*S2015 ]
+"263
+[; ;color.c: 263: {
+{
+[e :U _reading_values ]
+"262
+[; ;color.c: 262: void reading_values(colors *cCurr)
+[v _cCurr `*S2015 ~T0 @X0 1 r1 ]
+"263
+[; ;color.c: 263: {
+[f ]
+"266
+[; ;color.c: 266:     (cCurr->red)= color_read_Red();
+[e = . *U _cCurr 0 ( _color_read_Red ..  ]
+"267
+[; ;color.c: 267:     (cCurr->blue) = color_read_Blue();
+[e = . *U _cCurr 2 ( _color_read_Blue ..  ]
+"268
+[; ;color.c: 268:     (cCurr->green) = color_read_Green();
+[e = . *U _cCurr 1 ( _color_read_Green ..  ]
+"269
+[; ;color.c: 269:     (cCurr->clear) = color_read_Clear();
+[e = . *U _cCurr 3 ( _color_read_Clear ..  ]
+"270
+[; ;color.c: 270: }
+[e :UE 2053 ]
+}
+[a 7C 67 97 108 105 98 114 97 116 105 111 110 32 115 116 97 116 101 61 103 114 101 101 0 ]
+[a 5C 67 97 108 105 98 114 97 116 105 111 110 32 115 116 97 116 101 61 114 101 100 0 ]
+[a 9C 67 97 108 105 98 114 97 116 105 111 110 32 115 116 97 116 101 61 0 ]
+[a 11C 67 97 108 105 98 114 97 116 105 111 110 32 115 116 97 116 101 61 0 ]
+[a 13C 67 97 108 105 98 114 97 116 105 111 110 32 115 116 97 116 101 61 0 ]
+[a 6C 46 0 ]
+[a 12C 97 109 98 105 101 110 116 32 10 13 0 ]
+[a 8C 103 114 101 101 110 32 10 13 0 ]
+[a 10C 98 108 117 101 32 10 13 0 ]
 [a 3C 66 108 117 101 95 108 105 103 104 116 61 37 100 32 10 13 0 ]
 [a 4C 65 108 108 95 108 105 103 104 116 115 61 37 100 32 10 13 0 ]
+[a 14C 84 69 83 84 73 78 71 32 67 79 77 80 76 69 84 69 68 32 10 13 0 ]
 [a 2C 71 114 101 101 110 95 108 105 103 104 116 61 37 100 44 32 10 13 0 ]
 [a 1C 82 101 100 95 108 105 103 104 116 61 37 100 44 32 10 13 0 ]

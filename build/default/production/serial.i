@@ -24121,7 +24121,7 @@ void TxBufferedString(char *string);
 void sendTxBuf(void);
 void sendAllReadings(void);
 void ADC2String(char *buf, unsigned int ADC_val);
-void send2USART(unsigned int battery_level, unsigned int red, unsigned int green, unsigned int blue, unsigned int clear);
+void send2USART(unsigned int battery_level, unsigned int hue);
 # 2 "serial.c" 2
 
 # 1 "./ADC.h" 1
@@ -24431,26 +24431,21 @@ void ADC2String(char *buf, unsigned int ADC_val){
     _delay((unsigned long)((1000)*(64000000/4000.0)));
 }
 
-void send2USART(unsigned int battery_level, unsigned int red, unsigned int green, unsigned int blue, unsigned int clear){
+void send2USART(unsigned int battery_level, unsigned int hue)
+{
         char buf[50];
-        char red_char[50];
-        char blue_char[50];
-        char green_char[50];
-        char clear_char[50];
+        char hue_char[50];
+
 
 
 
         ADC2String(buf, battery_level);
-        sprintf(red_char,"Red=%05d,  ",red);
-        sprintf(blue_char,"Blue=%05d,  ",blue);
-        sprintf(green_char,"Green=%05d,  ",green);
-        sprintf(clear_char,"Clear=%05d,  \n\n\r",clear);
+        sprintf(hue_char,"hue=%05d,  ",hue);
+
 
 
 
         sendStringSerial4(buf);
-        sendStringSerial4(red_char);
-        sendStringSerial4(blue_char);
-        sendStringSerial4(green_char);
-        sendStringSerial4(clear_char);
+        sendStringSerial4(hue_char);
+
 }
