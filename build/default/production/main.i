@@ -24338,14 +24338,11 @@ void main(void) {
     while (1) {
 
         if (!PORTFbits.RF3) {
+# 92 "main.c"
             _delay((unsigned long)((500)*(64000000/4000.0)));
-            right90(&motorL, &motorR);
-            _delay((unsigned long)((100)*(64000000/4000.0)));
-            right90(&motorL, &motorR);
-            _delay((unsigned long)((100)*(64000000/4000.0)));
-            right90(&motorL, &motorR);
-            _delay((unsigned long)((100)*(64000000/4000.0)));
-            right90(&motorL, &motorR);
+            moveRed(&motorL, &motorR);
+
+
         }
 
     }

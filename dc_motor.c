@@ -233,7 +233,7 @@ void left135(struct DC_motor *mL, struct DC_motor *mR)
 void backHalf(struct DC_motor *mL, struct DC_motor *mR)
 {
     fullSpeedBack(mL,mR); //set to going backwards mode
-    __delay_ms(200); //delay for moving half a unit of maze ****(tune here)
+    __delay_ms(500); //delay for moving half a unit of maze ****(tune here)
     stop(mL,mR); //stops the rotation
 }
 
@@ -241,7 +241,7 @@ void backHalf(struct DC_motor *mL, struct DC_motor *mR)
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR)
 {
     fullSpeedBack(mL,mR); //set to going backwards mode
-    __delay_ms(500); //delay for moving half a unit of maze ****(tune here)
+    __delay_ms(1000); //delay for moving half a unit of maze ****(tune here)
     stop(mL,mR); //stops the rotation
 }
 
@@ -255,6 +255,7 @@ void moveRed(struct DC_motor *mL, struct DC_motor *mR)
 {
     //Move back half a unit and turn right 90
     backHalf(mL,mR); //moving back half a unit
+    __delay_ms(500); //delay to slow down potential skidding
     right90(mL,mR); //turning right 90 function
 }
 
@@ -262,6 +263,7 @@ void moveGreen(struct DC_motor *mL, struct DC_motor *mR)
 {
     //Move back half a unit and turn left 90
     backHalf(mL,mR); //moving back half a unit
+    __delay_ms(500); //delay to slow down potential skidding
     left90(mL,mR); //turning left 90 function
 }
 
@@ -269,6 +271,7 @@ void moveBlue(struct DC_motor *mL, struct DC_motor *mR)
 {
     //Move back half a unit and turns 180
     backHalf(mL,mR); //moving back half a unit
+    __delay_ms(500); //delay to slow down potential skidding
     turn180(mL,mR); //turning 180 function
 }
 
@@ -276,6 +279,7 @@ void moveYellow(struct DC_motor *mL, struct DC_motor *mR)
 {
     //Move back one and a half units and turn right 90
     backOneAndHalf(mL,mR); //moving back half a unit
+    __delay_ms(500); //delay to slow down potential skidding
     right90(mL,mR); //turning right 90 function
 }
 
@@ -283,6 +287,7 @@ void movePink(struct DC_motor *mL, struct DC_motor *mR)
 {
     //Move back one and a half units and turn left 90
     backOneAndHalf(mL,mR); //moving back half a unit
+    __delay_ms(500); //delay to slow down potential skidding
     left90(mL,mR); //turning left 90 function
 }
 
@@ -290,6 +295,7 @@ void moveOrange(struct DC_motor *mL, struct DC_motor *mR)
 {
     //Move back half a unit and turn right 135
     backHalf(mL,mR); //moving back half a unit
+    __delay_ms(500); //delay to slow down potential skidding
     right135(mL,mR); //turning right 135 function
 }
 
@@ -297,6 +303,7 @@ void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR)
 {
     //Move back half a unit and turn left 135
     backHalf(mL,mR); //moving back half a unit
+    __delay_ms(500); //delay to slow down potential skidding
     left135(mL,mR); //turning left 135 function
 }
 

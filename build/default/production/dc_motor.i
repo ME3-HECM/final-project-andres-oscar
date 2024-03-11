@@ -24359,7 +24359,7 @@ void left135(struct DC_motor *mL, struct DC_motor *mR)
 void backHalf(struct DC_motor *mL, struct DC_motor *mR)
 {
     fullSpeedBack(mL,mR);
-    _delay((unsigned long)((200)*(64000000/4000.0)));
+    _delay((unsigned long)((500)*(64000000/4000.0)));
     stop(mL,mR);
 }
 
@@ -24367,7 +24367,7 @@ void backHalf(struct DC_motor *mL, struct DC_motor *mR)
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR)
 {
     fullSpeedBack(mL,mR);
-    _delay((unsigned long)((500)*(64000000/4000.0)));
+    _delay((unsigned long)((1000)*(64000000/4000.0)));
     stop(mL,mR);
 }
 
@@ -24381,6 +24381,7 @@ void moveRed(struct DC_motor *mL, struct DC_motor *mR)
 {
 
     backHalf(mL,mR);
+    _delay((unsigned long)((500)*(64000000/4000.0)));
     right90(mL,mR);
 }
 
@@ -24388,6 +24389,7 @@ void moveGreen(struct DC_motor *mL, struct DC_motor *mR)
 {
 
     backHalf(mL,mR);
+    _delay((unsigned long)((500)*(64000000/4000.0)));
     left90(mL,mR);
 }
 
@@ -24395,6 +24397,7 @@ void moveBlue(struct DC_motor *mL, struct DC_motor *mR)
 {
 
     backHalf(mL,mR);
+    _delay((unsigned long)((500)*(64000000/4000.0)));
     turn180(mL,mR);
 }
 
@@ -24402,6 +24405,7 @@ void moveYellow(struct DC_motor *mL, struct DC_motor *mR)
 {
 
     backOneAndHalf(mL,mR);
+    _delay((unsigned long)((500)*(64000000/4000.0)));
     right90(mL,mR);
 }
 
@@ -24409,6 +24413,7 @@ void movePink(struct DC_motor *mL, struct DC_motor *mR)
 {
 
     backOneAndHalf(mL,mR);
+    _delay((unsigned long)((500)*(64000000/4000.0)));
     left90(mL,mR);
 }
 
@@ -24416,6 +24421,7 @@ void moveOrange(struct DC_motor *mL, struct DC_motor *mR)
 {
 
     backHalf(mL,mR);
+    _delay((unsigned long)((500)*(64000000/4000.0)));
     right135(mL,mR);
 }
 
@@ -24423,5 +24429,6 @@ void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR)
 {
 
     backHalf(mL,mR);
+    _delay((unsigned long)((500)*(64000000/4000.0)));
     left135(mL,mR);
 }

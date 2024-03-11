@@ -173,9 +173,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "20 /Applications/microchip/xc8/v2.45/pic/include/builtins.h
 [v __delay `JF205 ~T0 @X0 0 e ]
 [p i __delay ]
-"27 ./dc_motor.h
-[; ;./dc_motor.h: 27: void right90(struct DC_motor *mL, struct DC_motor *mR);
-[v _right90 `(v ~T0 @X0 0 ef2`*S2015`*S2015 ]
+"34 ./dc_motor.h
+[; ;./dc_motor.h: 34: void moveRed(struct DC_motor *mL, struct DC_motor *mR);
+[v _moveRed `(v ~T0 @X0 0 ef2`*S2015`*S2015 ]
 "4 main.c
 [p x FEXTOSC  =  HS ]
 "5
@@ -2308,41 +2308,23 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 83:         if (!PORTFbits.RF3) {
 [e $ ! ! != -> . . _PORTFbits 0 3 `i -> 0 `i 2020  ]
 {
-"84
-[; ;main.c: 84:             _delay((unsigned long)((500)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"85
-[; ;main.c: 85:             right90(&motorL, &motorR);
-[e ( _right90 (2 , &U _motorL &U _motorR ]
-"86
-[; ;main.c: 86:             _delay((unsigned long)((100)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"87
-[; ;main.c: 87:             right90(&motorL, &motorR);
-[e ( _right90 (2 , &U _motorL &U _motorR ]
-"88
-[; ;main.c: 88:             _delay((unsigned long)((100)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"89
-[; ;main.c: 89:             right90(&motorL, &motorR);
-[e ( _right90 (2 , &U _motorL &U _motorR ]
-"90
-[; ;main.c: 90:             _delay((unsigned long)((100)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"91
-[; ;main.c: 91:             right90(&motorL, &motorR);
-[e ( _right90 (2 , &U _motorL &U _motorR ]
 "92
-[; ;main.c: 92:         }
+[; ;main.c: 92:             _delay((unsigned long)((500)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"93
+[; ;main.c: 93:             moveRed(&motorL, &motorR);
+[e ( _moveRed (2 , &U _motorL &U _motorR ]
+"96
+[; ;main.c: 96:         }
 }
 [e :U 2020 ]
-"94
-[; ;main.c: 94:     }
+"98
+[; ;main.c: 98:     }
 }
 [e :U 2017 ]
 [e $U 2018  ]
 [e :U 2019 ]
-"95
-[; ;main.c: 95: }
+"99
+[; ;main.c: 99: }
 [e :UE 2016 ]
 }

@@ -81,14 +81,18 @@ void main(void) {
     while (1) {
         
         if (!PORTFbits.RF3) { //Checking for LEFT button press
-            __delay_ms(500); //delay to move away from buggy
-            right90(&motorL, &motorR);
-            __delay_ms(100); //delay to move away from buggy
-            right90(&motorL, &motorR);
-            __delay_ms(100); //delay to move away from buggy
-            right90(&motorL, &motorR);
-            __delay_ms(100); //delay to move away from buggy
-            right90(&motorL, &motorR);
+            //__delay_ms(500); //delay to move away from buggy
+            //right90(&motorL, &motorR);
+            //__delay_ms(500); //delay to move away from buggy
+            //right90(&motorL, &motorR);
+            //__delay_ms(500); //delay to move away from buggy
+            //right90(&motorL, &motorR);
+            //__delay_ms(500); //delay to move away from buggy
+            //right90(&motorL, &motorR);
+            __delay_ms(500);
+            moveRed(&motorL, &motorR);
+            
+            
         }
         
     }
