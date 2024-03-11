@@ -12,7 +12,9 @@ typedef struct colors { //definition of DC_motor structure
     unsigned int clear;   //green colour
 } colors;
 
-struct colors colorMin, colorMax, colorCurrent; 		//declare three color structures 
+
+
+struct colors colorCalibration, colorCurrent; 		//declare two color structures 
 
 /********************************************//**
  *  Function to initialise the colour click module using I2C

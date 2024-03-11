@@ -192,29 +192,29 @@ void test(unsigned int battery_level)
     }
 }
 
-void calibration_routine(colors *cMax){
+void calibration_routine(colors *cCal){
     LATFbits.LATF2 = 0;
     TRISFbits.TRISF2 = 1;
     
     //wait until button is un pressed
     while(LATFbits.LATF2 == 1);
     __delay_ms(100);
-    (cMax->red) = color_read_Red();
+    (cCal->red) = color_read_Red();
     
         //wait until button is un pressed
     while(LATFbits.LATF2 == 1);
     __delay_ms(100);
-    (cMax->green) = color_read_Green();
+    (cCal->green) = color_read_Green();
     
         //wait until button is un pressed
     while(LATFbits.LATF2 == 1);
     __delay_ms(100);
-    (cMax->blue) = color_read_Blue();
+    (cCal->blue) = color_read_Blue();
     
         //wait until button is un pressed
     while(LATFbits.LATF2 == 1);
     __delay_ms(100);
-    (cMax->clear) = color_read_Clear();
+    (cCal->clear) = color_read_Clear();
             
             
     
