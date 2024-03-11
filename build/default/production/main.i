@@ -24323,9 +24323,8 @@ void main(void) {
 
 
 
-    TRISFbits.TRISF3 = 1;
-    ANSELFbits.ANSELF3 = 0;
-    LATFbits.LATF3 = 1;
+    TRISFbits.TRISF3=1;
+    ANSELFbits.ANSELF3=0;
 
     unsigned int battery_level;
     unsigned int red;
@@ -24334,22 +24333,20 @@ void main(void) {
     unsigned int clear;
 
 
-    int prevButtonState = PORTFbits.RF3;
+
 
     while (1) {
 
-        int buttonState = PORTFbits.RF3;
-
-
-        if (buttonState == 1 && prevButtonState == 0) {
+        if (!PORTFbits.RF3) {
             _delay((unsigned long)((500)*(64000000/4000.0)));
-
-            moveOrange(&motorL, &motorR);
+            right90(&motorL, &motorR);
+            _delay((unsigned long)((100)*(64000000/4000.0)));
+            right90(&motorL, &motorR);
+            _delay((unsigned long)((100)*(64000000/4000.0)));
+            right90(&motorL, &motorR);
+            _delay((unsigned long)((100)*(64000000/4000.0)));
+            right90(&motorL, &motorR);
         }
-
-
-        prevButtonState = buttonState;
-
 
     }
 }

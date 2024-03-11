@@ -116,7 +116,7 @@ void turnLeft(DC_motor *mL, DC_motor *mR)
         mR->power++;
         setMotorPWM(mL);//set new motor power values
         setMotorPWM(mR);
-        __delay_us(100);//delay to increase power slowly
+        __delay_us(500);//delay to increase power slowly
     } 
     
 }
@@ -136,7 +136,7 @@ void turnRight(DC_motor *mL, DC_motor *mR)
         mR->power++;
         setMotorPWM(mL);//set new motor power values
         setMotorPWM(mR);
-        __delay_us(100);//delay to increase power slowly
+        __delay_us(500);//delay to increase power slowly
     } 
 }
 
@@ -193,7 +193,7 @@ void fullSpeedBack(DC_motor *mL, DC_motor *mR)
 void right90(struct DC_motor *mL, struct DC_motor *mR)
 {
     turnRight(mL,mR);//set to turning right mode
-    __delay_ms(280); //delay for turning right 90 ****(tune here)
+    __delay_ms(235); //delay for turning right 90 ****(tune here)
     stop(mL,mR);//stops the rotation
 }
 
@@ -201,7 +201,7 @@ void right90(struct DC_motor *mL, struct DC_motor *mR)
 void left90(struct DC_motor *mL, struct DC_motor *mR)
 {
     turnLeft(mL,mR); //set to turning left mode
-    __delay_ms(280); //delay for turning left 90 ****(tune here)
+    __delay_ms(235); //delay for turning left 90 ****(tune here)
     stop(mL,mR); //stops the rotation
 }
 

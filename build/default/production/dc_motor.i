@@ -24250,7 +24250,7 @@ void turnLeft(DC_motor *mL, DC_motor *mR)
         mR->power++;
         setMotorPWM(mL);
         setMotorPWM(mR);
-        _delay((unsigned long)((100)*(64000000/4000000.0)));
+        _delay((unsigned long)((500)*(64000000/4000000.0)));
     }
 
 }
@@ -24270,7 +24270,7 @@ void turnRight(DC_motor *mL, DC_motor *mR)
         mR->power++;
         setMotorPWM(mL);
         setMotorPWM(mR);
-        _delay((unsigned long)((100)*(64000000/4000000.0)));
+        _delay((unsigned long)((500)*(64000000/4000000.0)));
     }
 }
 
@@ -24315,17 +24315,11 @@ void fullSpeedBack(DC_motor *mL, DC_motor *mR)
     }
 
 }
-
-
-
-
-
-
-
+# 193 "dc_motor.c"
 void right90(struct DC_motor *mL, struct DC_motor *mR)
 {
     turnRight(mL,mR);
-    _delay((unsigned long)((280)*(64000000/4000.0)));
+    _delay((unsigned long)((235)*(64000000/4000.0)));
     stop(mL,mR);
 }
 
@@ -24333,7 +24327,7 @@ void right90(struct DC_motor *mL, struct DC_motor *mR)
 void left90(struct DC_motor *mL, struct DC_motor *mR)
 {
     turnLeft(mL,mR);
-    _delay((unsigned long)((280)*(64000000/4000.0)));
+    _delay((unsigned long)((235)*(64000000/4000.0)));
     stop(mL,mR);
 }
 
@@ -24376,6 +24370,9 @@ void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR)
     _delay((unsigned long)((500)*(64000000/4000.0)));
     stop(mL,mR);
 }
+
+
+
 
 
 

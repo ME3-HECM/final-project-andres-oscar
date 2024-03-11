@@ -64,11 +64,10 @@ void main(void) {
     LATAbits.LATA3 = 0; //Blue is A3
     
     //finding current battery value, max 255 (we think), so putting it in infinite while loop with LED indicating low battery
-
+    
     //Buttons on Clicker Board Initializations
-    TRISFbits.TRISF3 = 1; // set clicker as input for calibration
-    ANSELFbits.ANSELF3 = 0; //turn off analogue input on pin 
-    LATFbits.LATF3 = 1;
+    TRISFbits.TRISF3=1; //set TRIS value for pin (input)
+    ANSELFbits.ANSELF3=0; //turn off analogue input on pin
     
     unsigned int battery_level;
     unsigned int red;
@@ -76,24 +75,21 @@ void main(void) {
     unsigned int green;
     unsigned int clear;
     
-    //variable to store previous button state
-    int prevButtonState = PORTFbits.RF3; //initialize prevButtonState with the current state of the button
+    
 
-    //code stricture for testing the movement functions
+    //code structure for testing the movement functions
     while (1) {
-        //read the current button state
-        int buttonState = PORTFbits.RF3;
         
-        //check if the button state has changed from not pressed to pressed
-        if (buttonState == 1 && prevButtonState == 0) {
+        if (!PORTFbits.RF3) { //Checking for LEFT button press
             __delay_ms(500); //delay to move away from buggy
-            //perform the action to be calibrated
-            moveOrange(&motorL, &motorR);
+            right90(&motorL, &motorR);
+            __delay_ms(100); //delay to move away from buggy
+            right90(&motorL, &motorR);
+            __delay_ms(100); //delay to move away from buggy
+            right90(&motorL, &motorR);
+            __delay_ms(100); //delay to move away from buggy
+            right90(&motorL, &motorR);
         }
-        
-        //update the previous button state
-        prevButtonState = buttonState;
-
         
     }
 }
