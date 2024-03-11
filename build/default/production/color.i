@@ -24288,36 +24288,7 @@ void test(unsigned int battery_level) {
 
 
     for (unsigned int combo = 0; combo < 4; ++combo) {
-
-
-        if (combo == 0) {
-
-            LATGbits.LATG0 = 1;
-            LATEbits.LATE7 = 0;
-            LATAbits.LATA3 = 0;
-            sprintf(led_state,"Red_light=%d, \n\r", LATGbits.LATG0);
-
-
-        }
-
-        if (combo == 1) {
-            LATGbits.LATG0 = 0;
-            LATEbits.LATE7 = 1;
-            LATAbits.LATA3 = 0;
-            sprintf(led_state,"Green_light=%d, \n\r", LATEbits.LATE7);
-
-        }
-
-        if (combo == 2) {
-            LATGbits.LATG0 = 0;
-            LATEbits.LATE7 = 0;
-            LATAbits.LATA3 = 1;
-            sprintf(led_state,"Blue_light=%d \n\r", LATAbits.LATA3);
-
-
-
-        }
-
+# 135 "color.c"
         if (combo == 3) {
             LATGbits.LATG0 = 1;
             LATEbits.LATE7 = 1;

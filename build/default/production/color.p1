@@ -69,8 +69,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "28172
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28172: extern volatile LATAbits_t LATAbits __attribute__((address(0xF79)));
 [v _LATAbits `VS1339 ~T0 @X0 0 e@3961 ]
-"112 color.c
-[; ;color.c: 112:             sprintf(led_state,"Red_light=%d, \n\r", LATGbits.LATG0);
+"139 color.c
+[; ;color.c: 139:             sprintf(led_state,"All_lights=%d \n\r", 1);
 [v _sprintf `(i ~T0 @X0 0 e? ]
 "30 ./serial.h
 [; ;./serial.h: 30: void sendStringSerial4(char *string);
@@ -2333,69 +2333,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $U 2023  ]
 [e :U 2022 ]
 {
-"107
-[; ;color.c: 107:         if (combo == 0) {
-[e $ ! == _combo -> -> 0 `i `ui 2025  ]
-{
-"109
-[; ;color.c: 109:             LATGbits.LATG0 = 1;
-[e = . . _LATGbits 0 0 -> -> 1 `i `uc ]
-"110
-[; ;color.c: 110:             LATEbits.LATE7 = 0;
-[e = . . _LATEbits 0 7 -> -> 0 `i `uc ]
-"111
-[; ;color.c: 111:             LATAbits.LATA3 = 0;
-[e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
-"112
-[; ;color.c: 112:             sprintf(led_state,"Red_light=%d, \n\r", LATGbits.LATG0);
-[e ( _sprintf , , &U _led_state :s 1C -> . . _LATGbits 0 0 `i ]
-"115
-[; ;color.c: 115:         }
-}
-[e :U 2025 ]
-"117
-[; ;color.c: 117:         if (combo == 1) {
-[e $ ! == _combo -> -> 1 `i `ui 2026  ]
-{
-"118
-[; ;color.c: 118:             LATGbits.LATG0 = 0;
-[e = . . _LATGbits 0 0 -> -> 0 `i `uc ]
-"119
-[; ;color.c: 119:             LATEbits.LATE7 = 1;
-[e = . . _LATEbits 0 7 -> -> 1 `i `uc ]
-"120
-[; ;color.c: 120:             LATAbits.LATA3 = 0;
-[e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
-"121
-[; ;color.c: 121:             sprintf(led_state,"Green_light=%d, \n\r", LATEbits.LATE7);
-[e ( _sprintf , , &U _led_state :s 2C -> . . _LATEbits 0 7 `i ]
-"123
-[; ;color.c: 123:         }
-}
-[e :U 2026 ]
-"125
-[; ;color.c: 125:         if (combo == 2) {
-[e $ ! == _combo -> -> 2 `i `ui 2027  ]
-{
-"126
-[; ;color.c: 126:             LATGbits.LATG0 = 0;
-[e = . . _LATGbits 0 0 -> -> 0 `i `uc ]
-"127
-[; ;color.c: 127:             LATEbits.LATE7 = 0;
-[e = . . _LATEbits 0 7 -> -> 0 `i `uc ]
-"128
-[; ;color.c: 128:             LATAbits.LATA3 = 1;
-[e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
-"129
-[; ;color.c: 129:             sprintf(led_state,"Blue_light=%d \n\r", LATAbits.LATA3);
-[e ( _sprintf , , &U _led_state :s 3C -> . . _LATAbits 0 3 `i ]
-"133
-[; ;color.c: 133:         }
-}
-[e :U 2027 ]
 "135
 [; ;color.c: 135:         if (combo == 3) {
-[e $ ! == _combo -> -> 3 `i `ui 2028  ]
+[e $ ! == _combo -> -> 3 `i `ui 2025  ]
 {
 "136
 [; ;color.c: 136:             LATGbits.LATG0 = 1;
@@ -2408,11 +2348,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
 "139
 [; ;color.c: 139:             sprintf(led_state,"All_lights=%d \n\r", 1);
-[e ( _sprintf , , &U _led_state :s 4C -> 1 `i ]
+[e ( _sprintf , , &U _led_state :s 1C -> 1 `i ]
 "142
 [; ;color.c: 142:         }
 }
-[e :U 2028 ]
+[e :U 2025 ]
 "144
 [; ;color.c: 144:         sendStringSerial4(led_state);
 [e ( _sendStringSerial4 (1 &U _led_state ]
@@ -2446,7 +2386,4 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;color.c: 160: }
 [e :UE 2021 ]
 }
-[a 3C 66 108 117 101 95 108 105 103 104 116 61 37 100 32 10 13 0 ]
-[a 4C 65 108 108 95 108 105 103 104 116 115 61 37 100 32 10 13 0 ]
-[a 2C 71 114 101 101 110 95 108 105 103 104 116 61 37 100 44 32 10 13 0 ]
-[a 1C 82 101 100 95 108 105 103 104 116 61 37 100 44 32 10 13 0 ]
+[a 1C 65 108 108 95 108 105 103 104 116 115 61 37 100 32 10 13 0 ]
