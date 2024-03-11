@@ -95,7 +95,40 @@ unsigned int color_read_Clear(void)
 //        
 //}
 
-void test(unsigned int battery_level) {
+unsigned int convert_rbg2hue(colors *cMax, colors *cCurr)
+{
+    unsigned int hue;
+    unsigned int r = ((cCurr->red)*(cMax->blue)*(cMax->green))/((cCurr->red)*(cMax->blue)*(cMax->green)+(cCurr->blue)*(cMax->red)*(cMax->green)+(cCurr->green)*(cMax->blue)*(cMax->red));
+    unsigned int g = ((cCurr->green)*(cMax->blue)*(cMax->red))/((cCurr->red)*(cMax->blue)*(cMax->green)+(cCurr->blue)*(cMax->red)*(cMax->green)+(cCurr->green)*(cMax->blue)*(cMax->red));
+    unsigned int b = 1-r-g;
+    
+    if (r>g & r>b){
+        if (b>g){
+            hue=(g-b)/(r-g);
+        } else {
+            hue=(g-b)/(r-b);
+        }
+    }
+    
+    if (g>r & g>b){
+        if (r>b){
+            hue=2+(b-r)/(g-b);
+        } else {
+            hue=2+(b-r)/(g-r);
+        }
+    }
+    if (b>r & b>g){
+        if (r>g){
+            hue=4+(r-g)/(b-g);
+        } else {
+            hue=4+(r-g)/(b-r);
+        }
+    return hue;
+}
+    
+}
+void test(unsigned int battery_level) 
+{
 
      // Prepare strings for serial transmission
     char led_state[50];
@@ -157,4 +190,33 @@ void test(unsigned int battery_level) {
 
         send2USART(battery_level, red, green, blue, clear);
     }
+}
+
+void calibration_routine(colors *cMax){
+    LATFbits.LATF2 = 0;
+    TRISFbits.TRISF2 = 1;
+    
+    //wait until button is un pressed
+    while(LATFbits.LATF2 == 1);
+    __delay_ms(100);
+    (cMax->red) = color_read_Red();
+    
+        //wait until button is un pressed
+    while(LATFbits.LATF2 == 1);
+    __delay_ms(100);
+    (cMax->green) = color_read_Green();
+    
+        //wait until button is un pressed
+    while(LATFbits.LATF2 == 1);
+    __delay_ms(100);
+    (cMax->blue) = color_read_Blue();
+    
+        //wait until button is un pressed
+    while(LATFbits.LATF2 == 1);
+    __delay_ms(100);
+    (cMax->clear) = color_read_Clear();
+            
+            
+    
+    
 }
