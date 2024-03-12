@@ -24310,10 +24310,18 @@ unsigned int color_read_Clear(void)
 unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
 {
     unsigned int hue;
-    unsigned int r = ((cCurr->red)*(cMax->blue)*(cMax->green))/((cCurr->red)*(cMax->blue)*(cMax->green)+(cCurr->blue)*(cMax->red)*(cMax->green)+(cCurr->green)*(cMax->blue)*(cMax->red));
-    unsigned int g = ((cCurr->green)*(cMax->blue)*(cMax->red))/((cCurr->red)*(cMax->blue)*(cMax->green)+(cCurr->blue)*(cMax->red)*(cMax->green)+(cCurr->green)*(cMax->blue)*(cMax->red));
-    unsigned int b = 1-r-g;
+    unsigned long long total = ((unsigned long long)cCurr->red * cMax->blue * cMax->green) + ((unsigned long long)cCurr->blue * cMax->red * cMax->green) + ((unsigned long long)cCurr->green * cMax->blue * cMax->red);
 
+    unsigned int r = 0;
+    unsigned int g = 0;
+    unsigned int b = 0;
+
+    if (total > 0) {
+        r = ((unsigned long long)cCurr->red * cMax->blue * cMax->green) * 100 / total;
+        g = ((unsigned long long)cCurr->green * cMax->blue * cMax->red) * 100 / total;
+        b = 100 - r - g;
+    }
+# 126 "color.c"
     if (r>g & r>b){
         if (b>g){
             hue=(g-b)/(r-g);
@@ -24335,13 +24343,14 @@ unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
         } else {
             hue=4+(r-g)/(b-r);
         }
+
     return hue;
 }
 
 }
 void test(unsigned int battery_level)
 {
-
+    unsigned int hue;
 
     char led_state[50];
 
@@ -24382,15 +24391,14 @@ void test(unsigned int battery_level)
             LATEbits.LATE7 = 1;
             LATAbits.LATA3 = 1;
             sprintf(led_state,"All_lights=%d \n\r", 1);
-
-
         }
+
 
         sendStringSerial4(led_state);
 
         reading_values(&colorCurrent);
 
-        unsigned int hue = convert_rgb2hue(&colorCalibration, &colorCurrent);
+        hue = convert_rgb2hue(&colorCalibration, &colorCurrent);
 
 
 
@@ -24411,7 +24419,7 @@ void calibration_routine(colors *cCal)
 
 
 
-    sprintf(cal_state,"Calibration state=red", ".");
+    sprintf(cal_state,"Calibration state = red", ".");
     sendStringSerial4(cal_state);
 
 
@@ -24425,7 +24433,7 @@ void calibration_routine(colors *cCal)
     LATGbits.LATG0 = 0;
 
 
-    sprintf(cal_state,"Calibration state=gree", "green \n\r");
+    sprintf(cal_state,"Calibration state = green \n\r", ".");
     sendStringSerial4(&cal_state);
 
     while(PORTFbits.RF2 == 1){
@@ -24438,7 +24446,7 @@ void calibration_routine(colors *cCal)
     LATEbits.LATE7 = 0;
 
 
-    sprintf(cal_state,"Calibration state=", "blue \n\r");
+    sprintf(cal_state,"Calibration state= blue \n\r", ".");
     sendStringSerial4(&cal_state);
 
     while(PORTFbits.RF2 == 1){
@@ -24451,7 +24459,7 @@ void calibration_routine(colors *cCal)
     LATAbits.LATA3 = 0;
 
 
-    sprintf(cal_state,"Calibration state=", "ambient \n\r");
+    sprintf(cal_state,"Calibration state = ambient light", ".");
     sendStringSerial4(&cal_state);
 
     while(PORTFbits.RF2 == 1){
@@ -24467,7 +24475,7 @@ void calibration_routine(colors *cCal)
     LATAbits.LATA3 = 0;
 
 
-    sprintf(cal_state,"Calibration state=", "TESTING COMPLETED \n\r");
+    sprintf(cal_state,"CALIBRATION COMPLETED \n\r", ".");
     sendStringSerial4(&cal_state);
 }
 
@@ -24479,4 +24487,9 @@ void reading_values(colors *cCurr)
     (cCurr->blue) = color_read_Blue();
     (cCurr->green) = color_read_Green();
     (cCurr->clear) = color_read_Clear();
+}
+
+void decision(colors *cCurr)
+{
+
 }

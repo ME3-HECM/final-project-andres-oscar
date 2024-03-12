@@ -24089,7 +24089,27 @@ unsigned char __t3rd16on(void);
 # 1 "color.c" 2
 
 # 1 "./color.h" 1
-# 12 "./color.h"
+
+
+
+
+
+
+
+typedef struct colors {
+    unsigned int red;
+    unsigned int green;
+    unsigned int blue;
+    unsigned int clear;
+} colors;
+
+
+
+struct colors colorCalibration, colorCurrent;
+
+
+
+
 void color_click_init(void);
 
 
@@ -24116,6 +24136,22 @@ unsigned int color_read_Green(void);
 
 
 unsigned int color_read_Blue(void);
+
+
+
+
+
+
+unsigned int color_read_Clear(void);
+
+
+void test(unsigned int battery_level);
+
+unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
+
+void calibration_routine(colors *cCal);
+
+void reading_values(colors *cCurr);
 # 2 "color.c" 2
 
 # 1 "./i2c.h" 1
@@ -24152,6 +24188,42 @@ void I2C_2_Master_Write(unsigned char data_byte);
 
 unsigned char I2C_2_Master_Read(unsigned char ack);
 # 3 "color.c" 2
+
+# 1 "./serial.h" 1
+# 14 "./serial.h"
+volatile char EUSART4RXbuf[20];
+volatile char RxBufWriteCnt=0;
+volatile char RxBufReadCnt=0;
+
+volatile char EUSART4TXbuf[60];
+volatile char TxBufWriteCnt=0;
+volatile char TxBufReadCnt=0;
+
+
+volatile char dataFlag=1;
+
+
+
+void initUSART4(void);
+char getCharSerial4(void);
+void sendCharSerial4(char charToSend);
+void sendStringSerial4(char *string);
+
+
+char getCharFromRxBuf(void);
+void putCharToRxBuf(char byte);
+char isDataInRxBuf (void);
+
+
+char getCharFromTxBuf(void);
+void putCharToTxBuf(char byte);
+char isDataInTxBuf (void);
+void TxBufferedString(char *string);
+void sendTxBuf(void);
+void sendAllReadings(void);
+void ADC2String(char *buf, unsigned int ADC_val);
+void send2USART(unsigned int battery_level, unsigned int hue);
+# 4 "color.c" 2
 
 
 void color_click_init(void)
@@ -24218,4 +24290,214 @@ unsigned int color_read_Blue(void)
  tmp=tmp | (I2C_2_Master_Read(0)<<8);
  I2C_2_Master_Stop();
  return tmp;
+}
+
+
+unsigned int color_read_Clear(void)
+{
+ unsigned int tmp;
+ I2C_2_Master_Start();
+ I2C_2_Master_Write(0x52 | 0x00);
+ I2C_2_Master_Write(0xA0 | 0x14);
+ I2C_2_Master_RepStart();
+ I2C_2_Master_Write(0x52 | 0x01);
+ tmp=I2C_2_Master_Read(1);
+ tmp=tmp | (I2C_2_Master_Read(0)<<8);
+ I2C_2_Master_Stop();
+ return tmp;
+}
+# 98 "color.c"
+unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
+{
+    unsigned int hue;
+    unsigned long long total = ((unsigned long long)cCurr->red * cMax->blue * cMax->green) + ((unsigned long long)cCurr->blue * cMax->red * cMax->green) + ((unsigned long long)cCurr->green * cMax->blue * cMax->red);
+
+    unsigned int r = 0;
+    unsigned int g = 0;
+    unsigned int b = 0;
+
+    if (total > 0) {
+        r = ((unsigned long long)cCurr->red * cMax->blue * cMax->green) * 100 / total;
+        g = ((unsigned long long)cCurr->green * cMax->blue * cMax->red) * 100 / total;
+        b = 100 - r - g;
+    }
+
+    char red_weighted[20];
+    char green_weighted[20];
+    char blue_weighted[20];
+
+    sprintf(red_weighted, "red_weighted =%03d", r);
+    sprintf(green_weighted, "green_weighted =%03d", g);
+    sprintf(blue_weighted, "blue_weighted =%03d", b);
+    sendStringSerial4(red_weighted);
+    sendStringSerial4(green_weighted);
+    sendStringSerial4(blue_weighted);
+
+
+
+    if (r>g & r>b){
+        if (b>g){
+            hue=(g-b)/(r-g);
+        } else {
+            hue=(g-b)/(r-b);
+        }
+    }
+
+    if (g>r & g>b){
+        if (r>b){
+            hue=2+(b-r)/(g-b);
+        } else {
+            hue=2+(b-r)/(g-r);
+        }
+    }
+    if (b>r & b>g){
+        if (r>g){
+            hue=4+(r-g)/(b-g);
+        } else {
+            hue=4+(r-g)/(b-r);
+        }
+
+    return hue;
+}
+
+}
+void test(unsigned int battery_level)
+{
+    unsigned int hue;
+
+    char led_state[50];
+
+
+    for (unsigned int combo = 0; combo < 4; ++combo) {
+
+
+        if (combo == 0) {
+
+            LATGbits.LATG0 = 1;
+            LATEbits.LATE7 = 0;
+            LATAbits.LATA3 = 0;
+            sprintf(led_state,"Red_light=%d, \n\r", LATGbits.LATG0);
+
+
+        }
+
+        if (combo == 1) {
+            LATGbits.LATG0 = 0;
+            LATEbits.LATE7 = 1;
+            LATAbits.LATA3 = 0;
+            sprintf(led_state,"Green_light=%d, \n\r", LATEbits.LATE7);
+
+        }
+
+        if (combo == 2) {
+            LATGbits.LATG0 = 0;
+            LATEbits.LATE7 = 0;
+            LATAbits.LATA3 = 1;
+            sprintf(led_state,"Blue_light=%d \n\r", LATAbits.LATA3);
+
+
+
+        }
+
+        if (combo == 3) {
+            LATGbits.LATG0 = 1;
+            LATEbits.LATE7 = 1;
+            LATAbits.LATA3 = 1;
+            sprintf(led_state,"All_lights=%d \n\r", 1);
+        }
+
+
+        sendStringSerial4(led_state);
+
+        reading_values(&colorCurrent);
+
+        hue = convert_rgb2hue(&colorCalibration, &colorCurrent);
+
+
+
+
+
+        send2USART(battery_level,hue);
+    }
+}
+
+void calibration_routine(colors *cCal)
+{
+
+    LATGbits.LATG0 = 0;
+    LATEbits.LATE7 = 0;
+    LATAbits.LATA3 = 0;
+
+    char cal_state[20];
+
+
+
+    sprintf(cal_state,"Calibration state = red", ".");
+    sendStringSerial4(cal_state);
+
+
+    while(PORTFbits.RF2 == 1){
+
+    }
+
+    LATGbits.LATG0 = 1;
+    _delay((unsigned long)((500)*(64000000/4000.0)));
+    (cCal->red) = color_read_Red();
+    LATGbits.LATG0 = 0;
+
+
+    sprintf(cal_state,"Calibration state = green \n\r", ".");
+    sendStringSerial4(&cal_state);
+
+    while(PORTFbits.RF2 == 1){
+
+    }
+
+    LATEbits.LATE7 = 1;
+    _delay((unsigned long)((500)*(64000000/4000.0)));
+    (cCal->green) = color_read_Green();
+    LATEbits.LATE7 = 0;
+
+
+    sprintf(cal_state,"Calibration state= blue \n\r", ".");
+    sendStringSerial4(&cal_state);
+
+    while(PORTFbits.RF2 == 1){
+
+    }
+
+    LATAbits.LATA3 = 1;
+    _delay((unsigned long)((500)*(64000000/4000.0)));
+    (cCal->blue) = color_read_Blue();
+    LATAbits.LATA3 = 0;
+
+
+    sprintf(cal_state,"Calibration state = ambient light", ".");
+    sendStringSerial4(&cal_state);
+
+    while(PORTFbits.RF2 == 1){
+
+    }
+    LATGbits.LATG0 = 1;
+    LATEbits.LATE7 = 1;
+    LATAbits.LATA3 = 1;
+    _delay((unsigned long)((500)*(64000000/4000.0)));
+    (cCal->clear) = color_read_Clear();
+    LATGbits.LATG0 = 0;
+    LATEbits.LATE7 = 0;
+    LATAbits.LATA3 = 0;
+
+
+    sprintf(cal_state,"CALIBRATION COMPLETED \n\r", ".");
+    sendStringSerial4(&cal_state);
+}
+
+void reading_values(colors *cCurr)
+{
+
+
+    (cCurr->red)= color_read_Red();
+    (cCurr->blue) = color_read_Blue();
+    (cCurr->green) = color_read_Green();
+    (cCurr->clear) = color_read_Clear();
 }

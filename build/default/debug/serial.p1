@@ -2387,70 +2387,110 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;serial.c: 115: }
 [e :UE 2044 ]
 }
-"117
-[; ;serial.c: 117: void sendAllReadings() {
+"119
+[; ;serial.c: 119: void sendAllReadings() {
 [v _sendAllReadings `(v ~T0 @X0 1 ef ]
 {
 [e :U _sendAllReadings ]
 [f ]
-"118
-[; ;serial.c: 118:     char buffer[10];
+"120
+[; ;serial.c: 120:     char buffer[10];
 [v _buffer `uc ~T0 @X0 -> 10 `i a ]
-"119
-[; ;serial.c: 119:     for (unsigned char i = 0; i < readingIndex; ++i) {
+"121
+[; ;serial.c: 121:     for (unsigned char i = 0; i < readingIndex; ++i) {
 {
 [v _i `uc ~T0 @X0 1 a ]
 [e = _i -> -> 0 `i `uc ]
 [e $U 2051  ]
 [e :U 2048 ]
 {
-"120
-[; ;serial.c: 120:         unsigned int reading = ldrReadings[i];
+"122
+[; ;serial.c: 122:         unsigned int reading = ldrReadings[i];
 [v _reading `ui ~T0 @X0 1 a ]
 [e = _reading *U + &U _ldrReadings * -> _i `ux -> -> # *U &U _ldrReadings `ui `ux ]
-"125
-[; ;serial.c: 125:         ADC2String(buffer, reading);
-[e ( _ADC2String (2 , &U _buffer _reading ]
 "127
-[; ;serial.c: 127:         sendStringSerial4(buffer);
-[e ( _sendStringSerial4 (1 &U _buffer ]
+[; ;serial.c: 127:         ADC2String(buffer, reading);
+[e ( _ADC2String (2 , &U _buffer _reading ]
 "129
-[; ;serial.c: 129:         _delay((unsigned long)((10)*(64000000/4000.0)));
+[; ;serial.c: 129:         sendStringSerial4(buffer);
+[e ( _sendStringSerial4 (1 &U _buffer ]
+"131
+[; ;serial.c: 131:         _delay((unsigned long)((10)*(64000000/4000.0)));
 [e ( __delay (1 -> * -> -> 10 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"130
-[; ;serial.c: 130:     }
+"132
+[; ;serial.c: 132:     }
 }
 [e =+ _i -> -> 1 `i `uc ]
 [e :U 2051 ]
 [e $ < -> _i `i -> _readingIndex `i 2048  ]
 [e :U 2049 ]
 }
-"131
-[; ;serial.c: 131: }
+"133
+[; ;serial.c: 133: }
 [e :UE 2047 ]
 }
-"133
-[; ;serial.c: 133: void ADC2String(char *buf, unsigned int ADC_val){
+"135
+[; ;serial.c: 135: void ADC2String(char *buf, unsigned int ADC_val){
 [v _ADC2String `(v ~T0 @X0 1 ef2`*uc`ui ]
 {
 [e :U _ADC2String ]
 [v _buf `*uc ~T0 @X0 1 r1 ]
 [v _ADC_val `ui ~T0 @X0 1 r2 ]
 [f ]
-"135
-[; ;serial.c: 135:     unsigned int int_part=ADC_val/77;
+"137
+[; ;serial.c: 137:     unsigned int int_part=ADC_val/77;
 [v _int_part `ui ~T0 @X0 1 a ]
 [e = _int_part / _ADC_val -> -> 77 `i `ui ]
-"137
-[; ;serial.c: 137:     unsigned int frac_part=(ADC_val*100)/77 - int_part*100;
+"139
+[; ;serial.c: 139:     unsigned int frac_part=(ADC_val*100)/77 - int_part*100;
 [v _frac_part `ui ~T0 @X0 1 a ]
 [e = _frac_part - / * _ADC_val -> -> 100 `i `ui -> -> 77 `i `ui * _int_part -> -> 100 `i `ui ]
-"139
-[; ;serial.c: 139:     sprintf(buf,"Voltage = %d.%02d",int_part,frac_part);
+"141
+[; ;serial.c: 141:     sprintf(buf,"Voltage = %d.%02d,  ",int_part,frac_part);
 [e ( _sprintf (1 , , (. , _buf :s 1C _int_part _frac_part ]
-"140
-[; ;serial.c: 140: }
+"143
+[; ;serial.c: 143:     _delay((unsigned long)((1000)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"144
+[; ;serial.c: 144: }
 [e :UE 2052 ]
 }
+"146
+[; ;serial.c: 146: void send2USART(unsigned int battery_level, unsigned int hue)
+[v _send2USART `(v ~T0 @X0 1 ef2`ui`ui ]
+"147
+[; ;serial.c: 147: {
+{
+[e :U _send2USART ]
+"146
+[; ;serial.c: 146: void send2USART(unsigned int battery_level, unsigned int hue)
+[v _battery_level `ui ~T0 @X0 1 r1 ]
+[v _hue `ui ~T0 @X0 1 r2 ]
+"147
+[; ;serial.c: 147: {
+[f ]
+"148
+[; ;serial.c: 148:         char buf[50];
+[v _buf `uc ~T0 @X0 -> 50 `i a ]
+"149
+[; ;serial.c: 149:         char hue_char[50];
+[v _hue_char `uc ~T0 @X0 -> 50 `i a ]
+"154
+[; ;serial.c: 154:         ADC2String(buf, battery_level);
+[e ( _ADC2String (2 , &U _buf _battery_level ]
+"155
+[; ;serial.c: 155:         sprintf(hue_char,"hue=%03d,  ",hue);
+[e ( _sprintf (1 , (. , &U _hue_char :s 2C _hue ]
+"160
+[; ;serial.c: 160:         sendStringSerial4(buf);
+[e ( _sendStringSerial4 (1 &U _buf ]
+"161
+[; ;serial.c: 161:         sendStringSerial4(hue_char);
+[e ( _sendStringSerial4 (1 &U _hue_char ]
+"163
+[; ;serial.c: 163: }
+[e :UE 2053 ]
+}
 [p f _sprintf 8421508 ]
-[a 1C 86 111 108 116 97 103 101 32 61 32 37 100 46 37 48 50 100 0 ]
+[a 2C 104 117 101 61 37 48 51 100 44 32 32 0 ]
+[a 1C 86 111 108 116 97 103 101 32 61 32 37 100 46 37 48 50 100 44 32 32 0 ]

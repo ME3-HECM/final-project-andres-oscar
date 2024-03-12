@@ -54,6 +54,9 @@ void main(void) {
     LATDbits.LATD7=0;   //set initial output state
     TRISDbits.TRISD7=0; //set TRIS value for pin (output)
     
+    //turning on the front lights
+    TRISDbits.TRISD3 = 0; 
+    LATDbits.LATD3 = 1; 
     
     //Colored LED initialization
     TRISGbits.TRISG0 = 0;
@@ -78,6 +81,8 @@ void main(void) {
     LATFbits.LATF2 = 0;
     TRISFbits.TRISF2 = 1;
     ANSELFbits.ANSELF2 = 0;
+    
+    
     calibration_routine(&colorCalibration);
 
 

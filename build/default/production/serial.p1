@@ -2479,7 +2479,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;serial.c: 154:         ADC2String(buf, battery_level);
 [e ( _ADC2String (2 , &U _buf _battery_level ]
 "155
-[; ;serial.c: 155:         sprintf(hue_char,"hue=%05d,  ",hue);
+[; ;serial.c: 155:         sprintf(hue_char,"hue=%03d,  ",hue);
 [e ( _sprintf (1 , (. , &U _hue_char :s 2C _hue ]
 "160
 [; ;serial.c: 160:         sendStringSerial4(buf);
@@ -2492,5 +2492,5 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :UE 2053 ]
 }
 [p f _sprintf 8421508 ]
-[a 2C 104 117 101 61 37 48 53 100 44 32 32 0 ]
+[a 2C 104 117 101 61 37 48 51 100 44 32 32 0 ]
 [a 1C 86 111 108 116 97 103 101 32 61 32 37 100 46 37 48 50 100 44 32 32 0 ]

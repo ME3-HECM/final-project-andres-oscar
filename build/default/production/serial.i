@@ -24440,7 +24440,7 @@ void send2USART(unsigned int battery_level, unsigned int hue)
 
 
         ADC2String(buf, battery_level);
-        sprintf(hue_char,"hue=%05d,  ",hue);
+        sprintf(hue_char,"hue=%03d,  ",hue);
 
 
 

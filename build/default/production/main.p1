@@ -2314,80 +2314,86 @@ Version 4.0 HI-TECH Software Intermediate Code
 "55
 [; ;main.c: 55:     TRISDbits.TRISD7=0;
 [e = . . _TRISDbits 0 7 -> -> 0 `i `uc ]
-"59
-[; ;main.c: 59:     TRISGbits.TRISG0 = 0;
-[e = . . _TRISGbits 0 0 -> -> 0 `i `uc ]
-"60
-[; ;main.c: 60:     LATGbits.LATG0 = 0;
-[e = . . _LATGbits 0 0 -> -> 0 `i `uc ]
+"57
+[; ;main.c: 57:     TRISDbits.TRISD3 = 0;
+[e = . . _TRISDbits 0 3 -> -> 0 `i `uc ]
+"58
+[; ;main.c: 58:     LATDbits.LATD3 = 1;
+[e = . . _LATDbits 0 3 -> -> 1 `i `uc ]
 "61
-[; ;main.c: 61:     TRISEbits.TRISE7 = 0;
-[e = . . _TRISEbits 0 7 -> -> 0 `i `uc ]
+[; ;main.c: 61:     TRISGbits.TRISG0 = 0;
+[e = . . _TRISGbits 0 0 -> -> 0 `i `uc ]
 "62
-[; ;main.c: 62:     LATEbits.LATE7 = 0;
-[e = . . _LATEbits 0 7 -> -> 0 `i `uc ]
+[; ;main.c: 62:     LATGbits.LATG0 = 0;
+[e = . . _LATGbits 0 0 -> -> 0 `i `uc ]
 "63
-[; ;main.c: 63:     TRISAbits.TRISA3 = 0;
-[e = . . _TRISAbits 0 3 -> -> 0 `i `uc ]
+[; ;main.c: 63:     TRISEbits.TRISE7 = 0;
+[e = . . _TRISEbits 0 7 -> -> 0 `i `uc ]
 "64
-[; ;main.c: 64:     LATAbits.LATA3 = 0;
+[; ;main.c: 64:     LATEbits.LATE7 = 0;
+[e = . . _LATEbits 0 7 -> -> 0 `i `uc ]
+"65
+[; ;main.c: 65:     TRISAbits.TRISA3 = 0;
+[e = . . _TRISAbits 0 3 -> -> 0 `i `uc ]
+"66
+[; ;main.c: 66:     LATAbits.LATA3 = 0;
 [e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
-"69
-[; ;main.c: 69:     unsigned int battery_level;
-[v _battery_level `ui ~T0 @X0 1 a ]
-"70
-[; ;main.c: 70:     unsigned int red;
-[v _red `ui ~T0 @X0 1 a ]
 "71
-[; ;main.c: 71:     unsigned int blue;
-[v _blue `ui ~T0 @X0 1 a ]
+[; ;main.c: 71:     unsigned int battery_level;
+[v _battery_level `ui ~T0 @X0 1 a ]
 "72
-[; ;main.c: 72:     unsigned int green;
-[v _green `ui ~T0 @X0 1 a ]
+[; ;main.c: 72:     unsigned int red;
+[v _red `ui ~T0 @X0 1 a ]
 "73
-[; ;main.c: 73:     unsigned int clear;
-[v _clear `ui ~T0 @X0 1 a ]
+[; ;main.c: 73:     unsigned int blue;
+[v _blue `ui ~T0 @X0 1 a ]
 "74
-[; ;main.c: 74:     TRISHbits.TRISH3 = 0;
-[e = . . _TRISHbits 0 3 -> -> 0 `i `uc ]
+[; ;main.c: 74:     unsigned int green;
+[v _green `ui ~T0 @X0 1 a ]
 "75
-[; ;main.c: 75:     LATHbits.LATH3 = 1;
-[e = . . _LATHbits 0 3 -> -> 1 `i `uc ]
+[; ;main.c: 75:     unsigned int clear;
+[v _clear `ui ~T0 @X0 1 a ]
 "76
-[; ;main.c: 76:     _delay((unsigned long)((300)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 300 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+[; ;main.c: 76:     TRISHbits.TRISH3 = 0;
+[e = . . _TRISHbits 0 3 -> -> 0 `i `uc ]
 "77
-[; ;main.c: 77:     LATHbits.LATH3 = 0;
-[e = . . _LATHbits 0 3 -> -> 0 `i `uc ]
+[; ;main.c: 77:     LATHbits.LATH3 = 1;
+[e = . . _LATHbits 0 3 -> -> 1 `i `uc ]
 "78
-[; ;main.c: 78:     LATFbits.LATF2 = 0;
-[e = . . _LATFbits 0 2 -> -> 0 `i `uc ]
+[; ;main.c: 78:     _delay((unsigned long)((300)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 300 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
 "79
-[; ;main.c: 79:     TRISFbits.TRISF2 = 1;
-[e = . . _TRISFbits 0 2 -> -> 1 `i `uc ]
+[; ;main.c: 79:     LATHbits.LATH3 = 0;
+[e = . . _LATHbits 0 3 -> -> 0 `i `uc ]
 "80
-[; ;main.c: 80:     ANSELFbits.ANSELF2 = 0;
-[e = . . _ANSELFbits 0 2 -> -> 0 `i `uc ]
+[; ;main.c: 80:     LATFbits.LATF2 = 0;
+[e = . . _LATFbits 0 2 -> -> 0 `i `uc ]
 "81
-[; ;main.c: 81:     calibration_routine(&colorCalibration);
+[; ;main.c: 81:     TRISFbits.TRISF2 = 1;
+[e = . . _TRISFbits 0 2 -> -> 1 `i `uc ]
+"82
+[; ;main.c: 82:     ANSELFbits.ANSELF2 = 0;
+[e = . . _ANSELFbits 0 2 -> -> 0 `i `uc ]
+"85
+[; ;main.c: 85:     calibration_routine(&colorCalibration);
 [e ( _calibration_routine (1 &U _colorCalibration ]
-"84
-[; ;main.c: 84:     while (1) {
+"88
+[; ;main.c: 88:     while (1) {
 [e :U 2019 ]
 {
-"89
-[; ;main.c: 89:         _delay((unsigned long)((1000)*(64000000/4000.0)));
+"93
+[; ;main.c: 93:         _delay((unsigned long)((1000)*(64000000/4000.0)));
 [e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"90
-[; ;main.c: 90:         test(battery_level);
+"94
+[; ;main.c: 94:         test(battery_level);
 [e ( _test (1 _battery_level ]
-"92
-[; ;main.c: 92:     }
+"96
+[; ;main.c: 96:     }
 }
 [e :U 2018 ]
 [e $U 2019  ]
 [e :U 2020 ]
-"93
-[; ;main.c: 93: }
+"97
+[; ;main.c: 97: }
 [e :UE 2017 ]
 }

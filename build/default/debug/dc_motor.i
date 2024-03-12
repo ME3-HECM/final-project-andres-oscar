@@ -1,4 +1,4 @@
-# 1 "functions.c"
+# 1 "dc_motor.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,7 +6,7 @@
 # 1 "<built-in>" 2
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "functions.c" 2
+# 1 "dc_motor.c" 2
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\xc.h" 1 3
 # 18 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -24086,61 +24086,264 @@ __attribute__((__unsupported__("The READTIMER" "0" "() macro is not available wi
 unsigned char __t1rd16on(void);
 unsigned char __t3rd16on(void);
 # 33 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\xc.h" 2 3
-# 1 "functions.c" 2
+# 1 "dc_motor.c" 2
 
-# 1 "./functions.h" 1
-
-
+# 1 "./dc_motor.h" 1
 
 
 
 
 
 
-void write2USART(char buf, char red_char, char blue_char, char green_char, char clear_char);
-# 2 "functions.c" 2
 
-# 1 "./serial.h" 1
-# 14 "./serial.h"
-volatile char EUSART4RXbuf[20];
-volatile char RxBufWriteCnt=0;
-volatile char RxBufReadCnt=0;
+typedef struct DC_motor {
+    char power;
+    char direction;
+    char brakemode;
+    unsigned int PWMperiod;
+    unsigned char *posDutyHighByte;
+    unsigned char *negDutyHighByte;
+} DC_motor;
 
-volatile char EUSART4TXbuf[60];
-volatile char TxBufWriteCnt=0;
-volatile char TxBufReadCnt=0;
-
-
-volatile char dataFlag=1;
+struct DC_motor motorL, motorR;
 
 
 
-void initUSART4(void);
-char getCharSerial4(void);
-void sendCharSerial4(char charToSend);
-void sendStringSerial4(char *string);
+void initDCmotorsPWM(unsigned int PWMperiod);
+void setMotorPWM(DC_motor *m);
+void stop(DC_motor *mL, DC_motor *mR);
+void turnLeft(DC_motor *mL, DC_motor *mR);
+void turnRight(DC_motor *mL, DC_motor *mR);
+void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
+void right90(struct DC_motor *mL, struct DC_motor *mR);
+void left90(struct DC_motor *mL, struct DC_motor *mR);
+void square(unsigned int direction);
+# 2 "dc_motor.c" 2
 
 
-char getCharFromRxBuf(void);
-void putCharToRxBuf(char byte);
-char isDataInRxBuf (void);
+
+void initDCmotorsPWM(unsigned int PWMperiod){
+
+    TRISEbits.TRISE2=0;
+    TRISCbits.TRISC7=0;
+    TRISEbits.TRISE4=0;
+    TRISGbits.TRISG6=0;
+
+    LATEbits.LATE2=0;
+    LATCbits.LATC7=0;
+    LATEbits.LATE4=0;
+    LATGbits.LATG6=0;
 
 
-char getCharFromTxBuf(void);
-void putCharToTxBuf(char byte);
-char isDataInTxBuf (void);
-void TxBufferedString(char *string);
-void sendTxBuf(void);
-void sendAllReadings(void);
-void ADC2String(char *buf, unsigned int ADC_val);
-# 3 "functions.c" 2
+    RE2PPS=0x05;
+    RE4PPS=0x06;
+    RC7PPS=0x07;
+    RG6PPS=0x08;
 
 
-void write2USART(char buf, char red_char, char blue_char, char green_char, char clear_char)
+    T2CONbits.CKPS=0b100;
+    T2HLTbits.MODE=0b00000;
+    T2CLKCONbits.CS=0b0001;
+
+
+
+    T2PR=PWMperiod;
+    T2CONbits.ON=1;
+
+
+
+    CCPR1H=0;
+    CCPR2H=0;
+    CCPR3H=0;
+    CCPR4H=0;
+
+
+    CCPTMRS0bits.C1TSEL=0;
+    CCPTMRS0bits.C2TSEL=0;
+    CCPTMRS0bits.C3TSEL=0;
+    CCPTMRS0bits.C4TSEL=0;
+
+
+    CCP1CONbits.FMT=1;
+    CCP1CONbits.CCP1MODE=0b1100;
+    CCP1CONbits.EN=1;
+
+    CCP2CONbits.FMT=1;
+    CCP2CONbits.CCP2MODE=0b1100;
+    CCP2CONbits.EN=1;
+
+    CCP3CONbits.FMT=1;
+    CCP3CONbits.CCP3MODE=0b1100;
+    CCP3CONbits.EN=1;
+
+    CCP4CONbits.FMT=1;
+    CCP4CONbits.CCP4MODE=0b1100;
+    CCP4CONbits.EN=1;
+}
+
+
+void setMotorPWM(DC_motor *m)
 {
-    sendStringSerial4(buf);
-    sendStringSerial4(red_char);
-    sendStringSerial4(blue_char);
-    sendStringSerial4(green_char);
-    sendStringSerial4(clear_char);
+    unsigned char posDuty, negDuty;
+
+    if(m->brakemode) {
+        posDuty=m->PWMperiod - ((unsigned int)(m->power)*(m->PWMperiod))/100;
+        negDuty=m->PWMperiod;
+    }
+    else {
+        posDuty=0;
+  negDuty=((unsigned int)(m->power)*(m->PWMperiod))/100;
+    }
+
+    if (m->direction) {
+        *(m->posDutyHighByte)=posDuty;
+        *(m->negDutyHighByte)=negDuty;
+    } else {
+        *(m->posDutyHighByte)=negDuty;
+        *(m->negDutyHighByte)=posDuty;
+    }
+}
+
+
+void stop(DC_motor *mL, DC_motor *mR)
+{
+
+    while(mL->power > 0 || mR->power > 0) {
+        if (mL->power > 0) mL->power--;
+        if (mR->power > 0) mR->power--;
+
+
+        setMotorPWM(mL);
+        setMotorPWM(mR);
+
+
+        _delay((unsigned long)((500)*(64000000/4000000.0)));
+    }
+}
+
+
+void turnLeft(DC_motor *mL, DC_motor *mR)
+{
+
+    mL->direction = 0;
+    mR->direction = 1;
+
+    setMotorPWM(mL);
+    setMotorPWM(mR);
+    for (unsigned int i = 0; i <50; i++)
+    {
+        mL->power++;
+        mR->power++;
+        setMotorPWM(mL);
+        setMotorPWM(mR);
+        _delay((unsigned long)((100)*(64000000/4000000.0)));
+    }
+
+}
+
+
+void turnRight(DC_motor *mL, DC_motor *mR)
+{
+
+    mL->direction = 1;
+    mR->direction = 0;
+
+    setMotorPWM(mL);
+    setMotorPWM(mR);
+    for (unsigned int i = 0; i <50; i++)
+    {
+        mL->power++;
+        mR->power++;
+        setMotorPWM(mL);
+        setMotorPWM(mR);
+        _delay((unsigned long)((100)*(64000000/4000000.0)));
+    }
+}
+
+
+void fullSpeedAhead(DC_motor *mL, DC_motor *mR)
+{
+
+    mL->direction = 1;
+    mR->direction = 1;
+
+    for(int power = 0; power <= 50; power++) {
+        mL->power = power;
+        mR->power = power;
+
+
+        setMotorPWM(mL);
+        setMotorPWM(mR);
+
+
+        _delay((unsigned long)((500)*(64000000/4000000.0)));
+    }
+
+}
+
+
+
+void right90(struct DC_motor *mL, struct DC_motor *mR)
+{
+    turnRight(mL,mR);
+    _delay((unsigned long)((280)*(64000000/4000.0)));
+    stop(mL,mR);
+}
+
+
+
+void left90(struct DC_motor *mL, struct DC_motor *mR)
+{
+    turnLeft(mL,mR);
+    _delay((unsigned long)((340)*(64000000/4000.0)));
+    stop(mL,mR);
+}
+
+
+void square(unsigned int direction)
+{
+    if (direction == 1){
+
+
+        fullSpeedAhead(&motorL, &motorR);
+        _delay((unsigned long)((500)*(64000000/4000.0)));
+        stop(&motorL,&motorR);
+
+        _delay((unsigned long)((500)*(64000000/4000.0)));
+
+        right90(&motorL, &motorR);
+
+        fullSpeedAhead(&motorL, &motorR);
+        _delay((unsigned long)((1000)*(64000000/4000.0)));
+        stop(&motorL,&motorR);
+
+        _delay((unsigned long)((500)*(64000000/4000.0)));
+
+        right90(&motorL, &motorR);
+
+        fullSpeedAhead(&motorL, &motorR);
+        _delay((unsigned long)((1000)*(64000000/4000.0)));
+        stop(&motorL,&motorR);
+
+        _delay((unsigned long)((500)*(64000000/4000.0)));
+        right90(&motorL, &motorR);
+
+        fullSpeedAhead(&motorL, &motorR);
+        _delay((unsigned long)((1000)*(64000000/4000.0)));
+        stop(&motorL,&motorR);
+
+        _delay((unsigned long)((500)*(64000000/4000.0)));
+        right90(&motorL, &motorR);
+
+        fullSpeedAhead(&motorL, &motorR);
+        _delay((unsigned long)((1000)*(64000000/4000.0)));
+
+        stop(&motorL,&motorR);
+
+    }
+    if (direction == 0){
+
+
+    }
+
 }

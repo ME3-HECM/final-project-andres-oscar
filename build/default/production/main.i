@@ -24321,6 +24321,8 @@ void main(void) {
     LATDbits.LATD7=0;
     TRISDbits.TRISD7=0;
 
+    TRISDbits.TRISD3 = 0;
+    LATDbits.LATD3 = 1;
 
 
     TRISGbits.TRISG0 = 0;
@@ -24345,6 +24347,8 @@ void main(void) {
     LATFbits.LATF2 = 0;
     TRISFbits.TRISF2 = 1;
     ANSELFbits.ANSELF2 = 0;
+
+
     calibration_routine(&colorCalibration);
 
 

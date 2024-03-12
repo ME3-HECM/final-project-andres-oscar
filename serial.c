@@ -152,7 +152,7 @@ void send2USART(unsigned int battery_level, unsigned int hue)
         
     //convert values to strings
         ADC2String(buf, battery_level);
-        sprintf(hue_char,"hue=%05d,  ",hue); //stores both separate parts in buf
+        sprintf(hue_char,"hue=%03d,  ",hue); //stores both separate parts in buf
 
 
         //send the strings over USART
