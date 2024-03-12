@@ -31,7 +31,7 @@ void main(void) {
     color_click_init();
     initUSART4();
     
-        //initializing DC motors
+    //initializing DC motors
     unsigned int PWMcycle = 99;
     initDCmotorsPWM(PWMcycle);
 
@@ -64,7 +64,10 @@ void main(void) {
     LATAbits.LATA3 = 0; //Blue is A3
     
     //finding current battery value, max 255 (we think), so putting it in infinite while loop with LED indicating low battery
-
+    
+    //Buttons on Clicker Board Initializations
+    TRISFbits.TRISF3=1; //set TRIS value for pin (input)
+    ANSELFbits.ANSELF3=0; //turn off analogue input on pin
     
     unsigned int battery_level;
     unsigned int red;
@@ -72,19 +75,32 @@ void main(void) {
     unsigned int green;
     unsigned int clear;
     
+    
 
+    //code structure for testing the movement functions
     while (1) {
-//        battery_level = ADC_getval();
-//        //while (battery_level < 50) {LATDbits.LATD7 = 1;}
-//        red = color_read_Red();
-//        blue = color_read_Blue();
-//        green = color_read_Green();
-//        clear = color_read_Clear();
-//        
-//
-//        send2USART(battery_level, red, green, blue, clear);
-        //square(1);
-        test(battery_level);
+        
+        if (!PORTFbits.RF3) { //Checking for LEFT button press
+            //__delay_ms(500); //delay to move away from buggy
+            //right90(&motorL, &motorR);
+            //__delay_ms(500); //delay to move away from buggy
+            //right90(&motorL, &motorR);
+            //__delay_ms(500); //delay to move away from buggy
+            //right90(&motorL, &motorR);
+            //__delay_ms(500); //delay to move away from buggy
+            //right90(&motorL, &motorR);
+            __delay_ms(500);
+            fullSpeedAhead(&motorL, &motorR);
+            __delay_ms(200);
+            stop(&motorL, &motorR);
+              
+
+
+
+            movePink(&motorL, &motorR);
+            
+            
+        }
         
     }
 }

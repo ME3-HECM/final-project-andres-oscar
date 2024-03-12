@@ -24251,7 +24251,18 @@ void turnRight(DC_motor *mL, DC_motor *mR);
 void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
 void right90(struct DC_motor *mL, struct DC_motor *mR);
 void left90(struct DC_motor *mL, struct DC_motor *mR);
-void square(unsigned int direction);
+void turn180(struct DC_motor *mL, struct DC_motor *mR);
+void right135(struct DC_motor *mL, struct DC_motor *mR);
+void left135(struct DC_motor *mL, struct DC_motor *mR);
+void backHalf(struct DC_motor *mL, struct DC_motor *mR);
+void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
+void moveRed(struct DC_motor *mL, struct DC_motor *mR);
+void moveGreen(struct DC_motor *mL, struct DC_motor *mR);
+void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
+void moveYellow(struct DC_motor *mL, struct DC_motor *mR);
+void movePink(struct DC_motor *mL, struct DC_motor *mR);
+void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
+void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
 # 16 "main.c" 2
 
 # 1 "./functions.h" 1
@@ -24307,6 +24318,9 @@ void main(void) {
 
 
 
+    TRISFbits.TRISF3=1;
+    ANSELFbits.ANSELF3=0;
+
     unsigned int battery_level;
     unsigned int red;
     unsigned int blue;
@@ -24314,9 +24328,24 @@ void main(void) {
     unsigned int clear;
 
 
+
+
     while (1) {
-# 87 "main.c"
-        test(battery_level);
+
+        if (!PORTFbits.RF3) {
+# 92 "main.c"
+            _delay((unsigned long)((500)*(64000000/4000.0)));
+            fullSpeedAhead(&motorL, &motorR);
+            _delay((unsigned long)((200)*(64000000/4000.0)));
+            stop(&motorL, &motorR);
+
+
+
+
+            movePink(&motorL, &motorR);
+
+
+        }
 
     }
 }

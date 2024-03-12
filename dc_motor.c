@@ -116,7 +116,7 @@ void turnLeft(DC_motor *mL, DC_motor *mR)
         mR->power++;
         setMotorPWM(mL);//set new motor power values
         setMotorPWM(mR);
-        __delay_us(100);//delay to increase power slowly
+        __delay_us(500);//delay to increase power slowly
     } 
     
 }
@@ -136,7 +136,7 @@ void turnRight(DC_motor *mL, DC_motor *mR)
         mR->power++;
         setMotorPWM(mL);//set new motor power values
         setMotorPWM(mR);
-        __delay_us(100);//delay to increase power slowly
+        __delay_us(500);//delay to increase power slowly
     } 
 }
 
@@ -161,69 +161,149 @@ void fullSpeedAhead(DC_motor *mL, DC_motor *mR)
     
 }
 
+//function to make the robot go backwards
+void fullSpeedBack(DC_motor *mL, DC_motor *mR)
+{
+    //setting motor pair directions to go backwards
+    mL->direction = 0; //backward
+    mR->direction = 0; //backward
+
+    for(int power = 0; power <= 50; power++) {
+        mL->power = power;
+        mR->power = power;
+        
+        //setting new values to the pins
+        setMotorPWM(mL);
+        setMotorPWM(mR);
+
+        //add a delay for gradual increase
+        __delay_us(500);
+    }
+    
+}
+
+
+
+/************************************
+ * #SET MOVEMENT PIECES! **** indicates tuning required!
+ * Tuning all in the same place to avoid changing every function separately
+************************************/
 
 //function to turn right 90 degrees
 void right90(struct DC_motor *mL, struct DC_motor *mR)
 {
     turnRight(mL,mR);//set to turning right mode
-    __delay_ms(280); //arbitrary delay (will require tuning)
+    __delay_ms(260); //delay for turning right 90 ****(tune here)
     stop(mL,mR);//stops the rotation
 }
-
 
 //function to turn left 90 degrees
 void left90(struct DC_motor *mL, struct DC_motor *mR)
 {
-    turnLeft(mL,mR);//set to turning left mode
-    __delay_ms(340); //arbitrary delay (will require tuning)
-    stop(mL,mR);//stops the rotation
+    turnLeft(mL,mR); //set to turning left mode
+    __delay_ms(260); //delay for turning left 90 ****(tune here)
+    stop(mL,mR); //stops the rotation
 }
 
-
-void square(unsigned int direction) //direction = 1 is a right square, = 0 is a left square
+//function to turn 180
+void turn180(struct DC_motor *mL, struct DC_motor *mR)
 {
-    if (direction == 1){ //right square
-        
-        //start by moving forward 1m
-        fullSpeedAhead(&motorL, &motorR);
-        __delay_ms(500); //delay for distance moved forward (will require tuning)
-        stop(&motorL,&motorR);//stops the rotation
-        
-        __delay_ms(500); //delay for distance moved forward (will require tuning)
-        
-        right90(&motorL, &motorR); //turns right 90 degrees
-        
-        fullSpeedAhead(&motorL, &motorR);
-        __delay_ms(1000); //delay for distance moved forward (will require tuning)
-        stop(&motorL,&motorR);//stops the rotation
-        
-        __delay_ms(500); //delay for distance moved forward (will require tuning)
-        
-        right90(&motorL, &motorR); //turns right 90 degrees
-        
-        fullSpeedAhead(&motorL, &motorR);
-        __delay_ms(1000); //delay for distance moved forward (will require tuning)
-        stop(&motorL,&motorR);//stops the rotation
-        
-        __delay_ms(500); //delay for distance moved forward (will require tuning)
-        right90(&motorL, &motorR); //turns right 90 degrees
-        
-        fullSpeedAhead(&motorL, &motorR);
-        __delay_ms(1000); //delay for distance moved forward (will require tuning)
-        stop(&motorL,&motorR);//stops the rotation
-        
-        __delay_ms(500); //delay for distance moved forward (will require tuning)
-        right90(&motorL, &motorR); //turns right 90 degrees
-        
-        fullSpeedAhead(&motorL, &motorR);
-        __delay_ms(1000); //delay for distance moved forward (will require tuning)
-        
-        stop(&motorL,&motorR);//stops the rotation
-        
-    }
-    if (direction == 0){ //left square
-        
-        
-    }
-        
+    turnLeft(mL,mR); //set to turning left mode
+    __delay_ms(520); //delay for turning left 180 ****(tune here)
+    stop(mL,mR); //stops the rotation
 }
+
+//function to turn right 135
+void right135(struct DC_motor *mL, struct DC_motor *mR)
+{
+    turnRight(mL,mR); //set to turning left mode
+    __delay_ms(400); //delay for turning right 135 ****(tune here)
+    stop(mL,mR); //stops the rotation
+}
+
+//function to turn left 135
+void left135(struct DC_motor *mL, struct DC_motor *mR)
+{
+    turnLeft(mL,mR); //set to turning left mode
+    __delay_ms(400); //delay for turning left 135 ****(tune here)
+    stop(mL,mR); //stops the rotation
+}
+
+//function to move backwards half a unit in the maze
+void backHalf(struct DC_motor *mL, struct DC_motor *mR)
+{
+    fullSpeedBack(mL,mR); //set to going backwards mode
+    __delay_ms(300); //delay for moving half a unit of maze ****(tune here)
+    stop(mL,mR); //stops the rotation
+}
+
+//function to move backwards one and a half units (in one go to remove cumulative errors)
+void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR)
+{
+    fullSpeedBack(mL,mR); //set to going backwards mode
+    __delay_ms(1300); //delay for moving half a unit of maze ****(tune here)
+    stop(mL,mR); //stops the rotation
+}
+
+
+
+/************************************
+ * #COLOR MOVEMENT FUNCTIONS! for tuning look above at set pieces
+************************************/
+
+void moveRed(struct DC_motor *mL, struct DC_motor *mR)
+{
+    //Move back half a unit and turn right 90
+    backHalf(mL,mR); //moving back half a unit
+    __delay_ms(500); //delay to slow down potential skidding
+    right90(mL,mR); //turning right 90 function
+}
+
+void moveGreen(struct DC_motor *mL, struct DC_motor *mR)
+{
+    //Move back half a unit and turn left 90
+    backHalf(mL,mR); //moving back half a unit
+    __delay_ms(500); //delay to slow down potential skidding
+    left90(mL,mR); //turning left 90 function
+}
+
+void moveBlue(struct DC_motor *mL, struct DC_motor *mR)
+{
+    //Move back half a unit and turns 180
+    backHalf(mL,mR); //moving back half a unit
+    __delay_ms(500); //delay to slow down potential skidding
+    turn180(mL,mR); //turning 180 function
+}
+
+void moveYellow(struct DC_motor *mL, struct DC_motor *mR)
+{
+    //Move back one and a half units and turn right 90
+    backOneAndHalf(mL,mR); //moving back half a unit
+    __delay_ms(500); //delay to slow down potential skidding
+    right90(mL,mR); //turning right 90 function
+}
+
+void movePink(struct DC_motor *mL, struct DC_motor *mR)
+{
+    //Move back one and a half units and turn left 90
+    backOneAndHalf(mL,mR); //moving back half a unit
+    __delay_ms(500); //delay to slow down potential skidding
+    left90(mL,mR); //turning left 90 function
+}
+
+void moveOrange(struct DC_motor *mL, struct DC_motor *mR)
+{
+    //Move back half a unit and turn right 135
+    backHalf(mL,mR); //moving back half a unit
+    __delay_ms(500); //delay to slow down potential skidding
+    right135(mL,mR); //turning right 135 function
+}
+
+void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR)
+{
+    //Move back half a unit and turn left 135
+    backHalf(mL,mR); //moving back half a unit
+    __delay_ms(500); //delay to slow down potential skidding
+    left135(mL,mR); //turning left 135 function
+}
+
