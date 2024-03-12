@@ -54,6 +54,9 @@ void main(void) {
     LATDbits.LATD7=0;   //set initial output state
     TRISDbits.TRISD7=0; //set TRIS value for pin (output)
     
+    //turning on the front lights
+    TRISDbits.TRISD3 = 0; 
+    LATDbits.LATD3 = 1; 
     
     //Colored LED initialization
     TRISGbits.TRISG0 = 0;
@@ -74,11 +77,24 @@ void main(void) {
     unsigned int blue;
     unsigned int green;
     unsigned int clear;
+    TRISHbits.TRISH3 = 0;
+    LATHbits.LATH3 = 1;
+    __delay_ms(300);
+    LATHbits.LATH3 = 0;
+    LATFbits.LATF2 = 0;
+    TRISFbits.TRISF2 = 1;
+    ANSELFbits.ANSELF2 = 0;
     
     
+<<<<<<< HEAD
+=======
+    calibration_routine(&colorCalibration);
+
+>>>>>>> Calibrating-Colors
 
     //code structure for testing the movement functions
     while (1) {
+<<<<<<< HEAD
         
         if (!PORTFbits.RF3) { //Checking for LEFT button press
             //__delay_ms(500); //delay to move away from buggy
@@ -101,6 +117,14 @@ void main(void) {
             
             
         }
+=======
+
+
+
+        
+        __delay_ms(1000);
+        test(battery_level);
+>>>>>>> Calibrating-Colors
         
     }
 }

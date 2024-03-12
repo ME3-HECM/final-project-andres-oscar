@@ -143,27 +143,21 @@ void ADC2String(char *buf, unsigned int ADC_val){
     __delay_ms(1000);
 }
 
-void send2USART(unsigned int battery_level, unsigned int red, unsigned int green, unsigned int  blue, unsigned int clear){
+void send2USART(unsigned int battery_level, unsigned int hue)
+{
         char buf[50];
-        char red_char[50];
-        char blue_char[50];
-        char green_char[50];
-        char clear_char[50];
+        char hue_char[50];
+
 
         
     //convert values to strings
         ADC2String(buf, battery_level);
-        sprintf(red_char,"Red=%05d,  ",red); //stores both separate parts in buf
-        sprintf(blue_char,"Blue=%05d,  ",blue); //stores both separate parts in buf
-        sprintf(green_char,"Green=%05d,  ",green); //stores both separate parts in buf
-        sprintf(clear_char,"Clear=%05d,  \n\n\r",clear); //stores both separate parts in buf
+        sprintf(hue_char,"hue=%03d,  ",hue); //stores both separate parts in buf
+
 
         //send the strings over USART
         //write2USART(buf, red_char, blue_char, green_char, clear_char);
         sendStringSerial4(buf); //Send ADC VAL to realterm program
-        sendStringSerial4(red_char);
-        sendStringSerial4(blue_char);
-        sendStringSerial4(green_char);
-        sendStringSerial4(clear_char);
-}
+        sendStringSerial4(hue_char);
 
+}
