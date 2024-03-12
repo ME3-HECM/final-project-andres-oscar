@@ -1,7 +1,11 @@
 ### HEXMate logfile and output summary ###
 
 ### Command-line arguments ###
+<<<<<<< HEAD
  C:\Users\ablan\AppData\Local\Temp\xcAscv0.\driver_tmp_3.o
+=======
+ C:\Users\ablan\AppData\Local\Temp\xcAslr8.\driver_tmp_3.o
+>>>>>>> Movement
  -Odist/default/production\final-project-andres-oscar.X.production.hex
  -logfile=dist/default/production\final-project-andres-oscar.X.production.hxl
  -addressing=1
@@ -9,6 +13,7 @@
 
 ### Memory Usage ###
  Input file ranges:
+<<<<<<< HEAD
   0h - 3h		(C:\Users\ablan\AppData\Local\Temp\xcAscv0.\driver_tmp_3.o)
   E00h - 1C7Eh		(C:\Users\ablan\AppData\Local\Temp\xcAscv0.\driver_tmp_3.o)
   300000h - 300001h		(C:\Users\ablan\AppData\Local\Temp\xcAscv0.\driver_tmp_3.o)
@@ -16,12 +21,27 @@
  Unused ranges:
   4h - DFFh
   1C7Fh - 2FFFFFh
+=======
+  0h - 3h		(C:\Users\ablan\AppData\Local\Temp\xcAslr8.\driver_tmp_3.o)
+  E00h - E94h		(C:\Users\ablan\AppData\Local\Temp\xcAslr8.\driver_tmp_3.o)
+  E96h - 15BCh		(C:\Users\ablan\AppData\Local\Temp\xcAslr8.\driver_tmp_3.o)
+  300000h - 300001h		(C:\Users\ablan\AppData\Local\Temp\xcAslr8.\driver_tmp_3.o)
+  300004h - 300005h		(C:\Users\ablan\AppData\Local\Temp\xcAslr8.\driver_tmp_3.o)
+ Unused ranges:
+  4h - DFFh
+  E95h - E95h
+  15BDh - 2FFFFFh
+>>>>>>> Movement
   300002h - 300003h
 
 ### Hex Memory Map ###
  Legend:
   -- = Unused memory
+<<<<<<< HEAD
   H1 = Input file             (C:\Users\ablan\AppData\Local\Temp\xcAscv0.\driver_tmp_3.o)
+=======
+  H1 = Input file             (C:\Users\ablan\AppData\Local\Temp\xcAslr8.\driver_tmp_3.o)
+>>>>>>> Movement
 ----------------------------------------------------------
          | 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
 ----------------------------------------------------------
@@ -150,6 +170,7 @@
 00001580 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00001590 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 000015A0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+<<<<<<< HEAD
 000015B0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 000015C0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 000015D0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
@@ -259,6 +280,9 @@
 00001C50 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00001C60 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00001C70 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 --
+=======
+000015B0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 -- -- --
+>>>>>>> Movement
 ----------------------------------------------------------
 00300000 | H1 H1 -- -- H1 H1 -- -- -- -- -- -- -- -- -- --
 00300010 | --
