@@ -223,8 +223,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./color.h: 61: void calibration_routine(colors *cCal);
 [v _calibration_routine `(v ~T0 @X0 0 ef1`*S2015 ]
 "57
-[; ;./color.h: 57: void test(void);
-[v _test `(v ~T0 @X0 0 ef ]
+[; ;./color.h: 57: unsigned int test(colors *cCurr);
+[v _test `(ui ~T0 @X0 0 ef1`*S2015 ]
+"65
+[; ;./color.h: 65: void decision(unsigned int hue);
+[v _decision `(v ~T0 @X0 0 ef1`ui ]
 "4 main.c
 [p x FEXTOSC  =  HS ]
 "5
@@ -2206,9 +2209,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 40592: __asm("TOSU equ 0FFFh");
 [; <" TOSU equ 0FFFh ;# ">
 "17 ./color.h
-[; ;./color.h: 17: struct colors colorCalibration, colorCurrent;
+[; ;./color.h: 17: struct colors colorCalibration, colorCurrent, hue;
 [v _colorCalibration `S2015 ~T0 @X0 1 e ]
 [v _colorCurrent `S2015 ~T0 @X0 1 e ]
+[v _hue `S2015 ~T0 @X0 1 e ]
 "14 ./serial.h
 [; ;./serial.h: 14: volatile char EUSART4RXbuf[20];
 [v _EUSART4RXbuf `Vuc ~T0 @X0 -> 20 `i e ]
@@ -2314,12 +2318,6 @@ Version 4.0 HI-TECH Software Intermediate Code
 "55
 [; ;main.c: 55:     TRISDbits.TRISD7=0;
 [e = . . _TRISDbits 0 7 -> -> 0 `i `uc ]
-"58
-[; ;main.c: 58:     TRISDbits.TRISD3 = 0;
-[e = . . _TRISDbits 0 3 -> -> 0 `i `uc ]
-"59
-[; ;main.c: 59:     LATDbits.LATD3 = 1;
-[e = . . _LATDbits 0 3 -> -> 1 `i `uc ]
 "62
 [; ;main.c: 62:     TRISGbits.TRISG0 = 0;
 [e = . . _TRISGbits 0 0 -> -> 0 `i `uc ]
@@ -2390,9 +2388,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 94:     while (1) {
 [e :U 2019 ]
 {
+"96
+[; ;main.c: 96:         hue = test(&colorCurrent);
+[e = _hue ( _test (1 &U _colorCurrent ]
 "97
-[; ;main.c: 97:         test();
-[e ( _test ..  ]
+[; ;main.c: 97:         decision(hue);
+[e ( _decision (1 _hue ]
 "99
 [; ;main.c: 99:         }
 }

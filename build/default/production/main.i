@@ -24116,7 +24116,7 @@ typedef struct colors {
 
 
 
-struct colors colorCalibration, colorCurrent;
+struct colors colorCalibration, colorCurrent, hue;
 
 
 
@@ -24156,7 +24156,7 @@ unsigned int color_read_Blue(void);
 unsigned int color_read_Clear(void);
 
 
-void test(void);
+unsigned int test(colors *cCurr);
 
 unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
@@ -24164,7 +24164,7 @@ void calibration_routine(colors *cCal);
 
 void reading_values(colors *cCurr);
 
-void decision(colors *cCurr);
+void decision(unsigned int hue);
 # 12 "main.c" 2
 
 # 1 "./i2c.h" 1
@@ -24335,8 +24335,8 @@ void main(void) {
     TRISDbits.TRISD7=0;
 
 
-    TRISDbits.TRISD3 = 0;
-    LATDbits.LATD3 = 1;
+
+
 
 
     TRISGbits.TRISG0 = 0;
@@ -24373,8 +24373,8 @@ void main(void) {
 
     while (1) {
 
-
-        test();
+        hue = test(&colorCurrent);
+        decision(hue);
 
         }
     }

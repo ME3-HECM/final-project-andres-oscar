@@ -55,8 +55,8 @@ void main(void) {
     TRISDbits.TRISD7=0; //set TRIS value for pin (output)
     
     //turning on the front lights
-    TRISDbits.TRISD3 = 0; 
-    LATDbits.LATD3 = 1; 
+//    TRISDbits.TRISD3 = 0; 
+//    LATDbits.LATD3 = 1; 
     
     //Colored LED initialization
     TRISGbits.TRISG0 = 0;
@@ -93,8 +93,8 @@ void main(void) {
     //code structure for testing the movement functions
     while (1) {
 
-        
-        test();
+        hue = test(&colorCurrent);
+        decision(hue);
             
         }
     }

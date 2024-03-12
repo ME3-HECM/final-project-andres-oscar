@@ -1,4 +1,5 @@
 #include <xc.h>
+#include <math.h>
 #include "color.h"
 #include "i2c.h"
 #include "serial.h"
@@ -98,125 +99,157 @@ unsigned int color_read_Clear(void)
 
 unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
 {
+    float redcurrent, redmax, greencurrent, greenmax, bluecurrent, bluemax;
     float r, g, b, min, max, diff, hue = 0.0;
-//    unsigned long long total = ((unsigned long long)cCurr->red * cMax->blue * cMax->green) + ((unsigned long long)cCurr->blue * cMax->red * cMax->green) + ((unsigned long long)cCurr->green * cMax->blue * cMax->red);
-
     
-//    if (total > 0) { // Prevent division by zero
-//        r = ((unsigned long long)cCurr->red * cMax->blue * cMax->green) * 100 / total;
-//        g = ((unsigned long long)cCurr->green * cMax->blue * cMax->red) * 100 / total;
-//        b = 100 - r - g;
-//    }
+    redcurrent = cCurr->red;
+    redmax = cMax->red;
+    greencurrent = cCurr->green;
+    greenmax = cMax->green;
+    bluecurrent =  cCurr->blue;
+    bluemax = cMax->blue;
+    char char1[20];
+    char char2[20];
+    char char3[20];
+   
+    sprintf(char1,"red=%03d,  ",redcurrent); //stores both separate parts in buf
+    sprintf(char2,"green=%03d,  ",bluecurrent);
+    sprintf(char3,"blue=%03d,  ",greencurrent);
+
+        //send the strings over USART
+
+    sendStringSerial4(char1);
+    sendStringSerial4(char2);
+    sendStringSerial4(char3);
     
-    r = cCurr->red / cMax->red;
-    g = cCurr->green / cMax->green;
-    b = cCurr->blue / cMax->blue;
-
-    
-
-//    char red_weighted[20];
-//    char green_weighted[20];
-//    char blue_weighted[20];
-
-//    sprintf(red_weighted, "red_weighted =%03d", r);
-//    sprintf(green_weighted, "green_weighted =%03d", g);
-//    sprintf(blue_weighted, "blue_weighted =%03d", b);
-//    sendStringSerial4(red_weighted);
-//    sendStringSerial4(green_weighted);
-//    sendStringSerial4(blue_weighted);
+    r = redcurrent/redmax;
+    g = greencurrent/greenmax;
+    b = bluecurrent/bluemax;
 
     min = r < g ? (r < b ? r : b) : (g < b ? g : b); // Correct calculation of min
     max = r > g ? (r > b ? r : b) : (g > b ? g : b); // Adding calculation of max for completeness
     diff = max - min;
     if (max == min) {
         hue = 0; // If max and min are equal, hue is undefined, usually set to 0
-    } else {
-        if (max == r){
-            hue = (b - g) / diff;
-        }
-        if (g > r && g > b) { // Corrected logical AND
-            
-            hue = (b - r) / diff;
-            hue = hue + 2;
-        }
-        if (b > r && b > g) { // Corrected logical AND
-            diff = b - min;
-            hue = (r - g) / diff;
-            hue = hue + 4;
-        }
-
-        hue = hue * 60;
-        if (hue < 0) {
-            hue = hue + 360;
-        }
+    } else if (max == r){
+        hue = (b - g) / diff;
+    } else if (max == g){ // Corrected logical AND
+        hue = (b - r) / diff;
+        hue = hue + 2;
+    } else if (max == b){ // Corrected logical AND
+        hue = (r - g) / diff;
+        hue = hue + 4;
     }
+
+    hue = hue * 60;
+    if (hue < 0) {
+        hue = hue + 360;
+    }
+    
     return (unsigned int)hue;
 }
 
-    
+//unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr) {
+//    float redcurrent, greencurrent, bluecurrent;
+//    float r, g, b, min, max, diff, hue = 0.0;
+//
+//    redcurrent = cCurr->red;
+//    greencurrent = cCurr->green;
+//    bluecurrent = cCurr->blue;
+//
+//    // Assuming cMax values are the maximum possible values for the color channels
+//    float max_value = fmaxf(fmaxf(cMax->red, cMax->green), cMax->blue);
+//    r = redcurrent / max_value;
+//    g = greencurrent / max_value;
+//    b = bluecurrent / max_value;
+//
+//    min = r < g ? (r < b ? r : b) : (g < b ? g : b); // Correct calculation of min
+//    max = r > g ? (r > b ? r : b) : (g > b ? g : b); // Adding calculation of max for completeness
+//    diff = max - min;
+//
+//    if (diff == 0) {
+//        hue = 0; // If diff is 0, hue is undefined, set to 0
+//    } else {
+//        if (max == r) {
+//            hue = fmod(60 * ((g - b) / diff) + 360,360);
+//        } else if (max == g) {
+//            hue = fmod(60 * ((b - r) / diff) + 120,360);
+//        } else if (max == b) {
+//            hue = fmod(60 * ((r - g) / diff) + 240,360);
+//        }
+//    }
+//    
+//
+//    return (unsigned int)hue;
+//}
 
-void test(void) 
+unsigned int test(colors *cCurr) 
 {
     unsigned int hue;
      // Prepare strings for serial transmission
     char led_state[50];
 
     
-    for (unsigned int combo = 0; combo < 4; ++combo) {
-   
-        // Check for specific combos and set LEDs accordingly
-        if (combo == 0) {
-            // Turn on Red LED only
-            LATGbits.LATG0 = 1; // Red LED on
-            LATEbits.LATE7 = 0; // Green LED off
-            LATAbits.LATA3 = 0; // Blue LED off
-            sprintf(led_state,"Red_light=%d, \n\r", LATGbits.LATG0); 
+
+        // Turn on Red LED only
+    LATGbits.LATG0 = 1; // Red LED on
+    LATEbits.LATE7 = 0; // Green LED off
+    LATAbits.LATA3 = 0; // Blue LED off
+    __delay_ms(500);
+    sprintf(led_state,"Red_light=%d, \n\r", LATGbits.LATG0); 
+    (cCurr->red)= color_read_Red();
 
 
-        } 
-        
-        if (combo == 1) {
-            LATGbits.LATG0 = 0; // Red LED off
-            LATEbits.LATE7 = 1; // Green LED on
-            LATAbits.LATA3 = 0; // Blue LED off   
-            sprintf(led_state,"Green_light=%d, \n\r", LATEbits.LATE7); 
-
-        }
-        
-        if (combo == 2) {
-            LATGbits.LATG0 = 0; // Red LED off
-            LATEbits.LATE7 = 0; // Green LED off
-            LATAbits.LATA3 = 1; // Blue LED on 
-            sprintf(led_state,"Blue_light=%d \n\r", LATAbits.LATA3); 
 
 
-        
-        }
-        
-        if (combo == 3) {
-            LATGbits.LATG0 = 1; // Red LED on
-            LATEbits.LATE7 = 1; // Green LED on
-            LATAbits.LATA3 = 1; // Blue LED on
-            sprintf(led_state,"All_lights=%d \n\r", 1);             
-        }
-        
-        sendStringSerial4(led_state);
+    LATGbits.LATG0 = 0; // Red LED off
+    LATEbits.LATE7 = 1; // Green LED on
+    LATAbits.LATA3 = 0; // Blue LED off   
+    __delay_ms(100);
 
-        reading_values(&colorCurrent);
-        
-        hue = convert_rgb2hue(&colorCalibration, &colorCurrent);
-        
-                
+    sprintf(led_state,"Green_light=%d, \n\r", LATEbits.LATE7); 
+    (cCurr->green) = color_read_Green();
 
-       
 
-        send2USART(hue);
-        
-        
-        __delay_ms(500);
 
-    }
+
+
+    LATGbits.LATG0 = 0; // Red LED off
+    LATEbits.LATE7 = 0; // Green LED off
+    LATAbits.LATA3 = 1; // Blue LED on 
+    __delay_ms(1000);
+
+    sprintf(led_state,"Blue_light=%d \n\r", LATAbits.LATA3);  
+    (cCurr->blue) = color_read_Blue();
+
+
+
+
+    LATGbits.LATG0 = 1; // Red LED on
+    LATEbits.LATE7 = 1; // Green LED on
+    LATAbits.LATA3 = 1; // Blue LED on
+    __delay_ms(1000);
+    sprintf(led_state,"All_lights=%d \n\r", 1);    
+    (cCurr->clear) = color_read_Clear();
+
+
+
+    sendStringSerial4(led_state);
+
+
+
+    hue = convert_rgb2hue(&colorCalibration, &colorCurrent);
+
+
+
+
+    send2USART(hue);
+
+    return hue;
+    ;
+
 }
+
 
 void calibration_routine(colors *cCal)
 {
@@ -299,9 +332,17 @@ void reading_values(colors *cCurr)
     (cCurr->clear) = color_read_Clear();
 }
 
-void decision(colors *cCurr)
-{
-    if (cCurr->blue <5 & cCurr->green <5){
+void decision(unsigned int hue) {
+    // Assume `colorCurrent` holds the latest color sensor readings
+    // and `colorCalibration` holds the calibration data.
+
+    if (hue<=20) { // Red hue range
         moveRed(&motorL, &motorR);
     }
+    if (hue>=105 && hue<=130){
+        moveGreen(&motorL, &motorR);
+    }
+
+    // Here, you can add additional logic to act upon the color detection,
+    // such as controlling LEDs or other outputs.
 }

@@ -24088,6 +24088,380 @@ unsigned char __t3rd16on(void);
 # 33 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\xc.h" 2 3
 # 1 "color.c" 2
 
+# 1 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\c99\\math.h" 1 3
+# 15 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\c99\\math.h" 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\c99\\bits/alltypes.h" 1 3
+# 39 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\c99\\bits/alltypes.h" 3
+typedef float float_t;
+
+
+
+
+typedef double double_t;
+# 16 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\c99\\math.h" 2 3
+# 42 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\c99\\math.h" 3
+int __fpclassifyf(float);
+
+
+
+
+
+
+
+int __signbitf(float);
+# 59 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\c99\\math.h" 3
+double acos(double);
+float acosf(float);
+long double acosl(long double);
+
+
+
+double acosh(double);
+float acoshf(float);
+long double acoshl(long double);
+
+
+
+double asin(double);
+float asinf(float);
+long double asinl(long double);
+
+
+
+double asinh(double);
+float asinhf(float);
+long double asinhl(long double);
+
+
+
+double atan(double);
+float atanf(float);
+long double atanl(long double);
+
+
+
+double atan2(double, double);
+float atan2f(float, float);
+long double atan2l(long double, long double);
+
+
+
+double atanh(double);
+float atanhf(float);
+long double atanhl(long double);
+
+
+
+double cbrt(double);
+float cbrtf(float);
+long double cbrtl(long double);
+
+
+
+double ceil(double);
+float ceilf(float);
+long double ceill(long double);
+
+
+
+double copysign(double, double);
+float copysignf(float, float);
+long double copysignl(long double, long double);
+
+
+
+double cos(double);
+float cosf(float);
+long double cosl(long double);
+
+
+
+double cosh(double);
+float coshf(float);
+long double coshl(long double);
+
+
+
+double erf(double);
+float erff(float);
+long double erfl(long double);
+
+
+
+double erfc(double);
+float erfcf(float);
+long double erfcl(long double);
+
+
+
+double exp(double);
+float expf(float);
+long double expl(long double);
+
+
+
+double exp2(double);
+float exp2f(float);
+long double exp2l(long double);
+
+
+
+double expm1(double);
+float expm1f(float);
+long double expm1l(long double);
+
+
+
+double fabs(double);
+float fabsf(float);
+long double fabsl(long double);
+
+
+
+double fdim(double, double);
+float fdimf(float, float);
+long double fdiml(long double, long double);
+
+
+
+double floor(double);
+float floorf(float);
+long double floorl(long double);
+
+
+
+double fma(double, double, double);
+float fmaf(float, float, float);
+long double fmal(long double, long double, long double);
+
+
+
+double fmax(double, double);
+float fmaxf(float, float);
+long double fmaxl(long double, long double);
+
+
+
+double fmin(double, double);
+float fminf(float, float);
+long double fminl(long double, long double);
+
+
+
+double fmod(double, double);
+float fmodf(float, float);
+long double fmodl(long double, long double);
+
+
+
+double frexp(double, int *);
+float frexpf(float, int *);
+long double frexpl(long double, int *);
+
+
+
+double hypot(double, double);
+float hypotf(float, float);
+long double hypotl(long double, long double);
+
+
+
+int ilogb(double);
+int ilogbf(float);
+int ilogbl(long double);
+
+
+
+double ldexp(double, int);
+float ldexpf(float, int);
+long double ldexpl(long double, int);
+
+
+
+
+double lgamma(double);
+float lgammaf(float);
+long double lgammal(long double);
+
+
+
+
+long long llrint(double);
+long long llrintf(float);
+long long llrintl(long double);
+
+
+
+long long llround(double);
+long long llroundf(float);
+long long llroundl(long double);
+
+
+
+
+double log(double);
+float logf(float);
+long double logl(long double);
+
+
+
+double log10(double);
+float log10f(float);
+long double log10l(long double);
+
+
+
+double log1p(double);
+float log1pf(float);
+long double log1pl(long double);
+
+
+
+double log2(double);
+float log2f(float);
+long double log2l(long double);
+
+
+
+double logb(double);
+float logbf(float);
+long double logbl(long double);
+
+
+
+long lrint(double);
+long lrintf(float);
+long lrintl(long double);
+
+
+
+long lround(double);
+long lroundf(float);
+long lroundl(long double);
+
+
+
+double modf(double, double *);
+float modff(float, float *);
+long double modfl(long double, long double *);
+
+
+
+double nan(const char *);
+float nanf(const char *);
+long double nanl(const char *);
+
+
+
+double nearbyint(double);
+float nearbyintf(float);
+long double nearbyintl(long double);
+
+
+
+double nextafter(double, double);
+float nextafterf(float, float);
+long double nextafterl(long double, long double);
+
+
+
+double nexttoward(double, long double);
+float nexttowardf(float, long double);
+long double nexttowardl(long double, long double);
+# 326 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\c99\\math.h" 3
+double pow(double, double);
+__attribute__((nonreentrant)) float powf(float, float);
+long double powl(long double, long double);
+
+
+
+double remainder(double, double);
+float remainderf(float, float);
+long double remainderl(long double, long double);
+
+
+
+double remquo(double, double, int *);
+float remquof(float, float, int *);
+long double remquol(long double, long double, int *);
+
+
+
+double rint(double);
+float rintf(float);
+long double rintl(long double);
+
+
+
+double round(double);
+float roundf(float);
+long double roundl(long double);
+
+
+
+double scalbln(double, long);
+float scalblnf(float, long);
+long double scalblnl(long double, long);
+
+
+
+double scalbn(double, int);
+float scalbnf(float, int);
+long double scalbnl(long double, int);
+
+
+
+double sin(double);
+float sinf(float);
+long double sinl(long double);
+
+
+
+double sinh(double);
+float sinhf(float);
+long double sinhl(long double);
+
+
+
+double sqrt(double);
+float sqrtf(float);
+long double sqrtl(long double);
+
+
+
+double tan(double);
+float tanf(float);
+long double tanl(long double);
+
+
+
+double tanh(double);
+float tanhf(float);
+long double tanhl(long double);
+
+
+
+double tgamma(double);
+float tgammaf(float);
+long double tgammal(long double);
+
+
+
+double trunc(double);
+float truncf(float);
+long double truncl(long double);
+# 431 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\c99\\math.h" 3
+extern int signgam;
+
+double j0(double);
+double j1(double);
+double jn(int, double);
+
+double y0(double);
+double y1(double);
+double yn(int, double);
+# 2 "color.c" 2
+
 # 1 "./color.h" 1
 
 
@@ -24105,7 +24479,7 @@ typedef struct colors {
 
 
 
-struct colors colorCalibration, colorCurrent;
+struct colors colorCalibration, colorCurrent, hue;
 
 
 
@@ -24145,7 +24519,7 @@ unsigned int color_read_Blue(void);
 unsigned int color_read_Clear(void);
 
 
-void test(void);
+unsigned int test(colors *cCurr);
 
 unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
@@ -24153,8 +24527,8 @@ void calibration_routine(colors *cCal);
 
 void reading_values(colors *cCurr);
 
-void decision(colors *cCurr);
-# 2 "color.c" 2
+void decision(unsigned int hue);
+# 3 "color.c" 2
 
 # 1 "./i2c.h" 1
 # 13 "./i2c.h"
@@ -24189,7 +24563,7 @@ void I2C_2_Master_Write(unsigned char data_byte);
 
 
 unsigned char I2C_2_Master_Read(unsigned char ack);
-# 3 "color.c" 2
+# 4 "color.c" 2
 
 # 1 "./serial.h" 1
 # 14 "./serial.h"
@@ -24225,7 +24599,7 @@ void sendTxBuf(void);
 void sendAllReadings(void);
 void ADC2String(char *buf, unsigned int ADC_val);
 void send2USART(unsigned int hue);
-# 4 "color.c" 2
+# 5 "color.c" 2
 
 # 1 "./dc_motor.h" 1
 
@@ -24268,7 +24642,7 @@ void moveYellow(struct DC_motor *mL, struct DC_motor *mR);
 void movePink(struct DC_motor *mL, struct DC_motor *mR);
 void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
 void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
-# 5 "color.c" 2
+# 6 "color.c" 2
 
 
 void color_click_init(void)
@@ -24351,107 +24725,126 @@ unsigned int color_read_Clear(void)
  I2C_2_Master_Stop();
  return tmp;
 }
-# 99 "color.c"
+# 100 "color.c"
 unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
 {
+    float redcurrent, redmax, greencurrent, greenmax, bluecurrent, bluemax;
     float r, g, b, min, max, diff, hue = 0.0;
-# 111 "color.c"
-    r = cCurr->red / cMax->red;
-    g = cCurr->green / cMax->green;
-    b = cCurr->blue / cMax->blue;
-# 128 "color.c"
+
+    redcurrent = cCurr->red;
+    redmax = cMax->red;
+    greencurrent = cCurr->green;
+    greenmax = cMax->green;
+    bluecurrent = cCurr->blue;
+    bluemax = cMax->blue;
+    char char1[20];
+    char char2[20];
+    char char3[20];
+
+    sprintf(char1,"red=%03d,  ",redcurrent);
+    sprintf(char2,"green=%03d,  ",bluecurrent);
+    sprintf(char3,"blue=%03d,  ",greencurrent);
+
+
+
+    sendStringSerial4(char1);
+    sendStringSerial4(char2);
+    sendStringSerial4(char3);
+
+    r = redcurrent/redmax;
+    g = greencurrent/greenmax;
+    b = bluecurrent/bluemax;
+
     min = r < g ? (r < b ? r : b) : (g < b ? g : b);
     max = r > g ? (r > b ? r : b) : (g > b ? g : b);
     diff = max - min;
     if (max == min) {
         hue = 0;
-    } else {
-        if (max == r){
-            hue = (b - g) / diff;
-        }
-        if (g > r && g > b) {
-
-            hue = (b - r) / diff;
-            hue = hue + 2;
-        }
-        if (b > r && b > g) {
-            diff = b - min;
-            hue = (r - g) / diff;
-            hue = hue + 4;
-        }
-
-        hue = hue * 60;
-        if (hue < 0) {
-            hue = hue + 360;
-        }
+    } else if (max == r){
+        hue = (b - g) / diff;
+    } else if (max == g){
+        hue = (b - r) / diff;
+        hue = hue + 2;
+    } else if (max == b){
+        hue = (r - g) / diff;
+        hue = hue + 4;
     }
+
+    hue = hue * 60;
+    if (hue < 0) {
+        hue = hue + 360;
+    }
+
     return (unsigned int)hue;
 }
-
-
-
-void test(void)
+# 186 "color.c"
+unsigned int test(colors *cCurr)
 {
     unsigned int hue;
 
     char led_state[50];
 
 
-    for (unsigned int combo = 0; combo < 4; ++combo) {
 
 
-        if (combo == 0) {
-
-            LATGbits.LATG0 = 1;
-            LATEbits.LATE7 = 0;
-            LATAbits.LATA3 = 0;
-            sprintf(led_state,"Red_light=%d, \n\r", LATGbits.LATG0);
-
-
-        }
-
-        if (combo == 1) {
-            LATGbits.LATG0 = 0;
-            LATEbits.LATE7 = 1;
-            LATAbits.LATA3 = 0;
-            sprintf(led_state,"Green_light=%d, \n\r", LATEbits.LATE7);
-
-        }
-
-        if (combo == 2) {
-            LATGbits.LATG0 = 0;
-            LATEbits.LATE7 = 0;
-            LATAbits.LATA3 = 1;
-            sprintf(led_state,"Blue_light=%d \n\r", LATAbits.LATA3);
+    LATGbits.LATG0 = 1;
+    LATEbits.LATE7 = 0;
+    LATAbits.LATA3 = 0;
+    _delay((unsigned long)((500)*(64000000/4000.0)));
+    sprintf(led_state,"Red_light=%d, \n\r", LATGbits.LATG0);
+    (cCurr->red)= color_read_Red();
 
 
 
-        }
 
-        if (combo == 3) {
-            LATGbits.LATG0 = 1;
-            LATEbits.LATE7 = 1;
-            LATAbits.LATA3 = 1;
-            sprintf(led_state,"All_lights=%d \n\r", 1);
-        }
+    LATGbits.LATG0 = 0;
+    LATEbits.LATE7 = 1;
+    LATAbits.LATA3 = 0;
+    _delay((unsigned long)((100)*(64000000/4000.0)));
 
-        sendStringSerial4(led_state);
-
-        reading_values(&colorCurrent);
-
-        hue = convert_rgb2hue(&colorCalibration, &colorCurrent);
+    sprintf(led_state,"Green_light=%d, \n\r", LATEbits.LATE7);
+    (cCurr->green) = color_read_Green();
 
 
 
 
 
-        send2USART(hue);
+    LATGbits.LATG0 = 0;
+    LATEbits.LATE7 = 0;
+    LATAbits.LATA3 = 1;
+    _delay((unsigned long)((1000)*(64000000/4000.0)));
+
+    sprintf(led_state,"Blue_light=%d \n\r", LATAbits.LATA3);
+    (cCurr->blue) = color_read_Blue();
 
 
-        _delay((unsigned long)((500)*(64000000/4000.0)));
 
-    }
+
+    LATGbits.LATG0 = 1;
+    LATEbits.LATE7 = 1;
+    LATAbits.LATA3 = 1;
+    _delay((unsigned long)((1000)*(64000000/4000.0)));
+    sprintf(led_state,"All_lights=%d \n\r", 1);
+    (cCurr->clear) = color_read_Clear();
+
+
+
+    sendStringSerial4(led_state);
+
+
+
+    hue = convert_rgb2hue(&colorCalibration, &colorCurrent);
+
+
+
+
+    send2USART(hue);
+
+    return hue;
+    ;
+
 }
+
 
 void calibration_routine(colors *cCal)
 {
@@ -24534,9 +24927,17 @@ void reading_values(colors *cCurr)
     (cCurr->clear) = color_read_Clear();
 }
 
-void decision(colors *cCurr)
-{
-    if (cCurr->blue <5 & cCurr->green <5){
+void decision(unsigned int hue) {
+
+
+
+    if (hue<=20) {
         moveRed(&motorL, &motorR);
     }
+    if (hue>=105 && hue<=130){
+        moveGreen(&motorL, &motorR);
+    }
+
+
+
 }

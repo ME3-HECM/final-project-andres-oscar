@@ -14,7 +14,7 @@ typedef struct colors { //definition of DC_motor structure
 
 
 
-struct colors colorCalibration, colorCurrent; 		//declare two color structures 
+struct colors colorCalibration, colorCurrent, hue; 		//declare three color structures 
 
 /********************************************//**
  *  Function to initialise the colour click module using I2C
@@ -54,7 +54,7 @@ unsigned int color_read_Blue(void);
 unsigned int color_read_Clear(void);
 
 
-void test(void);
+unsigned int test(colors *cCurr);
 
 unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
@@ -62,5 +62,5 @@ void calibration_routine(colors *cCal);
 
 void reading_values(colors *cCurr);
 
-void decision(colors *cCurr);
+void decision(unsigned int hue);
 #endif
