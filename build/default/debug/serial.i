@@ -24121,6 +24121,7 @@ void TxBufferedString(char *string);
 void sendTxBuf(void);
 void sendAllReadings(void);
 void ADC2String(char *buf, unsigned int ADC_val);
+void send2USART(unsigned int battery_level, unsigned int hue);
 # 2 "serial.c" 2
 
 # 1 "./ADC.h" 1
@@ -24401,6 +24402,8 @@ void sendTxBuf(void){
     }
 }
 
+
+
 void sendAllReadings() {
     char buffer[10];
     for (unsigned char i = 0; i < readingIndex; ++i) {
@@ -24423,5 +24426,26 @@ void ADC2String(char *buf, unsigned int ADC_val){
 
     unsigned int frac_part=(ADC_val*100)/77 - int_part*100;
 
-    sprintf(buf,"Voltage = %d.%02d",int_part,frac_part);
+    sprintf(buf,"Voltage = %d.%02d,  ",int_part,frac_part);
+
+    _delay((unsigned long)((1000)*(64000000/4000.0)));
+}
+
+void send2USART(unsigned int battery_level, unsigned int hue)
+{
+        char buf[50];
+        char hue_char[50];
+
+
+
+
+        ADC2String(buf, battery_level);
+        sprintf(hue_char,"hue=%03d,  ",hue);
+
+
+
+
+        sendStringSerial4(buf);
+        sendStringSerial4(hue_char);
+
 }

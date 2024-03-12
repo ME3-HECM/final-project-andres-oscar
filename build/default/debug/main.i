@@ -24100,7 +24100,27 @@ unsigned char __t3rd16on(void);
 # 11 "main.c" 2
 
 # 1 "./color.h" 1
-# 12 "./color.h"
+
+
+
+
+
+
+
+typedef struct colors {
+    unsigned int red;
+    unsigned int green;
+    unsigned int blue;
+    unsigned int clear;
+} colors;
+
+
+
+struct colors colorCalibration, colorCurrent;
+
+
+
+
 void color_click_init(void);
 
 
@@ -24127,6 +24147,22 @@ unsigned int color_read_Green(void);
 
 
 unsigned int color_read_Blue(void);
+
+
+
+
+
+
+unsigned int color_read_Clear(void);
+
+
+void test(unsigned int battery_level);
+
+unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
+
+void calibration_routine(colors *cCal);
+
+void reading_values(colors *cCurr);
 # 12 "main.c" 2
 
 # 1 "./i2c.h" 1
@@ -24209,8 +24245,53 @@ void TxBufferedString(char *string);
 void sendTxBuf(void);
 void sendAllReadings(void);
 void ADC2String(char *buf, unsigned int ADC_val);
+void send2USART(unsigned int battery_level, unsigned int hue);
 # 15 "main.c" 2
-# 26 "main.c"
+
+# 1 "./dc_motor.h" 1
+
+
+
+
+
+
+
+typedef struct DC_motor {
+    char power;
+    char direction;
+    char brakemode;
+    unsigned int PWMperiod;
+    unsigned char *posDutyHighByte;
+    unsigned char *negDutyHighByte;
+} DC_motor;
+
+struct DC_motor motorL, motorR;
+
+
+
+void initDCmotorsPWM(unsigned int PWMperiod);
+void setMotorPWM(DC_motor *m);
+void stop(DC_motor *mL, DC_motor *mR);
+void turnLeft(DC_motor *mL, DC_motor *mR);
+void turnRight(DC_motor *mL, DC_motor *mR);
+void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
+void right90(struct DC_motor *mL, struct DC_motor *mR);
+void left90(struct DC_motor *mL, struct DC_motor *mR);
+void square(unsigned int direction);
+# 16 "main.c" 2
+
+# 1 "./functions.h" 1
+
+
+
+
+
+
+
+
+void write2USART(char buf, char red_char, char blue_char, char green_char, char clear_char);
+# 17 "main.c" 2
+# 28 "main.c"
 void main(void) {
 
     ADC_init();
@@ -24218,10 +24299,36 @@ void main(void) {
     initUSART4();
 
 
+    unsigned int PWMcycle = 99;
+    initDCmotorsPWM(PWMcycle);
+
+
+    motorL.power = 0;
+    motorL.direction = 1;
+    motorL.brakemode = 1;
+    motorL.PWMperiod = PWMcycle;
+    motorL.posDutyHighByte = (unsigned char *)(&CCPR1H);
+    motorL.negDutyHighByte = (unsigned char *)(&CCPR2H);
+
+    motorR.power = 0;
+    motorR.direction = 1;
+    motorR.brakemode = 1;
+    motorR.PWMperiod = PWMcycle;
+    motorR.posDutyHighByte = (unsigned char *)(&CCPR3H);
+    motorR.negDutyHighByte = (unsigned char *)(&CCPR4H);
+
 
     LATDbits.LATD7=0;
     TRISDbits.TRISD7=0;
 
+
+
+    TRISGbits.TRISG0 = 0;
+    LATGbits.LATG0 = 0;
+    TRISEbits.TRISE7 = 0;
+    LATEbits.LATE7 = 0;
+    TRISAbits.TRISA3 = 0;
+    LATAbits.LATA3 = 0;
 
 
 
@@ -24229,29 +24336,25 @@ void main(void) {
     unsigned int battery_level;
     unsigned int red;
     unsigned int blue;
-    unsigned green;
-    char buf[50];
-    char red_char[50];
-    char blue_char[50];
-    char green_char[50];
+    unsigned int green;
+    unsigned int clear;
+    TRISHbits.TRISH3 = 0;
+    LATHbits.LATH3 = 1;
+    _delay((unsigned long)((300)*(64000000/4000.0)));
+    LATHbits.LATH3 = 0;
+    LATFbits.LATF2 = 0;
+    TRISFbits.TRISF2 = 1;
+    ANSELFbits.ANSELF2 = 0;
+    calibration_routine(&colorCalibration);
+
 
     while (1) {
-        battery_level = ADC_getval();
-
-        red = color_read_Red();
-        blue = color_read_Blue();
-        green = color_read_Green();
 
 
-        ADC2String(buf, battery_level);
-        sprintf(red_char,"Red=",red);
-        sprintf(blue_char,"Blue=",blue);
-        sprintf(green_char,"Green=",green);
 
 
-        sendStringSerial4(buf);
-        sendStringSerial4(red_char);
-        sendStringSerial4(blue_char);
-        sendStringSerial4(green_char);
+        _delay((unsigned long)((1000)*(64000000/4000.0)));
+        test(battery_level);
+
     }
 }

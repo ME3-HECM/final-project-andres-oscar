@@ -24100,7 +24100,27 @@ unsigned char __t3rd16on(void);
 # 11 "main.c" 2
 
 # 1 "./color.h" 1
-# 12 "./color.h"
+
+
+
+
+
+
+
+typedef struct colors {
+    unsigned int red;
+    unsigned int green;
+    unsigned int blue;
+    unsigned int clear;
+} colors;
+
+
+
+struct colors colorCalibration, colorCurrent;
+
+
+
+
 void color_click_init(void);
 
 
@@ -24137,6 +24157,12 @@ unsigned int color_read_Clear(void);
 
 
 void test(unsigned int battery_level);
+
+unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
+
+void calibration_routine(colors *cCal);
+
+void reading_values(colors *cCurr);
 # 12 "main.c" 2
 
 # 1 "./i2c.h" 1
@@ -24219,7 +24245,7 @@ void TxBufferedString(char *string);
 void sendTxBuf(void);
 void sendAllReadings(void);
 void ADC2String(char *buf, unsigned int ADC_val);
-void send2USART(unsigned int battery_level, unsigned int red, unsigned int green, unsigned int blue, unsigned int clear);
+void send2USART(unsigned int battery_level, unsigned int hue);
 # 15 "main.c" 2
 
 # 1 "./dc_motor.h" 1
@@ -24306,6 +24332,8 @@ void main(void) {
     LATDbits.LATD7=0;
     TRISDbits.TRISD7=0;
 
+    TRISDbits.TRISD3 = 0;
+    LATDbits.LATD3 = 1;
 
 
     TRISGbits.TRISG0 = 0;
@@ -24326,12 +24354,23 @@ void main(void) {
     unsigned int blue;
     unsigned int green;
     unsigned int clear;
+    TRISHbits.TRISH3 = 0;
+    LATHbits.LATH3 = 1;
+    _delay((unsigned long)((300)*(64000000/4000.0)));
+    LATHbits.LATH3 = 0;
+    LATFbits.LATF2 = 0;
+    TRISFbits.TRISF2 = 1;
+    ANSELFbits.ANSELF2 = 0;
+
+
+    calibration_routine(&colorCalibration);
 
 
 
 
     while (1) {
 
+<<<<<<< HEAD
         if (!PORTFbits.RF3) {
 # 92 "main.c"
             _delay((unsigned long)((500)*(64000000/4000.0)));
@@ -24346,6 +24385,13 @@ void main(void) {
 
 
         }
+=======
+
+
+
+        _delay((unsigned long)((1000)*(64000000/4000.0)));
+        test(battery_level);
+>>>>>>> Calibrating-Colors
 
     }
 }

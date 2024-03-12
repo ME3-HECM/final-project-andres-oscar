@@ -1,12 +1,17 @@
 
 Memory Summary:
 <<<<<<< HEAD
+<<<<<<< HEAD
     Program space        used   E83h (  3715) of 20000h bytes   (  2.8%)
     Data space           used   231h (   561) of   DEAh bytes   ( 15.7%)
 =======
     Program space        used   7C1h (  1985) of 20000h bytes   (  1.5%)
     Data space           used    9Dh (   157) of   DEAh bytes   (  4.4%)
 >>>>>>> Movement
+=======
+    Program space        used  1B35h (  6965) of 20000h bytes   (  5.3%)
+    Data space           used   1ADh (   429) of   DEAh bytes   ( 12.0%)
+>>>>>>> Calibrating-Colors
     Configuration bits   used     3h (     3) of     6h words   ( 50.0%)
     EEPROM space         used     0h (     0) of   400h bytes   (  0.0%)
     ID Location space    used     0h (     0) of    10h bytes   (  0.0%)

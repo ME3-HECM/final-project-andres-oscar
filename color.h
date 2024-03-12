@@ -5,6 +5,16 @@
 
 #define _XTAL_FREQ 64000000 //note intrinsic _delay function is 62.5ns at 64,000,000Hz  
 
+typedef struct colors { //definition of DC_motor structure
+    unsigned int red;   //red colour
+    unsigned int green;   //green colour
+    unsigned int blue;   //blue colour
+    unsigned int clear;   //green colour
+} colors;
+
+
+
+struct colors colorCalibration, colorCurrent; 		//declare two color structures 
 
 /********************************************//**
  *  Function to initialise the colour click module using I2C
@@ -45,5 +55,12 @@ unsigned int color_read_Clear(void);
 
 
 void test(unsigned int battery_level);
+
+unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
+
+void calibration_routine(colors *cCal);
+
+void reading_values(colors *cCurr);
+
 
 #endif

@@ -2456,68 +2456,41 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :UE 2052 ]
 }
 "146
-[; ;serial.c: 146: void send2USART(unsigned int battery_level, unsigned int red, unsigned int green, unsigned int blue, unsigned int clear){
-[v _send2USART `(v ~T0 @X0 1 ef5`ui`ui`ui`ui`ui ]
+[; ;serial.c: 146: void send2USART(unsigned int battery_level, unsigned int hue)
+[v _send2USART `(v ~T0 @X0 1 ef2`ui`ui ]
+"147
+[; ;serial.c: 147: {
 {
 [e :U _send2USART ]
+"146
+[; ;serial.c: 146: void send2USART(unsigned int battery_level, unsigned int hue)
 [v _battery_level `ui ~T0 @X0 1 r1 ]
-[v _red `ui ~T0 @X0 1 r2 ]
-[v _green `ui ~T0 @X0 1 r3 ]
-[v _blue `ui ~T0 @X0 1 r4 ]
-[v _clear `ui ~T0 @X0 1 r5 ]
-[f ]
+[v _hue `ui ~T0 @X0 1 r2 ]
 "147
-[; ;serial.c: 147:         char buf[50];
-[v _buf `uc ~T0 @X0 -> 50 `i a ]
+[; ;serial.c: 147: {
+[f ]
 "148
-[; ;serial.c: 148:         char red_char[50];
-[v _red_char `uc ~T0 @X0 -> 50 `i a ]
+[; ;serial.c: 148:         char buf[50];
+[v _buf `uc ~T0 @X0 -> 50 `i a ]
 "149
-[; ;serial.c: 149:         char blue_char[50];
-[v _blue_char `uc ~T0 @X0 -> 50 `i a ]
-"150
-[; ;serial.c: 150:         char green_char[50];
-[v _green_char `uc ~T0 @X0 -> 50 `i a ]
-"151
-[; ;serial.c: 151:         char clear_char[50];
-[v _clear_char `uc ~T0 @X0 -> 50 `i a ]
-"155
-[; ;serial.c: 155:         ADC2String(buf, battery_level);
+[; ;serial.c: 149:         char hue_char[50];
+[v _hue_char `uc ~T0 @X0 -> 50 `i a ]
+"154
+[; ;serial.c: 154:         ADC2String(buf, battery_level);
 [e ( _ADC2String (2 , &U _buf _battery_level ]
-"156
-[; ;serial.c: 156:         sprintf(red_char,"Red=%05d,  ",red);
-[e ( _sprintf (1 , (. , &U _red_char :s 2C _red ]
-"157
-[; ;serial.c: 157:         sprintf(blue_char,"Blue=%05d,  ",blue);
-[e ( _sprintf (1 , (. , &U _blue_char :s 3C _blue ]
-"158
-[; ;serial.c: 158:         sprintf(green_char,"Green=%05d,  ",green);
-[e ( _sprintf (1 , (. , &U _green_char :s 4C _green ]
-"159
-[; ;serial.c: 159:         sprintf(clear_char,"Clear=%05d,  \n\n\r",clear);
-[e ( _sprintf (1 , (. , &U _clear_char :s 5C _clear ]
-"163
-[; ;serial.c: 163:         sendStringSerial4(buf);
+"155
+[; ;serial.c: 155:         sprintf(hue_char,"hue=%03d,  ",hue);
+[e ( _sprintf (1 , (. , &U _hue_char :s 2C _hue ]
+"160
+[; ;serial.c: 160:         sendStringSerial4(buf);
 [e ( _sendStringSerial4 (1 &U _buf ]
-"164
-[; ;serial.c: 164:         sendStringSerial4(red_char);
-[e ( _sendStringSerial4 (1 &U _red_char ]
-"165
-[; ;serial.c: 165:         sendStringSerial4(blue_char);
-[e ( _sendStringSerial4 (1 &U _blue_char ]
-"166
-[; ;serial.c: 166:         sendStringSerial4(green_char);
-[e ( _sendStringSerial4 (1 &U _green_char ]
-"167
-[; ;serial.c: 167:         sendStringSerial4(clear_char);
-[e ( _sendStringSerial4 (1 &U _clear_char ]
-"168
-[; ;serial.c: 168: }
+"161
+[; ;serial.c: 161:         sendStringSerial4(hue_char);
+[e ( _sendStringSerial4 (1 &U _hue_char ]
+"163
+[; ;serial.c: 163: }
 [e :UE 2053 ]
 }
 [p f _sprintf 8421508 ]
-[a 4C 71 114 101 101 110 61 37 48 53 100 44 32 32 0 ]
-[a 3C 66 108 117 101 61 37 48 53 100 44 32 32 0 ]
-[a 2C 82 101 100 61 37 48 53 100 44 32 32 0 ]
+[a 2C 104 117 101 61 37 48 51 100 44 32 32 0 ]
 [a 1C 86 111 108 116 97 103 101 32 61 32 37 100 46 37 48 50 100 44 32 32 0 ]
-[a 5C 67 108 101 97 114 61 37 48 53 100 44 32 32 10 10 13 0 ]

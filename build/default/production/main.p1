@@ -1,14 +1,18 @@
 Version 4.0 HI-TECH Software Intermediate Code
+"8 ./color.h
+[; ;./color.h: 8: typedef struct colors {
+[s S2015 `ui 1 `ui 1 `ui 1 `ui 1 ]
+[n S2015 colors red green blue clear ]
 "8 ./dc_motor.h
 [; ;./dc_motor.h: 8: typedef struct DC_motor {
-[s S2015 `uc 1 `uc 1 `uc 1 `ui 1 `*uc 1 `*uc 1 ]
-[n S2015 DC_motor power direction brakemode PWMperiod posDutyHighByte negDutyHighByte ]
+[s S2016 `uc 1 `uc 1 `uc 1 `ui 1 `*uc 1 `*uc 1 ]
+[n S2016 DC_motor power direction brakemode PWMperiod posDutyHighByte negDutyHighByte ]
 [p mainexit ]
 "8 ./ADC.h
 [; ;./ADC.h: 8: void ADC_init(void);
 [v _ADC_init `(v ~T0 @X0 0 ef ]
-"12 ./color.h
-[; ;./color.h: 12: void color_click_init(void);
+"22 ./color.h
+[; ;./color.h: 22: void color_click_init(void);
 [v _color_click_init `(v ~T0 @X0 0 ef ]
 "27 ./serial.h
 [; ;./serial.h: 27: void initUSART4(void);
@@ -132,6 +136,70 @@ Version 4.0 HI-TECH Software Intermediate Code
 "28172
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28172: extern volatile LATAbits_t LATAbits __attribute__((address(0xF79)));
 [v _LATAbits `VS1339 ~T0 @X0 0 e@3961 ]
+<<<<<<< HEAD
+=======
+"29741
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 29741:     struct {
+[s S1392 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1392 . TRISH0 TRISH1 TRISH2 TRISH3 ]
+"29740
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 29740: typedef union {
+[u S1391 `S1392 1 ]
+[n S1391 . . ]
+"29748
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 29748: extern volatile TRISHbits_t TRISHbits __attribute__((address(0xF88)));
+[v _TRISHbits `VS1391 ~T0 @X0 0 e@3976 ]
+"28912
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28912:     struct {
+[s S1361 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1361 . LATH0 LATH1 LATH2 LATH3 ]
+"28918
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28918:     struct {
+[s S1362 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1362 . LH0 LH1 LH2 LH3 ]
+"28924
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28924:     struct {
+[s S1363 :4 `uc 1 :1 `uc 1 ]
+[n S1363 . . LH4 ]
+"28928
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28928:     struct {
+[s S1364 :5 `uc 1 :1 `uc 1 ]
+[n S1364 . . LH5 ]
+"28932
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28932:     struct {
+[s S1365 :6 `uc 1 :1 `uc 1 ]
+[n S1365 . . LH6 ]
+"28936
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28936:     struct {
+[s S1366 :7 `uc 1 :1 `uc 1 ]
+[n S1366 . . LH7 ]
+"28911
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28911: typedef union {
+[u S1360 `S1361 1 `S1362 1 `S1363 1 `S1364 1 `S1365 1 `S1366 1 ]
+[n S1360 . . . . . . . ]
+"28941
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28941: extern volatile LATHbits_t LATHbits __attribute__((address(0xF80)));
+[v _LATHbits `VS1360 ~T0 @X0 0 e@3968 ]
+[v F205 `(v ~T0 @X0 1 tf1`ul ]
+"20 C:\Program Files\Microchip\xc8\v2.45\pic\include\builtins.h
+[v __delay `JF205 ~T0 @X0 0 e ]
+[p i __delay ]
+"28711 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28711:     struct {
+[s S1355 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1355 . LATF0 LATF1 LATF2 LATF3 LATF4 LATF5 LATF6 LATF7 ]
+"28721
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28721:     struct {
+[s S1356 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1356 . LF0 LF1 LF2 LF3 LF4 LF5 LF6 LF7 ]
+"28710
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28710: typedef union {
+[u S1354 `S1355 1 `S1356 1 ]
+[n S1354 . . . ]
+"28732
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28732: extern volatile LATFbits_t LATFbits __attribute__((address(0xF7E)));
+[v _LATFbits `VS1354 ~T0 @X0 0 e@3966 ]
+>>>>>>> Calibrating-Colors
 "29622
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 29622:     struct {
 [s S1388 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
@@ -154,6 +222,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 "12319
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 12319: extern volatile ANSELFbits_t ANSELFbits __attribute__((address(0xEB4)));
 [v _ANSELFbits `VS567 ~T0 @X0 0 e@3764 ]
+<<<<<<< HEAD
 "30262
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 30262:     struct {
 [s S1412 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
@@ -182,6 +251,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 "38
 [; ;./dc_motor.h: 38: void movePink(struct DC_motor *mL, struct DC_motor *mR);
 [v _movePink `(v ~T0 @X0 0 ef2`*S2015`*S2015 ]
+=======
+"61 ./color.h
+[; ;./color.h: 61: void calibration_routine(colors *cCal);
+[v _calibration_routine `(v ~T0 @X0 0 ef1`*S2015 ]
+"57
+[; ;./color.h: 57: void test(unsigned int battery_level);
+[v _test `(v ~T0 @X0 0 ef1`ui ]
+>>>>>>> Calibrating-Colors
 "4 main.c
 [p x FEXTOSC  =  HS ]
 "5
@@ -2162,6 +2239,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "40592
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 40592: __asm("TOSU equ 0FFFh");
 [; <" TOSU equ 0FFFh ;# ">
+"17 ./color.h
+[; ;./color.h: 17: struct colors colorCalibration, colorCurrent;
+[v _colorCalibration `S2015 ~T0 @X0 1 e ]
+[v _colorCurrent `S2015 ~T0 @X0 1 e ]
 "14 ./serial.h
 [; ;./serial.h: 14: volatile char EUSART4RXbuf[20];
 [v _EUSART4RXbuf `Vuc ~T0 @X0 -> 20 `i e ]
@@ -2200,8 +2281,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 ]
 "17 ./dc_motor.h
 [; ;./dc_motor.h: 17: struct DC_motor motorL, motorR;
-[v _motorL `S2015 ~T0 @X0 1 e ]
-[v _motorR `S2015 ~T0 @X0 1 e ]
+[v _motorL `S2016 ~T0 @X0 1 e ]
+[v _motorR `S2016 ~T0 @X0 1 e ]
 [v $root$_main `(v ~T0 @X0 0 e ]
 "28 main.c
 [; ;main.c: 28: void main(void) {
@@ -2267,24 +2348,31 @@ Version 4.0 HI-TECH Software Intermediate Code
 "55
 [; ;main.c: 55:     TRISDbits.TRISD7=0;
 [e = . . _TRISDbits 0 7 -> -> 0 `i `uc ]
-"59
-[; ;main.c: 59:     TRISGbits.TRISG0 = 0;
-[e = . . _TRISGbits 0 0 -> -> 0 `i `uc ]
-"60
-[; ;main.c: 60:     LATGbits.LATG0 = 0;
-[e = . . _LATGbits 0 0 -> -> 0 `i `uc ]
+"57
+[; ;main.c: 57:     TRISDbits.TRISD3 = 0;
+[e = . . _TRISDbits 0 3 -> -> 0 `i `uc ]
+"58
+[; ;main.c: 58:     LATDbits.LATD3 = 1;
+[e = . . _LATDbits 0 3 -> -> 1 `i `uc ]
 "61
-[; ;main.c: 61:     TRISEbits.TRISE7 = 0;
-[e = . . _TRISEbits 0 7 -> -> 0 `i `uc ]
+[; ;main.c: 61:     TRISGbits.TRISG0 = 0;
+[e = . . _TRISGbits 0 0 -> -> 0 `i `uc ]
 "62
-[; ;main.c: 62:     LATEbits.LATE7 = 0;
-[e = . . _LATEbits 0 7 -> -> 0 `i `uc ]
+[; ;main.c: 62:     LATGbits.LATG0 = 0;
+[e = . . _LATGbits 0 0 -> -> 0 `i `uc ]
 "63
-[; ;main.c: 63:     TRISAbits.TRISA3 = 0;
-[e = . . _TRISAbits 0 3 -> -> 0 `i `uc ]
+[; ;main.c: 63:     TRISEbits.TRISE7 = 0;
+[e = . . _TRISEbits 0 7 -> -> 0 `i `uc ]
 "64
-[; ;main.c: 64:     LATAbits.LATA3 = 0;
+[; ;main.c: 64:     LATEbits.LATE7 = 0;
+[e = . . _LATEbits 0 7 -> -> 0 `i `uc ]
+"65
+[; ;main.c: 65:     TRISAbits.TRISA3 = 0;
+[e = . . _TRISAbits 0 3 -> -> 0 `i `uc ]
+"66
+[; ;main.c: 66:     LATAbits.LATA3 = 0;
 [e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
+<<<<<<< HEAD
 "69
 [; ;main.c: 69:     TRISFbits.TRISF3=1;
 [e = . . _TRISFbits 0 3 -> -> 1 `i `uc ]
@@ -2342,4 +2430,64 @@ Version 4.0 HI-TECH Software Intermediate Code
 "106
 [; ;main.c: 106: }
 [e :UE 2016 ]
+=======
+"71
+[; ;main.c: 71:     unsigned int battery_level;
+[v _battery_level `ui ~T0 @X0 1 a ]
+"72
+[; ;main.c: 72:     unsigned int red;
+[v _red `ui ~T0 @X0 1 a ]
+"73
+[; ;main.c: 73:     unsigned int blue;
+[v _blue `ui ~T0 @X0 1 a ]
+"74
+[; ;main.c: 74:     unsigned int green;
+[v _green `ui ~T0 @X0 1 a ]
+"75
+[; ;main.c: 75:     unsigned int clear;
+[v _clear `ui ~T0 @X0 1 a ]
+"76
+[; ;main.c: 76:     TRISHbits.TRISH3 = 0;
+[e = . . _TRISHbits 0 3 -> -> 0 `i `uc ]
+"77
+[; ;main.c: 77:     LATHbits.LATH3 = 1;
+[e = . . _LATHbits 0 3 -> -> 1 `i `uc ]
+"78
+[; ;main.c: 78:     _delay((unsigned long)((300)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 300 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"79
+[; ;main.c: 79:     LATHbits.LATH3 = 0;
+[e = . . _LATHbits 0 3 -> -> 0 `i `uc ]
+"80
+[; ;main.c: 80:     LATFbits.LATF2 = 0;
+[e = . . _LATFbits 0 2 -> -> 0 `i `uc ]
+"81
+[; ;main.c: 81:     TRISFbits.TRISF2 = 1;
+[e = . . _TRISFbits 0 2 -> -> 1 `i `uc ]
+"82
+[; ;main.c: 82:     ANSELFbits.ANSELF2 = 0;
+[e = . . _ANSELFbits 0 2 -> -> 0 `i `uc ]
+"85
+[; ;main.c: 85:     calibration_routine(&colorCalibration);
+[e ( _calibration_routine (1 &U _colorCalibration ]
+"88
+[; ;main.c: 88:     while (1) {
+[e :U 2019 ]
+{
+"93
+[; ;main.c: 93:         _delay((unsigned long)((1000)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"94
+[; ;main.c: 94:         test(battery_level);
+[e ( _test (1 _battery_level ]
+"96
+[; ;main.c: 96:     }
+}
+[e :U 2018 ]
+[e $U 2019  ]
+[e :U 2020 ]
+"97
+[; ;main.c: 97: }
+[e :UE 2017 ]
+>>>>>>> Calibrating-Colors
 }
