@@ -78,6 +78,7 @@ void main(void) {
     unsigned int green;
     unsigned int clear;
     unsigned int hue;
+    char hue_char[20];
     TRISHbits.TRISH3 = 0;
     LATHbits.LATH3 = 1;
     __delay_ms(300);
@@ -94,7 +95,6 @@ void main(void) {
     while (1) {
 
         hue = reading_hue(&colorCurrent);
-        decision(hue);
-            
+        send2USART(hue);
         }
     }

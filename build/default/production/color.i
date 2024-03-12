@@ -24519,13 +24519,11 @@ unsigned int color_read_Blue(void);
 unsigned int color_read_Clear(void);
 
 
-unsigned int test(colors *cCurr);
+unsigned int reading_hue(colors *cCurr);
 
 unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
-
-void reading_values(colors *cCurr);
 
 void decision(unsigned int hue);
 # 3 "color.c" 2
@@ -24725,60 +24723,8 @@ unsigned int color_read_Clear(void)
  I2C_2_Master_Stop();
  return tmp;
 }
-# 100 "color.c"
-unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
-{
-    float redcurrent, redmax, greencurrent, greenmax, bluecurrent, bluemax;
-    float r, g, b, min, max, diff, hue = 0.0;
-
-    redcurrent = cCurr->red;
-    redmax = cMax->red;
-    greencurrent = cCurr->green;
-    greenmax = cMax->green;
-    bluecurrent = cCurr->blue;
-    bluemax = cMax->blue;
-    char char1[20];
-    char char2[20];
-    char char3[20];
-
-    sprintf(char1,"red=%03d,  ",redcurrent);
-    sprintf(char2,"green=%03d,  ",bluecurrent);
-    sprintf(char3,"blue=%03d,  ",greencurrent);
-
-
-
-    sendStringSerial4(char1);
-    sendStringSerial4(char2);
-    sendStringSerial4(char3);
-
-    r = redcurrent/redmax;
-    g = greencurrent/greenmax;
-    b = bluecurrent/bluemax;
-
-    min = r < g ? (r < b ? r : b) : (g < b ? g : b);
-    max = r > g ? (r > b ? r : b) : (g > b ? g : b);
-    diff = max - min;
-    if (max == min) {
-        hue = 0;
-    } else if (max == r){
-        hue = (b - g) / diff;
-    } else if (max == g){
-        hue = (b - r) / diff;
-        hue = hue + 2;
-    } else if (max == b){
-        hue = (r - g) / diff;
-        hue = hue + 4;
-    }
-
-    hue = hue * 60;
-    if (hue < 0) {
-        hue = hue + 360;
-    }
-
-    return (unsigned int)hue;
-}
-# 186 "color.c"
-unsigned int test(colors *cCurr)
+# 136 "color.c"
+unsigned int reading_hue(colors *cCurr)
 {
     unsigned int hue;
 
@@ -24791,7 +24737,6 @@ unsigned int test(colors *cCurr)
     LATEbits.LATE7 = 0;
     LATAbits.LATA3 = 0;
     _delay((unsigned long)((500)*(64000000/4000.0)));
-    sprintf(led_state,"Red_light=%d, \n\r", LATGbits.LATG0);
     (cCurr->red)= color_read_Red();
 
 
@@ -24800,9 +24745,7 @@ unsigned int test(colors *cCurr)
     LATGbits.LATG0 = 0;
     LATEbits.LATE7 = 1;
     LATAbits.LATA3 = 0;
-    _delay((unsigned long)((100)*(64000000/4000.0)));
-
-    sprintf(led_state,"Green_light=%d, \n\r", LATEbits.LATE7);
+    _delay((unsigned long)((500)*(64000000/4000.0)));
     (cCurr->green) = color_read_Green();
 
 
@@ -24812,9 +24755,7 @@ unsigned int test(colors *cCurr)
     LATGbits.LATG0 = 0;
     LATEbits.LATE7 = 0;
     LATAbits.LATA3 = 1;
-    _delay((unsigned long)((1000)*(64000000/4000.0)));
-
-    sprintf(led_state,"Blue_light=%d \n\r", LATAbits.LATA3);
+    _delay((unsigned long)((500)*(64000000/4000.0)));
     (cCurr->blue) = color_read_Blue();
 
 
@@ -24823,13 +24764,11 @@ unsigned int test(colors *cCurr)
     LATGbits.LATG0 = 1;
     LATEbits.LATE7 = 1;
     LATAbits.LATA3 = 1;
-    _delay((unsigned long)((1000)*(64000000/4000.0)));
-    sprintf(led_state,"All_lights=%d \n\r", 1);
+    _delay((unsigned long)((500)*(64000000/4000.0)));
     (cCurr->clear) = color_read_Clear();
 
 
 
-    sendStringSerial4(led_state);
 
 
 
@@ -24895,9 +24834,8 @@ void calibration_routine(colors *cCal)
     _delay((unsigned long)((500)*(64000000/4000.0)));
     (cCal->blue) = color_read_Blue();
     LATAbits.LATA3 = 0;
-
-
-    sprintf(cal_state,"Calibration state = ambient light", ".");
+# 263 "color.c"
+     sprintf(cal_state,"Calibration state =  white light", ".");
     sendStringSerial4(&cal_state);
 
     while(PORTFbits.RF2 == 1){
@@ -24917,14 +24855,53 @@ void calibration_routine(colors *cCal)
     sendStringSerial4(&cal_state);
 }
 
-void reading_values(colors *cCurr)
+
+unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
 {
+    float redcurrent, redmax, greencurrent, greenmax, bluecurrent, bluemax, clearcurrent, clearmax;
+    float r, g, b, c, min, max, diff, hue = 0.0;
+
+    redcurrent = cCurr->red;
+    redmax = cMax->red;
+    greencurrent = cCurr->green;
+    greenmax = cMax->green;
+    bluecurrent = cCurr->blue;
+    bluemax = cMax->blue;
+    clearcurrent = cCurr->clear;
+    clearmax = cMax->clear;
+
+    c = clearcurrent/clearmax;
+    char c_char[20];
+    sprintf(c_char, "clear=%03d", c);
+    sendStringSerial4(c_char);
 
 
-    (cCurr->red)= color_read_Red();
-    (cCurr->blue) = color_read_Blue();
-    (cCurr->green) = color_read_Green();
-    (cCurr->clear) = color_read_Clear();
+
+    r = redcurrent/redmax;
+    g = greencurrent/greenmax;
+    b = bluecurrent/bluemax;
+
+    min = r < g ? (r < b ? r : b) : (g < b ? g : b);
+    max = r > g ? (r > b ? r : b) : (g > b ? g : b);
+    diff = max - min;
+    if (max == min) {
+        hue = 0;
+    } else if (max == r){
+        hue = (b - g) / diff;
+    } else if (max == g){
+        hue = (b - r) / diff;
+        hue = hue + 2;
+    } else if (max == b){
+        hue = (r - g) / diff;
+        hue = hue + 4;
+    }
+
+    hue = hue * 60;
+    if (hue < 0) {
+        hue = hue + 360;
+    }
+
+    return (unsigned int)hue;
 }
 
 void decision(unsigned int hue) {

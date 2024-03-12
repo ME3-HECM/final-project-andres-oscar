@@ -24156,13 +24156,11 @@ unsigned int color_read_Blue(void);
 unsigned int color_read_Clear(void);
 
 
-unsigned int test(colors *cCurr);
+unsigned int reading_hue(colors *cCurr);
 
 unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
-
-void reading_values(colors *cCurr);
 
 void decision(unsigned int hue);
 # 12 "main.c" 2
@@ -24358,6 +24356,7 @@ void main(void) {
     unsigned int green;
     unsigned int clear;
     unsigned int hue;
+    char hue_char[20];
     TRISHbits.TRISH3 = 0;
     LATHbits.LATH3 = 1;
     _delay((unsigned long)((300)*(64000000/4000.0)));
@@ -24373,8 +24372,7 @@ void main(void) {
 
     while (1) {
 
-        hue = test(&colorCurrent);
-        decision(hue);
-
+        hue = reading_hue(&colorCurrent);
+        send2USART(hue);
         }
     }

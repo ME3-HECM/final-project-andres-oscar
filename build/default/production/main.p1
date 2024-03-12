@@ -223,11 +223,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./color.h: 61: void calibration_routine(colors *cCal);
 [v _calibration_routine `(v ~T0 @X0 0 ef1`*S2015 ]
 "57
-[; ;./color.h: 57: unsigned int test(colors *cCurr);
-[v _test `(ui ~T0 @X0 0 ef1`*S2015 ]
-"65
-[; ;./color.h: 65: void decision(unsigned int hue);
-[v _decision `(v ~T0 @X0 0 ef1`ui ]
+[; ;./color.h: 57: unsigned int reading_hue(colors *cCurr);
+[v _reading_hue `(ui ~T0 @X0 0 ef1`*S2015 ]
+"45 ./serial.h
+[; ;./serial.h: 45: void send2USART(unsigned int hue);
+[v _send2USART `(v ~T0 @X0 0 ef1`ui ]
 "4 main.c
 [p x FEXTOSC  =  HS ]
 "5
@@ -2361,39 +2361,42 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 80:     unsigned int hue;
 [v _hue `ui ~T0 @X0 1 a ]
 "81
-[; ;main.c: 81:     TRISHbits.TRISH3 = 0;
-[e = . . _TRISHbits 0 3 -> -> 0 `i `uc ]
+[; ;main.c: 81:     char hue_char[20];
+[v _hue_char `uc ~T0 @X0 -> 20 `i a ]
 "82
-[; ;main.c: 82:     LATHbits.LATH3 = 1;
-[e = . . _LATHbits 0 3 -> -> 1 `i `uc ]
+[; ;main.c: 82:     TRISHbits.TRISH3 = 0;
+[e = . . _TRISHbits 0 3 -> -> 0 `i `uc ]
 "83
-[; ;main.c: 83:     _delay((unsigned long)((300)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 300 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+[; ;main.c: 83:     LATHbits.LATH3 = 1;
+[e = . . _LATHbits 0 3 -> -> 1 `i `uc ]
 "84
-[; ;main.c: 84:     LATHbits.LATH3 = 0;
-[e = . . _LATHbits 0 3 -> -> 0 `i `uc ]
+[; ;main.c: 84:     _delay((unsigned long)((300)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 300 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
 "85
-[; ;main.c: 85:     LATFbits.LATF2 = 0;
-[e = . . _LATFbits 0 2 -> -> 0 `i `uc ]
+[; ;main.c: 85:     LATHbits.LATH3 = 0;
+[e = . . _LATHbits 0 3 -> -> 0 `i `uc ]
 "86
-[; ;main.c: 86:     TRISFbits.TRISF2 = 1;
-[e = . . _TRISFbits 0 2 -> -> 1 `i `uc ]
+[; ;main.c: 86:     LATFbits.LATF2 = 0;
+[e = . . _LATFbits 0 2 -> -> 0 `i `uc ]
 "87
-[; ;main.c: 87:     ANSELFbits.ANSELF2 = 0;
+[; ;main.c: 87:     TRISFbits.TRISF2 = 1;
+[e = . . _TRISFbits 0 2 -> -> 1 `i `uc ]
+"88
+[; ;main.c: 88:     ANSELFbits.ANSELF2 = 0;
 [e = . . _ANSELFbits 0 2 -> -> 0 `i `uc ]
-"90
-[; ;main.c: 90:     calibration_routine(&colorCalibration);
+"91
+[; ;main.c: 91:     calibration_routine(&colorCalibration);
 [e ( _calibration_routine (1 &U _colorCalibration ]
-"94
-[; ;main.c: 94:     while (1) {
+"95
+[; ;main.c: 95:     while (1) {
 [e :U 2019 ]
 {
-"96
-[; ;main.c: 96:         hue = test(&colorCurrent);
-[e = _hue ( _test (1 &U _colorCurrent ]
 "97
-[; ;main.c: 97:         decision(hue);
-[e ( _decision (1 _hue ]
+[; ;main.c: 97:         hue = reading_hue(&colorCurrent);
+[e = _hue ( _reading_hue (1 &U _colorCurrent ]
+"98
+[; ;main.c: 98:         send2USART(hue);
+[e ( _send2USART (1 _hue ]
 "99
 [; ;main.c: 99:         }
 }

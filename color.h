@@ -60,7 +60,5 @@ unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
 
-void reading_values(colors *cCurr);
-
 void decision(unsigned int hue);
 #endif
