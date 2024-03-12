@@ -183,7 +183,7 @@ unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
 //    return (unsigned int)hue;
 //}
 
-unsigned int test(colors *cCurr) 
+unsigned int reading_hue(colors *cCurr) 
 {
     unsigned int hue;
      // Prepare strings for serial transmission

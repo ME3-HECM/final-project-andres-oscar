@@ -86,14 +86,14 @@ void main(void) {
     TRISFbits.TRISF2 = 1;
     ANSELFbits.ANSELF2 = 0;
     
-
+    
     calibration_routine(&colorCalibration);
 
 
     //code structure for testing the movement functions
     while (1) {
 
-        hue = test(&colorCurrent);
+        hue = reading_hue(&colorCurrent);
         decision(hue);
             
         }

@@ -54,7 +54,7 @@ unsigned int color_read_Blue(void);
 unsigned int color_read_Clear(void);
 
 
-unsigned int test(colors *cCurr);
+unsigned int reading_hue(colors *cCurr);
 
 unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
