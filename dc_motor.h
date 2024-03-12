@@ -4,6 +4,8 @@
 #include <xc.h>
 
 #define _XTAL_FREQ 64000000
+#define MAX_PATH_LENGTH 50  // variable for the maximum length of buggy path
+
 
 typedef struct DC_motor { //definition of DC_motor structure
     char power;         //motor power, out of 100
@@ -16,6 +18,12 @@ typedef struct DC_motor { //definition of DC_motor structure
 
 struct DC_motor motorL, motorR; 		//declare two DC_motor structures 
 
+typedef struct PathStep{
+    char action;  //action type: 'L', 'R', 'F', 'B', '135L', '135R' for respective turns and movements
+    int time;     //time duration for the forward action, 0 used as placeholder in turns
+} PathStep;
+
+struct PathStep path[MAX_PATH_LENGTH]; //declaring the path structure (can store 50 actions)
 
 //function prototypes
 void initDCmotorsPWM(unsigned int PWMperiod); // function to setup PWM
@@ -24,6 +32,7 @@ void stop(DC_motor *mL, DC_motor *mR);
 void turnLeft(DC_motor *mL, DC_motor *mR);
 void turnRight(DC_motor *mL, DC_motor *mR);
 void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
+//set pieces
 void right90(struct DC_motor *mL, struct DC_motor *mR);
 void left90(struct DC_motor *mL, struct DC_motor *mR);
 void turn180(struct DC_motor *mL, struct DC_motor *mR);
@@ -31,6 +40,7 @@ void right135(struct DC_motor *mL, struct DC_motor *mR);
 void left135(struct DC_motor *mL, struct DC_motor *mR);
 void backHalf(struct DC_motor *mL, struct DC_motor *mR);
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
+//color movements
 void moveRed(struct DC_motor *mL, struct DC_motor *mR);
 void moveGreen(struct DC_motor *mL, struct DC_motor *mR);
 void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
@@ -38,5 +48,10 @@ void moveYellow(struct DC_motor *mL, struct DC_motor *mR);
 void movePink(struct DC_motor *mL, struct DC_motor *mR);
 void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
 void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
+//returning related
+void logAction(char action, int time);
+void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection);
+void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, char direction, int time);
+void returnHome(struct DC_motor *mL, struct DC_motor *mR);
 
 #endif

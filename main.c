@@ -23,7 +23,7 @@
 
 /************************************
 / main function
- * ...
+ * ... HERE WRITE WHAT THE MAIN ACHIEVES
 ************************************/
 void main(void) {   
     //Initialization Sequence
@@ -49,6 +49,7 @@ void main(void) {
     motorR.PWMperiod = PWMcycle;
     motorR.posDutyHighByte = (unsigned char *)(&CCPR3H); //assign the correct CCP register address
     motorR.negDutyHighByte = (unsigned char *)(&CCPR4H); //assign the correct CCP register address
+    
     
     // setup LEFT pin for output of battery status
     LATDbits.LATD7=0;   //set initial output state
@@ -80,27 +81,29 @@ void main(void) {
     //code structure for testing the movement functions
     while (1) {
         
-        if (!PORTFbits.RF3) { //Checking for LEFT button press
-            //__delay_ms(500); //delay to move away from buggy
-            //right90(&motorL, &motorR);
-            //__delay_ms(500); //delay to move away from buggy
-            //right90(&motorL, &motorR);
-            //__delay_ms(500); //delay to move away from buggy
-            //right90(&motorL, &motorR);
-            //__delay_ms(500); //delay to move away from buggy
-            //right90(&motorL, &motorR);
-            __delay_ms(500);
-            fullSpeedAhead(&motorL, &motorR);
-            __delay_ms(200);
-            stop(&motorL, &motorR);
-              
-
-
-
-            movePink(&motorL, &motorR);
-            
-            
-        }
+//        if (!PORTFbits.RF3) { //Checking for LEFT button press
+//            //__delay_ms(500); //delay to move away from buggy
+//            //right90(&motorL, &motorR);
+//            //__delay_ms(500); //delay to move away from buggy
+//            //right90(&motorL, &motorR);
+//            //__delay_ms(500); //delay to move away from buggy
+//            //right90(&motorL, &motorR);
+//            //__delay_ms(500); //delay to move away from buggy
+//            //right90(&motorL, &motorR);
+//            __delay_ms(500);
+//            fullSpeedAhead(&motorL, &motorR);
+//            __delay_ms(200);
+//            stop(&motorL, &motorR);
+//              
+//
+//
+//            
+//            movePink(&motorL, &motorR);
+//            
+//            
+//        }
+        
+        if (color_decide == 9){returnHome(&motorL, &motorR);}
         
     }
 }
