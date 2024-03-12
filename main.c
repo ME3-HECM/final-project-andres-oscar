@@ -77,6 +77,7 @@ void main(void) {
     unsigned int blue;
     unsigned int green;
     unsigned int clear;
+    unsigned int hue;
     TRISHbits.TRISH3 = 0;
     LATHbits.LATH3 = 1;
     __delay_ms(300);
@@ -85,46 +86,15 @@ void main(void) {
     TRISFbits.TRISF2 = 1;
     ANSELFbits.ANSELF2 = 0;
     
-    
-<<<<<<< HEAD
-=======
+
     calibration_routine(&colorCalibration);
 
->>>>>>> Calibrating-Colors
 
     //code structure for testing the movement functions
     while (1) {
-<<<<<<< HEAD
+
         
-        if (!PORTFbits.RF3) { //Checking for LEFT button press
-            //__delay_ms(500); //delay to move away from buggy
-            //right90(&motorL, &motorR);
-            //__delay_ms(500); //delay to move away from buggy
-            //right90(&motorL, &motorR);
-            //__delay_ms(500); //delay to move away from buggy
-            //right90(&motorL, &motorR);
-            //__delay_ms(500); //delay to move away from buggy
-            //right90(&motorL, &motorR);
-            __delay_ms(500);
-            fullSpeedAhead(&motorL, &motorR);
-            __delay_ms(200);
-            stop(&motorL, &motorR);
-              
-
-
-
-            movePink(&motorL, &motorR);
-            
+        test();
             
         }
-=======
-
-
-
-        
-        __delay_ms(1000);
-        test(battery_level);
->>>>>>> Calibrating-Colors
-        
     }
-}

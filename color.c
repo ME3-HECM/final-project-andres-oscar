@@ -2,6 +2,7 @@
 #include "color.h"
 #include "i2c.h"
 #include "serial.h"
+#include "dc_motor.h"
 
 void color_click_init(void)
 {   
@@ -97,18 +98,21 @@ unsigned int color_read_Clear(void)
 
 unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
 {
-    unsigned int hue;
-    unsigned long long total = ((unsigned long long)cCurr->red * cMax->blue * cMax->green) + ((unsigned long long)cCurr->blue * cMax->red * cMax->green) + ((unsigned long long)cCurr->green * cMax->blue * cMax->red);
+    float r, g, b, min, max, diff, hue = 0.0;
+//    unsigned long long total = ((unsigned long long)cCurr->red * cMax->blue * cMax->green) + ((unsigned long long)cCurr->blue * cMax->red * cMax->green) + ((unsigned long long)cCurr->green * cMax->blue * cMax->red);
 
-    unsigned int r = 0;
-    unsigned int g = 0;
-    unsigned int b = 0;
+    
+//    if (total > 0) { // Prevent division by zero
+//        r = ((unsigned long long)cCurr->red * cMax->blue * cMax->green) * 100 / total;
+//        g = ((unsigned long long)cCurr->green * cMax->blue * cMax->red) * 100 / total;
+//        b = 100 - r - g;
+//    }
+    
+    r = cCurr->red / cMax->red;
+    g = cCurr->green / cMax->green;
+    b = cCurr->blue / cMax->blue;
 
-    if (total > 0) { // Prevent division by zero
-        r = ((unsigned long long)cCurr->red * cMax->blue * cMax->green) * 100 / total;
-        g = ((unsigned long long)cCurr->green * cMax->blue * cMax->red) * 100 / total;
-        b = 100 - r - g;
-    }
+    
 
 //    char red_weighted[20];
 //    char green_weighted[20];
@@ -121,35 +125,37 @@ unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
 //    sendStringSerial4(green_weighted);
 //    sendStringSerial4(blue_weighted);
 
+    min = r < g ? (r < b ? r : b) : (g < b ? g : b); // Correct calculation of min
+    max = r > g ? (r > b ? r : b) : (g > b ? g : b); // Adding calculation of max for completeness
+    diff = max - min;
+    if (max == min) {
+        hue = 0; // If max and min are equal, hue is undefined, usually set to 0
+    } else {
+        if (max == r){
+            hue = (b - g) / diff;
+        }
+        if (g > r && g > b) { // Corrected logical AND
+            
+            hue = (b - r) / diff;
+            hue = hue + 2;
+        }
+        if (b > r && b > g) { // Corrected logical AND
+            diff = b - min;
+            hue = (r - g) / diff;
+            hue = hue + 4;
+        }
 
-
-    if (r>g & r>b){
-        if (b>g){
-            hue=(g-b)/(r-g);
-        } else {
-            hue=(g-b)/(r-b);
+        hue = hue * 60;
+        if (hue < 0) {
+            hue = hue + 360;
         }
     }
-    
-    if (g>r & g>b){
-        if (r>b){
-            hue=2+(b-r)/(g-b);
-        } else {
-            hue=2+(b-r)/(g-r);
-        }
-    }
-    if (b>r & b>g){
-        if (r>g){
-            hue=4+(r-g)/(b-g);
-        } else {
-            hue=4+(r-g)/(b-r);
-        }
-        
-    return hue;
+    return (unsigned int)hue;
 }
+
     
-}
-void test(unsigned int battery_level) 
+
+void test(void) 
 {
     unsigned int hue;
      // Prepare strings for serial transmission
@@ -194,7 +200,6 @@ void test(unsigned int battery_level)
             sprintf(led_state,"All_lights=%d \n\r", 1);             
         }
         
-        
         sendStringSerial4(led_state);
 
         reading_values(&colorCurrent);
@@ -205,7 +210,11 @@ void test(unsigned int battery_level)
 
        
 
-        send2USART(battery_level,hue);
+        send2USART(hue);
+        
+        
+        __delay_ms(500);
+
     }
 }
 
@@ -292,5 +301,7 @@ void reading_values(colors *cCurr)
 
 void decision(colors *cCurr)
 {
- 
+    if (cCurr->blue <5 & cCurr->green <5){
+        moveRed(&motorL, &motorR);
+    }
 }

@@ -24156,13 +24156,15 @@ unsigned int color_read_Blue(void);
 unsigned int color_read_Clear(void);
 
 
-void test(unsigned int battery_level);
+void test(void);
 
 unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
 
 void reading_values(colors *cCurr);
+
+void decision(colors *cCurr);
 # 12 "main.c" 2
 
 # 1 "./i2c.h" 1
@@ -24245,7 +24247,7 @@ void TxBufferedString(char *string);
 void sendTxBuf(void);
 void sendAllReadings(void);
 void ADC2String(char *buf, unsigned int ADC_val);
-void send2USART(unsigned int battery_level, unsigned int hue);
+void send2USART(unsigned int hue);
 # 15 "main.c" 2
 
 # 1 "./dc_motor.h" 1
@@ -24277,7 +24279,18 @@ void turnRight(DC_motor *mL, DC_motor *mR);
 void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
 void right90(struct DC_motor *mL, struct DC_motor *mR);
 void left90(struct DC_motor *mL, struct DC_motor *mR);
-void square(unsigned int direction);
+void turn180(struct DC_motor *mL, struct DC_motor *mR);
+void right135(struct DC_motor *mL, struct DC_motor *mR);
+void left135(struct DC_motor *mL, struct DC_motor *mR);
+void backHalf(struct DC_motor *mL, struct DC_motor *mR);
+void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
+void moveRed(struct DC_motor *mL, struct DC_motor *mR);
+void moveGreen(struct DC_motor *mL, struct DC_motor *mR);
+void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
+void moveYellow(struct DC_motor *mL, struct DC_motor *mR);
+void movePink(struct DC_motor *mL, struct DC_motor *mR);
+void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
+void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
 # 16 "main.c" 2
 
 # 1 "./functions.h" 1
@@ -24322,6 +24335,9 @@ void main(void) {
     TRISDbits.TRISD7=0;
 
 
+    TRISDbits.TRISD3 = 0;
+    LATDbits.LATD3 = 1;
+
 
     TRISGbits.TRISG0 = 0;
     LATGbits.LATG0 = 0;
@@ -24333,11 +24349,15 @@ void main(void) {
 
 
 
+    TRISFbits.TRISF3=1;
+    ANSELFbits.ANSELF3=0;
+
     unsigned int battery_level;
     unsigned int red;
     unsigned int blue;
     unsigned int green;
     unsigned int clear;
+    unsigned int hue;
     TRISHbits.TRISH3 = 0;
     LATHbits.LATH3 = 1;
     _delay((unsigned long)((300)*(64000000/4000.0)));
@@ -24345,16 +24365,16 @@ void main(void) {
     LATFbits.LATF2 = 0;
     TRISFbits.TRISF2 = 1;
     ANSELFbits.ANSELF2 = 0;
+
+
     calibration_routine(&colorCalibration);
+
 
 
     while (1) {
 
 
+        test();
 
-
-        _delay((unsigned long)((1000)*(64000000/4000.0)));
-        test(battery_level);
-
+        }
     }
-}

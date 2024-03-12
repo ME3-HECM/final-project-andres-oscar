@@ -42,7 +42,7 @@ void TxBufferedString(char *string); //Send buffered string with interrupts
 void sendTxBuf(void);
 void sendAllReadings(void);
 void ADC2String(char *buf, unsigned int ADC_val);
-void send2USART(unsigned int battery_level, unsigned int hue);
+void send2USART(unsigned int hue);
 
 
 #endif

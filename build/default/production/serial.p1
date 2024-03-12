@@ -2456,39 +2456,29 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :UE 2052 ]
 }
 "146
-[; ;serial.c: 146: void send2USART(unsigned int battery_level, unsigned int hue)
-[v _send2USART `(v ~T0 @X0 1 ef2`ui`ui ]
+[; ;serial.c: 146: void send2USART(unsigned int hue)
+[v _send2USART `(v ~T0 @X0 1 ef1`ui ]
 "147
 [; ;serial.c: 147: {
 {
 [e :U _send2USART ]
 "146
-[; ;serial.c: 146: void send2USART(unsigned int battery_level, unsigned int hue)
-[v _battery_level `ui ~T0 @X0 1 r1 ]
-[v _hue `ui ~T0 @X0 1 r2 ]
+[; ;serial.c: 146: void send2USART(unsigned int hue)
+[v _hue `ui ~T0 @X0 1 r1 ]
 "147
 [; ;serial.c: 147: {
 [f ]
 "148
-[; ;serial.c: 148:         char buf[50];
-[v _buf `uc ~T0 @X0 -> 50 `i a ]
-"149
-[; ;serial.c: 149:         char hue_char[50];
+[; ;serial.c: 148:         char hue_char[50];
 [v _hue_char `uc ~T0 @X0 -> 50 `i a ]
-"154
-[; ;serial.c: 154:         ADC2String(buf, battery_level);
-[e ( _ADC2String (2 , &U _buf _battery_level ]
-"155
-[; ;serial.c: 155:         sprintf(hue_char,"hue=%03d,  ",hue);
+"153
+[; ;serial.c: 153:         sprintf(hue_char,"hue=%03d,  ",hue);
 [e ( _sprintf (1 , (. , &U _hue_char :s 2C _hue ]
-"160
-[; ;serial.c: 160:         sendStringSerial4(buf);
-[e ( _sendStringSerial4 (1 &U _buf ]
-"161
-[; ;serial.c: 161:         sendStringSerial4(hue_char);
+"158
+[; ;serial.c: 158:         sendStringSerial4(hue_char);
 [e ( _sendStringSerial4 (1 &U _hue_char ]
-"163
-[; ;serial.c: 163: }
+"160
+[; ;serial.c: 160: }
 [e :UE 2053 ]
 }
 [p f _sprintf 8421508 ]

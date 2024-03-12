@@ -136,6 +136,28 @@ Version 4.0 HI-TECH Software Intermediate Code
 "28172
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28172: extern volatile LATAbits_t LATAbits __attribute__((address(0xF79)));
 [v _LATAbits `VS1339 ~T0 @X0 0 e@3961 ]
+"29622
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 29622:     struct {
+[s S1388 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1388 . TRISF0 TRISF1 TRISF2 TRISF3 TRISF4 TRISF5 TRISF6 TRISF7 ]
+"29621
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 29621: typedef union {
+[u S1387 `S1388 1 ]
+[n S1387 . . ]
+"29633
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 29633: extern volatile TRISFbits_t TRISFbits __attribute__((address(0xF86)));
+[v _TRISFbits `VS1387 ~T0 @X0 0 e@3974 ]
+"12308
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 12308:     struct {
+[s S568 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S568 . ANSELF0 ANSELF1 ANSELF2 ANSELF3 ANSELF4 ANSELF5 ANSELF6 ANSELF7 ]
+"12307
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 12307: typedef union {
+[u S567 `S568 1 ]
+[n S567 . . ]
+"12319
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 12319: extern volatile ANSELFbits_t ANSELFbits __attribute__((address(0xEB4)));
+[v _ANSELFbits `VS567 ~T0 @X0 0 e@3764 ]
 "29741
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 29741:     struct {
 [s S1392 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
@@ -197,34 +219,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 "28732
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28732: extern volatile LATFbits_t LATFbits __attribute__((address(0xF7E)));
 [v _LATFbits `VS1354 ~T0 @X0 0 e@3966 ]
-"29622
-[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 29622:     struct {
-[s S1388 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S1388 . TRISF0 TRISF1 TRISF2 TRISF3 TRISF4 TRISF5 TRISF6 TRISF7 ]
-"29621
-[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 29621: typedef union {
-[u S1387 `S1388 1 ]
-[n S1387 . . ]
-"29633
-[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 29633: extern volatile TRISFbits_t TRISFbits __attribute__((address(0xF86)));
-[v _TRISFbits `VS1387 ~T0 @X0 0 e@3974 ]
-"12308
-[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 12308:     struct {
-[s S568 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S568 . ANSELF0 ANSELF1 ANSELF2 ANSELF3 ANSELF4 ANSELF5 ANSELF6 ANSELF7 ]
-"12307
-[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 12307: typedef union {
-[u S567 `S568 1 ]
-[n S567 . . ]
-"12319
-[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 12319: extern volatile ANSELFbits_t ANSELFbits __attribute__((address(0xEB4)));
-[v _ANSELFbits `VS567 ~T0 @X0 0 e@3764 ]
 "61 ./color.h
 [; ;./color.h: 61: void calibration_routine(colors *cCal);
 [v _calibration_routine `(v ~T0 @X0 0 ef1`*S2015 ]
 "57
-[; ;./color.h: 57: void test(unsigned int battery_level);
-[v _test `(v ~T0 @X0 0 ef1`ui ]
+[; ;./color.h: 57: void test(void);
+[v _test `(v ~T0 @X0 0 ef ]
 "4 main.c
 [p x FEXTOSC  =  HS ]
 "5
@@ -2314,80 +2314,92 @@ Version 4.0 HI-TECH Software Intermediate Code
 "55
 [; ;main.c: 55:     TRISDbits.TRISD7=0;
 [e = . . _TRISDbits 0 7 -> -> 0 `i `uc ]
+"58
+[; ;main.c: 58:     TRISDbits.TRISD3 = 0;
+[e = . . _TRISDbits 0 3 -> -> 0 `i `uc ]
 "59
-[; ;main.c: 59:     TRISGbits.TRISG0 = 0;
-[e = . . _TRISGbits 0 0 -> -> 0 `i `uc ]
-"60
-[; ;main.c: 60:     LATGbits.LATG0 = 0;
-[e = . . _LATGbits 0 0 -> -> 0 `i `uc ]
-"61
-[; ;main.c: 61:     TRISEbits.TRISE7 = 0;
-[e = . . _TRISEbits 0 7 -> -> 0 `i `uc ]
+[; ;main.c: 59:     LATDbits.LATD3 = 1;
+[e = . . _LATDbits 0 3 -> -> 1 `i `uc ]
 "62
-[; ;main.c: 62:     LATEbits.LATE7 = 0;
-[e = . . _LATEbits 0 7 -> -> 0 `i `uc ]
+[; ;main.c: 62:     TRISGbits.TRISG0 = 0;
+[e = . . _TRISGbits 0 0 -> -> 0 `i `uc ]
 "63
-[; ;main.c: 63:     TRISAbits.TRISA3 = 0;
-[e = . . _TRISAbits 0 3 -> -> 0 `i `uc ]
+[; ;main.c: 63:     LATGbits.LATG0 = 0;
+[e = . . _LATGbits 0 0 -> -> 0 `i `uc ]
 "64
-[; ;main.c: 64:     LATAbits.LATA3 = 0;
+[; ;main.c: 64:     TRISEbits.TRISE7 = 0;
+[e = . . _TRISEbits 0 7 -> -> 0 `i `uc ]
+"65
+[; ;main.c: 65:     LATEbits.LATE7 = 0;
+[e = . . _LATEbits 0 7 -> -> 0 `i `uc ]
+"66
+[; ;main.c: 66:     TRISAbits.TRISA3 = 0;
+[e = . . _TRISAbits 0 3 -> -> 0 `i `uc ]
+"67
+[; ;main.c: 67:     LATAbits.LATA3 = 0;
 [e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
-"69
-[; ;main.c: 69:     unsigned int battery_level;
-[v _battery_level `ui ~T0 @X0 1 a ]
-"70
-[; ;main.c: 70:     unsigned int red;
-[v _red `ui ~T0 @X0 1 a ]
-"71
-[; ;main.c: 71:     unsigned int blue;
-[v _blue `ui ~T0 @X0 1 a ]
 "72
-[; ;main.c: 72:     unsigned int green;
-[v _green `ui ~T0 @X0 1 a ]
+[; ;main.c: 72:     TRISFbits.TRISF3=1;
+[e = . . _TRISFbits 0 3 -> -> 1 `i `uc ]
 "73
-[; ;main.c: 73:     unsigned int clear;
-[v _clear `ui ~T0 @X0 1 a ]
-"74
-[; ;main.c: 74:     TRISHbits.TRISH3 = 0;
-[e = . . _TRISHbits 0 3 -> -> 0 `i `uc ]
+[; ;main.c: 73:     ANSELFbits.ANSELF3=0;
+[e = . . _ANSELFbits 0 3 -> -> 0 `i `uc ]
 "75
-[; ;main.c: 75:     LATHbits.LATH3 = 1;
-[e = . . _LATHbits 0 3 -> -> 1 `i `uc ]
+[; ;main.c: 75:     unsigned int battery_level;
+[v _battery_level `ui ~T0 @X0 1 a ]
 "76
-[; ;main.c: 76:     _delay((unsigned long)((300)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 300 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+[; ;main.c: 76:     unsigned int red;
+[v _red `ui ~T0 @X0 1 a ]
 "77
-[; ;main.c: 77:     LATHbits.LATH3 = 0;
-[e = . . _LATHbits 0 3 -> -> 0 `i `uc ]
+[; ;main.c: 77:     unsigned int blue;
+[v _blue `ui ~T0 @X0 1 a ]
 "78
-[; ;main.c: 78:     LATFbits.LATF2 = 0;
-[e = . . _LATFbits 0 2 -> -> 0 `i `uc ]
+[; ;main.c: 78:     unsigned int green;
+[v _green `ui ~T0 @X0 1 a ]
 "79
-[; ;main.c: 79:     TRISFbits.TRISF2 = 1;
-[e = . . _TRISFbits 0 2 -> -> 1 `i `uc ]
+[; ;main.c: 79:     unsigned int clear;
+[v _clear `ui ~T0 @X0 1 a ]
 "80
-[; ;main.c: 80:     ANSELFbits.ANSELF2 = 0;
-[e = . . _ANSELFbits 0 2 -> -> 0 `i `uc ]
+[; ;main.c: 80:     unsigned int hue;
+[v _hue `ui ~T0 @X0 1 a ]
 "81
-[; ;main.c: 81:     calibration_routine(&colorCalibration);
-[e ( _calibration_routine (1 &U _colorCalibration ]
+[; ;main.c: 81:     TRISHbits.TRISH3 = 0;
+[e = . . _TRISHbits 0 3 -> -> 0 `i `uc ]
+"82
+[; ;main.c: 82:     LATHbits.LATH3 = 1;
+[e = . . _LATHbits 0 3 -> -> 1 `i `uc ]
+"83
+[; ;main.c: 83:     _delay((unsigned long)((300)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 300 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
 "84
-[; ;main.c: 84:     while (1) {
+[; ;main.c: 84:     LATHbits.LATH3 = 0;
+[e = . . _LATHbits 0 3 -> -> 0 `i `uc ]
+"85
+[; ;main.c: 85:     LATFbits.LATF2 = 0;
+[e = . . _LATFbits 0 2 -> -> 0 `i `uc ]
+"86
+[; ;main.c: 86:     TRISFbits.TRISF2 = 1;
+[e = . . _TRISFbits 0 2 -> -> 1 `i `uc ]
+"87
+[; ;main.c: 87:     ANSELFbits.ANSELF2 = 0;
+[e = . . _ANSELFbits 0 2 -> -> 0 `i `uc ]
+"90
+[; ;main.c: 90:     calibration_routine(&colorCalibration);
+[e ( _calibration_routine (1 &U _colorCalibration ]
+"94
+[; ;main.c: 94:     while (1) {
 [e :U 2019 ]
 {
-"89
-[; ;main.c: 89:         _delay((unsigned long)((1000)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"90
-[; ;main.c: 90:         test(battery_level);
-[e ( _test (1 _battery_level ]
-"92
-[; ;main.c: 92:     }
+"97
+[; ;main.c: 97:         test();
+[e ( _test ..  ]
+"99
+[; ;main.c: 99:         }
 }
 [e :U 2018 ]
 [e $U 2019  ]
 [e :U 2020 ]
-"93
-[; ;main.c: 93: }
+"100
+[; ;main.c: 100:     }
 [e :UE 2017 ]
 }

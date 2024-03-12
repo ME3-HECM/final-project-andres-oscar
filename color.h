@@ -54,7 +54,7 @@ unsigned int color_read_Blue(void);
 unsigned int color_read_Clear(void);
 
 
-void test(unsigned int battery_level);
+void test(void);
 
 unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
@@ -62,5 +62,5 @@ void calibration_routine(colors *cCal);
 
 void reading_values(colors *cCurr);
 
-
+void decision(colors *cCurr);
 #endif

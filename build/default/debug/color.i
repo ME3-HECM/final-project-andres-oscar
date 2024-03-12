@@ -24145,13 +24145,15 @@ unsigned int color_read_Blue(void);
 unsigned int color_read_Clear(void);
 
 
-void test(unsigned int battery_level);
+void test(void);
 
 unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
 
 void reading_values(colors *cCurr);
+
+void decision(colors *cCurr);
 # 2 "color.c" 2
 
 # 1 "./i2c.h" 1
@@ -24222,8 +24224,51 @@ void TxBufferedString(char *string);
 void sendTxBuf(void);
 void sendAllReadings(void);
 void ADC2String(char *buf, unsigned int ADC_val);
-void send2USART(unsigned int battery_level, unsigned int hue);
+void send2USART(unsigned int hue);
 # 4 "color.c" 2
+
+# 1 "./dc_motor.h" 1
+
+
+
+
+
+
+
+typedef struct DC_motor {
+    char power;
+    char direction;
+    char brakemode;
+    unsigned int PWMperiod;
+    unsigned char *posDutyHighByte;
+    unsigned char *negDutyHighByte;
+} DC_motor;
+
+struct DC_motor motorL, motorR;
+
+
+
+void initDCmotorsPWM(unsigned int PWMperiod);
+void setMotorPWM(DC_motor *m);
+void stop(DC_motor *mL, DC_motor *mR);
+void turnLeft(DC_motor *mL, DC_motor *mR);
+void turnRight(DC_motor *mL, DC_motor *mR);
+void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
+void right90(struct DC_motor *mL, struct DC_motor *mR);
+void left90(struct DC_motor *mL, struct DC_motor *mR);
+void turn180(struct DC_motor *mL, struct DC_motor *mR);
+void right135(struct DC_motor *mL, struct DC_motor *mR);
+void left135(struct DC_motor *mL, struct DC_motor *mR);
+void backHalf(struct DC_motor *mL, struct DC_motor *mR);
+void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
+void moveRed(struct DC_motor *mL, struct DC_motor *mR);
+void moveGreen(struct DC_motor *mL, struct DC_motor *mR);
+void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
+void moveYellow(struct DC_motor *mL, struct DC_motor *mR);
+void movePink(struct DC_motor *mL, struct DC_motor *mR);
+void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
+void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
+# 5 "color.c" 2
 
 
 void color_click_init(void)
@@ -24306,62 +24351,47 @@ unsigned int color_read_Clear(void)
  I2C_2_Master_Stop();
  return tmp;
 }
-# 98 "color.c"
+# 99 "color.c"
 unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
 {
-    unsigned int hue;
+    float r, g, b, min, max, diff, hue = 0.0;
     unsigned long long total = ((unsigned long long)cCurr->red * cMax->blue * cMax->green) + ((unsigned long long)cCurr->blue * cMax->red * cMax->green) + ((unsigned long long)cCurr->green * cMax->blue * cMax->red);
 
-    unsigned int r = 0;
-    unsigned int g = 0;
-    unsigned int b = 0;
 
     if (total > 0) {
         r = ((unsigned long long)cCurr->red * cMax->blue * cMax->green) * 100 / total;
         g = ((unsigned long long)cCurr->green * cMax->blue * cMax->red) * 100 / total;
         b = 100 - r - g;
     }
+# 122 "color.c"
+    min = r < g ? (r < b ? r : b) : (g < b ? g : b);
+    max = r > g ? (r > b ? r : b) : (g > b ? g : b);
 
-    char red_weighted[20];
-    char green_weighted[20];
-    char blue_weighted[20];
+    if (max == min) {
+        hue = 0;
+    } else {
+        if (g > r && g > b) {
+            diff = (g - min);
+            hue = (b - r) / diff;
+            hue = hue + 2;
+        }
+        if (b > r && b > g) {
+            diff = b - min;
+            hue = (r - g) / diff;
+            hue = hue + 4;
+        }
 
-    sprintf(red_weighted, "red_weighted =%03d", r);
-    sprintf(green_weighted, "green_weighted =%03d", g);
-    sprintf(blue_weighted, "blue_weighted =%03d", b);
-    sendStringSerial4(red_weighted);
-    sendStringSerial4(green_weighted);
-    sendStringSerial4(blue_weighted);
-
-
-
-    if (r>g & r>b){
-        if (b>g){
-            hue=(g-b)/(r-g);
-        } else {
-            hue=(g-b)/(r-b);
+        hue = hue * 60;
+        if (hue < 0) {
+            hue = hue + 360;
         }
     }
-
-    if (g>r & g>b){
-        if (r>b){
-            hue=2+(b-r)/(g-b);
-        } else {
-            hue=2+(b-r)/(g-r);
-        }
-    }
-    if (b>r & b>g){
-        if (r>g){
-            hue=4+(r-g)/(b-g);
-        } else {
-            hue=4+(r-g)/(b-r);
-        }
-
-    return hue;
+    return (unsigned int)hue;
 }
 
-}
-void test(unsigned int battery_level)
+
+
+void test(void)
 {
     unsigned int hue;
 
@@ -24406,7 +24436,6 @@ void test(unsigned int battery_level)
             sprintf(led_state,"All_lights=%d \n\r", 1);
         }
 
-
         sendStringSerial4(led_state);
 
         reading_values(&colorCurrent);
@@ -24417,7 +24446,11 @@ void test(unsigned int battery_level)
 
 
 
-        send2USART(battery_level,hue);
+        send2USART(hue);
+
+
+        _delay((unsigned long)((500)*(64000000/4000.0)));
+
     }
 }
 
@@ -24500,4 +24533,11 @@ void reading_values(colors *cCurr)
     (cCurr->blue) = color_read_Blue();
     (cCurr->green) = color_read_Green();
     (cCurr->clear) = color_read_Clear();
+}
+
+void decision(colors *cCurr)
+{
+    if (cCurr->blue <5 & cCurr->green <5){
+        moveRed(&motorL, &motorR);
+    }
 }

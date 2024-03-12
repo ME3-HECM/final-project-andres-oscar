@@ -24156,13 +24156,15 @@ unsigned int color_read_Blue(void);
 unsigned int color_read_Clear(void);
 
 
-void test(unsigned int battery_level);
+void test(void);
 
 unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
 
 void reading_values(colors *cCurr);
+
+void decision(colors *cCurr);
 # 12 "main.c" 2
 
 # 1 "./i2c.h" 1
@@ -24245,7 +24247,7 @@ void TxBufferedString(char *string);
 void sendTxBuf(void);
 void sendAllReadings(void);
 void ADC2String(char *buf, unsigned int ADC_val);
-void send2USART(unsigned int battery_level, unsigned int hue);
+void send2USART(unsigned int hue);
 # 15 "main.c" 2
 
 # 1 "./dc_motor.h" 1
@@ -24332,6 +24334,7 @@ void main(void) {
     LATDbits.LATD7=0;
     TRISDbits.TRISD7=0;
 
+
     TRISDbits.TRISD3 = 0;
     LATDbits.LATD3 = 1;
 
@@ -24354,6 +24357,7 @@ void main(void) {
     unsigned int blue;
     unsigned int green;
     unsigned int clear;
+    unsigned int hue;
     TRISHbits.TRISH3 = 0;
     LATHbits.LATH3 = 1;
     _delay((unsigned long)((300)*(64000000/4000.0)));
@@ -24367,31 +24371,10 @@ void main(void) {
 
 
 
-
     while (1) {
 
-<<<<<<< HEAD
-        if (!PORTFbits.RF3) {
-# 92 "main.c"
-            _delay((unsigned long)((500)*(64000000/4000.0)));
-            fullSpeedAhead(&motorL, &motorR);
-            _delay((unsigned long)((200)*(64000000/4000.0)));
-            stop(&motorL, &motorR);
 
-
-
-
-            movePink(&motorL, &motorR);
-
+        test();
 
         }
-=======
-
-
-
-        _delay((unsigned long)((1000)*(64000000/4000.0)));
-        test(battery_level);
->>>>>>> Calibrating-Colors
-
     }
-}
