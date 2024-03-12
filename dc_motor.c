@@ -193,7 +193,7 @@ void fullSpeedBack(DC_motor *mL, DC_motor *mR)
 void right90(struct DC_motor *mL, struct DC_motor *mR)
 {
     turnRight(mL,mR);//set to turning right mode
-    __delay_ms(235); //delay for turning right 90 ****(tune here)
+    __delay_ms(260); //delay for turning right 90 ****(tune here)
     stop(mL,mR);//stops the rotation
 }
 
@@ -201,7 +201,7 @@ void right90(struct DC_motor *mL, struct DC_motor *mR)
 void left90(struct DC_motor *mL, struct DC_motor *mR)
 {
     turnLeft(mL,mR); //set to turning left mode
-    __delay_ms(235); //delay for turning left 90 ****(tune here)
+    __delay_ms(260); //delay for turning left 90 ****(tune here)
     stop(mL,mR); //stops the rotation
 }
 
@@ -209,7 +209,7 @@ void left90(struct DC_motor *mL, struct DC_motor *mR)
 void turn180(struct DC_motor *mL, struct DC_motor *mR)
 {
     turnLeft(mL,mR); //set to turning left mode
-    __delay_ms(500); //delay for turning left 180 ****(tune here)
+    __delay_ms(520); //delay for turning left 180 ****(tune here)
     stop(mL,mR); //stops the rotation
 }
 
@@ -233,7 +233,7 @@ void left135(struct DC_motor *mL, struct DC_motor *mR)
 void backHalf(struct DC_motor *mL, struct DC_motor *mR)
 {
     fullSpeedBack(mL,mR); //set to going backwards mode
-    __delay_ms(500); //delay for moving half a unit of maze ****(tune here)
+    __delay_ms(300); //delay for moving half a unit of maze ****(tune here)
     stop(mL,mR); //stops the rotation
 }
 
@@ -241,7 +241,7 @@ void backHalf(struct DC_motor *mL, struct DC_motor *mR)
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR)
 {
     fullSpeedBack(mL,mR); //set to going backwards mode
-    __delay_ms(1000); //delay for moving half a unit of maze ****(tune here)
+    __delay_ms(1300); //delay for moving half a unit of maze ****(tune here)
     stop(mL,mR); //stops the rotation
 }
 

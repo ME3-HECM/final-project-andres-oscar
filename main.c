@@ -90,7 +90,14 @@ void main(void) {
             //__delay_ms(500); //delay to move away from buggy
             //right90(&motorL, &motorR);
             __delay_ms(500);
-            moveRed(&motorL, &motorR);
+            fullSpeedAhead(&motorL, &motorR);
+            __delay_ms(200);
+            stop(&motorL, &motorR);
+              
+
+
+
+            movePink(&motorL, &motorR);
             
             
         }
