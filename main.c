@@ -76,7 +76,8 @@ void main(void) {
     unsigned int red;
     unsigned int blue;
     unsigned int green;
-    unsigned int clear;
+    float clear;
+    float clear_max;
     unsigned int hue;
     char hue_char[20];
     TRISHbits.TRISH3 = 0;
@@ -93,6 +94,16 @@ void main(void) {
 
     //code structure for testing the movement functions
     while (1) {
+
+//        hue = reading_hue(&colorCurrent);
+//        
+//        clear = colorCurrent.clear;
+//        clear_max = colorCalibration.clear;
+//        
+//        int norm_clear = clear*100/clear_max;
+//       
+//        send2USART(norm_clear);
+        
         //turn on white light during normal operation
         LATGbits.LATG0 = 1; //Red is G0
         LATEbits.LATE7 = 1; //Green is E7
@@ -104,12 +115,12 @@ void main(void) {
         float clear_norm = current/maximum; //normalises clear value depending on calibration routine
         
         //when clear above a certain threshold, start the colour detection and movement process
-        if (clear_norm > 0.3){  //normalised clear value range for colour detection
+        if (clear_norm > 0.15){  //normalised clear value range for colour detection
             stop(&motorL,&motorR);
             hue = reading_hue(&colorCurrent);
             decision(hue);
         }
-
-            
     }
+            
+    
 }

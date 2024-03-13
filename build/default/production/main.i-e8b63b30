@@ -1,4 +1,4 @@
-# 1 "color.c"
+# 1 "main.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,7 +6,18 @@
 # 1 "<built-in>" 2
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "color.c" 2
+# 1 "main.c" 2
+
+
+
+#pragma config FEXTOSC = HS
+#pragma config RSTOSC = EXTOSC_4PLL
+#pragma config WDTE = OFF
+
+
+
+
+
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\xc.h" 1 3
 # 18 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -24086,381 +24097,7 @@ __attribute__((__unsupported__("The READTIMER" "0" "() macro is not available wi
 unsigned char __t1rd16on(void);
 unsigned char __t3rd16on(void);
 # 33 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\xc.h" 2 3
-# 1 "color.c" 2
-
-# 1 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\c99\\math.h" 1 3
-# 15 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\c99\\math.h" 3
-# 1 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\c99\\bits/alltypes.h" 1 3
-# 39 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\c99\\bits/alltypes.h" 3
-typedef float float_t;
-
-
-
-
-typedef double double_t;
-# 16 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\c99\\math.h" 2 3
-# 42 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\c99\\math.h" 3
-int __fpclassifyf(float);
-
-
-
-
-
-
-
-int __signbitf(float);
-# 59 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\c99\\math.h" 3
-double acos(double);
-float acosf(float);
-long double acosl(long double);
-
-
-
-double acosh(double);
-float acoshf(float);
-long double acoshl(long double);
-
-
-
-double asin(double);
-float asinf(float);
-long double asinl(long double);
-
-
-
-double asinh(double);
-float asinhf(float);
-long double asinhl(long double);
-
-
-
-double atan(double);
-float atanf(float);
-long double atanl(long double);
-
-
-
-double atan2(double, double);
-float atan2f(float, float);
-long double atan2l(long double, long double);
-
-
-
-double atanh(double);
-float atanhf(float);
-long double atanhl(long double);
-
-
-
-double cbrt(double);
-float cbrtf(float);
-long double cbrtl(long double);
-
-
-
-double ceil(double);
-float ceilf(float);
-long double ceill(long double);
-
-
-
-double copysign(double, double);
-float copysignf(float, float);
-long double copysignl(long double, long double);
-
-
-
-double cos(double);
-float cosf(float);
-long double cosl(long double);
-
-
-
-double cosh(double);
-float coshf(float);
-long double coshl(long double);
-
-
-
-double erf(double);
-float erff(float);
-long double erfl(long double);
-
-
-
-double erfc(double);
-float erfcf(float);
-long double erfcl(long double);
-
-
-
-double exp(double);
-float expf(float);
-long double expl(long double);
-
-
-
-double exp2(double);
-float exp2f(float);
-long double exp2l(long double);
-
-
-
-double expm1(double);
-float expm1f(float);
-long double expm1l(long double);
-
-
-
-double fabs(double);
-float fabsf(float);
-long double fabsl(long double);
-
-
-
-double fdim(double, double);
-float fdimf(float, float);
-long double fdiml(long double, long double);
-
-
-
-double floor(double);
-float floorf(float);
-long double floorl(long double);
-
-
-
-double fma(double, double, double);
-float fmaf(float, float, float);
-long double fmal(long double, long double, long double);
-
-
-
-double fmax(double, double);
-float fmaxf(float, float);
-long double fmaxl(long double, long double);
-
-
-
-double fmin(double, double);
-float fminf(float, float);
-long double fminl(long double, long double);
-
-
-
-double fmod(double, double);
-float fmodf(float, float);
-long double fmodl(long double, long double);
-
-
-
-double frexp(double, int *);
-float frexpf(float, int *);
-long double frexpl(long double, int *);
-
-
-
-double hypot(double, double);
-float hypotf(float, float);
-long double hypotl(long double, long double);
-
-
-
-int ilogb(double);
-int ilogbf(float);
-int ilogbl(long double);
-
-
-
-double ldexp(double, int);
-float ldexpf(float, int);
-long double ldexpl(long double, int);
-
-
-
-
-double lgamma(double);
-float lgammaf(float);
-long double lgammal(long double);
-
-
-
-
-long long llrint(double);
-long long llrintf(float);
-long long llrintl(long double);
-
-
-
-long long llround(double);
-long long llroundf(float);
-long long llroundl(long double);
-
-
-
-
-double log(double);
-float logf(float);
-long double logl(long double);
-
-
-
-double log10(double);
-float log10f(float);
-long double log10l(long double);
-
-
-
-double log1p(double);
-float log1pf(float);
-long double log1pl(long double);
-
-
-
-double log2(double);
-float log2f(float);
-long double log2l(long double);
-
-
-
-double logb(double);
-float logbf(float);
-long double logbl(long double);
-
-
-
-long lrint(double);
-long lrintf(float);
-long lrintl(long double);
-
-
-
-long lround(double);
-long lroundf(float);
-long lroundl(long double);
-
-
-
-double modf(double, double *);
-float modff(float, float *);
-long double modfl(long double, long double *);
-
-
-
-double nan(const char *);
-float nanf(const char *);
-long double nanl(const char *);
-
-
-
-double nearbyint(double);
-float nearbyintf(float);
-long double nearbyintl(long double);
-
-
-
-double nextafter(double, double);
-float nextafterf(float, float);
-long double nextafterl(long double, long double);
-
-
-
-double nexttoward(double, long double);
-float nexttowardf(float, long double);
-long double nexttowardl(long double, long double);
-# 326 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\c99\\math.h" 3
-double pow(double, double);
-__attribute__((nonreentrant)) float powf(float, float);
-long double powl(long double, long double);
-
-
-
-double remainder(double, double);
-float remainderf(float, float);
-long double remainderl(long double, long double);
-
-
-
-double remquo(double, double, int *);
-float remquof(float, float, int *);
-long double remquol(long double, long double, int *);
-
-
-
-double rint(double);
-float rintf(float);
-long double rintl(long double);
-
-
-
-double round(double);
-float roundf(float);
-long double roundl(long double);
-
-
-
-double scalbln(double, long);
-float scalblnf(float, long);
-long double scalblnl(long double, long);
-
-
-
-double scalbn(double, int);
-float scalbnf(float, int);
-long double scalbnl(long double, int);
-
-
-
-double sin(double);
-float sinf(float);
-long double sinl(long double);
-
-
-
-double sinh(double);
-float sinhf(float);
-long double sinhl(long double);
-
-
-
-double sqrt(double);
-float sqrtf(float);
-long double sqrtl(long double);
-
-
-
-double tan(double);
-float tanf(float);
-long double tanl(long double);
-
-
-
-double tanh(double);
-float tanhf(float);
-long double tanhl(long double);
-
-
-
-double tgamma(double);
-float tgammaf(float);
-long double tgammal(long double);
-
-
-
-double trunc(double);
-float truncf(float);
-long double truncl(long double);
-# 431 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\c99\\math.h" 3
-extern int signgam;
-
-double j0(double);
-double j1(double);
-double jn(int, double);
-
-double y0(double);
-double y1(double);
-double yn(int, double);
-# 2 "color.c" 2
+# 11 "main.c" 2
 
 # 1 "./color.h" 1
 
@@ -24526,7 +24163,7 @@ unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 void calibration_routine(colors *cCal);
 
 void decision(unsigned int hue);
-# 3 "color.c" 2
+# 12 "main.c" 2
 
 # 1 "./i2c.h" 1
 # 13 "./i2c.h"
@@ -24561,7 +24198,19 @@ void I2C_2_Master_Write(unsigned char data_byte);
 
 
 unsigned char I2C_2_Master_Read(unsigned char ack);
-# 4 "color.c" 2
+# 13 "main.c" 2
+
+# 1 "./ADC.h" 1
+
+
+
+
+
+
+
+void ADC_init(void);
+unsigned int ADC_getval(void);
+# 14 "main.c" 2
 
 # 1 "./serial.h" 1
 # 14 "./serial.h"
@@ -24597,7 +24246,7 @@ void sendTxBuf(void);
 void sendAllReadings(void);
 void ADC2String(char *buf, unsigned int ADC_val);
 void send2USART(unsigned int hue);
-# 5 "color.c" 2
+# 15 "main.c" 2
 
 # 1 "./dc_motor.h" 1
 
@@ -24640,294 +24289,91 @@ void moveYellow(struct DC_motor *mL, struct DC_motor *mR);
 void movePink(struct DC_motor *mL, struct DC_motor *mR);
 void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
 void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
-# 6 "color.c" 2
+# 16 "main.c" 2
+
+# 1 "./functions.h" 1
 
 
-void color_click_init(void)
-{
-
-    I2C_2_Master_Init();
 
 
-  color_writetoaddr(0x00, 0x01);
-    _delay((unsigned long)((3)*(64000000/4000.0)));
 
 
- color_writetoaddr(0x00, 0x03);
 
 
- color_writetoaddr(0x01, 0xD5);
-}
+void write2USART(char buf, char red_char, char blue_char, char green_char, char clear_char);
+# 17 "main.c" 2
+# 28 "main.c"
+void main(void) {
 
-void color_writetoaddr(char address, char value){
-    I2C_2_Master_Start();
-    I2C_2_Master_Write(0x52 | 0x00);
-    I2C_2_Master_Write(0x80 | address);
-    I2C_2_Master_Write(value);
-    I2C_2_Master_Stop();
-}
-
-unsigned int color_read_Red(void)
-{
- unsigned int tmp;
- I2C_2_Master_Start();
- I2C_2_Master_Write(0x52 | 0x00);
- I2C_2_Master_Write(0xA0 | 0x16);
- I2C_2_Master_RepStart();
- I2C_2_Master_Write(0x52 | 0x01);
- tmp=I2C_2_Master_Read(1);
- tmp=tmp | (I2C_2_Master_Read(0)<<8);
- I2C_2_Master_Stop();
- return tmp;
-}
-
-unsigned int color_read_Green(void)
-{
- unsigned int tmp;
- I2C_2_Master_Start();
- I2C_2_Master_Write(0x52 | 0x00);
- I2C_2_Master_Write(0xA0 | 0x18);
- I2C_2_Master_RepStart();
- I2C_2_Master_Write(0x52 | 0x01);
- tmp=I2C_2_Master_Read(1);
- tmp=tmp | (I2C_2_Master_Read(0)<<8);
- I2C_2_Master_Stop();
- return tmp;
-}
-
-unsigned int color_read_Blue(void)
-{
- unsigned int tmp;
- I2C_2_Master_Start();
- I2C_2_Master_Write(0x52 | 0x00);
- I2C_2_Master_Write(0xA0 | 0x1A);
- I2C_2_Master_RepStart();
- I2C_2_Master_Write(0x52 | 0x01);
- tmp=I2C_2_Master_Read(1);
- tmp=tmp | (I2C_2_Master_Read(0)<<8);
- I2C_2_Master_Stop();
- return tmp;
-}
+    ADC_init();
+    color_click_init();
+    initUSART4();
 
 
-unsigned int color_read_Clear(void)
-{
- unsigned int tmp;
- I2C_2_Master_Start();
- I2C_2_Master_Write(0x52 | 0x00);
- I2C_2_Master_Write(0xA0 | 0x14);
- I2C_2_Master_RepStart();
- I2C_2_Master_Write(0x52 | 0x01);
- tmp=I2C_2_Master_Read(1);
- tmp=tmp | (I2C_2_Master_Read(0)<<8);
- I2C_2_Master_Stop();
- return tmp;
-}
-# 136 "color.c"
-    unsigned int reading_hue(colors *cCurr)
-{
+    unsigned int PWMcycle = 99;
+    initDCmotorsPWM(PWMcycle);
+
+
+    motorL.power = 0;
+    motorL.direction = 1;
+    motorL.brakemode = 1;
+    motorL.PWMperiod = PWMcycle;
+    motorL.posDutyHighByte = (unsigned char *)(&CCPR1H);
+    motorL.negDutyHighByte = (unsigned char *)(&CCPR2H);
+
+    motorR.power = 0;
+    motorR.direction = 1;
+    motorR.brakemode = 1;
+    motorR.PWMperiod = PWMcycle;
+    motorR.posDutyHighByte = (unsigned char *)(&CCPR3H);
+    motorR.negDutyHighByte = (unsigned char *)(&CCPR4H);
+
+
+    LATDbits.LATD7=0;
+    TRISDbits.TRISD7=0;
+
+
+
+
+
+
+    TRISGbits.TRISG0 = 0;
+    LATGbits.LATG0 = 0;
+    TRISEbits.TRISE7 = 0;
+    LATEbits.LATE7 = 0;
+    TRISAbits.TRISA3 = 0;
+    LATAbits.LATA3 = 0;
+
+
+
+
+    TRISFbits.TRISF3=1;
+    ANSELFbits.ANSELF3=0;
+
+    unsigned int battery_level;
+    unsigned int red;
+    unsigned int blue;
+    unsigned int green;
+    unsigned int clear;
     unsigned int hue;
+    char hue_char[20];
+    TRISHbits.TRISH3 = 0;
+    LATHbits.LATH3 = 1;
+    _delay((unsigned long)((300)*(64000000/4000.0)));
+    LATHbits.LATH3 = 0;
+    LATFbits.LATF2 = 0;
+    TRISFbits.TRISF2 = 1;
+    ANSELFbits.ANSELF2 = 0;
 
-    char led_state[50];
 
+    calibration_routine(&colorCalibration);
 
 
 
-    LATGbits.LATG0 = 1;
-    LATEbits.LATE7 = 0;
-    LATAbits.LATA3 = 0;
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    (cCurr->red)= color_read_Red();
+    while (1) {
 
-
-
-
-    LATGbits.LATG0 = 0;
-    LATEbits.LATE7 = 1;
-    LATAbits.LATA3 = 0;
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    (cCurr->green) = color_read_Green();
-
-
-
-
-
-    LATGbits.LATG0 = 0;
-    LATEbits.LATE7 = 0;
-    LATAbits.LATA3 = 1;
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    (cCurr->blue) = color_read_Blue();
-
-
-
-
-    LATGbits.LATG0 = 1;
-    LATEbits.LATE7 = 1;
-    LATAbits.LATA3 = 1;
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    (cCurr->clear) = color_read_Clear();
-
-
-
-
-
-    hue = convert_rgb2hue(&colorCalibration, &colorCurrent);
-
-
-
-
-
-
-    return hue;
-    ;
-
-}
-
-
-void calibration_routine(colors *cCal)
-{
-
-    LATGbits.LATG0 = 0;
-    LATEbits.LATE7 = 0;
-    LATAbits.LATA3 = 0;
-
-    char cal_state[20];
-
-
-
-    sprintf(cal_state,"Calibration state = red", ".");
-    sendStringSerial4(cal_state);
-
-
-    while(PORTFbits.RF2 == 1){
-
-    }
-
-    LATGbits.LATG0 = 1;
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    (cCal->red) = color_read_Red();
-    LATGbits.LATG0 = 0;
-
-
-    sprintf(cal_state,"Calibration state = green \n\r", ".");
-    sendStringSerial4(&cal_state);
-
-    while(PORTFbits.RF2 == 1){
-
-    }
-
-    LATEbits.LATE7 = 1;
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    (cCal->green) = color_read_Green();
-    LATEbits.LATE7 = 0;
-
-
-    sprintf(cal_state,"Calibration state= blue \n\r", ".");
-    sendStringSerial4(&cal_state);
-
-    while(PORTFbits.RF2 == 1){
-
-    }
-
-    LATAbits.LATA3 = 1;
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    (cCal->blue) = color_read_Blue();
-    LATAbits.LATA3 = 0;
-
-
-    sprintf(cal_state,"Calibration state =  white light", ".");
-    sendStringSerial4(&cal_state);
-
-    while(PORTFbits.RF2 == 1){
-
-    }
-    LATGbits.LATG0 = 1;
-    LATEbits.LATE7 = 1;
-    LATAbits.LATA3 = 1;
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    (cCal->clear) = color_read_Clear();
-    LATGbits.LATG0 = 0;
-    LATEbits.LATE7 = 0;
-    LATAbits.LATA3 = 0;
-
-
-    sprintf(cal_state,"CALIBRATION COMPLETED \n\r", ".");
-    sendStringSerial4(&cal_state);
-
-    while(PORTFbits.RF2 == 1){
-
-    }
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-}
-
-
-unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
-{
-    float redcurrent, redmax, greencurrent, greenmax, bluecurrent, bluemax, clearcurrent, clearmax;
-    float r, g, b, c, min, max, diff, hue = 0.0;
-
-    redcurrent = cCurr->red;
-    redmax = cMax->red;
-    greencurrent = cCurr->green;
-    greenmax = cMax->green;
-    bluecurrent = cCurr->blue;
-    bluemax = cMax->blue;
-    clearcurrent = cCurr->clear;
-    clearmax = cMax->clear;
-
-
-
-
-
-    r = redcurrent/redmax;
-    g = greencurrent/greenmax;
-    b = bluecurrent/bluemax;
-
-    min = r < g ? (r < b ? r : b) : (g < b ? g : b);
-    max = r > g ? (r > b ? r : b) : (g > b ? g : b);
-    diff = max - min;
-    if (max == min) {
-        hue = 0;
-    } else if (max == r){
-        hue = (b - g) / diff;
-    } else if (max == g){
-        hue = (b - r) / diff;
-        hue = hue + 2;
-    } else if (max == b){
-        hue = (r - g) / diff;
-        hue = hue + 4;
-    }
-
-    hue = hue * 60;
-    if (hue < 0) {
-        hue = hue + 360;
-    }
-
-    return (unsigned int)hue;
-}
-
-void decision(unsigned int hue) {
-
-
-
-    if (hue<=18) {
-        moveRed(&motorL, &motorR);
-    } else if (hue>=105 && hue<=130){
-        moveGreen(&motorL, &motorR);
-    } else if (hue>=230 && hue<=240){
-        moveBlue(&motorL,&motorR);
-    } else if (hue>=216 && hue<=221){
-        moveLightBlue(&motorL,&motorR);
-    } else if (hue>=302 && hue<=346){
-        moveYellow(&motorL,&motorR);
-    } else if (hue>18 && hue<=35){
-        moveOrange(&motorL,&motorR);
-    } else if (hue>=244 && hue<=251){
-        movePink(&motorL,&motorR);
-    }
-
-
-
+        hue = reading_hue(&colorCurrent);
+        }
 
 
 }

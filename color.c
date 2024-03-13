@@ -133,7 +133,7 @@ unsigned int color_read_Clear(void)
 //    return (unsigned int)hue;
 //}
 
-unsigned int reading_hue(colors *cCurr) 
+    unsigned int reading_hue(colors *cCurr) 
 {
     unsigned int hue;
      // Prepare strings for serial transmission
@@ -175,8 +175,7 @@ unsigned int reading_hue(colors *cCurr)
     LATAbits.LATA3 = 1; // Blue LED on
     __delay_ms(500);
     (cCurr->clear) = color_read_Clear();
-
-
+ 
 
 
 
@@ -186,7 +185,7 @@ unsigned int reading_hue(colors *cCurr)
 
 
 
-    send2USART(hue);
+    //send2USART(hue);
 
     return hue;
     ;
@@ -285,10 +284,7 @@ unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
     clearcurrent = cCurr->clear;
     clearmax = cMax->clear;
     
-    c = clearcurrent/clearmax;
-    char c_char[20];
-    sprintf(c_char, "clear=%03d", c);
-    sendStringSerial4(c_char);
+
     
             
     
@@ -323,13 +319,24 @@ void decision(unsigned int hue) {
     // Assume `colorCurrent` holds the latest color sensor readings
     // and `colorCalibration` holds the calibration data.
 
-    if (hue<=20) { // Red hue range
+    if (hue<=18) { // Red hue range
         moveRed(&motorL, &motorR);
-    }
-    if (hue>=105 && hue<=130){
+    } else if (hue>=105 && hue<=130){ // Green hue range
         moveGreen(&motorL, &motorR);
+    } else if (hue>=230 && hue<=240){ // Blue hue range
+        moveBlue(&motorL,&motorR);
+    } else if (hue>=216 && hue<=221){ // Light Blue hue range
+        moveLightBlue(&motorL,&motorR);
+    } else if (hue>=302 && hue<=346){ // Light Blue hue range
+        moveYellow(&motorL,&motorR);
+    } else if (hue>18 && hue<=35){ // Light Blue hue range
+        moveOrange(&motorL,&motorR);
+    } else if (hue>=244 && hue<=251){ // Light Blue hue range
+        movePink(&motorL,&motorR);
     }
-
+//    } else if (hue>=216 && hue<=221){ // Light Blue hue range
+//        moveWhite(&motorL,&motorR);
+//    }
     // Here, you can add additional logic to act upon the color detection,
     // such as controlling LEDs or other outputs.
 }

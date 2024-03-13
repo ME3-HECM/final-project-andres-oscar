@@ -24354,7 +24354,8 @@ void main(void) {
     unsigned int red;
     unsigned int blue;
     unsigned int green;
-    unsigned int clear;
+    float clear;
+    float clear_max;
     unsigned int hue;
     char hue_char[20];
     TRISHbits.TRISH3 = 0;
@@ -24371,7 +24372,7 @@ void main(void) {
 
 
     while (1) {
-
+# 108 "main.c"
         LATGbits.LATG0 = 1;
         LATEbits.LATE7 = 1;
         LATAbits.LATA3 = 1;
@@ -24382,12 +24383,12 @@ void main(void) {
         float clear_norm = current/maximum;
 
 
-        if (clear_norm > 0.3){
+        if (clear_norm > 0.15){
             stop(&motorL,&motorR);
             hue = reading_hue(&colorCurrent);
             decision(hue);
         }
-
-
     }
+
+
 }
