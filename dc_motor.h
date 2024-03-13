@@ -48,6 +48,7 @@ void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_leng
 void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveWhite(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 //returning related
 void logAction(char action, int time, unsigned int pathLength);
 void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection);

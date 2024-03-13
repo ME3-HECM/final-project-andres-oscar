@@ -84,9 +84,6 @@ Version 4.0 HI-TECH Software Intermediate Code
 "59 ./color.h
 [; ;./color.h: 59: unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 [v _convert_rgb2hue `(ui ~T0 @X0 0 ef2`*S2015`*S2015 ]
-"45 ./serial.h
-[; ;./serial.h: 45: void send2USART(unsigned int hue);
-[v _send2USART `(v ~T0 @X0 0 ef1`ui ]
 "208 color.c
 [; ;color.c: 208:     sprintf(cal_state,"Calibration state = red", ".");
 [v _sprintf `(i ~T0 @X0 0 e? ]
@@ -129,6 +126,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "48
 [; ;./dc_motor.h: 48: void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 [v _movePink `(v ~T0 @X0 0 ef3`*S2016`*S2016`ui ]
+"45 ./serial.h
+[; ;./serial.h: 45: void send2USART(unsigned int hue);
+[v _send2USART `(v ~T0 @X0 0 ef1`ui ]
 "54 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 54: __asm("PPSLOCK equ 0DEFh");
 [; <" PPSLOCK equ 0DEFh ;# ">
@@ -2459,9 +2459,6 @@ Version 4.0 HI-TECH Software Intermediate Code
 "184
 [; ;color.c: 184:     hue = convert_rgb2hue(&colorCalibration, &colorCurrent);
 [e = _hue ( _convert_rgb2hue (2 , &U _colorCalibration &U _colorCurrent ]
-"189
-[; ;color.c: 189:     send2USART(hue);
-[e ( _send2USART (1 _hue ]
 "191
 [; ;color.c: 191:     return hue;
 [e ) _hue ]
@@ -2722,12 +2719,6 @@ Version 4.0 HI-TECH Software Intermediate Code
 "289
 [; ;color.c: 289:     char c_char[20];
 [v _c_char `uc ~T0 @X0 -> 20 `i a ]
-"290
-[; ;color.c: 290:     sprintf(c_char, "clear=%03d", c);
-[e ( _sprintf , , &U _c_char :s 11C -> _c `d ]
-"291
-[; ;color.c: 291:     sendStringSerial4(c_char);
-[e ( _sendStringSerial4 (1 &U _c_char ]
 "295
 [; ;color.c: 295:     r = redcurrent/redmax;
 [e = _r / _redcurrent _redmax ]
@@ -2826,78 +2817,99 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _hue `ui ~T0 @X0 1 r1 ]
 [v _path_length `ui ~T0 @X0 1 r2 ]
 [f ]
-"325
-[; ;color.c: 325:     char color[20];
-[v _color `uc ~T0 @X0 -> 20 `i a ]
+"327
+[; ;color.c: 327:     unsigned int color;
+[v _color `ui ~T0 @X0 1 a ]
 "329
-[; ;color.c: 329:     if (hue<=10) {
-[e $ ! <= _hue -> -> 10 `i `ui 2051  ]
+[; ;color.c: 329:     if (hue<=10 || hue>=355) {
+[e $ ! || <= _hue -> -> 10 `i `ui >= _hue -> -> 355 `i `ui 2051  ]
 {
 "330
 [; ;color.c: 330:         moveRed(&motorL, &motorR, path_length);
 [e ( _moveRed (3 , , &U _motorL &U _motorR _path_length ]
 "331
-[; ;color.c: 331:     } else if (hue>=105 && hue<=130){
+[; ;color.c: 331:         color = 1;
+[e = _color -> -> 1 `i `ui ]
+"332
+[; ;color.c: 332:     } else if (hue>=105 && hue<=130){
 }
 [e $U 2052  ]
 [e :U 2051 ]
 [e $ ! && >= _hue -> -> 105 `i `ui <= _hue -> -> 130 `i `ui 2053  ]
 {
-"332
-[; ;color.c: 332:         moveGreen(&motorL, &motorR, path_length);
-[e ( _moveGreen (3 , , &U _motorL &U _motorR _path_length ]
 "333
-[; ;color.c: 333:     } else if (hue>=230 && hue<=240){
+[; ;color.c: 333:         moveGreen(&motorL, &motorR, path_length);
+[e ( _moveGreen (3 , , &U _motorL &U _motorR _path_length ]
+"334
+[; ;color.c: 334:         color = 2;
+[e = _color -> -> 2 `i `ui ]
+"335
+[; ;color.c: 335:     } else if (hue>=230 && hue<=240){
 }
 [e $U 2054  ]
 [e :U 2053 ]
 [e $ ! && >= _hue -> -> 230 `i `ui <= _hue -> -> 240 `i `ui 2055  ]
 {
-"334
-[; ;color.c: 334:         moveBlue(&motorL,&motorR, path_length);
+"336
+[; ;color.c: 336:         moveBlue(&motorL,&motorR, path_length);
 [e ( _moveBlue (3 , , &U _motorL &U _motorR _path_length ]
-"335
-[; ;color.c: 335:     } else if (hue>=216 && hue<=221){
+"337
+[; ;color.c: 337:         color = 3;
+[e = _color -> -> 3 `i `ui ]
+"338
+[; ;color.c: 338:     } else if (hue>=216 && hue<=221){
 }
 [e $U 2056  ]
 [e :U 2055 ]
 [e $ ! && >= _hue -> -> 216 `i `ui <= _hue -> -> 221 `i `ui 2057  ]
 {
-"336
-[; ;color.c: 336:         moveLightBlue(&motorL,&motorR, path_length);
+"339
+[; ;color.c: 339:         moveLightBlue(&motorL,&motorR, path_length);
 [e ( _moveLightBlue (3 , , &U _motorL &U _motorR _path_length ]
-"337
-[; ;color.c: 337:     } else if (hue>=302 && hue<=346){
+"340
+[; ;color.c: 340:         color = 4;
+[e = _color -> -> 4 `i `ui ]
+"341
+[; ;color.c: 341:     } else if (hue>=302 && hue<=346){
 }
 [e $U 2058  ]
 [e :U 2057 ]
 [e $ ! && >= _hue -> -> 302 `i `ui <= _hue -> -> 346 `i `ui 2059  ]
 {
-"338
-[; ;color.c: 338:         moveYellow(&motorL,&motorR, path_length);
+"342
+[; ;color.c: 342:         moveYellow(&motorL,&motorR, path_length);
 [e ( _moveYellow (3 , , &U _motorL &U _motorR _path_length ]
-"339
-[; ;color.c: 339:     } else if (hue>14 && hue<=35){
+"343
+[; ;color.c: 343:         color = 5;
+[e = _color -> -> 5 `i `ui ]
+"344
+[; ;color.c: 344:     } else if (hue>14 && hue<=35){
 }
 [e $U 2060  ]
 [e :U 2059 ]
 [e $ ! && > _hue -> -> 14 `i `ui <= _hue -> -> 35 `i `ui 2061  ]
 {
-"340
-[; ;color.c: 340:         moveOrange(&motorL,&motorR, path_length);
+"345
+[; ;color.c: 345:         moveOrange(&motorL,&motorR, path_length);
 [e ( _moveOrange (3 , , &U _motorL &U _motorR _path_length ]
-"341
-[; ;color.c: 341:     } else if (hue>=244 && hue<=251){
+"346
+[; ;color.c: 346:         color= 6;
+[e = _color -> -> 6 `i `ui ]
+"347
+[; ;color.c: 347:     } else if (hue>=244 && hue<=251){
 }
 [e $U 2062  ]
 [e :U 2061 ]
 [e $ ! && >= _hue -> -> 244 `i `ui <= _hue -> -> 251 `i `ui 2063  ]
 {
-"342
-[; ;color.c: 342:         movePink(&motorL,&motorR, path_length);
+"348
+[; ;color.c: 348:         movePink(&motorL,&motorR, path_length);
 [e ( _movePink (3 , , &U _motorL &U _motorR _path_length ]
-"346
-[; ;color.c: 346:     }
+"349
+[; ;color.c: 349:         color = 7;
+[e = _color -> -> 7 `i `ui ]
+"351
+[; ;color.c: 351:     }
 }
 [e :U 2063 ]
 [e :U 2062 ]
@@ -2906,13 +2918,15 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 2056 ]
 [e :U 2054 ]
 [e :U 2052 ]
-"350
-[; ;color.c: 350: }
+"352
+[; ;color.c: 352:     send2USART(color);
+[e ( _send2USART (1 _color ]
+"357
+[; ;color.c: 357: }
 [e :UE 2050 ]
 }
 [a 7C 67 97 108 105 98 114 97 116 105 111 110 32 115 116 97 116 101 32 61 32 32 119 104 105 116 101 32 108 105 103 104 116 0 ]
 [a 1C 67 97 108 105 98 114 97 116 105 111 110 32 115 116 97 116 101 32 61 32 114 101 100 0 ]
-[a 11C 99 108 101 97 114 61 37 48 51 100 0 ]
 [a 2C 46 0 ]
 [a 4C 46 0 ]
 [a 6C 46 0 ]

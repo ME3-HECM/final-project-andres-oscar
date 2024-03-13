@@ -107,10 +107,10 @@ void main(void) {
         (colorCurrent.clear) = color_read_Clear();
         float current = colorCurrent.clear;
         float maximum = colorCalibration.clear;
-        float clear_norm = current/maximum; //normalises clear value depending on calibration routine
-        
+        unsigned int clear_norm = current*100/maximum; //normalises clear value depending on calibration routine
+//        send2USART(clear_norm);
         //when clear above a certain threshold, start the colour detection and movement process
-        if (clear_norm > 0.15){  //normalised clear value range for colour detection
+        if (clear_norm > 15){  //normalised clear value range for colour detection
             
             stop(&motorL,&motorR); //stops moving
             
@@ -125,7 +125,10 @@ void main(void) {
             stop(&motorL,&motorR);
             __delay_ms(200);
             
-            if (clear_norm > 0.75){
+            if (clear_norm > 80){
+
+                unsigned int white = 8;
+                send2USART(white);
                 returnHome(&motorL, &motorR, &path ,path_length);
             }
             

@@ -253,11 +253,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 "9 ./timers.h
 [; ;./timers.h: 9: unsigned int get16bitTMR0val(void);
 [v _get16bitTMR0val `(ui ~T0 @X0 0 ef ]
-"52 ./dc_motor.h
-[; ;./dc_motor.h: 52: void logAction(char action, int time, unsigned int pathLength);
+"53 ./dc_motor.h
+[; ;./dc_motor.h: 53: void logAction(char action, int time, unsigned int pathLength);
 [v _logAction `(v ~T0 @X0 0 ef3`uc`i`ui ]
-"55
-[; ;./dc_motor.h: 55: void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path[], int pathLength);
+"45 ./serial.h
+[; ;./serial.h: 45: void send2USART(unsigned int hue);
+[v _send2USART `(v ~T0 @X0 0 ef1`ui ]
+"56 ./dc_motor.h
+[; ;./dc_motor.h: 56: void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path[], int pathLength);
 [v _returnHome `(v ~T0 @X0 0 ef4`*S2016`*S2016`**S2017`i ]
 "57 ./color.h
 [; ;./color.h: 57: unsigned int reading_hue(colors *cCurr);
@@ -2462,12 +2465,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _maximum `f ~T0 @X0 1 a ]
 [e = _maximum -> . _colorCalibration 3 `f ]
 "110
-[; ;main.c: 110:         float clear_norm = current/maximum;
-[v _clear_norm `f ~T0 @X0 1 a ]
-[e = _clear_norm / _current _maximum ]
+[; ;main.c: 110:         unsigned int clear_norm = current*100/maximum;
+[v _clear_norm `ui ~T0 @X0 1 a ]
+[e = _clear_norm -> / * _current -> -> 100 `i `f _maximum `ui ]
 "113
-[; ;main.c: 113:         if (clear_norm > 0.15){
-[e $ ! > -> _clear_norm `d .0.15 2022  ]
+[; ;main.c: 113:         if (clear_norm > 15){
+[e $ ! > _clear_norm -> -> 15 `i `ui 2022  ]
 {
 "115
 [; ;main.c: 115:             stop(&motorL,&motorR);
@@ -2486,39 +2489,49 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 123:             fullSpeedAhead(&motorL,&motorR);
 [e ( _fullSpeedAhead (2 , &U _motorL &U _motorR ]
 "124
-[; ;main.c: 124:             _delay((unsigned long)((200)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+[; ;main.c: 124:             _delay((unsigned long)((100)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
 "125
 [; ;main.c: 125:             stop(&motorL,&motorR);
 [e ( _stop (2 , &U _motorL &U _motorR ]
-"127
-[; ;main.c: 127:             if (clear_norm > 0.75){
-[e $ ! > -> _clear_norm `d .0.75 2023  ]
-{
+"126
+[; ;main.c: 126:             _delay((unsigned long)((200)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
 "128
-[; ;main.c: 128:                 returnHome(&motorL, &motorR, &path ,path_length);
+[; ;main.c: 128:             if (clear_norm > 80){
+[e $ ! > _clear_norm -> -> 80 `i `ui 2023  ]
+{
+"130
+[; ;main.c: 130:                 unsigned int white = 8;
+[v _white `ui ~T0 @X0 1 a ]
+[e = _white -> -> 8 `i `ui ]
+"131
+[; ;main.c: 131:                 send2USART(white);
+[e ( _send2USART (1 _white ]
+"132
+[; ;main.c: 132:                 returnHome(&motorL, &motorR, &path ,path_length);
 [e ( _returnHome (4 , , , &U _motorL &U _motorR -> &U _path `**S2017 -> _path_length `i ]
-"129
-[; ;main.c: 129:             }
+"133
+[; ;main.c: 133:             }
 }
 [e :U 2023 ]
-"131
-[; ;main.c: 131:             hue = reading_hue(&colorCurrent);
+"135
+[; ;main.c: 135:             hue = reading_hue(&colorCurrent);
 [e = _hue ( _reading_hue (1 &U _colorCurrent ]
-"132
-[; ;main.c: 132:             decision(hue, path_length);
+"136
+[; ;main.c: 136:             decision(hue, path_length);
 [e ( _decision (2 , _hue _path_length ]
-"133
-[; ;main.c: 133:         }
+"137
+[; ;main.c: 137:         }
 }
 [e :U 2022 ]
-"136
-[; ;main.c: 136:     }
+"140
+[; ;main.c: 140:     }
 }
 [e :U 2019 ]
 [e $U 2020  ]
 [e :U 2021 ]
-"137
-[; ;main.c: 137: }
+"141
+[; ;main.c: 141: }
 [e :UE 2018 ]
 }

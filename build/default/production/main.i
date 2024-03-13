@@ -24291,6 +24291,7 @@ void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_leng
 void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveWhite(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 
 void logAction(char action, int time, unsigned int pathLength);
 void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection);
@@ -24403,10 +24404,10 @@ void main(void) {
         (colorCurrent.clear) = color_read_Clear();
         float current = colorCurrent.clear;
         float maximum = colorCalibration.clear;
-        float clear_norm = current/maximum;
+        unsigned int clear_norm = current*100/maximum;
 
 
-        if (clear_norm > 0.15){
+        if (clear_norm > 15){
 
             stop(&motorL,&motorR);
 
@@ -24417,10 +24418,14 @@ void main(void) {
 
 
             fullSpeedAhead(&motorL,&motorR);
-            _delay((unsigned long)((200)*(64000000/4000.0)));
+            _delay((unsigned long)((100)*(64000000/4000.0)));
             stop(&motorL,&motorR);
+            _delay((unsigned long)((200)*(64000000/4000.0)));
 
-            if (clear_norm > 0.75){
+            if (clear_norm > 80){
+
+                unsigned int white = 8;
+                send2USART(white);
                 returnHome(&motorL, &motorR, &path ,path_length);
             }
 

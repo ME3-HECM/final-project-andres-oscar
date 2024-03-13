@@ -24642,6 +24642,7 @@ void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_leng
 void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveWhite(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 
 void logAction(char action, int time, unsigned int pathLength);
 void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection);
@@ -24784,7 +24785,7 @@ unsigned int reading_hue(colors *cCurr)
 
 
 
-    send2USART(hue);
+
 
     return hue;
     ;
@@ -24885,8 +24886,8 @@ unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
 
     c = clearcurrent/clearmax;
     char c_char[20];
-    sprintf(c_char, "clear=%03d", c);
-    sendStringSerial4(c_char);
+
+
 
 
 
@@ -24920,28 +24921,35 @@ unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
 void decision(unsigned int hue, unsigned int path_length) {
 
 
-    char color[20];
 
 
+    unsigned int color;
 
-    if (hue<=10) {
+    if (hue<=10 || hue>=355) {
         moveRed(&motorL, &motorR, path_length);
+        color = 1;
     } else if (hue>=105 && hue<=130){
         moveGreen(&motorL, &motorR, path_length);
+        color = 2;
     } else if (hue>=230 && hue<=240){
         moveBlue(&motorL,&motorR, path_length);
+        color = 3;
     } else if (hue>=216 && hue<=221){
         moveLightBlue(&motorL,&motorR, path_length);
+        color = 4;
     } else if (hue>=302 && hue<=346){
         moveYellow(&motorL,&motorR, path_length);
+        color = 5;
     } else if (hue>14 && hue<=35){
         moveOrange(&motorL,&motorR, path_length);
+        color= 6;
     } else if (hue>=244 && hue<=251){
         movePink(&motorL,&motorR, path_length);
-
-
+        color = 7;
 
     }
+    send2USART(color);
+
 
 
 
