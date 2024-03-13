@@ -245,22 +245,7 @@ void calibration_routine(colors *cCal)
     LATAbits.LATA3 = 0; // Green LED on
     
     
-//    sprintf(cal_state,"Calibration state = ambient light", ".");
-//    sendStringSerial4(&cal_state);    
-    
-//    while(PORTFbits.RF2 == 1){
-//        
-//    }
-//    LATGbits.LATG0 = 1; // Red LED on
-//    LATEbits.LATE7 = 1; // Green LED on
-//    LATAbits.LATA3 = 1; // Blue LED on
-//    __delay_ms(500);
-//    (cCal->clear) = color_read_Clear();
-//    LATGbits.LATG0 = 0; // Red LED off
-//    LATEbits.LATE7 = 0; // Green LED off
-//    LATAbits.LATA3 = 0; // Green LED off
-//    
-     sprintf(cal_state,"Calibration state =  white light", ".");
+    sprintf(cal_state,"Calibration state =  white light", ".");
     sendStringSerial4(&cal_state);    
     
     while(PORTFbits.RF2 == 1){
@@ -278,6 +263,11 @@ void calibration_routine(colors *cCal)
     
     sprintf(cal_state,"CALIBRATION COMPLETED \n\r", ".");
     sendStringSerial4(&cal_state);
+    
+    while(PORTFbits.RF2 == 1){ //waiting for a last click before leaving function
+        
+    }
+    __delay_ms(500); //small delay to avoid bumping
 }
 
 
