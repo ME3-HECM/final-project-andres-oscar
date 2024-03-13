@@ -24475,6 +24475,7 @@ typedef struct colors {
     unsigned int green;
     unsigned int blue;
     unsigned int clear;
+    unsigned int clear_ambient;
 } colors;
 
 
@@ -24846,6 +24847,22 @@ void calibration_routine(colors *cCal)
     LATAbits.LATA3 = 1;
     _delay((unsigned long)((500)*(64000000/4000.0)));
     (cCal->clear) = color_read_Clear();
+    LATGbits.LATG0 = 0;
+    LATEbits.LATE7 = 0;
+    LATAbits.LATA3 = 0;
+
+
+    sprintf(cal_state,"Calibration state =  ambient light", ".");
+    sendStringSerial4(&cal_state);
+
+    while(PORTFbits.RF2 == 1){
+
+    }
+    LATGbits.LATG0 = 1;
+    LATEbits.LATE7 = 1;
+    LATAbits.LATA3 = 1;
+    _delay((unsigned long)((500)*(64000000/4000.0)));
+    (cCal->clear_ambient) = color_read_Clear();
     LATGbits.LATG0 = 0;
     LATEbits.LATE7 = 0;
     LATAbits.LATA3 = 0;

@@ -24112,6 +24112,7 @@ typedef struct colors {
     unsigned int green;
     unsigned int blue;
     unsigned int clear;
+    unsigned int clear_ambient;
 } colors;
 
 
@@ -24369,16 +24370,16 @@ void main(void) {
 
     calibration_routine(&colorCalibration);
 
-
+    LATGbits.LATG0 = 1;
+    LATEbits.LATE7 = 1;
+    LATAbits.LATA3 = 1;
 
     while (1) {
 
-        hue = reading_hue(&colorCurrent);
-
-        float clear = colorCurrent.clear;
-        float clear_max = colorCalibration.clear;
-
-        unsigned int clear_norm = clear*100/clear_max;
+        float current = color_read_Clear();
+        float maximum = colorCalibration.clear;
+        float ambient = colorCalibration.clear_ambient;
+        unsigned int clear_norm = (current-ambient)*100/(maximum-ambient);
 
         send2USART(clear_norm);
 

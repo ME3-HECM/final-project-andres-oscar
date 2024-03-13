@@ -91,16 +91,16 @@ void main(void) {
     
     calibration_routine(&colorCalibration);
 
-
+    LATGbits.LATG0 = 1; // Red LED on
+    LATEbits.LATE7 = 1; // Green LED on
+    LATAbits.LATA3 = 1; // Blue LED on
     //code structure for testing the movement functions
     while (1) {
 
-        hue = reading_hue(&colorCurrent);
-        
-        float clear = colorCurrent.clear;
-        float clear_max = colorCalibration.clear;
-
-        unsigned int clear_norm = clear*100/clear_max;
+        float current = color_read_Clear();
+        float maximum = colorCalibration.clear;
+        float ambient = colorCalibration.clear_ambient;
+        unsigned int clear_norm = (current-ambient)*100/(maximum-ambient); //normalises clear value depending on calibration routine
         
         send2USART(clear_norm);
             

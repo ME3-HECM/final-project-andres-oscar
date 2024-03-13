@@ -10,6 +10,7 @@ typedef struct colors { //definition of DC_motor structure
     unsigned int green;   //green colour
     unsigned int blue;   //blue colour
     unsigned int clear;   //green colour
+    unsigned int clear_ambient;
 } colors;
 
 

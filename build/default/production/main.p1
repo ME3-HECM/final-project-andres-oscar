@@ -1,8 +1,8 @@
 Version 4.0 HI-TECH Software Intermediate Code
 "8 ./color.h
 [; ;./color.h: 8: typedef struct colors {
-[s S2015 `ui 1 `ui 1 `ui 1 `ui 1 ]
-[n S2015 colors red green blue clear ]
+[s S2015 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 ]
+[n S2015 colors red green blue clear clear_ambient ]
 "8 ./dc_motor.h
 [; ;./dc_motor.h: 8: typedef struct DC_motor {
 [s S2016 `uc 1 `uc 1 `uc 1 `ui 1 `*uc 1 `*uc 1 ]
@@ -11,8 +11,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "8 ./ADC.h
 [; ;./ADC.h: 8: void ADC_init(void);
 [v _ADC_init `(v ~T0 @X0 0 ef ]
-"22 ./color.h
-[; ;./color.h: 22: void color_click_init(void);
+"23 ./color.h
+[; ;./color.h: 23: void color_click_init(void);
 [v _color_click_init `(v ~T0 @X0 0 ef ]
 "27 ./serial.h
 [; ;./serial.h: 27: void initUSART4(void);
@@ -219,12 +219,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 "28732
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28732: extern volatile LATFbits_t LATFbits __attribute__((address(0xF7E)));
 [v _LATFbits `VS1354 ~T0 @X0 0 e@3966 ]
-"61 ./color.h
-[; ;./color.h: 61: void calibration_routine(colors *cCal);
+"62 ./color.h
+[; ;./color.h: 62: void calibration_routine(colors *cCal);
 [v _calibration_routine `(v ~T0 @X0 0 ef1`*S2015 ]
-"57
-[; ;./color.h: 57: unsigned int reading_hue(colors *cCurr);
-[v _reading_hue `(ui ~T0 @X0 0 ef1`*S2015 ]
+"55
+[; ;./color.h: 55: unsigned int color_read_Clear(void);
+[v _color_read_Clear `(ui ~T0 @X0 0 ef ]
 "45 ./serial.h
 [; ;./serial.h: 45: void send2USART(unsigned int hue);
 [v _send2USART `(v ~T0 @X0 0 ef1`ui ]
@@ -2208,8 +2208,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "40592
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 40592: __asm("TOSU equ 0FFFh");
 [; <" TOSU equ 0FFFh ;# ">
-"17 ./color.h
-[; ;./color.h: 17: struct colors colorCalibration, colorCurrent, hue;
+"18 ./color.h
+[; ;./color.h: 18: struct colors colorCalibration, colorCurrent, hue;
 [v _colorCalibration `S2015 ~T0 @X0 1 e ]
 [v _colorCurrent `S2015 ~T0 @X0 1 e ]
 [v _hue `S2015 ~T0 @X0 1 e ]
@@ -2390,25 +2390,35 @@ Version 4.0 HI-TECH Software Intermediate Code
 "92
 [; ;main.c: 92:     calibration_routine(&colorCalibration);
 [e ( _calibration_routine (1 &U _colorCalibration ]
+"94
+[; ;main.c: 94:     LATGbits.LATG0 = 1;
+[e = . . _LATGbits 0 0 -> -> 1 `i `uc ]
+"95
+[; ;main.c: 95:     LATEbits.LATE7 = 1;
+[e = . . _LATEbits 0 7 -> -> 1 `i `uc ]
 "96
-[; ;main.c: 96:     while (1) {
+[; ;main.c: 96:     LATAbits.LATA3 = 1;
+[e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
+"98
+[; ;main.c: 98:     while (1) {
 [e :U 2019 ]
 {
-"98
-[; ;main.c: 98:         hue = reading_hue(&colorCurrent);
-[e = _hue ( _reading_hue (1 &U _colorCurrent ]
 "100
-[; ;main.c: 100:         float clear = colorCurrent.clear;
-[v _clear `f ~T0 @X0 1 a ]
-[e = _clear -> . _colorCurrent 3 `f ]
+[; ;main.c: 100:         float current = color_read_Clear();
+[v _current `f ~T0 @X0 1 a ]
+[e = _current -> ( _color_read_Clear ..  `f ]
 "101
-[; ;main.c: 101:         float clear_max = colorCalibration.clear;
-[v _clear_max `f ~T0 @X0 1 a ]
-[e = _clear_max -> . _colorCalibration 3 `f ]
+[; ;main.c: 101:         float maximum = colorCalibration.clear;
+[v _maximum `f ~T0 @X0 1 a ]
+[e = _maximum -> . _colorCalibration 3 `f ]
+"102
+[; ;main.c: 102:         float ambient = colorCalibration.clear_ambient;
+[v _ambient `f ~T0 @X0 1 a ]
+[e = _ambient -> . _colorCalibration 4 `f ]
 "103
-[; ;main.c: 103:         unsigned int clear_norm = clear*100/clear_max;
+[; ;main.c: 103:         unsigned int clear_norm = (current-ambient)*100/(maximum-ambient);
 [v _clear_norm `ui ~T0 @X0 1 a ]
-[e = _clear_norm -> / * _clear -> -> 100 `i `f _clear_max `ui ]
+[e = _clear_norm -> / * - _current _ambient -> -> 100 `i `f - _maximum _ambient `ui ]
 "105
 [; ;main.c: 105:         send2USART(clear_norm);
 [e ( _send2USART (1 _clear_norm ]
