@@ -86,52 +86,6 @@ unsigned int color_read_Clear(void)
 	return tmp;
 }
 
-//unsigned int color_decide(Red,Green,Blue)
-//{
-//    unsigned int color;
-//    if (Red>Green && Red>Blue){color = 1;} //Red is dominant color
-//    else if (Green>Red && Green>Blue){color = 2;} //Green is dominant color
-//    else if (Blue>Red && Blue>Green){color = 3;} //Blue is dominant color
-//    
-//    return color;
-//        
-//}
-
-
-
-//unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr) {
-//    float redcurrent, greencurrent, bluecurrent;
-//    float r, g, b, min, max, diff, hue = 0.0;
-//
-//    redcurrent = cCurr->red;
-//    greencurrent = cCurr->green;
-//    bluecurrent = cCurr->blue;
-//
-//    // Assuming cMax values are the maximum possible values for the color channels
-//    float max_value = fmaxf(fmaxf(cMax->red, cMax->green), cMax->blue);
-//    r = redcurrent / max_value;
-//    g = greencurrent / max_value;
-//    b = bluecurrent / max_value;
-//
-//    min = r < g ? (r < b ? r : b) : (g < b ? g : b); // Correct calculation of min
-//    max = r > g ? (r > b ? r : b) : (g > b ? g : b); // Adding calculation of max for completeness
-//    diff = max - min;
-//
-//    if (diff == 0) {
-//        hue = 0; // If diff is 0, hue is undefined, set to 0
-//    } else {
-//        if (max == r) {
-//            hue = fmod(60 * ((g - b) / diff) + 360,360);
-//        } else if (max == g) {
-//            hue = fmod(60 * ((b - r) / diff) + 120,360);
-//        } else if (max == b) {
-//            hue = fmod(60 * ((r - g) / diff) + 240,360);
-//        }
-//    }
-//    
-//
-//    return (unsigned int)hue;
-//}
 
 unsigned int reading_hue(colors *cCurr) 
 {
@@ -261,21 +215,6 @@ void calibration_routine(colors *cCal)
     LATAbits.LATA3 = 0; // Green LED off
 
     
-        
-    sprintf(cal_state,"Calibration state =  ambient light", ".");
-    sendStringSerial4(&cal_state);    
-    
-    while(PORTFbits.RF2 == 1){
-        
-    }
-    LATGbits.LATG0 = 1; // Red LED on
-    LATEbits.LATE7 = 1; // Green LED on
-    LATAbits.LATA3 = 1; // Blue LED on
-    __delay_ms(500);
-    (cCal->clear_ambient) = color_read_Clear();
-    LATGbits.LATG0 = 0; // Red LED off
-    LATEbits.LATE7 = 0; // Green LED off
-    LATAbits.LATA3 = 0; // Green LED off
     
     sprintf(cal_state,"CALIBRATION COMPLETED \n\r", ".");
     sendStringSerial4(&cal_state);

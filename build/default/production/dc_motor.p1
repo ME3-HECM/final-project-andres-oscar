@@ -297,8 +297,23 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v __delay `JF205 ~T0 @X0 0 e ]
 [p i __delay ]
 "54 ./dc_motor.h
-[; ;./dc_motor.h: 54: void logAction(char action, int time, unsigned int pathLength);
-[v _logAction `(v ~T0 @X0 0 ef3`uc`i`ui ]
+[; ;./dc_motor.h: 54: unsigned int logAction(char action, int time, unsigned int pathLength);
+[v _logAction `(ui ~T0 @X0 0 ef3`uc`i`ui ]
+"28151 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28151:     struct {
+[s S1340 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1340 . LATA0 LATA1 LATA2 LATA3 LATA4 LATA5 LATA6 LATA7 ]
+"28161
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28161:     struct {
+[s S1341 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1341 . LA0 LA1 LA2 LA3 LA4 LA5 LA6 LA7 ]
+"28150
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28150: typedef union {
+[u S1339 `S1340 1 `S1341 1 ]
+[n S1339 . . . ]
+"28172
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28172: extern volatile LATAbits_t LATAbits __attribute__((address(0xF79)));
+[v _LATAbits `VS1339 ~T0 @X0 0 e@3961 ]
 "54 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 54: __asm("PPSLOCK equ 0DEFh");
 [; <" PPSLOCK equ 0DEFh ;# ">
@@ -3170,17 +3185,16 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :UE 2058 ]
 }
 "318
-[; ;dc_motor.c: 318: void moveWhite(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length)
-[v _moveWhite `(v ~T0 @X0 1 ef3`*S2015`*S2015`ui ]
+[; ;dc_motor.c: 318: void moveWhite(struct DC_motor *mL, struct DC_motor *mR)
+[v _moveWhite `(v ~T0 @X0 1 ef2`*S2015`*S2015 ]
 "319
 [; ;dc_motor.c: 319: {
 {
 [e :U _moveWhite ]
 "318
-[; ;dc_motor.c: 318: void moveWhite(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length)
+[; ;dc_motor.c: 318: void moveWhite(struct DC_motor *mL, struct DC_motor *mR)
 [v _mL `*S2015 ~T0 @X0 1 r1 ]
 [v _mR `*S2015 ~T0 @X0 1 r2 ]
-[v _path_length `ui ~T0 @X0 1 r3 ]
 "319
 [; ;dc_motor.c: 319: {
 [f ]
@@ -3198,8 +3212,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :UE 2059 ]
 }
 "336
-[; ;dc_motor.c: 336: void logAction(char action, int time, unsigned int pathLength) {
-[v _logAction `(v ~T0 @X0 1 ef3`uc`i`ui ]
+[; ;dc_motor.c: 336: unsigned int logAction(char action, int time, unsigned int pathLength) {
+[v _logAction `(ui ~T0 @X0 1 ef3`uc`i`ui ]
 {
 [e :U _logAction ]
 [v _action `uc ~T0 @X0 1 r1 ]
@@ -3217,8 +3231,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;dc_motor.c: 339:         path[pathLength].time = time;
 [e = . *U + &U _path * -> _pathLength `ux -> -> # *U &U _path `ui `ux 1 _time ]
 "340
-[; ;dc_motor.c: 340:         pathLength++;
-[e ++ _pathLength -> -> 1 `i `ui ]
+[; ;dc_motor.c: 340:         return pathLength++;
+[e ) ++ _pathLength -> -> 1 `i `ui ]
+[e $UE 2060  ]
 "341
 [; ;dc_motor.c: 341:     }
 }
@@ -3388,7 +3403,19 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;dc_motor.c: 384: {
 [f ]
 "386
-[; ;dc_motor.c: 386:     for (int i = pathLength; i >= 0; i--) {
+[; ;dc_motor.c: 386:     LATGbits.LATG0 = 0;
+[e = . . _LATGbits 0 0 -> -> 0 `i `uc ]
+"387
+[; ;dc_motor.c: 387:     LATEbits.LATE7 = 0;
+[e = . . _LATEbits 0 7 -> -> 0 `i `uc ]
+"388
+[; ;dc_motor.c: 388:     LATAbits.LATA3 = 0;
+[e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
+"390
+[; ;dc_motor.c: 390:     moveWhite(&motorL,&motorR);
+[e ( _moveWhite (2 , &U _motorL &U _motorR ]
+"392
+[; ;dc_motor.c: 392:     for (int i = pathLength; i >= 0; i--) {
 {
 [v _i `i ~T0 @X0 1 a ]
 [e = _i _pathLength ]
@@ -3396,36 +3423,39 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $U 2083  ]
 [e :U 2082 ]
 {
-"387
-[; ;dc_motor.c: 387:         char action = path[i]->action;
+"393
+[; ;dc_motor.c: 393:         char action = path[i]->action;
 [v _action `uc ~T0 @X0 1 a ]
 [e = _action . *U *U + _path * -> _i `x -> -> # *U _path `i `x 0 ]
-"388
-[; ;dc_motor.c: 388:         unsigned int time = path[i]->time;
+"394
+[; ;dc_motor.c: 394:         unsigned int time = path[i]->time;
 [v _time `ui ~T0 @X0 1 a ]
 [e = _time -> . *U *U + _path * -> _i `x -> -> # *U _path `i `x 1 `ui ]
-"390
-[; ;dc_motor.c: 390:         if (action == 'F'){reverseStraight(mL, mR, time);}
+"396
+[; ;dc_motor.c: 396:         if (action == 'F'){reverseStraight(mL, mR, time);}
 [e $ ! == -> _action `ui -> 70 `ui 2085  ]
 {
 [e ( _reverseStraight (3 , , _mL _mR -> _time `i ]
 }
 [e $U 2086  ]
-"392
-[; ;dc_motor.c: 392:         else {reverseTurn(mL, mR, action);}
+"398
+[; ;dc_motor.c: 398:         else {reverseTurn(mL, mR, action);}
 [e :U 2085 ]
 {
 [e ( _reverseTurn (3 , , _mL _mR _action ]
 }
 [e :U 2086 ]
-"394
-[; ;dc_motor.c: 394:     }
+"400
+[; ;dc_motor.c: 400:     }
 }
 [e -- _i -> 1 `i ]
 [e $ >= _i -> 0 `i 2082  ]
 [e :U 2083 ]
 }
-"395
-[; ;dc_motor.c: 395: }
+"401
+[; ;dc_motor.c: 401:     __asm(" sleep");
+[; <"  sleep ;# ">
+"402
+[; ;dc_motor.c: 402: }
 [e :UE 2081 ]
 }

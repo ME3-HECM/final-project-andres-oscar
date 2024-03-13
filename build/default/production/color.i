@@ -24643,9 +24643,9 @@ void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_leng
 void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveWhite(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
 
-void logAction(char action, int time, unsigned int pathLength);
+unsigned int logAction(char action, int time, unsigned int pathLength);
 void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection);
 void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time);
 void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path[], int pathLength);
@@ -24732,7 +24732,8 @@ unsigned int color_read_Clear(void)
  I2C_2_Master_Stop();
  return tmp;
 }
-# 136 "color.c"
+
+
 unsigned int reading_hue(colors *cCurr)
 {
     unsigned int hue;
@@ -24845,7 +24846,7 @@ void calibration_routine(colors *cCal)
     LATAbits.LATA3 = 0;
 
 
-    sprintf(cal_state,"Calibration state =  white light", ".");
+    sprintf(cal_state,"Calibration state =  white", ".");
     sendStringSerial4(&cal_state);
 
     while(PORTFbits.RF2 == 1){
@@ -24859,6 +24860,7 @@ void calibration_routine(colors *cCal)
     LATGbits.LATG0 = 0;
     LATEbits.LATE7 = 0;
     LATAbits.LATA3 = 0;
+
 
 
     sprintf(cal_state,"CALIBRATION COMPLETED \n\r", ".");

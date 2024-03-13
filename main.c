@@ -101,7 +101,9 @@ void main(void) {
     
     calibration_routine(&colorCalibration);
 
-
+    float maximum = colorCalibration.clear;
+    float current;
+    unsigned int clear_norm;
     //code structure for testing the movement functions
     while (1) {
         //turn on white light during normal operation
@@ -114,28 +116,27 @@ void main(void) {
         T0CON0bits.T0EN=1;	//start the timer
     
         (colorCurrent.clear) = color_read_Clear();
-        float current = colorCurrent.clear;
-        float maximum = colorCalibration.clear;
-        float ambient = colorCalibration.clear_ambient;
-        unsigned int clear_norm = (current-ambient)*100/(maximum-ambient); //normalises clear value depending on calibration routine
+        current = colorCurrent.clear;
+
+        clear_norm = (current)*100/(maximum); //normalises clear value depending on calibration routine
 //        send2USART(clear_norm);
         //when clear above a certain threshold, start the colour detection and movement process
-        if (clear_norm > 10){  //normalised clear value range for colour detection
+        if (clear_norm > 8){  //normalised clear value range for colour detection
             
             stop(&motorL,&motorR); //stops moving
             
             int time = get16bitTMR0val(); //takes the timer value at that instant
             T0CON0bits.T0EN=0;	//stops the timer
             logAction('F',time, path_length);
-
+            __delay_ms(200);
             
             //small sequence to bump wall for better readings
             fullSpeedAhead(&motorL,&motorR);
             __delay_ms(100);
             stop(&motorL,&motorR);
-            __delay_ms(500);
+            __delay_ms(300);
             
-            if (clear_norm > 80 || LATGbits.LATG1 == 1){
+            if (clear_norm > 65 || LATGbits.LATG1 == 1){
 
                 unsigned int white = 8;
                 send2USART(white);

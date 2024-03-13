@@ -24434,7 +24434,7 @@ void main(void) {
             stop(&motorL,&motorR);
             _delay((unsigned long)((300)*(64000000/4000.0)));
 
-            if (clear_norm > 65 || LATGbits.LATG1 == 1){
+            if (clear_norm > 70 || LATGbits.LATG1 == 1){
 
                 unsigned int white = 8;
                 send2USART(white);

@@ -24112,6 +24112,7 @@ typedef struct colors {
     unsigned int green;
     unsigned int blue;
     unsigned int clear;
+    unsigned int clear_ambient;
 } colors;
 
 
@@ -24399,7 +24400,10 @@ void main(void) {
 
     calibration_routine(&colorCalibration);
 
-
+    float maximum = colorCalibration.clear;
+    float ambient = colorCalibration.clear_ambient;
+    float current;
+    unsigned int clear_norm;
 
     while (1) {
 
@@ -24412,27 +24416,27 @@ void main(void) {
         T0CON0bits.T0EN=1;
 
         (colorCurrent.clear) = color_read_Clear();
-        float current = colorCurrent.clear;
-        float maximum = colorCalibration.clear;
-        unsigned int clear_norm = current*100/maximum;
+        current = colorCurrent.clear;
+
+        clear_norm = (current-ambient)*100/(maximum-ambient);
 
 
-        if (clear_norm > 10){
+        if (clear_norm > 5){
 
             stop(&motorL,&motorR);
 
             int time = get16bitTMR0val();
             T0CON0bits.T0EN=0;
             logAction('F',time, path_length);
-
+            _delay((unsigned long)((200)*(64000000/4000.0)));
 
 
             fullSpeedAhead(&motorL,&motorR);
             _delay((unsigned long)((100)*(64000000/4000.0)));
             stop(&motorL,&motorR);
-            _delay((unsigned long)((500)*(64000000/4000.0)));
+            _delay((unsigned long)((300)*(64000000/4000.0)));
 
-            if (clear_norm > 80 || LATGbits.LATG1 == 1){
+            if (clear_norm > 85 || LATGbits.LATG1 == 1){
 
                 unsigned int white = 8;
                 send2USART(white);

@@ -24507,4 +24507,5 @@ void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path[
         else {reverseTurn(mL, mR, action);}
 
     }
+    __asm(" sleep");
 }

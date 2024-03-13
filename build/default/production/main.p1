@@ -254,8 +254,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./timers.h: 9: unsigned int get16bitTMR0val(void);
 [v _get16bitTMR0val `(ui ~T0 @X0 0 ef ]
 "54 ./dc_motor.h
-[; ;./dc_motor.h: 54: void logAction(char action, int time, unsigned int pathLength);
-[v _logAction `(v ~T0 @X0 0 ef3`uc`i`ui ]
+[; ;./dc_motor.h: 54: unsigned int logAction(char action, int time, unsigned int pathLength);
+[v _logAction `(ui ~T0 @X0 0 ef3`uc`i`ui ]
 "45 ./serial.h
 [; ;./serial.h: 45: void send2USART(unsigned int hue);
 [v _send2USART `(v ~T0 @X0 0 ef1`ui ]
@@ -2440,107 +2440,114 @@ Version 4.0 HI-TECH Software Intermediate Code
 "102
 [; ;main.c: 102:     calibration_routine(&colorCalibration);
 [e ( _calibration_routine (1 &U _colorCalibration ]
-"106
-[; ;main.c: 106:     while (1) {
-[e :U 2020 ]
-{
-"108
-[; ;main.c: 108:         LATGbits.LATG0 = 1;
-[e = . . _LATGbits 0 0 -> -> 1 `i `uc ]
-"109
-[; ;main.c: 109:         LATEbits.LATE7 = 1;
-[e = . . _LATEbits 0 7 -> -> 1 `i `uc ]
-"110
-[; ;main.c: 110:         LATAbits.LATA3 = 1;
-[e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
-"113
-[; ;main.c: 113:         fullSpeedAhead(&motorL,&motorR);
-[e ( _fullSpeedAhead (2 , &U _motorL &U _motorR ]
-"114
-[; ;main.c: 114:         T0CON0bits.T0EN=1;
-[e = . . _T0CON0bits 0 4 -> -> 1 `i `uc ]
-"116
-[; ;main.c: 116:         (colorCurrent.clear) = color_read_Clear();
-[e = . _colorCurrent 3 ( _color_read_Clear ..  ]
-"117
-[; ;main.c: 117:         float current = colorCurrent.clear;
-[v _current `f ~T0 @X0 1 a ]
-[e = _current -> . _colorCurrent 3 `f ]
-"118
-[; ;main.c: 118:         float maximum = colorCalibration.clear;
+"104
+[; ;main.c: 104:     float maximum = colorCalibration.clear;
 [v _maximum `f ~T0 @X0 1 a ]
 [e = _maximum -> . _colorCalibration 3 `f ]
-"119
-[; ;main.c: 119:         unsigned int clear_norm = current*100/maximum;
+"105
+[; ;main.c: 105:     float current;
+[v _current `f ~T0 @X0 1 a ]
+"106
+[; ;main.c: 106:     unsigned int clear_norm;
 [v _clear_norm `ui ~T0 @X0 1 a ]
-[e = _clear_norm -> / * _current -> -> 100 `i `f _maximum `ui ]
-"122
-[; ;main.c: 122:         if (clear_norm > 15){
-[e $ ! > _clear_norm -> -> 15 `i `ui 2022  ]
+"108
+[; ;main.c: 108:     while (1) {
+[e :U 2020 ]
 {
+"110
+[; ;main.c: 110:         LATGbits.LATG0 = 1;
+[e = . . _LATGbits 0 0 -> -> 1 `i `uc ]
+"111
+[; ;main.c: 111:         LATEbits.LATE7 = 1;
+[e = . . _LATEbits 0 7 -> -> 1 `i `uc ]
+"112
+[; ;main.c: 112:         LATAbits.LATA3 = 1;
+[e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
+"115
+[; ;main.c: 115:         fullSpeedAhead(&motorL,&motorR);
+[e ( _fullSpeedAhead (2 , &U _motorL &U _motorR ]
+"116
+[; ;main.c: 116:         T0CON0bits.T0EN=1;
+[e = . . _T0CON0bits 0 4 -> -> 1 `i `uc ]
+"118
+[; ;main.c: 118:         (colorCurrent.clear) = color_read_Clear();
+[e = . _colorCurrent 3 ( _color_read_Clear ..  ]
+"119
+[; ;main.c: 119:         current = colorCurrent.clear;
+[e = _current -> . _colorCurrent 3 `f ]
+"121
+[; ;main.c: 121:         clear_norm = (current)*100/(maximum);
+[e = _clear_norm -> / * _current -> -> 100 `i `f _maximum `ui ]
 "124
-[; ;main.c: 124:             stop(&motorL,&motorR);
-[e ( _stop (2 , &U _motorL &U _motorR ]
+[; ;main.c: 124:         if (clear_norm > 8){
+[e $ ! > _clear_norm -> -> 8 `i `ui 2022  ]
+{
 "126
-[; ;main.c: 126:             int time = get16bitTMR0val();
+[; ;main.c: 126:             stop(&motorL,&motorR);
+[e ( _stop (2 , &U _motorL &U _motorR ]
+"128
+[; ;main.c: 128:             int time = get16bitTMR0val();
 [v _time `i ~T0 @X0 1 a ]
 [e = _time -> ( _get16bitTMR0val ..  `i ]
-"127
-[; ;main.c: 127:             T0CON0bits.T0EN=0;
+"129
+[; ;main.c: 129:             T0CON0bits.T0EN=0;
 [e = . . _T0CON0bits 0 4 -> -> 0 `i `uc ]
-"128
-[; ;main.c: 128:             logAction('F',time, path_length);
+"130
+[; ;main.c: 130:             logAction('F',time, path_length);
 [e ( _logAction (3 , , -> -> 70 `ui `uc _time _path_length ]
-"132
-[; ;main.c: 132:             fullSpeedAhead(&motorL,&motorR);
-[e ( _fullSpeedAhead (2 , &U _motorL &U _motorR ]
-"133
-[; ;main.c: 133:             _delay((unsigned long)((100)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"131
+[; ;main.c: 131:             _delay((unsigned long)((200)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
 "134
-[; ;main.c: 134:             stop(&motorL,&motorR);
-[e ( _stop (2 , &U _motorL &U _motorR ]
+[; ;main.c: 134:             fullSpeedAhead(&motorL,&motorR);
+[e ( _fullSpeedAhead (2 , &U _motorL &U _motorR ]
 "135
-[; ;main.c: 135:             _delay((unsigned long)((500)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+[; ;main.c: 135:             _delay((unsigned long)((100)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"136
+[; ;main.c: 136:             stop(&motorL,&motorR);
+[e ( _stop (2 , &U _motorL &U _motorR ]
 "137
-[; ;main.c: 137:             if (clear_norm > 80 || LATGbits.LATG1 == 1){
-[e $ ! || > _clear_norm -> -> 80 `i `ui == -> . . _LATGbits 0 1 `i -> 1 `i 2023  ]
-{
+[; ;main.c: 137:             _delay((unsigned long)((300)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 300 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
 "139
-[; ;main.c: 139:                 unsigned int white = 8;
+[; ;main.c: 139:             if (clear_norm > 65 || LATGbits.LATG1 == 1){
+[e $ ! || > _clear_norm -> -> 65 `i `ui == -> . . _LATGbits 0 1 `i -> 1 `i 2023  ]
+{
+"141
+[; ;main.c: 141:                 unsigned int white = 8;
 [v _white `ui ~T0 @X0 1 a ]
 [e = _white -> -> 8 `i `ui ]
-"140
-[; ;main.c: 140:                 send2USART(white);
-[e ( _send2USART (1 _white ]
-"141
-[; ;main.c: 141:                 returnHome(&motorL, &motorR, &path, path_length);
-[e ( _returnHome (4 , , , &U _motorL &U _motorR -> &U _path `**S2017 -> _path_length `i ]
 "142
-[; ;main.c: 142:                 LATGbits.LATG1 = 0;
-[e = . . _LATGbits 0 1 -> -> 0 `i `uc ]
+[; ;main.c: 142:                 send2USART(white);
+[e ( _send2USART (1 _white ]
 "143
-[; ;main.c: 143:             }
+[; ;main.c: 143:                 returnHome(&motorL, &motorR, &path, path_length);
+[e ( _returnHome (4 , , , &U _motorL &U _motorR -> &U _path `**S2017 -> _path_length `i ]
+"144
+[; ;main.c: 144:                 LATGbits.LATG1 = 0;
+[e = . . _LATGbits 0 1 -> -> 0 `i `uc ]
+"145
+[; ;main.c: 145:             }
 }
 [e :U 2023 ]
-"145
-[; ;main.c: 145:             hue = reading_hue(&colorCurrent);
-[e = _hue ( _reading_hue (1 &U _colorCurrent ]
-"146
-[; ;main.c: 146:             decision(hue, path_length);
-[e ( _decision (2 , _hue _path_length ]
 "147
-[; ;main.c: 147:         }
+[; ;main.c: 147:             hue = reading_hue(&colorCurrent);
+[e = _hue ( _reading_hue (1 &U _colorCurrent ]
+"148
+[; ;main.c: 148:             decision(hue, path_length);
+[e ( _decision (2 , _hue _path_length ]
+"149
+[; ;main.c: 149:         }
 }
 [e :U 2022 ]
-"150
-[; ;main.c: 150:     }
+"152
+[; ;main.c: 152:     }
 }
 [e :U 2019 ]
 [e $U 2020  ]
 [e :U 2021 ]
-"151
-[; ;main.c: 151: }
+"153
+[; ;main.c: 153: }
 [e :UE 2018 ]
 }
