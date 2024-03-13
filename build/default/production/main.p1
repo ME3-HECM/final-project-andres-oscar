@@ -2511,8 +2511,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 137:             _delay((unsigned long)((300)*(64000000/4000.0)));
 [e ( __delay (1 -> * -> -> 300 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
 "139
-[; ;main.c: 139:             if (clear_norm > 65 || LATGbits.LATG1 == 1){
-[e $ ! || > _clear_norm -> -> 65 `i `ui == -> . . _LATGbits 0 1 `i -> 1 `i 2023  ]
+[; ;main.c: 139:             if (clear_norm > 50 && !(hue>=302 && hue<=346) || LATGbits.LATG1 == 1){
+[e $ ! || && > _clear_norm -> -> 50 `i `ui ! && >= _hue -> -> 302 `i `ui <= _hue -> -> 346 `i `ui == -> . . _LATGbits 0 1 `i -> 1 `i 2023  ]
 {
 "141
 [; ;main.c: 141:                 unsigned int white = 8;

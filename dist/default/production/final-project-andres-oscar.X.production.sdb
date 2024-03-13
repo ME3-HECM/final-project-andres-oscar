@@ -976,17 +976,17 @@
 [v _main main `(v  1 e 1 0 ]
 {
 "128
-[v main@time time `i  1 a 2 86 ]
+[v main@time time `i  1 a 2 84 ]
 "105
 [v main@current current `f  1 a 4 80 ]
 "104
 [v main@maximum maximum `f  1 a 4 76 ]
 "91
 [v main@path_length path_length `ui  1 a 2 90 ]
-"106
-[v main@clear_norm clear_norm `ui  1 a 2 88 ]
 "89
-[v main@hue hue `ui  1 a 2 84 ]
+[v main@hue hue `ui  1 a 2 88 ]
+"106
+[v main@clear_norm clear_norm `ui  1 a 2 86 ]
 "153
 } 0
 "383 C:\Users\ablan\OneDrive - Imperial College London\Documents\GitHub\final-project-andres-oscar.X\dc_motor.c

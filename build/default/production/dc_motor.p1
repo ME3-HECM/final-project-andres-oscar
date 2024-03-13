@@ -2796,8 +2796,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;dc_motor.c: 195:     turnRight(mL,mR);
 [e ( _turnRight (2 , _mL _mR ]
 "196
-[; ;dc_motor.c: 196:     _delay((unsigned long)((260)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 260 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+[; ;dc_motor.c: 196:     _delay((unsigned long)((290)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 290 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
 "197
 [; ;dc_motor.c: 197:     stop(mL,mR);
 [e ( _stop (2 , _mL _mR ]
@@ -2823,8 +2823,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;dc_motor.c: 203:     turnLeft(mL,mR);
 [e ( _turnLeft (2 , _mL _mR ]
 "204
-[; ;dc_motor.c: 204:     _delay((unsigned long)((260)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 260 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+[; ;dc_motor.c: 204:     _delay((unsigned long)((290)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 290 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
 "205
 [; ;dc_motor.c: 205:     stop(mL,mR);
 [e ( _stop (2 , _mL _mR ]
@@ -2850,8 +2850,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;dc_motor.c: 211:     turnLeft(mL,mR);
 [e ( _turnLeft (2 , _mL _mR ]
 "212
-[; ;dc_motor.c: 212:     _delay((unsigned long)((520)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 520 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+[; ;dc_motor.c: 212:     _delay((unsigned long)((580)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 580 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
 "213
 [; ;dc_motor.c: 213:     stop(mL,mR);
 [e ( _stop (2 , _mL _mR ]

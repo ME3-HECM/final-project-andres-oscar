@@ -136,7 +136,7 @@ void main(void) {
             stop(&motorL,&motorR);
             __delay_ms(300);
             
-            if (clear_norm > 65 || LATGbits.LATG1 == 1){
+            if (clear_norm > 50 && !(hue>=302 && hue<=346) || LATGbits.LATG1 == 1){
 
                 unsigned int white = 8;
                 send2USART(white);
