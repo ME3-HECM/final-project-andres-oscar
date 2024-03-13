@@ -24372,23 +24372,16 @@ void main(void) {
 
 
     while (1) {
-# 108 "main.c"
-        LATGbits.LATG0 = 1;
-        LATEbits.LATE7 = 1;
-        LATAbits.LATA3 = 1;
-        fullSpeedAhead(&motorL,&motorR);
-        (colorCurrent.clear) = color_read_Clear();
-        float current = colorCurrent.clear;
-        float maximum = colorCalibration.clear;
-        float clear_norm = current/maximum;
+
+        hue = reading_hue(&colorCurrent);
+
+        float clear = colorCurrent.clear;
+        float clear_max = colorCalibration.clear;
+
+        unsigned int clear_norm = clear*100/clear_max;
+
+        send2USART(clear_norm);
 
 
-        if (clear_norm > 0.15){
-            stop(&motorL,&motorR);
-            hue = reading_hue(&colorCurrent);
-            decision(hue);
-        }
-    }
-
-
+}
 }
