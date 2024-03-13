@@ -356,8 +356,16 @@ void customDelayMs(unsigned int milliseconds) {
 
 //function that reverses the straight direction, taking the time in ms required as an input
 void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time) {
+    //NEED TO UPDATE TIME SINCE IT WILL BE IN BITS
+    int delayMs;
+    
+    //completely arbitrary delays and bit values, needs more testing!
+    if (time<1000 && time>800){delayMs = 3000}; //movement of 3 squares
+    if (time<800 && time>600){delayMs = 2000}; //movements of 2 squares
+    if (time<600 && time>400){delayMs = 1000}; //movement of 1 square
+    
     fullSpeedAhead(mL, mR);
-    customDelayMs(time); //custom delay in ms
+    customDelayMs(delayMs); //custom delay in ms
     stop(mL, mR);
 }
 

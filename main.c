@@ -98,14 +98,29 @@ void main(void) {
         LATEbits.LATE7 = 1; //Green is E7
         LATAbits.LATA3 = 1; //Blue is A3
         fullSpeedAhead(&motorL,&motorR);
+        T0CON0bits.T0EN=1;	//start the timer
+    
         (colorCurrent.clear) = color_read_Clear();
         float current = colorCurrent.clear;
         float maximum = colorCalibration.clear;
         float clear_norm = current/maximum; //normalises clear value depending on calibration routine
         
         //when clear above a certain threshold, start the colour detection and movement process
-        if (clear_norm > 0.3){  //normalised clear value range for colour detection
+        if (clear_norm > 0.15){  //normalised clear value range for colour detection
+            
+            stop(&motorL,&motorR); //stops moving
+            
+            int time = get16bitTMR0val(); //takes the timer value at that instant
+            T0CON0bits.T0EN=0;	//stops the timer
+            logAction('F',time); //logs the actions of going forward for that duration of 
+            
+            
+            //small sequence to bump wall for better readings
+            fullSpeedAhead(&motorL,&motorR);
+            __delay_ms(200);
             stop(&motorL,&motorR);
+            
+            
             hue = reading_hue(&colorCurrent);
             decision(hue);
         }
