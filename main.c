@@ -121,8 +121,9 @@ void main(void) {
             
             //small sequence to bump wall for better readings
             fullSpeedAhead(&motorL,&motorR);
-            __delay_ms(200);
+            __delay_ms(100);
             stop(&motorL,&motorR);
+            __delay_ms(200);
             
             if (clear_norm > 0.75){
                 returnHome(&motorL, &motorR, &path ,path_length);

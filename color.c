@@ -326,7 +326,7 @@ void decision(unsigned int hue, unsigned int path_length) {
     
     
     
-    if (hue<=10) { // Red hue range
+    if (hue<=10 || hue>=355) { // Red hue range
         moveRed(&motorL, &motorR, path_length);
     } else if (hue>=105 && hue<=130){ // Green hue range
         moveGreen(&motorL, &motorR, path_length);
