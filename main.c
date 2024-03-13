@@ -116,7 +116,8 @@ void main(void) {
         (colorCurrent.clear) = color_read_Clear();
         float current = colorCurrent.clear;
         float maximum = colorCalibration.clear;
-        unsigned int clear_norm = current*100/maximum; //normalises clear value depending on calibration routine
+        float ambient = colorCalibration.clear_ambient;
+        unsigned int clear_norm = (current-ambient)*100/(maximum-ambient); //normalises clear value depending on calibration routine
 //        send2USART(clear_norm);
         //when clear above a certain threshold, start the colour detection and movement process
         if (clear_norm > 10){  //normalised clear value range for colour detection
