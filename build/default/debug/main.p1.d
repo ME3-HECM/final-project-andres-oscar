@@ -5,4 +5,5 @@ i2c.h  \
 ADC.h  \
 serial.h  \
 dc_motor.h  \
-functions.h 
+functions.h  \
+timers.h 

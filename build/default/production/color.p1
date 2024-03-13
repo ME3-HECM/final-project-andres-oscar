@@ -9,8 +9,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [n S2016 DC_motor power direction brakemode PWMperiod posDutyHighByte negDutyHighByte ]
 "21
 [; ;./dc_motor.h: 21: typedef struct PathStep{
-[s S2017 `uc 1 `i 1 ]
-[n S2017 PathStep action time ]
+[s S2017 `uc 1 `i 1 `ui 1 ]
+[n S2017 PathStep action time path_length ]
 "13 ./i2c.h
 [; ;./i2c.h: 13: void I2C_2_Master_Init(void);
 [v _I2C_2_Master_Init `(v ~T0 @X0 0 ef ]
@@ -105,26 +105,26 @@ Version 4.0 HI-TECH Software Intermediate Code
 "30278
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 30278: extern volatile PORTFbits_t PORTFbits __attribute__((address(0xF8E)));
 [v _PORTFbits `VS1411 ~T0 @X0 0 e@3982 ]
-"44 ./dc_motor.h
-[; ;./dc_motor.h: 44: void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+"45 ./dc_motor.h
+[; ;./dc_motor.h: 45: void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 [v _moveRed `(v ~T0 @X0 0 ef3`*S2016`*S2016`ui ]
-"45
-[; ;./dc_motor.h: 45: void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-[v _moveGreen `(v ~T0 @X0 0 ef3`*S2016`*S2016`ui ]
 "46
-[; ;./dc_motor.h: 46: void moveBlue(struct DC_motor *mL, struct DC_motor *mR,unsigned int path_length);
-[v _moveBlue `(v ~T0 @X0 0 ef3`*S2016`*S2016`ui ]
-"50
-[; ;./dc_motor.h: 50: void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-[v _moveLightBlue `(v ~T0 @X0 0 ef3`*S2016`*S2016`ui ]
+[; ;./dc_motor.h: 46: void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+[v _moveGreen `(v ~T0 @X0 0 ef3`*S2016`*S2016`ui ]
 "47
-[; ;./dc_motor.h: 47: void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-[v _moveYellow `(v ~T0 @X0 0 ef3`*S2016`*S2016`ui ]
-"49
-[; ;./dc_motor.h: 49: void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-[v _moveOrange `(v ~T0 @X0 0 ef3`*S2016`*S2016`ui ]
+[; ;./dc_motor.h: 47: void moveBlue(struct DC_motor *mL, struct DC_motor *mR,unsigned int path_length);
+[v _moveBlue `(v ~T0 @X0 0 ef3`*S2016`*S2016`ui ]
+"51
+[; ;./dc_motor.h: 51: void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+[v _moveLightBlue `(v ~T0 @X0 0 ef3`*S2016`*S2016`ui ]
 "48
-[; ;./dc_motor.h: 48: void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+[; ;./dc_motor.h: 48: void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+[v _moveYellow `(v ~T0 @X0 0 ef3`*S2016`*S2016`ui ]
+"50
+[; ;./dc_motor.h: 50: void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+[v _moveOrange `(v ~T0 @X0 0 ef3`*S2016`*S2016`ui ]
+"49
+[; ;./dc_motor.h: 49: void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 [v _movePink `(v ~T0 @X0 0 ef3`*S2016`*S2016`ui ]
 "45 ./serial.h
 [; ;./serial.h: 45: void send2USART(unsigned int hue);
@@ -2148,8 +2148,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./dc_motor.h: 19: struct DC_motor motorL, motorR;
 [v _motorL `S2016 ~T0 @X0 1 e ]
 [v _motorR `S2016 ~T0 @X0 1 e ]
-"26
-[; ;./dc_motor.h: 26: struct PathStep path[50];
+"27
+[; ;./dc_motor.h: 27: struct PathStep path[50];
 [v _path `S2017 ~T0 @X0 -> 50 `i e ]
 "8 color.c
 [; ;color.c: 8: void color_click_init(void)

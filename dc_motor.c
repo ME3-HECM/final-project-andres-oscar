@@ -370,9 +370,9 @@ void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time) {
     int delayMs;
     
     //completely arbitrary delays and bit values, needs more testing!
-    if (time<1000 && time>800){delayMs = 3000; } //movement of 3 squares
-    if (time<800 && time>600){delayMs = 2000; } //movements of 2 squares
-    if (time<600 && time>400){delayMs = 1000;} //movement of 1 square
+    if (time<5500 && time>6100){delayMs = 3000; } //movement of 3 squares
+    if (time<3700 && time>4100){delayMs = 2000; } //movements of 2 squares
+    if (time<1700 && time>2100){delayMs = 1000;} //movement of 1 square
     
     fullSpeedAhead(mL, mR);
     customDelayMs(delayMs); //custom delay in ms

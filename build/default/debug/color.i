@@ -24519,15 +24519,13 @@ unsigned int color_read_Blue(void);
 unsigned int color_read_Clear(void);
 
 
-void test(void);
+unsigned int reading_hue(colors *cCurr);
 
 unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
 
-void reading_values(colors *cCurr);
-
-void decision(void);
+void decision(unsigned int hue, unsigned int path_length);
 # 3 "color.c" 2
 
 # 1 "./i2c.h" 1
@@ -24602,13 +24600,7 @@ void send2USART(unsigned int hue);
 # 5 "color.c" 2
 
 # 1 "./dc_motor.h" 1
-
-
-
-
-
-
-
+# 10 "./dc_motor.h"
 typedef struct DC_motor {
     char power;
     char direction;
@@ -24620,6 +24612,13 @@ typedef struct DC_motor {
 
 struct DC_motor motorL, motorR;
 
+typedef struct PathStep{
+    char action;
+    int time;
+    unsigned int path_length;
+} PathStep;
+
+struct PathStep path[50];
 
 
 void initDCmotorsPWM(unsigned int PWMperiod);
@@ -24628,6 +24627,7 @@ void stop(DC_motor *mL, DC_motor *mR);
 void turnLeft(DC_motor *mL, DC_motor *mR);
 void turnRight(DC_motor *mL, DC_motor *mR);
 void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
+
 void right90(struct DC_motor *mL, struct DC_motor *mR);
 void left90(struct DC_motor *mL, struct DC_motor *mR);
 void turn180(struct DC_motor *mL, struct DC_motor *mR);
@@ -24635,13 +24635,20 @@ void right135(struct DC_motor *mL, struct DC_motor *mR);
 void left135(struct DC_motor *mL, struct DC_motor *mR);
 void backHalf(struct DC_motor *mL, struct DC_motor *mR);
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
-void moveRed(struct DC_motor *mL, struct DC_motor *mR);
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR);
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR);
-void movePink(struct DC_motor *mL, struct DC_motor *mR);
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
+
+void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveBlue(struct DC_motor *mL, struct DC_motor *mR,unsigned int path_length);
+void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveWhite(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+
+void logAction(char action, int time, unsigned int pathLength);
+void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection);
+void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time);
+void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path[], int pathLength);
 # 6 "color.c" 2
 
 
@@ -24725,101 +24732,67 @@ unsigned int color_read_Clear(void)
  I2C_2_Master_Stop();
  return tmp;
 }
-# 100 "color.c"
-unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
-{
-    float redcurrent, redmax, greencurrent, greenmax, bluecurrent, bluemax;
-    float r, g, b, min, max, diff, hue = 0.0;
-
-    redcurrent = cCurr->red;
-    redmax = cMax->red;
-    greencurrent = cCurr->green;
-    greenmax = cMax->green;
-    bluecurrent = cCurr->blue;
-    bluemax = cMax->blue;
-
-    r = redcurrent/redmax;
-    g = greencurrent/greenmax;
-    b = bluecurrent/bluemax;
-
-    min = r < g ? (r < b ? r : b) : (g < b ? g : b);
-    max = r > g ? (r > b ? r : b) : (g > b ? g : b);
-    diff = max - min;
-    if (max == min) {
-        hue = 0;
-    } else if (max == r){
-        hue = (b - g) / diff;
-    } else if (max == g){
-        hue = (b - r) / diff;
-        hue = hue + 2;
-    } else if (max == b){
-        hue = (r - g) / diff;
-        hue = hue + 4;
-    }
-
-    hue = hue * 60;
-    if (hue < 0) {
-        hue = hue + 360;
-    }
-
-    return (unsigned int)hue;
-}
-# 173 "color.c"
-void test(void)
+# 136 "color.c"
+unsigned int reading_hue(colors *cCurr)
 {
     unsigned int hue;
 
     char led_state[50];
 
 
-    for (unsigned int combo = 0; combo < 4; ++combo) {
 
 
-        if (combo == 0) {
-
-            LATGbits.LATG0 = 1;
-            LATEbits.LATE7 = 0;
-            LATAbits.LATA3 = 0;
-            sprintf(led_state,"Red_light=%d, \n\r", LATGbits.LATG0);
-        }
-
-        if (combo == 1) {
-            LATGbits.LATG0 = 0;
-            LATEbits.LATE7 = 1;
-            LATAbits.LATA3 = 0;
-            sprintf(led_state,"Green_light=%d, \n\r", LATEbits.LATE7);
-        }
-
-        if (combo == 2) {
-            LATGbits.LATG0 = 0;
-            LATEbits.LATE7 = 0;
-            LATAbits.LATA3 = 1;
-            sprintf(led_state,"Blue_light=%d \n\r", LATAbits.LATA3);
-        }
-
-        if (combo == 3) {
-            LATGbits.LATG0 = 1;
-            LATEbits.LATE7 = 1;
-            LATAbits.LATA3 = 1;
-            sprintf(led_state,"All_lights=%d \n\r", 1);
-        }
-
-        sendStringSerial4(led_state);
-
-        reading_values(&colorCurrent);
-
-        hue = convert_rgb2hue(&colorCalibration, &colorCurrent);
+    LATGbits.LATG0 = 1;
+    LATEbits.LATE7 = 0;
+    LATAbits.LATA3 = 0;
+    _delay((unsigned long)((500)*(64000000/4000.0)));
+    (cCurr->red)= color_read_Red();
 
 
 
 
-        send2USART(hue);
+    LATGbits.LATG0 = 0;
+    LATEbits.LATE7 = 1;
+    LATAbits.LATA3 = 0;
+    _delay((unsigned long)((500)*(64000000/4000.0)));
+    (cCurr->green) = color_read_Green();
 
 
-        _delay((unsigned long)((1000)*(64000000/4000.0)));
 
-    }
+
+
+    LATGbits.LATG0 = 0;
+    LATEbits.LATE7 = 0;
+    LATAbits.LATA3 = 1;
+    _delay((unsigned long)((500)*(64000000/4000.0)));
+    (cCurr->blue) = color_read_Blue();
+
+
+
+
+    LATGbits.LATG0 = 1;
+    LATEbits.LATE7 = 1;
+    LATAbits.LATA3 = 1;
+    _delay((unsigned long)((500)*(64000000/4000.0)));
+    (cCurr->clear) = color_read_Clear();
+
+
+
+
+
+
+    hue = convert_rgb2hue(&colorCalibration, &colorCurrent);
+
+
+
+
+
+
+    return hue;
+    ;
+
 }
+
 
 void calibration_routine(colors *cCal)
 {
@@ -24872,7 +24845,7 @@ void calibration_routine(colors *cCal)
     LATAbits.LATA3 = 0;
 
 
-    sprintf(cal_state,"Calibration state = ambient light", ".");
+    sprintf(cal_state,"Calibration state =  white light", ".");
     sendStringSerial4(&cal_state);
 
     while(PORTFbits.RF2 == 1){
@@ -24890,34 +24863,94 @@ void calibration_routine(colors *cCal)
 
     sprintf(cal_state,"CALIBRATION COMPLETED \n\r", ".");
     sendStringSerial4(&cal_state);
-}
 
-void reading_values(colors *cCurr)
-{
+    while(PORTFbits.RF2 == 1){
 
-
-    (cCurr->red)= color_read_Red();
-    (cCurr->blue) = color_read_Blue();
-    (cCurr->green) = color_read_Green();
-    (cCurr->clear) = color_read_Clear();
-}
-
-void decision(void) {
-
-
-    reading_values(&colorCurrent);
-
-    unsigned int hue = convert_rgb2hue(&colorCalibration, &colorCurrent);
-
-    if (hue <= 30 || hue > 330) {
-        sendStringSerial4("Detected color: Red\n\r");
-    } else if (hue > 30 && hue <= 150) {
-        sendStringSerial4("Detected color: Green\n\r");
-    } else if (hue > 150 && hue <= 270) {
-        sendStringSerial4("Detected color: Blue\n\r");
-    } else {
-        sendStringSerial4("Detected color: Red-ish\n\r");
     }
+    _delay((unsigned long)((500)*(64000000/4000.0)));
+}
+
+
+unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
+{
+    float redcurrent, redmax, greencurrent, greenmax, bluecurrent, bluemax, clearcurrent, clearmax;
+    float r, g, b, c, min, max, diff, hue = 0.0;
+
+    redcurrent = cCurr->red;
+    redmax = cMax->red;
+    greencurrent = cCurr->green;
+    greenmax = cMax->green;
+    bluecurrent = cCurr->blue;
+    bluemax = cMax->blue;
+    clearcurrent = cCurr->clear;
+    clearmax = cMax->clear;
+
+    c = clearcurrent/clearmax;
+    char c_char[20];
+
+
+
+
+
+    r = redcurrent/redmax;
+    g = greencurrent/greenmax;
+    b = bluecurrent/bluemax;
+
+    min = r < g ? (r < b ? r : b) : (g < b ? g : b);
+    max = r > g ? (r > b ? r : b) : (g > b ? g : b);
+    diff = max - min;
+    if (max == min) {
+        hue = 0;
+    } else if (max == r){
+        hue = (b - g) / diff;
+    } else if (max == g){
+        hue = (b - r) / diff;
+        hue = hue + 2;
+    } else if (max == b){
+        hue = (r - g) / diff;
+        hue = hue + 4;
+    }
+
+    hue = hue * 60;
+    if (hue < 0) {
+        hue = hue + 360;
+    }
+
+    return (unsigned int)hue;
+}
+
+void decision(unsigned int hue, unsigned int path_length) {
+
+
+
+
+    unsigned int color;
+
+    if (hue<=10 || hue>=355) {
+        moveRed(&motorL, &motorR, path_length);
+        color = 1;
+    } else if (hue>=105 && hue<=130){
+        moveGreen(&motorL, &motorR, path_length);
+        color = 2;
+    } else if (hue>=230 && hue<=240){
+        moveBlue(&motorL,&motorR, path_length);
+        color = 3;
+    } else if (hue>=216 && hue<=221){
+        moveLightBlue(&motorL,&motorR, path_length);
+        color = 4;
+    } else if (hue>=302 && hue<=346){
+        moveYellow(&motorL,&motorR, path_length);
+        color = 5;
+    } else if (hue>14 && hue<=35){
+        moveOrange(&motorL,&motorR, path_length);
+        color= 6;
+    } else if (hue>=244 && hue<=251){
+        movePink(&motorL,&motorR, path_length);
+        color = 7;
+
+    }
+    send2USART(color);
+
 
 
 

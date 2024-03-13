@@ -24264,6 +24264,7 @@ struct DC_motor motorL, motorR;
 typedef struct PathStep{
     char action;
     int time;
+    unsigned int path_length;
 } PathStep;
 
 struct PathStep path[50];
@@ -24369,6 +24370,14 @@ void main(void) {
 
     TRISFbits.TRISF3=1;
     ANSELFbits.ANSELF3=0;
+    TRISFbits.TRISF2 = 1;
+    LATFbits.LATF2 = 0;
+    ANSELFbits.ANSELF2 = 0;
+
+
+    TRISGbits.TRISG1 = 0;
+    LATGbits.LATG1 = 0;
+
 
     unsigned int battery_level;
     unsigned int red;
@@ -24378,13 +24387,14 @@ void main(void) {
     unsigned int hue;
     char hue_char[20];
     unsigned int path_length = 0;
+
+
+
     TRISHbits.TRISH3 = 0;
     LATHbits.LATH3 = 1;
     _delay((unsigned long)((300)*(64000000/4000.0)));
     LATHbits.LATH3 = 0;
-    LATFbits.LATF2 = 0;
-    TRISFbits.TRISF2 = 1;
-    ANSELFbits.ANSELF2 = 0;
+
 
 
     calibration_routine(&colorCalibration);
@@ -24420,13 +24430,14 @@ void main(void) {
             fullSpeedAhead(&motorL,&motorR);
             _delay((unsigned long)((100)*(64000000/4000.0)));
             stop(&motorL,&motorR);
-            _delay((unsigned long)((200)*(64000000/4000.0)));
+            _delay((unsigned long)((500)*(64000000/4000.0)));
 
-            if (clear_norm > 80){
+            if (clear_norm > 80 || LATGbits.LATG1 == 1){
 
                 unsigned int white = 8;
                 send2USART(white);
-                returnHome(&motorL, &motorR, &path ,path_length);
+                returnHome(&motorL, &motorR, &path, path_length);
+                LATGbits.LATG1 = 0;
             }
 
             hue = reading_hue(&colorCurrent);

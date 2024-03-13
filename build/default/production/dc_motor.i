@@ -24104,6 +24104,7 @@ struct DC_motor motorL, motorR;
 typedef struct PathStep{
     char action;
     int time;
+    unsigned int path_length;
 } PathStep;
 
 struct PathStep path[50];
@@ -24484,9 +24485,9 @@ void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time) {
     int delayMs;
 
 
-    if (time<1000 && time>800){delayMs = 3000; }
-    if (time<800 && time>600){delayMs = 2000; }
-    if (time<600 && time>400){delayMs = 1000;}
+    if (time<5500 && time>6100){delayMs = 3000; }
+    if (time<3700 && time>4100){delayMs = 2000; }
+    if (time<1700 && time>2100){delayMs = 1000;}
 
     fullSpeedAhead(mL, mR);
     customDelayMs(delayMs);

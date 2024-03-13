@@ -71,8 +71,16 @@ void main(void) {
     
     //Buttons on Clicker Board Initializations
     TRISFbits.TRISF3=1; //set TRIS value for pin (input)
-    ANSELFbits.ANSELF3=0; //turn off analogue input on pin
+    ANSELFbits.ANSELF3=0; 
+    TRISFbits.TRISF2 = 1; //another pin input
+    LATFbits.LATF2 = 0;
+    ANSELFbits.ANSELF2 = 0;
     
+    //initialising another pin on the board to hold interrupt value
+    TRISGbits.TRISG1 = 0;
+    LATGbits.LATG1 = 0;
+    
+    //variable initialisations
     unsigned int battery_level;
     unsigned int red;
     unsigned int blue;
@@ -81,13 +89,14 @@ void main(void) {
     unsigned int hue;
     char hue_char[20];
     unsigned int path_length = 0;
+    
+    
+    //flashes light on the front of car to show initialization
     TRISHbits.TRISH3 = 0;
     LATHbits.LATH3 = 1;
     __delay_ms(300);
     LATHbits.LATH3 = 0;
-    LATFbits.LATF2 = 0;
-    TRISFbits.TRISF2 = 1;
-    ANSELFbits.ANSELF2 = 0;
+    
     
     
     calibration_routine(&colorCalibration);
@@ -110,7 +119,7 @@ void main(void) {
         unsigned int clear_norm = current*100/maximum; //normalises clear value depending on calibration routine
 //        send2USART(clear_norm);
         //when clear above a certain threshold, start the colour detection and movement process
-        if (clear_norm > 15){  //normalised clear value range for colour detection
+        if (clear_norm > 10){  //normalised clear value range for colour detection
             
             stop(&motorL,&motorR); //stops moving
             
@@ -123,13 +132,14 @@ void main(void) {
             fullSpeedAhead(&motorL,&motorR);
             __delay_ms(100);
             stop(&motorL,&motorR);
-            __delay_ms(200);
+            __delay_ms(500);
             
-            if (clear_norm > 80){
+            if (clear_norm > 80 || LATGbits.LATG1 == 1){
 
                 unsigned int white = 8;
                 send2USART(white);
-                returnHome(&motorL, &motorR, &path ,path_length);
+                returnHome(&motorL, &motorR, &path, path_length);
+                LATGbits.LATG1 = 0;
             }
             
             hue = reading_hue(&colorCurrent);

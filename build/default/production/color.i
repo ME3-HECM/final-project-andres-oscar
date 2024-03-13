@@ -24615,6 +24615,7 @@ struct DC_motor motorL, motorR;
 typedef struct PathStep{
     char action;
     int time;
+    unsigned int path_length;
 } PathStep;
 
 struct PathStep path[50];

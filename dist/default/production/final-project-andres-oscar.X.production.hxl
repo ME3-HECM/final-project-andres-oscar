@@ -1,7 +1,7 @@
 ### HEXMate logfile and output summary ###
 
 ### Command-line arguments ###
- C:\Users\ablan\AppData\Local\Temp\xcAsbog.\driver_tmp_3.o
+ C:\Users\ablan\AppData\Local\Temp\xcAsrg8.\driver_tmp_3.o
  -Odist/default/production\final-project-andres-oscar.X.production.hex
  -logfile=dist/default/production\final-project-andres-oscar.X.production.hxl
  -addressing=1
@@ -9,25 +9,30 @@
 
 ### Memory Usage ###
  Input file ranges:
-  0h - 3h		(C:\Users\ablan\AppData\Local\Temp\xcAsbog.\driver_tmp_3.o)
-  E00h - EAEh		(C:\Users\ablan\AppData\Local\Temp\xcAsbog.\driver_tmp_3.o)
-  EB0h - 4430h		(C:\Users\ablan\AppData\Local\Temp\xcAsbog.\driver_tmp_3.o)
-  300000h - 300001h		(C:\Users\ablan\AppData\Local\Temp\xcAsbog.\driver_tmp_3.o)
-  300004h - 300005h		(C:\Users\ablan\AppData\Local\Temp\xcAsbog.\driver_tmp_3.o)
+  0h - 3h		(C:\Users\ablan\AppData\Local\Temp\xcAsrg8.\driver_tmp_3.o)
+  18h - 3Dh		(C:\Users\ablan\AppData\Local\Temp\xcAsrg8.\driver_tmp_3.o)
+  E00h - EAEh		(C:\Users\ablan\AppData\Local\Temp\xcAsrg8.\driver_tmp_3.o)
+  EB0h - 4444h		(C:\Users\ablan\AppData\Local\Temp\xcAsrg8.\driver_tmp_3.o)
+  300000h - 300001h		(C:\Users\ablan\AppData\Local\Temp\xcAsrg8.\driver_tmp_3.o)
+  300004h - 300005h		(C:\Users\ablan\AppData\Local\Temp\xcAsrg8.\driver_tmp_3.o)
  Unused ranges:
-  4h - DFFh
+  4h - 17h
+  3Eh - DFFh
   EAFh - EAFh
-  4431h - 2FFFFFh
+  4445h - 2FFFFFh
   300002h - 300003h
 
 ### Hex Memory Map ###
  Legend:
   -- = Unused memory
-  H1 = Input file             (C:\Users\ablan\AppData\Local\Temp\xcAsbog.\driver_tmp_3.o)
+  H1 = Input file             (C:\Users\ablan\AppData\Local\Temp\xcAsrg8.\driver_tmp_3.o)
 ----------------------------------------------------------
          | 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
 ----------------------------------------------------------
 00000000 | H1 H1 H1 H1 -- -- -- -- -- -- -- -- -- -- -- --
+00000010 | -- -- -- -- -- -- -- -- H1 H1 H1 H1 H1 H1 H1 H1
+00000020 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00000030 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 -- --
 ----------------------------------------------------------
 00000E00 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00000E10 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
@@ -896,7 +901,8 @@
 00004400 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00004410 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00004420 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00004430 | H1 -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+00004430 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00004440 | H1 H1 H1 H1 H1 -- -- -- -- -- -- -- -- -- -- --
 ----------------------------------------------------------
 00300000 | H1 H1 -- -- H1 H1 -- -- -- -- -- -- -- -- -- --
 00300010 | --

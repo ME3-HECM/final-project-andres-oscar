@@ -5,8 +5,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [n S2015 DC_motor power direction brakemode PWMperiod posDutyHighByte negDutyHighByte ]
 "21
 [; ;./dc_motor.h: 21: typedef struct PathStep{
-[s S2016 `uc 1 `i 1 ]
-[n S2016 PathStep action time ]
+[s S2016 `uc 1 `i 1 `ui 1 ]
+[n S2016 PathStep action time path_length ]
 "29505 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 29505:     struct {
 [s S1384 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
@@ -296,8 +296,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "20 C:\Program Files\Microchip\xc8\v2.45\pic\include\builtins.h
 [v __delay `JF205 ~T0 @X0 0 e ]
 [p i __delay ]
-"53 ./dc_motor.h
-[; ;./dc_motor.h: 53: void logAction(char action, int time, unsigned int pathLength);
+"54 ./dc_motor.h
+[; ;./dc_motor.h: 54: void logAction(char action, int time, unsigned int pathLength);
 [v _logAction `(v ~T0 @X0 0 ef3`uc`i`ui ]
 "54 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 54: __asm("PPSLOCK equ 0DEFh");
@@ -2277,8 +2277,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./dc_motor.h: 19: struct DC_motor motorL, motorR;
 [v _motorL `S2015 ~T0 @X0 1 e ]
 [v _motorR `S2015 ~T0 @X0 1 e ]
-"26
-[; ;./dc_motor.h: 26: struct PathStep path[50];
+"27
+[; ;./dc_motor.h: 27: struct PathStep path[50];
 [v _path `S2016 ~T0 @X0 -> 50 `i e ]
 "5 dc_motor.c
 [; ;dc_motor.c: 5: void initDCmotorsPWM(unsigned int PWMperiod){
@@ -3338,22 +3338,22 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;dc_motor.c: 370:     int delayMs;
 [v _delayMs `i ~T0 @X0 1 a ]
 "373
-[; ;dc_motor.c: 373:     if (time<1000 && time>800){delayMs = 3000; }
-[e $ ! && < _time -> 1000 `i > _time -> 800 `i 2078  ]
+[; ;dc_motor.c: 373:     if (time<5500 && time>6100){delayMs = 3000; }
+[e $ ! && < _time -> 5500 `i > _time -> 6100 `i 2078  ]
 {
 [e = _delayMs -> 3000 `i ]
 }
 [e :U 2078 ]
 "374
-[; ;dc_motor.c: 374:     if (time<800 && time>600){delayMs = 2000; }
-[e $ ! && < _time -> 800 `i > _time -> 600 `i 2079  ]
+[; ;dc_motor.c: 374:     if (time<3700 && time>4100){delayMs = 2000; }
+[e $ ! && < _time -> 3700 `i > _time -> 4100 `i 2079  ]
 {
 [e = _delayMs -> 2000 `i ]
 }
 [e :U 2079 ]
 "375
-[; ;dc_motor.c: 375:     if (time<600 && time>400){delayMs = 1000;}
-[e $ ! && < _time -> 600 `i > _time -> 400 `i 2080  ]
+[; ;dc_motor.c: 375:     if (time<1700 && time>2100){delayMs = 1000;}
+[e $ ! && < _time -> 1700 `i > _time -> 2100 `i 2080  ]
 {
 [e = _delayMs -> 1000 `i ]
 }
