@@ -222,12 +222,21 @@ Version 4.0 HI-TECH Software Intermediate Code
 "61 ./color.h
 [; ;./color.h: 61: void calibration_routine(colors *cCal);
 [v _calibration_routine `(v ~T0 @X0 0 ef1`*S2015 ]
-"57
+"26 ./dc_motor.h
+[; ;./dc_motor.h: 26: void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
+[v _fullSpeedAhead `(v ~T0 @X0 0 ef2`*S2016`*S2016 ]
+"54 ./color.h
+[; ;./color.h: 54: unsigned int color_read_Clear(void);
+[v _color_read_Clear `(ui ~T0 @X0 0 ef ]
+"23 ./dc_motor.h
+[; ;./dc_motor.h: 23: void stop(DC_motor *mL, DC_motor *mR);
+[v _stop `(v ~T0 @X0 0 ef2`*S2016`*S2016 ]
+"57 ./color.h
 [; ;./color.h: 57: unsigned int reading_hue(colors *cCurr);
 [v _reading_hue `(ui ~T0 @X0 0 ef1`*S2015 ]
-"45 ./serial.h
-[; ;./serial.h: 45: void send2USART(unsigned int hue);
-[v _send2USART `(v ~T0 @X0 0 ef1`ui ]
+"63
+[; ;./color.h: 63: void decision(unsigned int hue);
+[v _decision `(v ~T0 @X0 0 ef1`ui ]
 "4 main.c
 [p x FEXTOSC  =  HS ]
 "5
@@ -2392,18 +2401,56 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 2019 ]
 {
 "97
-[; ;main.c: 97:         hue = reading_hue(&colorCurrent);
-[e = _hue ( _reading_hue (1 &U _colorCurrent ]
+[; ;main.c: 97:         LATGbits.LATG0 = 1;
+[e = . . _LATGbits 0 0 -> -> 1 `i `uc ]
 "98
-[; ;main.c: 98:         send2USART(hue);
-[e ( _send2USART (1 _hue ]
+[; ;main.c: 98:         LATEbits.LATE7 = 1;
+[e = . . _LATEbits 0 7 -> -> 1 `i `uc ]
 "99
-[; ;main.c: 99:         }
+[; ;main.c: 99:         LATAbits.LATA3 = 1;
+[e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
+"100
+[; ;main.c: 100:         fullSpeedAhead(&motorL,&motorR);
+[e ( _fullSpeedAhead (2 , &U _motorL &U _motorR ]
+"101
+[; ;main.c: 101:         (colorCurrent.clear) = color_read_Clear();
+[e = . _colorCurrent 3 ( _color_read_Clear ..  ]
+"102
+[; ;main.c: 102:         float current = colorCurrent.clear;
+[v _current `f ~T0 @X0 1 a ]
+[e = _current -> . _colorCurrent 3 `f ]
+"103
+[; ;main.c: 103:         float maximum = colorCalibration.clear;
+[v _maximum `f ~T0 @X0 1 a ]
+[e = _maximum -> . _colorCalibration 3 `f ]
+"104
+[; ;main.c: 104:         float clear_norm = current/maximum;
+[v _clear_norm `f ~T0 @X0 1 a ]
+[e = _clear_norm / _current _maximum ]
+"107
+[; ;main.c: 107:         if (clear_norm > 0.3){
+[e $ ! > -> _clear_norm `d .0.3 2021  ]
+{
+"108
+[; ;main.c: 108:             stop(&motorL,&motorR);
+[e ( _stop (2 , &U _motorL &U _motorR ]
+"109
+[; ;main.c: 109:             hue = reading_hue(&colorCurrent);
+[e = _hue ( _reading_hue (1 &U _colorCurrent ]
+"110
+[; ;main.c: 110:             decision(hue);
+[e ( _decision (1 _hue ]
+"111
+[; ;main.c: 111:         }
+}
+[e :U 2021 ]
+"114
+[; ;main.c: 114:     }
 }
 [e :U 2018 ]
 [e $U 2019  ]
 [e :U 2020 ]
-"100
-[; ;main.c: 100:     }
+"115
+[; ;main.c: 115: }
 [e :UE 2017 ]
 }

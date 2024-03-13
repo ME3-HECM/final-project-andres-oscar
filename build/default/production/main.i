@@ -24372,7 +24372,22 @@ void main(void) {
 
     while (1) {
 
-        hue = reading_hue(&colorCurrent);
-        send2USART(hue);
+        LATGbits.LATG0 = 1;
+        LATEbits.LATE7 = 1;
+        LATAbits.LATA3 = 1;
+        fullSpeedAhead(&motorL,&motorR);
+        (colorCurrent.clear) = color_read_Clear();
+        float current = colorCurrent.clear;
+        float maximum = colorCalibration.clear;
+        float clear_norm = current/maximum;
+
+
+        if (clear_norm > 0.3){
+            stop(&motorL,&motorR);
+            hue = reading_hue(&colorCurrent);
+            decision(hue);
         }
+
+
     }
+}

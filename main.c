@@ -98,8 +98,10 @@ void main(void) {
         LATEbits.LATE7 = 1; //Green is E7
         LATAbits.LATA3 = 1; //Blue is A3
         fullSpeedAhead(&motorL,&motorR);
-        (cCurr->clear) = color_read_Clear();
-        clear_norm = (cCurr->clear)/cMax->clear; //normalises clear value depending on calibration routine
+        (colorCurrent.clear) = color_read_Clear();
+        float current = colorCurrent.clear;
+        float maximum = colorCalibration.clear;
+        float clear_norm = current/maximum; //normalises clear value depending on calibration routine
         
         //when clear above a certain threshold, start the colour detection and movement process
         if (clear_norm > 0.3){  //normalised clear value range for colour detection

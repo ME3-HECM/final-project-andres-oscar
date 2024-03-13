@@ -24834,8 +24834,9 @@ void calibration_routine(colors *cCal)
     _delay((unsigned long)((500)*(64000000/4000.0)));
     (cCal->blue) = color_read_Blue();
     LATAbits.LATA3 = 0;
-# 263 "color.c"
-     sprintf(cal_state,"Calibration state =  white light", ".");
+
+
+    sprintf(cal_state,"Calibration state =  white light", ".");
     sendStringSerial4(&cal_state);
 
     while(PORTFbits.RF2 == 1){
@@ -24853,6 +24854,11 @@ void calibration_routine(colors *cCal)
 
     sprintf(cal_state,"CALIBRATION COMPLETED \n\r", ".");
     sendStringSerial4(&cal_state);
+
+    while(PORTFbits.RF2 == 1){
+
+    }
+    _delay((unsigned long)((500)*(64000000/4000.0)));
 }
 
 
