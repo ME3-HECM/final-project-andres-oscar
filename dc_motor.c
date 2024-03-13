@@ -347,16 +347,23 @@ void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection) {
     }
 }
 
-//function that reverses the straight direction, taking the time required as an input
-void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, char direction, int time) {
+//custom delay function for the custom delays when returning
+void customDelayMs(unsigned int milliseconds) {
+    for (unsigned int i = 0; i < milliseconds; i++) {
+        __delay_ms(1); // Delay of 1 ms
+    }
+}
+
+//function that reverses the straight direction, taking the time in ms required as an input
+void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time) {
     fullSpeedAhead(mL, mR);
-    __delay_ms(time);
+    customDelayMs(time); //custom delay in ms
     stop(mL, mR);
 }
 
 //return home function
 void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep path[], int pathLength) {
-    for (int i = pathLength - 1; i >= 0; i--) { //going through each item in the path
+    for (int i = pathLength; i >= 0; i--) { //going through each item in the path in reverse
         char action = path[i].action;
         unsigned int time = path[i].time;
         if (action == 'F') {

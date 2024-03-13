@@ -19,8 +19,8 @@ typedef struct DC_motor { //definition of DC_motor structure
 struct DC_motor motorL, motorR; 		//declare two DC_motor structures 
 
 typedef struct PathStep{
-    char action;  //action type: 'L', 'R', 'F', 'B', '135L', '135R' for respective turns and movements
-    int time;     //time duration for the forward action, 0 used as placeholder in turns
+    char action;  //action type: 'L', 'R', 'F', '180', '135L', '135R' for respective turns and movements
+    int time;     //time duration for the forward action, 0 use'd a's placeholder in turns
 } PathStep;
 
 struct PathStep path[MAX_PATH_LENGTH]; //declaring the path structure (can store 50 actions)
@@ -51,7 +51,7 @@ void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
 //returning related
 void logAction(char action, int time);
 void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection);
-void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, char direction, int time);
+void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time);
 void returnHome(struct DC_motor *mL, struct DC_motor *mR);
 
 #endif

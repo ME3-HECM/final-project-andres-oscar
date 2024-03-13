@@ -15,6 +15,8 @@
 #include "serial.h"
 #include "dc_motor.h"
 #include "functions.h"
+#include "timers.h"
+#include "interrupts.h"
 
 /************************************
  * #define directives...
@@ -30,6 +32,8 @@ void main(void) {
     ADC_init();
     color_click_init();
     initUSART4();
+    Timer0init();
+    Interrupts_init();
     
     //initializing DC motors
     unsigned int PWMcycle = 99;
@@ -50,11 +54,13 @@ void main(void) {
     motorR.posDutyHighByte = (unsigned char *)(&CCPR3H); //assign the correct CCP register address
     motorR.negDutyHighByte = (unsigned char *)(&CCPR4H); //assign the correct CCP register address
     
-    
     // setup LEFT pin for output of battery status
     LATDbits.LATD7=0;   //set initial output state
     TRISDbits.TRISD7=0; //set TRIS value for pin (output)
     
+    //turning on the front lights
+//    TRISDbits.TRISD3 = 0; 
+//    LATDbits.LATD3 = 1; 
     
     //Colored LED initialization
     TRISGbits.TRISG0 = 0;
@@ -75,35 +81,43 @@ void main(void) {
     unsigned int blue;
     unsigned int green;
     unsigned int clear;
+    unsigned int hue;
+    char hue_char[20];
+    TRISHbits.TRISH3 = 0;
+    LATHbits.LATH3 = 1;
+    __delay_ms(300);
+    LATHbits.LATH3 = 0;
+    LATFbits.LATF2 = 0;
+    TRISFbits.TRISF2 = 1;
+    ANSELFbits.ANSELF2 = 0;
     
     
-
-    //code structure for testing the movement functions
+    calibration_routine(&colorCalibration);
+    
+    
     while (1) {
+        //turn on white light during normal operation
+        LATGbits.LATG0 = 1; //Red is G0
+        LATEbits.LATE7 = 1; //Green is E7
+        LATAbits.LATA3 = 1; //Blue is A3
+        fullSpeedAhead(&motorL,&motorR);
+        T0CON0bits.T0EN=1;	//start the timer
+        (colorCurrent.clear) = color_read_Clear();
+        float current = colorCurrent.clear;
+        float maximum = colorCalibration.clear;
+        float clear_norm = current/maximum; //normalises clear value depending on calibration routine
         
-//        if (!PORTFbits.RF3) { //Checking for LEFT button press
-//            //__delay_ms(500); //delay to move away from buggy
-//            //right90(&motorL, &motorR);
-//            //__delay_ms(500); //delay to move away from buggy
-//            //right90(&motorL, &motorR);
-//            //__delay_ms(500); //delay to move away from buggy
-//            //right90(&motorL, &motorR);
-//            //__delay_ms(500); //delay to move away from buggy
-//            //right90(&motorL, &motorR);
-//            __delay_ms(500);
-//            fullSpeedAhead(&motorL, &motorR);
-//            __delay_ms(200);
-//            stop(&motorL, &motorR);
-//              
-//
-//
-//            
-//            movePink(&motorL, &motorR);
-//            
-//            
-//        }
-        
-        if (color_decide == 9){returnHome(&motorL, &motorR);}
-        
+        //when clear above a certain threshold, start the colour detection and movement process
+        if (clear_norm > 0.3){  //normalised clear value range for colour detection
+            T0CON0bits.T0EN=0;	//stopping the timer when it reads a value
+            int timeF = get16bitTMR0val(); //reads the 16 bit timer value
+            logAction('F',timeF);
+            stop(&motorL,&motorR);
+            hue = reading_hue(&colorCurrent);
+            decision(hue);
+        }
+
+            
     }
+
 }
