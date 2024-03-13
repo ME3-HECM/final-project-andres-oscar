@@ -1,4 +1,4 @@
-# 1 "dc_motor.c"
+# 1 "timers.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,7 +6,7 @@
 # 1 "<built-in>" 2
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "dc_motor.c" 2
+# 1 "timers.c" 2
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\xc.h" 1 3
 # 18 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -24086,414 +24086,47 @@ __attribute__((__unsupported__("The READTIMER" "0" "() macro is not available wi
 unsigned char __t1rd16on(void);
 unsigned char __t3rd16on(void);
 # 33 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\xc.h" 2 3
-# 1 "dc_motor.c" 2
+# 1 "timers.c" 2
 
-# 1 "./dc_motor.h" 1
-# 10 "./dc_motor.h"
-typedef struct DC_motor {
-    char power;
-    char direction;
-    char brakemode;
-    unsigned int PWMperiod;
-    unsigned char *posDutyHighByte;
-    unsigned char *negDutyHighByte;
-} DC_motor;
-
-struct DC_motor motorL, motorR;
-
-typedef struct PathStep{
-    char action;
-    int time;
-} PathStep;
-
-struct PathStep path[50];
-
-
-void initDCmotorsPWM(unsigned int PWMperiod);
-void setMotorPWM(DC_motor *m);
-void stop(DC_motor *mL, DC_motor *mR);
-void turnLeft(DC_motor *mL, DC_motor *mR);
-void turnRight(DC_motor *mL, DC_motor *mR);
-void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
-
-void right90(struct DC_motor *mL, struct DC_motor *mR);
-void left90(struct DC_motor *mL, struct DC_motor *mR);
-void turn180(struct DC_motor *mL, struct DC_motor *mR);
-void right135(struct DC_motor *mL, struct DC_motor *mR);
-void left135(struct DC_motor *mL, struct DC_motor *mR);
-void backHalf(struct DC_motor *mL, struct DC_motor *mR);
-void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
-
-void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR,unsigned int path_length);
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-
-void logAction(char action, int time, unsigned int pathLength);
-void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection);
-void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time);
-void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path[], int pathLength);
-# 2 "dc_motor.c" 2
+# 1 "./timers.h" 1
 
 
 
-void initDCmotorsPWM(unsigned int PWMperiod){
-
-    TRISEbits.TRISE2=0;
-    TRISCbits.TRISC7=0;
-    TRISEbits.TRISE4=0;
-    TRISGbits.TRISG6=0;
-
-    LATEbits.LATE2=0;
-    LATCbits.LATC7=0;
-    LATEbits.LATE4=0;
-    LATGbits.LATG6=0;
-
-
-    RE2PPS=0x05;
-    RE4PPS=0x06;
-    RC7PPS=0x07;
-    RG6PPS=0x08;
-
-
-    T2CONbits.CKPS=0b100;
-    T2HLTbits.MODE=0b00000;
-    T2CLKCONbits.CS=0b0001;
 
 
 
-    T2PR=PWMperiod;
-    T2CONbits.ON=1;
+
+void Timer0_init(void);
+unsigned int get16bitTMR0val(void);
+# 2 "timers.c" 2
 
 
 
-    CCPR1H=0;
-    CCPR2H=0;
-    CCPR3H=0;
-    CCPR4H=0;
 
 
-    CCPTMRS0bits.C1TSEL=0;
-    CCPTMRS0bits.C2TSEL=0;
-    CCPTMRS0bits.C3TSEL=0;
-    CCPTMRS0bits.C4TSEL=0;
-
-
-    CCP1CONbits.FMT=1;
-    CCP1CONbits.CCP1MODE=0b1100;
-    CCP1CONbits.EN=1;
-
-    CCP2CONbits.FMT=1;
-    CCP2CONbits.CCP2MODE=0b1100;
-    CCP2CONbits.EN=1;
-
-    CCP3CONbits.FMT=1;
-    CCP3CONbits.CCP3MODE=0b1100;
-    CCP3CONbits.EN=1;
-
-    CCP4CONbits.FMT=1;
-    CCP4CONbits.CCP4MODE=0b1100;
-    CCP4CONbits.EN=1;
-}
-
-
-void setMotorPWM(DC_motor *m)
+void Timer0_init(void)
 {
-    unsigned char posDuty, negDuty;
+    T0CON1bits.T0CS=0b010;
+    T0CON1bits.T0ASYNC=1;
+    T0CON1bits.T0CKPS=0b1000;
+    T0CON0bits.T016BIT=1;
 
-    if(m->brakemode) {
-        posDuty=m->PWMperiod - ((unsigned int)(m->power)*(m->PWMperiod))/100;
-        negDuty=m->PWMperiod;
-    }
-    else {
-        posDuty=0;
-  negDuty=((unsigned int)(m->power)*(m->PWMperiod))/100;
-    }
+    PIE0bits.TMR0IE = 1;
+    PIR0bits.TMR0IF = 0;
+    IPR0bits.TMR0IP = 0;
+    INTCONbits.IPEN = 1;
+    INTCONbits.PEIE = 1;
+    INTCONbits.GIE = 1;
 
-    if (m->direction) {
-        *(m->posDutyHighByte)=posDuty;
-        *(m->negDutyHighByte)=negDuty;
-    } else {
-        *(m->posDutyHighByte)=negDuty;
-        *(m->negDutyHighByte)=posDuty;
-    }
 }
 
 
-void stop(DC_motor *mL, DC_motor *mR)
+
+
+
+unsigned int get16bitTMR0val(void)
 {
-
-    while(mL->power > 0 || mR->power > 0) {
-        if (mL->power > 0) mL->power--;
-        if (mR->power > 0) mR->power--;
-
-
-        setMotorPWM(mL);
-        setMotorPWM(mR);
-
-
-        _delay((unsigned long)((500)*(64000000/4000000.0)));
-    }
-}
-
-
-void turnLeft(DC_motor *mL, DC_motor *mR)
-{
-
-    mL->direction = 0;
-    mR->direction = 1;
-
-    setMotorPWM(mL);
-    setMotorPWM(mR);
-    for (unsigned int i = 0; i <50; i++)
-    {
-        mL->power++;
-        mR->power++;
-        setMotorPWM(mL);
-        setMotorPWM(mR);
-        _delay((unsigned long)((500)*(64000000/4000000.0)));
-    }
-
-}
-
-
-void turnRight(DC_motor *mL, DC_motor *mR)
-{
-
-    mL->direction = 1;
-    mR->direction = 0;
-
-    setMotorPWM(mL);
-    setMotorPWM(mR);
-    for (unsigned int i = 0; i <50; i++)
-    {
-        mL->power++;
-        mR->power++;
-        setMotorPWM(mL);
-        setMotorPWM(mR);
-        _delay((unsigned long)((500)*(64000000/4000000.0)));
-    }
-}
-
-
-void fullSpeedAhead(DC_motor *mL, DC_motor *mR)
-{
-
-    mL->direction = 1;
-    mR->direction = 1;
-
-    for(int power = 0; power <= 50; power++) {
-        mL->power = power;
-        mR->power = power;
-
-
-        setMotorPWM(mL);
-        setMotorPWM(mR);
-
-
-        _delay((unsigned long)((500)*(64000000/4000000.0)));
-    }
-
-}
-
-
-void fullSpeedBack(DC_motor *mL, DC_motor *mR)
-{
-
-    mL->direction = 0;
-    mR->direction = 0;
-
-    for(int power = 0; power <= 50; power++) {
-        mL->power = power;
-        mR->power = power;
-
-
-        setMotorPWM(mL);
-        setMotorPWM(mR);
-
-
-        _delay((unsigned long)((500)*(64000000/4000000.0)));
-    }
-
-}
-# 193 "dc_motor.c"
-void right90(struct DC_motor *mL, struct DC_motor *mR)
-{
-    turnRight(mL,mR);
-    _delay((unsigned long)((260)*(64000000/4000.0)));
-    stop(mL,mR);
-}
-
-
-void left90(struct DC_motor *mL, struct DC_motor *mR)
-{
-    turnLeft(mL,mR);
-    _delay((unsigned long)((260)*(64000000/4000.0)));
-    stop(mL,mR);
-}
-
-
-void turn180(struct DC_motor *mL, struct DC_motor *mR)
-{
-    turnLeft(mL,mR);
-    _delay((unsigned long)((520)*(64000000/4000.0)));
-    stop(mL,mR);
-}
-
-
-void right135(struct DC_motor *mL, struct DC_motor *mR)
-{
-    turnRight(mL,mR);
-    _delay((unsigned long)((400)*(64000000/4000.0)));
-    stop(mL,mR);
-}
-
-
-void left135(struct DC_motor *mL, struct DC_motor *mR)
-{
-    turnLeft(mL,mR);
-    _delay((unsigned long)((400)*(64000000/4000.0)));
-    stop(mL,mR);
-}
-
-
-void backHalf(struct DC_motor *mL, struct DC_motor *mR)
-{
-    fullSpeedBack(mL,mR);
-    _delay((unsigned long)((300)*(64000000/4000.0)));
-    stop(mL,mR);
-}
-
-
-void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR)
-{
-    fullSpeedBack(mL,mR);
-    _delay((unsigned long)((1300)*(64000000/4000.0)));
-    stop(mL,mR);
-}
-# 255 "dc_motor.c"
-void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length)
-{
-
-    backHalf(mL,mR);
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    right90(mL,mR);
-    logAction('R',0, path_length);
-}
-
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length)
-{
-
-    backHalf(mL,mR);
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    left90(mL,mR);
-    logAction('L',0, path_length);
-}
-
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length)
-{
-
-    backHalf(mL,mR);
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    turn180(mL,mR);
-    logAction('180',0, path_length);
-}
-
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length)
-{
-
-    backOneAndHalf(mL,mR);
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    right90(mL,mR);
-    logAction('R',0, path_length);
-}
-
-void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length)
-{
-
-    backOneAndHalf(mL,mR);
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    left90(mL,mR);
-    logAction('L',0, path_length);
-}
-
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length)
-{
-
-    backHalf(mL,mR);
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    right135(mL,mR);
-    logAction('135R',0, path_length);
-}
-
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length)
-{
-
-    backHalf(mL,mR);
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    left135(mL,mR);
-    logAction('135L',0,path_length);
-}
-# 329 "dc_motor.c"
-void logAction(char action, int time, unsigned int pathLength) {
-    if (pathLength < 50) {
-        path[pathLength].action = action;
-        path[pathLength].time = time;
-        pathLength++;
-    }
-}
-
-
-void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection) {
-    if (turnDirection == 'R') {
-        turnLeft(mL, mR);
-    } else if (turnDirection == 'L') {
-        turnRight(mL, mR);
-    } else if (turnDirection == '180') {
-        turn180(mL, mR);
-    } else if (turnDirection == '135R') {
-        left135(mL, mR);
-    } else if (turnDirection == '135L') {
-        right135(mL, mR);
-    }
-
-}
-
-
-void customDelayMs(unsigned int milliseconds) {
-    for (unsigned int i = 0; i < milliseconds; i++) {
-        _delay((unsigned long)((1)*(64000000/4000.0)));
-    }
-}
-
-
-void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time) {
-
-    int delayMs;
-
-
-    if (time<1000 && time>800){delayMs = 3000; }
-    if (time<800 && time>600){delayMs = 2000; }
-    if (time<600 && time>400){delayMs = 1000;}
-
-    fullSpeedAhead(mL, mR);
-    customDelayMs(delayMs);
-    stop(mL, mR);
-}
-
-
-void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path[], int pathLength)
-{
-    for (int i = pathLength; i >= 0; i--) {
-        char action = path[i]->action;
-        unsigned int time = path[i]->time;
-
-        if (action == 'F'){reverseStraight(mL, mR, time);}
-
-        else {reverseTurn(mL, mR, action);}
-
-    }
+    unsigned int combined_value;
+    combined_value = TMR0L | (TMR0H << 8);
+    return combined_value;
 }

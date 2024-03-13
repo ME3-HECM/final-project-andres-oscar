@@ -24525,7 +24525,7 @@ unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
 
-void decision(unsigned int hue);
+void decision(unsigned int hue, unsigned int path_length);
 # 3 "color.c" 2
 
 # 1 "./i2c.h" 1
@@ -24600,13 +24600,7 @@ void send2USART(unsigned int hue);
 # 5 "color.c" 2
 
 # 1 "./dc_motor.h" 1
-
-
-
-
-
-
-
+# 10 "./dc_motor.h"
 typedef struct DC_motor {
     char power;
     char direction;
@@ -24618,6 +24612,12 @@ typedef struct DC_motor {
 
 struct DC_motor motorL, motorR;
 
+typedef struct PathStep{
+    char action;
+    int time;
+} PathStep;
+
+struct PathStep path[50];
 
 
 void initDCmotorsPWM(unsigned int PWMperiod);
@@ -24626,6 +24626,7 @@ void stop(DC_motor *mL, DC_motor *mR);
 void turnLeft(DC_motor *mL, DC_motor *mR);
 void turnRight(DC_motor *mL, DC_motor *mR);
 void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
+
 void right90(struct DC_motor *mL, struct DC_motor *mR);
 void left90(struct DC_motor *mL, struct DC_motor *mR);
 void turn180(struct DC_motor *mL, struct DC_motor *mR);
@@ -24633,13 +24634,19 @@ void right135(struct DC_motor *mL, struct DC_motor *mR);
 void left135(struct DC_motor *mL, struct DC_motor *mR);
 void backHalf(struct DC_motor *mL, struct DC_motor *mR);
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
-void moveRed(struct DC_motor *mL, struct DC_motor *mR);
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR);
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR);
-void movePink(struct DC_motor *mL, struct DC_motor *mR);
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
+
+void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveBlue(struct DC_motor *mL, struct DC_motor *mR,unsigned int path_length);
+void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+
+void logAction(char action, int time, unsigned int pathLength);
+void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection);
+void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time);
+void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path[], int pathLength);
 # 6 "color.c" 2
 
 
@@ -24910,15 +24917,30 @@ unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
     return (unsigned int)hue;
 }
 
-void decision(unsigned int hue) {
+void decision(unsigned int hue, unsigned int path_length) {
+
+
+    char color[20];
 
 
 
-    if (hue<=20) {
-        moveRed(&motorL, &motorR);
-    }
-    if (hue>=105 && hue<=130){
-        moveGreen(&motorL, &motorR);
+    if (hue<=10) {
+        moveRed(&motorL, &motorR, path_length);
+    } else if (hue>=105 && hue<=130){
+        moveGreen(&motorL, &motorR, path_length);
+    } else if (hue>=230 && hue<=240){
+        moveBlue(&motorL,&motorR, path_length);
+    } else if (hue>=216 && hue<=221){
+        moveLightBlue(&motorL,&motorR, path_length);
+    } else if (hue>=302 && hue<=346){
+        moveYellow(&motorL,&motorR, path_length);
+    } else if (hue>14 && hue<=35){
+        moveOrange(&motorL,&motorR, path_length);
+    } else if (hue>=244 && hue<=251){
+        movePink(&motorL,&motorR, path_length);
+
+
+
     }
 
 

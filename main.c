@@ -15,6 +15,7 @@
 #include "serial.h"
 #include "dc_motor.h"
 #include "functions.h"
+#include "timers.h"
 
 /************************************
  * #define directives...
@@ -79,6 +80,7 @@ void main(void) {
     unsigned int clear;
     unsigned int hue;
     char hue_char[20];
+    unsigned int path_length = 0;
     TRISHbits.TRISH3 = 0;
     LATHbits.LATH3 = 1;
     __delay_ms(300);
@@ -97,6 +99,8 @@ void main(void) {
         LATGbits.LATG0 = 1; //Red is G0
         LATEbits.LATE7 = 1; //Green is E7
         LATAbits.LATA3 = 1; //Blue is A3
+        
+        //moves forward
         fullSpeedAhead(&motorL,&motorR);
         T0CON0bits.T0EN=1;	//start the timer
     
@@ -112,17 +116,20 @@ void main(void) {
             
             int time = get16bitTMR0val(); //takes the timer value at that instant
             T0CON0bits.T0EN=0;	//stops the timer
-            logAction('F',time); //logs the actions of going forward for that duration of 
-            
+            logAction('F',time, path_length);
+
             
             //small sequence to bump wall for better readings
             fullSpeedAhead(&motorL,&motorR);
             __delay_ms(200);
             stop(&motorL,&motorR);
             
+            if (clear_norm > 0.75){
+                returnHome(&motorL, &motorR, &path ,path_length);
+            }
             
             hue = reading_hue(&colorCurrent);
-            decision(hue);
+            decision(hue, path_length);
         }
 
             

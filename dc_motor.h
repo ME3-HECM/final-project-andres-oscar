@@ -41,17 +41,17 @@ void left135(struct DC_motor *mL, struct DC_motor *mR);
 void backHalf(struct DC_motor *mL, struct DC_motor *mR);
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
 //color movements
-void moveRed(struct DC_motor *mL, struct DC_motor *mR);
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR);
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR);
-void movePink(struct DC_motor *mL, struct DC_motor *mR);
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
+void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveBlue(struct DC_motor *mL, struct DC_motor *mR,unsigned int path_length);
+void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 //returning related
-void logAction(char action, int time);
+void logAction(char action, int time, unsigned int pathLength);
 void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection);
 void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time);
-void returnHome(struct DC_motor *mL, struct DC_motor *mR);
+void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path[], int pathLength);
 
 #endif

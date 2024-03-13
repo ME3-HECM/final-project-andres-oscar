@@ -252,67 +252,67 @@ void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR)
  * This is where you log actions into the path
 ************************************/
 
-void moveRed(struct DC_motor *mL, struct DC_motor *mR)
+void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length)
 {
     //Move back half a unit and turn right 90
     backHalf(mL,mR); //moving back half a unit
     __delay_ms(500); //delay to slow down potential skidding
     right90(mL,mR); //turning right 90 function
-    logAction('R',0); //turning actions have time = 0
+    logAction('R',0, path_length); //turning actions have time = 0
 }
 
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR)
+void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length)
 {
     //Move back half a unit and turn left 90
     backHalf(mL,mR); //moving back half a unit
     __delay_ms(500); //delay to slow down potential skidding
     left90(mL,mR); //turning left 90 function
-    logAction('L',0); //turning actions have time = 0
+    logAction('L',0, path_length); //turning actions have time = 0
 }
 
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR)
+void moveBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length)
 {
     //Move back half a unit and turns 180
     backHalf(mL,mR); //moving back half a unit
     __delay_ms(500); //delay to slow down potential skidding
     turn180(mL,mR); //turning 180 function
-    logAction('180',0); //turning actions have time = 0
+    logAction('180',0, path_length); //turning actions have time = 0
 }
 
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR)
+void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length)
 {
     //Move back one and a half units and turn right 90
     backOneAndHalf(mL,mR); //moving back half a unit
     __delay_ms(500); //delay to slow down potential skidding
     right90(mL,mR); //turning right 90 function
-    logAction('R',0); //turning actions have time = 0 CHECK THIS TO SEE IF WE NEED TO REMOVE TIME FROM THE STRAIGHT 
+    logAction('R',0, path_length); //turning actions have time = 0 CHECK THIS TO SEE IF WE NEED TO REMOVE TIME FROM THE STRAIGHT 
 }
 
-void movePink(struct DC_motor *mL, struct DC_motor *mR)
+void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length)
 {
     //Move back one and a half units and turn left 90
     backOneAndHalf(mL,mR); //moving back half a unit
     __delay_ms(500); //delay to slow down potential skidding
     left90(mL,mR); //turning left 90 function
-    logAction('L',0); //turning actions have time = 0 CHECK THIS TO SEE IF WE NEED TO REMOVE TIME FROM THE STRAIGHT 
+    logAction('L',0, path_length); //turning actions have time = 0 CHECK THIS TO SEE IF WE NEED TO REMOVE TIME FROM THE STRAIGHT 
 }
 
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR)
+void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length)
 {
     //Move back half a unit and turn right 135
     backHalf(mL,mR); //moving back half a unit
     __delay_ms(500); //delay to slow down potential skidding
     right135(mL,mR); //turning right 135 function
-    logAction('135R',0); //turning actions have time = 0
+    logAction('135R',0, path_length); //turning actions have time = 0
 }
 
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR)
+void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length)
 {
     //Move back half a unit and turn left 135
     backHalf(mL,mR); //moving back half a unit
     __delay_ms(500); //delay to slow down potential skidding
     left135(mL,mR); //turning left 135 function
-    logAction('135L',0); //turning actions have time = 0
+    logAction('135L',0,path_length); //turning actions have time = 0
 }
 
 
@@ -326,7 +326,7 @@ void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR)
 ************************************/
 
 //function for logging actions into the path structure
-void logAction(char action, int time) {
+void logAction(char action, int time, unsigned int pathLength) {
     if (pathLength < MAX_PATH_LENGTH) { //prevents array overflow
         path[pathLength].action = action; //logs the action
         path[pathLength].time = time; //stores the time of each movement, though only used in straight moves
@@ -336,15 +336,18 @@ void logAction(char action, int time) {
 
 //function that reverses the turns in the path for more simplicity in the returnHome function later
 void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection) {
-    if (turnDirection == 'L') {
-        turnRight(mL, mR);
-    } else if (turnDirection == 'R') {
+    if (turnDirection == 'R') {
         turnLeft(mL, mR);
-    } else if (turnDirection == '135L') {
-        right135(mL, mR);
+    } else if (turnDirection == 'L') {
+        turnRight(mL, mR);
+    } else if (turnDirection == '180') {
+        turn180(mL, mR);
     } else if (turnDirection == '135R') {
         left135(mL, mR);
+    } else if (turnDirection == '135L') {
+        right135(mL, mR);
     }
+        
 }
 
 //custom delay function for the custom delays when returning
@@ -360,9 +363,9 @@ void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time) {
     int delayMs;
     
     //completely arbitrary delays and bit values, needs more testing!
-    if (time<1000 && time>800){delayMs = 3000}; //movement of 3 squares
-    if (time<800 && time>600){delayMs = 2000}; //movements of 2 squares
-    if (time<600 && time>400){delayMs = 1000}; //movement of 1 square
+    if (time<1000 && time>800){delayMs = 3000; } //movement of 3 squares
+    if (time<800 && time>600){delayMs = 2000; } //movements of 2 squares
+    if (time<600 && time>400){delayMs = 1000;} //movement of 1 square
     
     fullSpeedAhead(mL, mR);
     customDelayMs(delayMs); //custom delay in ms
@@ -370,18 +373,15 @@ void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time) {
 }
 
 //return home function
-void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep path[], int pathLength) {
+void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path[], int pathLength) 
+{
     for (int i = pathLength; i >= 0; i--) { //going through each item in the path in reverse
-        char action = path[i].action;
-        unsigned int time = path[i].time;
-        if (action == 'F') {
-            reverseStraight(mL, mR, time); 
-        } else if (action == '180'){
-            turn180(mL,mR); //turning 180 function
-        } else char reverseDirection = (action == 'L') ? 'R' : 
-                                    (action == 'R') ? 'L' :
-                                    (action == '135L') ? '135R' : '135L';
-            reverseTurn(mL, mR, reverseDirection);
-        }
+        char action = path[i]->action;
+        unsigned int time = path[i]->time;
+        
+        if (action == 'F'){reverseStraight(mL, mR, time);}
+             
+        else {reverseTurn(mL, mR, action);}
+        
     }
 }
