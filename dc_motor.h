@@ -19,7 +19,7 @@ typedef struct DC_motor { //definition of DC_motor structure
 struct DC_motor motorL, motorR; 		//declare two DC_motor structures 
 
 typedef struct PathStep{
-    char action;  //action type: 'L', 'R', 'F', '180', '135L', '135R' for respective turns and movements
+    unsigned int action;  //numbers corresponding to actions
     int time;     //time duration for the forward action, 0 use'd a's placeholder in turns
     unsigned int path_length;
 } PathStep;

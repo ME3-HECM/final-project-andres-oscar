@@ -342,16 +342,16 @@ unsigned int logAction(char action, int time, unsigned int pathLength) {
 }
 
 //function that reverses the turns in the path for more simplicity in the returnHome function later
-void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection) {
-    if (turnDirection == 'R') {
-        turnLeft(mL, mR);
-    } else if (turnDirection == 'L') {
-        turnRight(mL, mR);
-    } else if (turnDirection == '180') {
+void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, unsigned int action) {
+    if (action == 1) {
+        left90(mL, mR);
+    } else if (action == 2) {
+        right90(mL, mR);
+    } else if (action == 3) {
         turn180(mL, mR);
-    } else if (turnDirection == '135R') {
+    } else if (action == 4) {
         left135(mL, mR);
-    } else if (turnDirection == '135L') {
+    } else if (action == 5) {
         right135(mL, mR);
     }
         
@@ -367,7 +367,9 @@ void customDelayMs(unsigned int milliseconds) {
 //function that reverses the straight direction, taking the time in ms required as an input
 void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time) {
     //NEED TO UPDATE TIME SINCE IT WILL BE IN BITS
-    int delayMs;
+    int delayMs = 1000;
+    
+    
     
     //completely arbitrary delays and bit values, needs more testing!
     if (time<5500 && time>6100){delayMs = 3000; } //movement of 3 squares
@@ -377,25 +379,26 @@ void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time) {
     fullSpeedAhead(mL, mR);
     customDelayMs(delayMs); //custom delay in ms
     stop(mL, mR);
+    __delay_ms(300); //delay to think
 }
 
 //return home function
-void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path[], int pathLength) 
+void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path, int pathLength) 
 {
-            //turn on white light during normal operation
+    //turn off white light during normal operation
     LATGbits.LATG0 = 0; //Red is G0
     LATEbits.LATE7 = 0; //Green is E7
     LATAbits.LATA3 = 0; //Blue is A3
         
     moveWhite(&motorL,&motorR);
     
-    for (int i = pathLength; i >= 0; i--) { //going through each item in the path in reverse
-        char action = path[i]->action;
-        unsigned int time = path[i]->time;
+    for (int i = pathLength-1; i >= 0; i--) { //going through each item in the path in reverse
         
-        if (action == 'F'){reverseStraight(mL, mR, time);}
+        if (path[i].action == 0){reverseStraight(mL, mR, path[i].time);} //0 is forward
              
-        else {reverseTurn(mL, mR, action);}
+        else {
+            reverseTurn(mL, mR, action);
+        }
         
     }
     Sleep();
