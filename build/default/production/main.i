@@ -24434,15 +24434,7 @@ void main(void) {
             stop(&motorL,&motorR);
             _delay((unsigned long)((300)*(64000000/4000.0)));
 
-
-            if (clear_norm > 50){
-                fullSpeedAhead(&motorL,&motorR);
-                _delay((unsigned long)((100)*(64000000/4000.0)));
-                stop(&motorL,&motorR);
-            }
-
-
-            if (clear_norm > 90 && !(hue>=302 && hue<=346) || LATGbits.LATG1 == 1){
+            if (clear_norm > 50 && !(hue>=302 && hue<=346) || LATGbits.LATG1 == 1){
 
                 unsigned int white = 8;
                 send2USART(white);

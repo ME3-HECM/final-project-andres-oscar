@@ -136,15 +136,7 @@ void main(void) {
             stop(&motorL,&motorR);
             __delay_ms(300);
             
-            //further drive into wall when clear above certain number to differentiate bright colours
-            if (clear_norm > 50){
-                fullSpeedAhead(&motorL,&motorR);
-                __delay_ms(100);
-                stop(&motorL,&motorR);
-            }
-            
-            
-            if (clear_norm > 90 && !(hue>=302 && hue<=346) || LATGbits.LATG1 == 1){
+            if (clear_norm > 50 && !(hue>=302 && hue<=346) || LATGbits.LATG1 == 1){
 
                 unsigned int white = 8;
                 send2USART(white);
