@@ -24475,7 +24475,6 @@ typedef struct colors {
     unsigned int green;
     unsigned int blue;
     unsigned int clear;
-    unsigned int clear_ambient;
 } colors;
 
 
@@ -24524,7 +24523,7 @@ unsigned int reading_hue(colors *cCurr);
 
 unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
-void calibration_routine(colors *cCal);
+void calibration_routine(struct colors *cCal);
 
 void decision(unsigned int hue, unsigned int path_length);
 # 3 "color.c" 2
@@ -24616,7 +24615,6 @@ struct DC_motor motorL, motorR;
 typedef struct PathStep{
     char action;
     int time;
-    unsigned int path_length;
 } PathStep;
 
 struct PathStep path[50];
@@ -24644,12 +24642,13 @@ void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_leng
 void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveWhite(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
 
-void logAction(char action, int time, unsigned int pathLength);
+unsigned int logAction(char action, int time, unsigned int path_length, struct PathStep *path);
 void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection);
-void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time);
-void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path[], int pathLength);
+void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, unsigned int time);
+void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path, unsigned int pathLength);
+void customDelayMs(unsigned int milliseconds);
 # 6 "color.c" 2
 
 
@@ -24796,7 +24795,7 @@ unsigned int reading_hue(colors *cCurr)
 }
 
 
-void calibration_routine(colors *cCal)
+void calibration_routine(struct colors *cCal)
 {
 
     LATGbits.LATG0 = 0;
@@ -24863,21 +24862,6 @@ void calibration_routine(colors *cCal)
     LATAbits.LATA3 = 0;
 
 
-
-    sprintf(cal_state,"Calibration state =  ambient light", ".");
-    sendStringSerial4(&cal_state);
-
-    while(PORTFbits.RF2 == 1){
-
-    }
-    LATGbits.LATG0 = 1;
-    LATEbits.LATE7 = 1;
-    LATAbits.LATA3 = 1;
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    (cCal->clear_ambient) = color_read_Clear();
-    LATGbits.LATG0 = 0;
-    LATEbits.LATE7 = 0;
-    LATAbits.LATA3 = 0;
 
     sprintf(cal_state,"CALIBRATION COMPLETED \n\r", ".");
     sendStringSerial4(&cal_state);
