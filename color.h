@@ -58,7 +58,7 @@ unsigned int reading_hue(colors *cCurr);
 
 unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
-void calibration_routine(struct colors *cCal);
+void calibration_routine(colors *cCal);
 
 void decision(unsigned int hue, unsigned int path_length);
 #endif

@@ -19,8 +19,9 @@ typedef struct DC_motor { //definition of DC_motor structure
 struct DC_motor motorL, motorR; 		//declare two DC_motor structures 
 
 typedef struct PathStep{
-    int action;  //action type: 1 = 'right90', 2 = 'left90', 3 = 'Forward', 4 = 'turn180', 5 = 'right135', 6 = 'left135' for respective turns and movements
+    char action;  //action type: 'L', 'R', 'F', '180', '135L', '135R' for respective turns and movements
     int time;     //time duration for the forward action, 0 use'd a's placeholder in turns
+    unsigned int path_length;
 } PathStep;
 
 struct PathStep path[MAX_PATH_LENGTH]; //declaring the path structure (can store 50 actions)
@@ -41,19 +42,18 @@ void left135(struct DC_motor *mL, struct DC_motor *mR);
 void backHalf(struct DC_motor *mL, struct DC_motor *mR);
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
 //color movements
-void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length, struct PathStep *path);
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length, struct PathStep *path);
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR,unsigned int path_length, struct PathStep *path);
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length, struct PathStep *path);
-void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length, struct PathStep *path);
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length, struct PathStep *path);
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length, struct PathStep *path);
+void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveBlue(struct DC_motor *mL, struct DC_motor *mR,unsigned int path_length);
+void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
 //returning related
-unsigned int logAction(unsigned int action, int time, unsigned int path_length, struct PathStep *path);
+unsigned int logAction(char action, int time, unsigned int pathLength);
 void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection);
-void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, unsigned int time);
-void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path, unsigned int pathLength);
-void customDelayMs(unsigned int milliseconds);
+void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time);
+void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path[], int pathLength);
 
 #endif

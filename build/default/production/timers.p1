@@ -5,8 +5,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [n S2015 DC_motor power direction brakemode PWMperiod posDutyHighByte negDutyHighByte ]
 "21
 [; ;./dc_motor.h: 21: typedef struct PathStep{
-[s S2016 `i 1 `i 1 ]
-[n S2016 PathStep action time ]
+[s S2016 `uc 1 `i 1 `ui 1 ]
+[n S2016 PathStep action time path_length ]
 "39328 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 39328:     struct {
 [s S1925 :4 `uc 1 :1 `uc 1 :3 `uc 1 ]
@@ -2109,8 +2109,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./dc_motor.h: 19: struct DC_motor motorL, motorR;
 [v _motorL `S2015 ~T0 @X0 1 e ]
 [v _motorR `S2015 ~T0 @X0 1 e ]
-"26
-[; ;./dc_motor.h: 26: struct PathStep path[50];
+"27
+[; ;./dc_motor.h: 27: struct PathStep path[50];
 [v _path `S2016 ~T0 @X0 -> 50 `i e ]
 "7 timers.c
 [; ;timers.c: 7: void Timer0_init(void)

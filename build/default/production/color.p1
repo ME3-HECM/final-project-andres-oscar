@@ -9,8 +9,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [n S2016 DC_motor power direction brakemode PWMperiod posDutyHighByte negDutyHighByte ]
 "21
 [; ;./dc_motor.h: 21: typedef struct PathStep{
-[s S2017 `i 1 `i 1 ]
-[n S2017 PathStep action time ]
+[s S2017 `uc 1 `i 1 `ui 1 ]
+[n S2017 PathStep action time path_length ]
 "13 ./i2c.h
 [; ;./i2c.h: 13: void I2C_2_Master_Init(void);
 [v _I2C_2_Master_Init `(v ~T0 @X0 0 ef ]
@@ -105,27 +105,27 @@ Version 4.0 HI-TECH Software Intermediate Code
 "30278
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 30278: extern volatile PORTFbits_t PORTFbits __attribute__((address(0xF8E)));
 [v _PORTFbits `VS1411 ~T0 @X0 0 e@3982 ]
-"44 ./dc_motor.h
-[; ;./dc_motor.h: 44: void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length, struct PathStep *path);
-[v _moveRed `(v ~T0 @X0 0 ef4`*S2016`*S2016`ui`*S2017 ]
-"45
-[; ;./dc_motor.h: 45: void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length, struct PathStep *path);
-[v _moveGreen `(v ~T0 @X0 0 ef4`*S2016`*S2016`ui`*S2017 ]
+"45 ./dc_motor.h
+[; ;./dc_motor.h: 45: void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+[v _moveRed `(v ~T0 @X0 0 ef3`*S2016`*S2016`ui ]
 "46
-[; ;./dc_motor.h: 46: void moveBlue(struct DC_motor *mL, struct DC_motor *mR,unsigned int path_length, struct PathStep *path);
-[v _moveBlue `(v ~T0 @X0 0 ef4`*S2016`*S2016`ui`*S2017 ]
-"50
-[; ;./dc_motor.h: 50: void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length, struct PathStep *path);
-[v _moveLightBlue `(v ~T0 @X0 0 ef4`*S2016`*S2016`ui`*S2017 ]
+[; ;./dc_motor.h: 46: void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+[v _moveGreen `(v ~T0 @X0 0 ef3`*S2016`*S2016`ui ]
 "47
-[; ;./dc_motor.h: 47: void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length, struct PathStep *path);
-[v _moveYellow `(v ~T0 @X0 0 ef4`*S2016`*S2016`ui`*S2017 ]
-"49
-[; ;./dc_motor.h: 49: void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length, struct PathStep *path);
-[v _moveOrange `(v ~T0 @X0 0 ef4`*S2016`*S2016`ui`*S2017 ]
+[; ;./dc_motor.h: 47: void moveBlue(struct DC_motor *mL, struct DC_motor *mR,unsigned int path_length);
+[v _moveBlue `(v ~T0 @X0 0 ef3`*S2016`*S2016`ui ]
+"51
+[; ;./dc_motor.h: 51: void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+[v _moveLightBlue `(v ~T0 @X0 0 ef3`*S2016`*S2016`ui ]
 "48
-[; ;./dc_motor.h: 48: void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length, struct PathStep *path);
-[v _movePink `(v ~T0 @X0 0 ef4`*S2016`*S2016`ui`*S2017 ]
+[; ;./dc_motor.h: 48: void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+[v _moveYellow `(v ~T0 @X0 0 ef3`*S2016`*S2016`ui ]
+"50
+[; ;./dc_motor.h: 50: void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+[v _moveOrange `(v ~T0 @X0 0 ef3`*S2016`*S2016`ui ]
+"49
+[; ;./dc_motor.h: 49: void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+[v _movePink `(v ~T0 @X0 0 ef3`*S2016`*S2016`ui ]
 "45 ./serial.h
 [; ;./serial.h: 45: void send2USART(unsigned int hue);
 [v _send2USART `(v ~T0 @X0 0 ef1`ui ]
@@ -2148,8 +2148,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./dc_motor.h: 19: struct DC_motor motorL, motorR;
 [v _motorL `S2016 ~T0 @X0 1 e ]
 [v _motorR `S2016 ~T0 @X0 1 e ]
-"26
-[; ;./dc_motor.h: 26: struct PathStep path[50];
+"27
+[; ;./dc_motor.h: 27: struct PathStep path[50];
 [v _path `S2017 ~T0 @X0 -> 50 `i e ]
 "8 color.c
 [; ;color.c: 8: void color_click_init(void)
@@ -2468,14 +2468,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :UE 2024 ]
 }
 "151
-[; ;color.c: 151: void calibration_routine(struct colors *cCal)
+[; ;color.c: 151: void calibration_routine(colors *cCal)
 [v _calibration_routine `(v ~T0 @X0 1 ef1`*S2015 ]
 "152
 [; ;color.c: 152: {
 {
 [e :U _calibration_routine ]
 "151
-[; ;color.c: 151: void calibration_routine(struct colors *cCal)
+[; ;color.c: 151: void calibration_routine(colors *cCal)
 [v _cCal `*S2015 ~T0 @X0 1 r1 ]
 "152
 [; ;color.c: 152: {
@@ -2825,8 +2825,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ ! || <= _hue -> -> 10 `i `ui >= _hue -> -> 355 `i `ui 2051  ]
 {
 "285
-[; ;color.c: 285:         moveRed(&motorL, &motorR, path_length, &path);
-[e ( _moveRed (4 , , , &U _motorL &U _motorR _path_length -> &U _path `*S2017 ]
+[; ;color.c: 285:         moveRed(&motorL, &motorR, path_length);
+[e ( _moveRed (3 , , &U _motorL &U _motorR _path_length ]
 "286
 [; ;color.c: 286:         color = 1;
 [e = _color -> -> 1 `i `ui ]
@@ -2838,8 +2838,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ ! && >= _hue -> -> 105 `i `ui <= _hue -> -> 130 `i `ui 2053  ]
 {
 "288
-[; ;color.c: 288:         moveGreen(&motorL, &motorR, path_length, &path);
-[e ( _moveGreen (4 , , , &U _motorL &U _motorR _path_length -> &U _path `*S2017 ]
+[; ;color.c: 288:         moveGreen(&motorL, &motorR, path_length);
+[e ( _moveGreen (3 , , &U _motorL &U _motorR _path_length ]
 "289
 [; ;color.c: 289:         color = 2;
 [e = _color -> -> 2 `i `ui ]
@@ -2851,8 +2851,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ ! && >= _hue -> -> 230 `i `ui <= _hue -> -> 240 `i `ui 2055  ]
 {
 "291
-[; ;color.c: 291:         moveBlue(&motorL,&motorR, path_length, &path);
-[e ( _moveBlue (4 , , , &U _motorL &U _motorR _path_length -> &U _path `*S2017 ]
+[; ;color.c: 291:         moveBlue(&motorL,&motorR, path_length);
+[e ( _moveBlue (3 , , &U _motorL &U _motorR _path_length ]
 "292
 [; ;color.c: 292:         color = 3;
 [e = _color -> -> 3 `i `ui ]
@@ -2864,8 +2864,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ ! && >= _hue -> -> 216 `i `ui <= _hue -> -> 221 `i `ui 2057  ]
 {
 "294
-[; ;color.c: 294:         moveLightBlue(&motorL,&motorR, path_length, &path);
-[e ( _moveLightBlue (4 , , , &U _motorL &U _motorR _path_length -> &U _path `*S2017 ]
+[; ;color.c: 294:         moveLightBlue(&motorL,&motorR, path_length);
+[e ( _moveLightBlue (3 , , &U _motorL &U _motorR _path_length ]
 "295
 [; ;color.c: 295:         color = 4;
 [e = _color -> -> 4 `i `ui ]
@@ -2877,8 +2877,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ ! && >= _hue -> -> 302 `i `ui <= _hue -> -> 346 `i `ui 2059  ]
 {
 "297
-[; ;color.c: 297:         moveYellow(&motorL,&motorR, path_length, &path);
-[e ( _moveYellow (4 , , , &U _motorL &U _motorR _path_length -> &U _path `*S2017 ]
+[; ;color.c: 297:         moveYellow(&motorL,&motorR, path_length);
+[e ( _moveYellow (3 , , &U _motorL &U _motorR _path_length ]
 "298
 [; ;color.c: 298:         color = 5;
 [e = _color -> -> 5 `i `ui ]
@@ -2890,8 +2890,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ ! && > _hue -> -> 14 `i `ui <= _hue -> -> 35 `i `ui 2061  ]
 {
 "300
-[; ;color.c: 300:         moveOrange(&motorL,&motorR, path_length, &path);
-[e ( _moveOrange (4 , , , &U _motorL &U _motorR _path_length -> &U _path `*S2017 ]
+[; ;color.c: 300:         moveOrange(&motorL,&motorR, path_length);
+[e ( _moveOrange (3 , , &U _motorL &U _motorR _path_length ]
 "301
 [; ;color.c: 301:         color= 6;
 [e = _color -> -> 6 `i `ui ]
@@ -2903,8 +2903,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ ! && >= _hue -> -> 244 `i `ui <= _hue -> -> 251 `i `ui 2063  ]
 {
 "303
-[; ;color.c: 303:         movePink(&motorL,&motorR, path_length, &path);
-[e ( _movePink (4 , , , &U _motorL &U _motorR _path_length -> &U _path `*S2017 ]
+[; ;color.c: 303:         movePink(&motorL,&motorR, path_length);
+[e ( _movePink (3 , , &U _motorL &U _motorR _path_length ]
 "304
 [; ;color.c: 304:         color = 7;
 [e = _color -> -> 7 `i `ui ]

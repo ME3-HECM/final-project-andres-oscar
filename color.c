@@ -148,7 +148,7 @@ unsigned int reading_hue(colors *cCurr)
 }
 
 
-void calibration_routine(struct colors *cCal)
+void calibration_routine(colors *cCal)
 {
   
     LATGbits.LATG0 = 0; // Red LED off
@@ -282,25 +282,25 @@ void decision(unsigned int hue, unsigned int path_length) {
     unsigned int color;
     
     if (hue<=10 || hue>=355) { // Red hue range
-        moveRed(&motorL, &motorR, path_length, &path);
+        moveRed(&motorL, &motorR, path_length);
         color = 1;
     } else if (hue>=105 && hue<=130){ // Green hue range
-        moveGreen(&motorL, &motorR, path_length, &path);
+        moveGreen(&motorL, &motorR, path_length);
         color = 2;
     } else if (hue>=230 && hue<=240){ // Blue hue range
-        moveBlue(&motorL,&motorR, path_length, &path);
+        moveBlue(&motorL,&motorR, path_length);
         color = 3;
     } else if (hue>=216 && hue<=221){ // Light Blue hue range
-        moveLightBlue(&motorL,&motorR, path_length, &path);
+        moveLightBlue(&motorL,&motorR, path_length);
         color = 4;
     } else if (hue>=302 && hue<=346){ // Light Blue hue range
-        moveYellow(&motorL,&motorR, path_length, &path);
+        moveYellow(&motorL,&motorR, path_length);
         color = 5;
     } else if (hue>14 && hue<=35){ // Light Blue hue range
-        moveOrange(&motorL,&motorR, path_length, &path);
+        moveOrange(&motorL,&motorR, path_length);
         color= 6;
     } else if (hue>=244 && hue<=251){ // Light Blue hue range
-        movePink(&motorL,&motorR, path_length, &path);  
+        movePink(&motorL,&motorR, path_length);  
         color = 7;
 
     }

@@ -24112,6 +24112,7 @@ typedef struct colors {
     unsigned int green;
     unsigned int blue;
     unsigned int clear;
+    unsigned int clear_ambient;
 } colors;
 
 
@@ -24160,7 +24161,7 @@ unsigned int reading_hue(colors *cCurr);
 
 unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
-void calibration_routine(struct colors *cCal);
+void calibration_routine(colors *cCal);
 
 void decision(unsigned int hue, unsigned int path_length);
 # 12 "main.c" 2
@@ -24264,6 +24265,7 @@ struct DC_motor motorL, motorR;
 typedef struct PathStep{
     char action;
     int time;
+    unsigned int path_length;
 } PathStep;
 
 struct PathStep path[50];
@@ -24291,13 +24293,12 @@ void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_leng
 void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
+void moveWhite(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 
-unsigned int logAction(char action, int time, unsigned int path_length, struct PathStep *path);
+void logAction(char action, int time, unsigned int pathLength);
 void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection);
-void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, unsigned int time);
-void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path, unsigned int pathLength);
-void customDelayMs(unsigned int milliseconds);
+void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time);
+void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path[], int pathLength);
 # 16 "main.c" 2
 
 # 1 "./functions.h" 1
@@ -24329,7 +24330,6 @@ void main(void) {
     ADC_init();
     color_click_init();
     initUSART4();
-    Timer0_init();
 
 
     unsigned int PWMcycle = 99;
@@ -24353,6 +24353,7 @@ void main(void) {
 
     LATDbits.LATD7=0;
     TRISDbits.TRISD7=0;
+
 
 
 
@@ -24399,17 +24400,8 @@ void main(void) {
 
     calibration_routine(&colorCalibration);
 
-    TRISDbits.TRISD3 = 0;
-    LATDbits.LATD3 = 1;
-
-    TRISHbits.TRISH1 = 0;
-    LATHbits.LATH1 = 0;
-
-
-    TRISDbits.TRISD4 = 0;
-    LATDbits.LATD4 = 0;
-
     float maximum = colorCalibration.clear;
+    float ambient = colorCalibration.clear_ambient;
     float current;
     unsigned int clear_norm;
 
@@ -24420,55 +24412,42 @@ void main(void) {
         LATAbits.LATA3 = 1;
 
 
-
-
+        fullSpeedAhead(&motorL,&motorR);
         T0CON0bits.T0EN=1;
-        LATHbits.LATH1 = 1;
 
         (colorCurrent.clear) = color_read_Clear();
         current = colorCurrent.clear;
 
-        clear_norm = (current)*100/(maximum);
+        clear_norm = (current-ambient)*100/(maximum-ambient);
 
 
+        if (clear_norm > 5){
 
-
-        while(clear_norm<15){
-            (colorCurrent.clear) = color_read_Clear();
-            current = colorCurrent.clear;
-
-            clear_norm = (current)*100/(maximum);
-        }
-
-        stop(&motorL,&motorR);
-
-        int time = get16bitTMR0val();
-        send2USART(time);
-        T0CON0bits.T0EN=0;
-        path_length = logAction('F',time, path_length, &path);
-        _delay((unsigned long)((50)*(64000000/4000.0)));
-
-        LATDbits.LATD4 = 0;
-
-
-
-
-            _delay((unsigned long)((300)*(64000000/4000.0)));
             stop(&motorL,&motorR);
-            _delay((unsigned long)((50)*(64000000/4000.0)));
 
-        if (clear_norm > 50 && !(hue>=302 && hue<=346) || LATGbits.LATG1 == 1){
+            int time = get16bitTMR0val();
+            T0CON0bits.T0EN=0;
+            logAction('F',time, path_length);
+            _delay((unsigned long)((200)*(64000000/4000.0)));
 
-            unsigned int white = 8;
-            send2USART(white);
-            returnHome(&motorL, &motorR, &path, path_length);
-            LATGbits.LATG1 = 0;
+
+            fullSpeedAhead(&motorL,&motorR);
+            _delay((unsigned long)((100)*(64000000/4000.0)));
+            stop(&motorL,&motorR);
+            _delay((unsigned long)((300)*(64000000/4000.0)));
+
+            if (clear_norm > 85 || LATGbits.LATG1 == 1){
+
+                unsigned int white = 8;
+                send2USART(white);
+                returnHome(&motorL, &motorR, &path, path_length);
+                LATGbits.LATG1 = 0;
+            }
+
+            hue = reading_hue(&colorCurrent);
+            decision(hue, path_length);
         }
 
-        hue = reading_hue(&colorCurrent);
-        decision(hue, path_length);
+
     }
-
-
-
 }

@@ -31,7 +31,6 @@ void main(void) {
     ADC_init();
     color_click_init();
     initUSART4();
-    Timer0_init();
     
     //initializing DC motors
     unsigned int PWMcycle = 99;
@@ -56,8 +55,9 @@ void main(void) {
     LATDbits.LATD7=0;   //set initial output state
     TRISDbits.TRISD7=0; //set TRIS value for pin (output)
     
-
-
+    //turning on the front lights
+//    TRISDbits.TRISD3 = 0; 
+//    LATDbits.LATD3 = 1; 
     
     //Colored LED initialization
     TRISGbits.TRISG0 = 0;
@@ -100,76 +100,54 @@ void main(void) {
     
     
     calibration_routine(&colorCalibration);
-    
-    TRISDbits.TRISD3 = 0; 
-    LATDbits.LATD3 = 1; 
-     //turning on the front lights
-    TRISHbits.TRISH1 = 0;
-    LATHbits.LATH1 = 0;
-           
-    //turning on brake lights
-    TRISDbits.TRISD4 = 0;
-    LATDbits.LATD4 = 0;
 
     float maximum = colorCalibration.clear;
     float current;
     unsigned int clear_norm;
     //code structure for testing the movement functions
     while (1) {
-
-
         //turn on white light during normal operation
         LATGbits.LATG0 = 1; //Red is G0
         LATEbits.LATE7 = 1; //Green is E7
         LATAbits.LATA3 = 1; //Blue is A3
+        
         //moves forward
         fullSpeedAhead(&motorL,&motorR);
         T0CON0bits.T0EN=1;	//start the timer
-        LATHbits.LATH1 = 1; //Front light off
+    
+        (colorCurrent.clear) = color_read_Clear();
+        current = colorCurrent.clear;
 
- 
-
-        clear_norm = 0;
-
-
+        clear_norm = (current)*100/(maximum); //normalises clear value depending on calibration routine
+//        send2USART(clear_norm);
         //when clear above a certain threshold, start the colour detection and movement process
-
-        while(clear_norm<10){
-            (colorCurrent.clear) = color_read_Clear();
-            current = colorCurrent.clear;
-
-            clear_norm = (current)*100/(maximum); //normalises clear value depending on calibration routine
-        }
-        
-        stop(&motorL,&motorR); //stops moving
-
-        int time = get16bitTMR0val(); //takes the timer value at that instant
-        send2USART(time);
-        T0CON0bits.T0EN=0;	//stops the timer
-        path_length = logAction(3,time, path_length, &path); //action = 3 means moving forward
-        __delay_ms(50);
-
-        LATDbits.LATD4 = 0; //brake light off
-
-
+        if (clear_norm > 8){  //normalised clear value range for colour detection
+            
+            stop(&motorL,&motorR); //stops moving
+            
+            int time = get16bitTMR0val(); //takes the timer value at that instant
+            T0CON0bits.T0EN=0;	//stops the timer
+            logAction('F',time, path_length);
+            __delay_ms(200);
+            
             //small sequence to bump wall for better readings
             fullSpeedAhead(&motorL,&motorR);
-            __delay_ms(300);
+            __delay_ms(100);
             stop(&motorL,&motorR);
-            __delay_ms(50);
-        hue = reading_hue(&colorCurrent);
+            __delay_ms(300);
+            
+            if (clear_norm > 50 && !(hue>=302 && hue<=346) || LATGbits.LATG1 == 1){
 
-        if (clear_norm > 60 && !(hue>=302 && hue<=346)){ // || LATGbits.LATG1 == 1
-
-            unsigned int white = 8;
-            send2USART(white);
-            returnHome(&motorL, &motorR, &path, path_length);
-            LATGbits.LATG1 = 0;
+                unsigned int white = 8;
+                send2USART(white);
+                returnHome(&motorL, &motorR, &path, path_length);
+                LATGbits.LATG1 = 0;
+            }
+            
+            hue = reading_hue(&colorCurrent);
+            decision(hue, path_length);
         }
 
-        decision(hue, path_length);
+            
     }
-
-
-
 }

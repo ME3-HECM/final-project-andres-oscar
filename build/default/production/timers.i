@@ -24114,8 +24114,9 @@ typedef struct DC_motor {
 struct DC_motor motorL, motorR;
 
 typedef struct PathStep{
-    int action;
+    char action;
     int time;
+    unsigned int path_length;
 } PathStep;
 
 struct PathStep path[50];
@@ -24136,20 +24137,19 @@ void left135(struct DC_motor *mL, struct DC_motor *mR);
 void backHalf(struct DC_motor *mL, struct DC_motor *mR);
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
 
-void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length, struct PathStep *path);
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length, struct PathStep *path);
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR,unsigned int path_length, struct PathStep *path);
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length, struct PathStep *path);
-void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length, struct PathStep *path);
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length, struct PathStep *path);
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length, struct PathStep *path);
+void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveBlue(struct DC_motor *mL, struct DC_motor *mR,unsigned int path_length);
+void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
 void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
 
-unsigned int logAction(unsigned int action, int time, unsigned int path_length, struct PathStep *path);
+unsigned int logAction(char action, int time, unsigned int pathLength);
 void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection);
-void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, unsigned int time);
-void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path, unsigned int pathLength);
-void customDelayMs(unsigned int milliseconds);
+void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time);
+void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path[], int pathLength);
 # 3 "timers.c" 2
 
 

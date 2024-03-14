@@ -9,8 +9,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [n S2016 DC_motor power direction brakemode PWMperiod posDutyHighByte negDutyHighByte ]
 "21
 [; ;./dc_motor.h: 21: typedef struct PathStep{
-[s S2017 `i 1 `i 1 ]
-[n S2017 PathStep action time ]
+[s S2017 `uc 1 `i 1 `ui 1 ]
+[n S2017 PathStep action time path_length ]
 [p mainexit ]
 "8 ./ADC.h
 [; ;./ADC.h: 8: void ADC_init(void);
@@ -21,11 +21,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "27 ./serial.h
 [; ;./serial.h: 27: void initUSART4(void);
 [v _initUSART4 `(v ~T0 @X0 0 ef ]
-"8 ./timers.h
-[; ;./timers.h: 8: void Timer0_init(void);
-[v _Timer0_init `(v ~T0 @X0 0 ef ]
-"29 ./dc_motor.h
-[; ;./dc_motor.h: 29: void initDCmotorsPWM(unsigned int PWMperiod);
+"30 ./dc_motor.h
+[; ;./dc_motor.h: 30: void initDCmotorsPWM(unsigned int PWMperiod);
 [v _initDCmotorsPWM `(v ~T0 @X0 0 ef1`ui ]
 "34097 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 34097: extern volatile unsigned char CCPR1H __attribute__((address(0xFAA)));
@@ -227,10 +224,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v __delay `JF205 ~T0 @X0 0 e ]
 [p i __delay ]
 "61 ./color.h
-[; ;./color.h: 61: void calibration_routine(struct colors *cCal);
+[; ;./color.h: 61: void calibration_routine(colors *cCal);
 [v _calibration_routine `(v ~T0 @X0 0 ef1`*S2015 ]
-"34 ./dc_motor.h
-[; ;./dc_motor.h: 34: void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
+"35 ./dc_motor.h
+[; ;./dc_motor.h: 35: void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
 [v _fullSpeedAhead `(v ~T0 @X0 0 ef2`*S2016`*S2016 ]
 "39263 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 39263:     struct {
@@ -250,25 +247,25 @@ Version 4.0 HI-TECH Software Intermediate Code
 "54 ./color.h
 [; ;./color.h: 54: unsigned int color_read_Clear(void);
 [v _color_read_Clear `(ui ~T0 @X0 0 ef ]
-"31 ./dc_motor.h
-[; ;./dc_motor.h: 31: void stop(DC_motor *mL, DC_motor *mR);
+"32 ./dc_motor.h
+[; ;./dc_motor.h: 32: void stop(DC_motor *mL, DC_motor *mR);
 [v _stop `(v ~T0 @X0 0 ef2`*S2016`*S2016 ]
 "9 ./timers.h
 [; ;./timers.h: 9: unsigned int get16bitTMR0val(void);
 [v _get16bitTMR0val `(ui ~T0 @X0 0 ef ]
+"54 ./dc_motor.h
+[; ;./dc_motor.h: 54: unsigned int logAction(char action, int time, unsigned int pathLength);
+[v _logAction `(ui ~T0 @X0 0 ef3`uc`i`ui ]
 "45 ./serial.h
 [; ;./serial.h: 45: void send2USART(unsigned int hue);
 [v _send2USART `(v ~T0 @X0 0 ef1`ui ]
-"53 ./dc_motor.h
-[; ;./dc_motor.h: 53: unsigned int logAction(unsigned int action, int time, unsigned int path_length, struct PathStep *path);
-[v _logAction `(ui ~T0 @X0 0 ef4`ui`i`ui`*S2017 ]
+"57 ./dc_motor.h
+[; ;./dc_motor.h: 57: void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path[], int pathLength);
+[v _returnHome `(v ~T0 @X0 0 ef4`*S2016`*S2016`**S2017`i ]
 "57 ./color.h
 [; ;./color.h: 57: unsigned int reading_hue(colors *cCurr);
 [v _reading_hue `(ui ~T0 @X0 0 ef1`*S2015 ]
-"56 ./dc_motor.h
-[; ;./dc_motor.h: 56: void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path, unsigned int pathLength);
-[v _returnHome `(v ~T0 @X0 0 ef4`*S2016`*S2016`*S2017`ui ]
-"63 ./color.h
+"63
 [; ;./color.h: 63: void decision(unsigned int hue, unsigned int path_length);
 [v _decision `(v ~T0 @X0 0 ef2`ui`ui ]
 "4 main.c
@@ -2296,8 +2293,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./dc_motor.h: 19: struct DC_motor motorL, motorR;
 [v _motorL `S2016 ~T0 @X0 1 e ]
 [v _motorR `S2016 ~T0 @X0 1 e ]
-"26
-[; ;./dc_motor.h: 26: struct PathStep path[50];
+"27
+[; ;./dc_motor.h: 27: struct PathStep path[50];
 [v _path `S2017 ~T0 @X0 -> 50 `i e ]
 [v $root$_main `(v ~T0 @X0 0 e ]
 "29 main.c
@@ -2315,57 +2312,54 @@ Version 4.0 HI-TECH Software Intermediate Code
 "33
 [; ;main.c: 33:     initUSART4();
 [e ( _initUSART4 ..  ]
-"34
-[; ;main.c: 34:     Timer0_init();
-[e ( _Timer0_init ..  ]
-"37
-[; ;main.c: 37:     unsigned int PWMcycle = 99;
+"36
+[; ;main.c: 36:     unsigned int PWMcycle = 99;
 [v _PWMcycle `ui ~T0 @X0 1 a ]
 [e = _PWMcycle -> -> 99 `i `ui ]
-"38
-[; ;main.c: 38:     initDCmotorsPWM(PWMcycle);
+"37
+[; ;main.c: 37:     initDCmotorsPWM(PWMcycle);
 [e ( _initDCmotorsPWM (1 _PWMcycle ]
-"41
-[; ;main.c: 41:     motorL.power = 0;
+"40
+[; ;main.c: 40:     motorL.power = 0;
 [e = . _motorL 0 -> -> 0 `i `uc ]
-"42
-[; ;main.c: 42:     motorL.direction = 1;
+"41
+[; ;main.c: 41:     motorL.direction = 1;
 [e = . _motorL 1 -> -> 1 `i `uc ]
-"43
-[; ;main.c: 43:     motorL.brakemode = 1;
+"42
+[; ;main.c: 42:     motorL.brakemode = 1;
 [e = . _motorL 2 -> -> 1 `i `uc ]
-"44
-[; ;main.c: 44:     motorL.PWMperiod = PWMcycle;
+"43
+[; ;main.c: 43:     motorL.PWMperiod = PWMcycle;
 [e = . _motorL 3 _PWMcycle ]
-"45
-[; ;main.c: 45:     motorL.posDutyHighByte = (unsigned char *)(&CCPR1H);
+"44
+[; ;main.c: 44:     motorL.posDutyHighByte = (unsigned char *)(&CCPR1H);
 [e = . _motorL 4 -> &U _CCPR1H `*uc ]
-"46
-[; ;main.c: 46:     motorL.negDutyHighByte = (unsigned char *)(&CCPR2H);
+"45
+[; ;main.c: 45:     motorL.negDutyHighByte = (unsigned char *)(&CCPR2H);
 [e = . _motorL 5 -> &U _CCPR2H `*uc ]
-"48
-[; ;main.c: 48:     motorR.power = 0;
+"47
+[; ;main.c: 47:     motorR.power = 0;
 [e = . _motorR 0 -> -> 0 `i `uc ]
-"49
-[; ;main.c: 49:     motorR.direction = 1;
+"48
+[; ;main.c: 48:     motorR.direction = 1;
 [e = . _motorR 1 -> -> 1 `i `uc ]
-"50
-[; ;main.c: 50:     motorR.brakemode = 1;
+"49
+[; ;main.c: 49:     motorR.brakemode = 1;
 [e = . _motorR 2 -> -> 1 `i `uc ]
-"51
-[; ;main.c: 51:     motorR.PWMperiod = PWMcycle;
+"50
+[; ;main.c: 50:     motorR.PWMperiod = PWMcycle;
 [e = . _motorR 3 _PWMcycle ]
-"52
-[; ;main.c: 52:     motorR.posDutyHighByte = (unsigned char *)(&CCPR3H);
+"51
+[; ;main.c: 51:     motorR.posDutyHighByte = (unsigned char *)(&CCPR3H);
 [e = . _motorR 4 -> &U _CCPR3H `*uc ]
-"53
-[; ;main.c: 53:     motorR.negDutyHighByte = (unsigned char *)(&CCPR4H);
+"52
+[; ;main.c: 52:     motorR.negDutyHighByte = (unsigned char *)(&CCPR4H);
 [e = . _motorR 5 -> &U _CCPR4H `*uc ]
-"56
-[; ;main.c: 56:     LATDbits.LATD7=0;
+"55
+[; ;main.c: 55:     LATDbits.LATD7=0;
 [e = . . _LATDbits 0 7 -> -> 0 `i `uc ]
-"57
-[; ;main.c: 57:     TRISDbits.TRISD7=0;
+"56
+[; ;main.c: 56:     TRISDbits.TRISD7=0;
 [e = . . _TRISDbits 0 7 -> -> 0 `i `uc ]
 "63
 [; ;main.c: 63:     TRISGbits.TRISG0 = 0;
@@ -2447,148 +2441,113 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 102:     calibration_routine(&colorCalibration);
 [e ( _calibration_routine (1 &U _colorCalibration ]
 "104
-[; ;main.c: 104:     TRISDbits.TRISD3 = 0;
-[e = . . _TRISDbits 0 3 -> -> 0 `i `uc ]
-"105
-[; ;main.c: 105:     LATDbits.LATD3 = 1;
-[e = . . _LATDbits 0 3 -> -> 1 `i `uc ]
-"107
-[; ;main.c: 107:     TRISHbits.TRISH1 = 0;
-[e = . . _TRISHbits 0 1 -> -> 0 `i `uc ]
-"108
-[; ;main.c: 108:     LATHbits.LATH1 = 0;
-[e = . . _LATHbits 0 1 -> -> 0 `i `uc ]
-"111
-[; ;main.c: 111:     TRISDbits.TRISD4 = 0;
-[e = . . _TRISDbits 0 4 -> -> 0 `i `uc ]
-"112
-[; ;main.c: 112:     LATDbits.LATD4 = 0;
-[e = . . _LATDbits 0 4 -> -> 0 `i `uc ]
-"114
-[; ;main.c: 114:     float maximum = colorCalibration.clear;
+[; ;main.c: 104:     float maximum = colorCalibration.clear;
 [v _maximum `f ~T0 @X0 1 a ]
 [e = _maximum -> . _colorCalibration 3 `f ]
-"115
-[; ;main.c: 115:     float current;
+"105
+[; ;main.c: 105:     float current;
 [v _current `f ~T0 @X0 1 a ]
-"116
-[; ;main.c: 116:     unsigned int clear_norm;
+"106
+[; ;main.c: 106:     unsigned int clear_norm;
 [v _clear_norm `ui ~T0 @X0 1 a ]
-"118
-[; ;main.c: 118:     while (1) {
+"108
+[; ;main.c: 108:     while (1) {
 [e :U 2020 ]
 {
-"122
-[; ;main.c: 122:         LATGbits.LATG0 = 1;
+"110
+[; ;main.c: 110:         LATGbits.LATG0 = 1;
 [e = . . _LATGbits 0 0 -> -> 1 `i `uc ]
-"123
-[; ;main.c: 123:         LATEbits.LATE7 = 1;
+"111
+[; ;main.c: 111:         LATEbits.LATE7 = 1;
 [e = . . _LATEbits 0 7 -> -> 1 `i `uc ]
-"124
-[; ;main.c: 124:         LATAbits.LATA3 = 1;
+"112
+[; ;main.c: 112:         LATAbits.LATA3 = 1;
 [e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
-"126
-[; ;main.c: 126:         fullSpeedAhead(&motorL,&motorR);
+"115
+[; ;main.c: 115:         fullSpeedAhead(&motorL,&motorR);
 [e ( _fullSpeedAhead (2 , &U _motorL &U _motorR ]
-"127
-[; ;main.c: 127:         T0CON0bits.T0EN=1;
+"116
+[; ;main.c: 116:         T0CON0bits.T0EN=1;
 [e = . . _T0CON0bits 0 4 -> -> 1 `i `uc ]
-"128
-[; ;main.c: 128:         LATHbits.LATH1 = 1;
-[e = . . _LATHbits 0 1 -> -> 1 `i `uc ]
-"132
-[; ;main.c: 132:         clear_norm = 0;
-[e = _clear_norm -> -> 0 `i `ui ]
-"137
-[; ;main.c: 137:         while(clear_norm<10){
-[e $U 2022  ]
-[e :U 2023 ]
-{
-"138
-[; ;main.c: 138:             (colorCurrent.clear) = color_read_Clear();
+"118
+[; ;main.c: 118:         (colorCurrent.clear) = color_read_Clear();
 [e = . _colorCurrent 3 ( _color_read_Clear ..  ]
-"139
-[; ;main.c: 139:             current = colorCurrent.clear;
+"119
+[; ;main.c: 119:         current = colorCurrent.clear;
 [e = _current -> . _colorCurrent 3 `f ]
-"141
-[; ;main.c: 141:             clear_norm = (current)*100/(maximum);
+"121
+[; ;main.c: 121:         clear_norm = (current)*100/(maximum);
 [e = _clear_norm -> / * _current -> -> 100 `i `f _maximum `ui ]
-"142
-[; ;main.c: 142:         }
-}
-[e :U 2022 ]
-"137
-[; ;main.c: 137:         while(clear_norm<10){
-[e $ < _clear_norm -> -> 10 `i `ui 2023  ]
-[e :U 2024 ]
-"144
-[; ;main.c: 144:         stop(&motorL,&motorR);
+"124
+[; ;main.c: 124:         if (clear_norm > 8){
+[e $ ! > _clear_norm -> -> 8 `i `ui 2022  ]
+{
+"126
+[; ;main.c: 126:             stop(&motorL,&motorR);
 [e ( _stop (2 , &U _motorL &U _motorR ]
-"146
-[; ;main.c: 146:         int time = get16bitTMR0val();
+"128
+[; ;main.c: 128:             int time = get16bitTMR0val();
 [v _time `i ~T0 @X0 1 a ]
 [e = _time -> ( _get16bitTMR0val ..  `i ]
-"147
-[; ;main.c: 147:         send2USART(time);
-[e ( _send2USART (1 -> _time `ui ]
-"148
-[; ;main.c: 148:         T0CON0bits.T0EN=0;
+"129
+[; ;main.c: 129:             T0CON0bits.T0EN=0;
 [e = . . _T0CON0bits 0 4 -> -> 0 `i `uc ]
-"149
-[; ;main.c: 149:         path_length = logAction(3,time, path_length, &path);
-[e = _path_length ( _logAction (4 , , , -> -> 3 `i `ui _time _path_length -> &U _path `*S2017 ]
-"150
-[; ;main.c: 150:         _delay((unsigned long)((50)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"152
-[; ;main.c: 152:         LATDbits.LATD4 = 0;
-[e = . . _LATDbits 0 4 -> -> 0 `i `uc ]
-"156
-[; ;main.c: 156:             fullSpeedAhead(&motorL,&motorR);
+"130
+[; ;main.c: 130:             logAction('F',time, path_length);
+[e ( _logAction (3 , , -> -> 70 `ui `uc _time _path_length ]
+"131
+[; ;main.c: 131:             _delay((unsigned long)((200)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"134
+[; ;main.c: 134:             fullSpeedAhead(&motorL,&motorR);
 [e ( _fullSpeedAhead (2 , &U _motorL &U _motorR ]
-"157
-[; ;main.c: 157:             _delay((unsigned long)((300)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 300 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"158
-[; ;main.c: 158:             stop(&motorL,&motorR);
+"135
+[; ;main.c: 135:             _delay((unsigned long)((100)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"136
+[; ;main.c: 136:             stop(&motorL,&motorR);
 [e ( _stop (2 , &U _motorL &U _motorR ]
-"159
-[; ;main.c: 159:             _delay((unsigned long)((50)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 50 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"160
-[; ;main.c: 160:         hue = reading_hue(&colorCurrent);
-[e = _hue ( _reading_hue (1 &U _colorCurrent ]
-"162
-[; ;main.c: 162:         if (clear_norm > 60 && !(hue>=302 && hue<=346)){
-[e $ ! && > _clear_norm -> -> 60 `i `ui ! && >= _hue -> -> 302 `i `ui <= _hue -> -> 346 `i `ui 2025  ]
+"137
+[; ;main.c: 137:             _delay((unsigned long)((300)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 300 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"139
+[; ;main.c: 139:             if (clear_norm > 50 && !(hue>=302 && hue<=346) || LATGbits.LATG1 == 1){
+[e $ ! || && > _clear_norm -> -> 50 `i `ui ! && >= _hue -> -> 302 `i `ui <= _hue -> -> 346 `i `ui == -> . . _LATGbits 0 1 `i -> 1 `i 2023  ]
 {
-"164
-[; ;main.c: 164:             unsigned int white = 8;
+"141
+[; ;main.c: 141:                 unsigned int white = 8;
 [v _white `ui ~T0 @X0 1 a ]
 [e = _white -> -> 8 `i `ui ]
-"165
-[; ;main.c: 165:             send2USART(white);
+"142
+[; ;main.c: 142:                 send2USART(white);
 [e ( _send2USART (1 _white ]
-"166
-[; ;main.c: 166:             returnHome(&motorL, &motorR, &path, path_length);
-[e ( _returnHome (4 , , , &U _motorL &U _motorR -> &U _path `*S2017 _path_length ]
-"167
-[; ;main.c: 167:             LATGbits.LATG1 = 0;
+"143
+[; ;main.c: 143:                 returnHome(&motorL, &motorR, &path, path_length);
+[e ( _returnHome (4 , , , &U _motorL &U _motorR -> &U _path `**S2017 -> _path_length `i ]
+"144
+[; ;main.c: 144:                 LATGbits.LATG1 = 0;
 [e = . . _LATGbits 0 1 -> -> 0 `i `uc ]
-"168
-[; ;main.c: 168:         }
+"145
+[; ;main.c: 145:             }
 }
-[e :U 2025 ]
-"170
-[; ;main.c: 170:         decision(hue, path_length);
+[e :U 2023 ]
+"147
+[; ;main.c: 147:             hue = reading_hue(&colorCurrent);
+[e = _hue ( _reading_hue (1 &U _colorCurrent ]
+"148
+[; ;main.c: 148:             decision(hue, path_length);
 [e ( _decision (2 , _hue _path_length ]
-"171
-[; ;main.c: 171:     }
+"149
+[; ;main.c: 149:         }
+}
+[e :U 2022 ]
+"152
+[; ;main.c: 152:     }
 }
 [e :U 2019 ]
 [e $U 2020  ]
 [e :U 2021 ]
-"175
-[; ;main.c: 175: }
+"153
+[; ;main.c: 153: }
 [e :UE 2018 ]
 }
