@@ -14,8 +14,8 @@
 #include "ADC.h"
 #include "serial.h"
 #include "dc_motor.h"
-#include "functions.h"
 #include "timers.h"
+#include "return_func.h"
 
 /************************************
  * #define directives...
@@ -80,15 +80,7 @@ void main(void) {
     TRISGbits.TRISG1 = 0;
     LATGbits.LATG1 = 0;
     
-    //variable initialisations
-    unsigned int battery_level;
-    unsigned int red;
-    unsigned int blue;
-    unsigned int green;
-    unsigned int clear;
-    unsigned int hue;
-    char hue_char[20];
-    unsigned int path_length = 0;
+
     
     
     //flashes light on the front of car to show initialization
@@ -101,9 +93,15 @@ void main(void) {
     
     calibration_routine(&colorCalibration);
 
-    float maximum = colorCalibration.clear;
-    float current;
     unsigned int clear_norm;
+    float current;
+    unsigned int path_step = 0;
+    unsigned int hue;
+    unsigned int ambient;
+    
+    ambient = colorCurrent.ambient;
+
+
     //code structure for testing the movement functions
     while (1) {
         //turn on white light during normal operation
@@ -118,35 +116,40 @@ void main(void) {
         (colorCurrent.clear) = color_read_Clear();
         current = colorCurrent.clear;
 
-        clear_norm = (current)*100/(maximum); //normalises clear value depending on calibration routine
+        clear_norm = (current-ambient)*100/(colorCalibration.clear - ambient); //normalises clear value depending on calibration routine
 //        send2USART(clear_norm);
         //when clear above a certain threshold, start the colour detection and movement process
         if (clear_norm > 8){  //normalised clear value range for colour detection
             
             stop(&motorL,&motorR); //stops moving
             
-            unsigned int time = get16bitTMR0val(); //takes the timer value at that instant
-            T0CON0bits.T0EN=0;	//stops the timer
-            logAction('F',time, &path, path_length);
+            
+            path_step = get16bitTMR0val(path_step); //takes the timer value at that instant
+            
             __delay_ms(200);
             
             //small sequence to bump wall for better readings
             fullSpeedAhead(&motorL,&motorR);
-            __delay_ms(100);
+            __delay_ms(300);
             stop(&motorL,&motorR);
             __delay_ms(300);
             hue = reading_hue(&colorCurrent);
 
-            
-            if (clear_norm > 50 && !(hue>=302 && hue<=346) || LATGbits.LATG1 == 1){
+         if (clear_norm > 20){
+             fullSpeedAhead(&motorL,&motorR);
+            __delay_ms(100);
+            stop(&motorL,&motorR);
+         }  
+         if ((clear_norm > 50 && !(hue >= 302 && hue <= 346)) || LATGbits.LATG1 == 1) {
+
 
                 unsigned int white = 8;
                 send2USART(white);
-                returnHome(&motorL, &motorR, &path, path_length);
+                returnHome(&motorL, &motorR, path_step);
                 LATGbits.LATG1 = 0;
             }
             
-            path_length = decision(hue, path, path_length);
+            path_step = decision(hue, path_step);
         }
 
             

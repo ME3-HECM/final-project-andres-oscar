@@ -4,6 +4,7 @@
 #include "i2c.h"
 #include "serial.h"
 #include "dc_motor.h"
+#include "return_func.h"
 
 void color_click_init(void)
 {   
@@ -93,8 +94,6 @@ unsigned int reading_hue(colors *cCurr)
      // Prepare strings for serial transmission
     char led_state[50];
 
-    
-
         // Turn on Red LED only
     LATGbits.LATG0 = 1; // Red LED on
     LATEbits.LATE7 = 0; // Green LED off
@@ -102,18 +101,11 @@ unsigned int reading_hue(colors *cCurr)
     __delay_ms(500);
     (cCurr->red)= color_read_Red();
 
-
-
-
     LATGbits.LATG0 = 0; // Red LED off
     LATEbits.LATE7 = 1; // Green LED on
     LATAbits.LATA3 = 0; // Blue LED off   
     __delay_ms(500);
     (cCurr->green) = color_read_Green();
-
-
-
-
 
     LATGbits.LATG0 = 0; // Red LED off
     LATEbits.LATE7 = 0; // Green LED off
@@ -121,24 +113,14 @@ unsigned int reading_hue(colors *cCurr)
     __delay_ms(500);
     (cCurr->blue) = color_read_Blue();
 
-
-
-
     LATGbits.LATG0 = 1; // Red LED on
     LATEbits.LATE7 = 1; // Green LED on
     LATAbits.LATA3 = 1; // Blue LED on
     __delay_ms(500);
     (cCurr->clear) = color_read_Clear();
 
-
-
-
-
-
+    
     hue = convert_rgb2hue(&colorCalibration, &colorCurrent);
-
-
-
 
     //send2USART(hue);
 
@@ -213,6 +195,21 @@ void calibration_routine(colors *cCal)
     LATGbits.LATG0 = 0; // Red LED off
     LATEbits.LATE7 = 0; // Green LED off
     LATAbits.LATA3 = 0; // Green LED off
+    
+    sprintf(cal_state,"Calibration state =  ambient", ".");
+    sendStringSerial4(&cal_state);    
+    
+    while(PORTFbits.RF2 == 1){
+        
+    }
+    LATGbits.LATG0 = 1; // Red LED on
+    LATEbits.LATE7 = 1; // Green LED on
+    LATAbits.LATA3 = 1; // Blue LED on
+    __delay_ms(500);
+    (cCal->ambient) = color_read_Clear();
+    LATGbits.LATG0 = 0; // Red LED off
+    LATEbits.LATE7 = 0; // Green LED off
+    LATAbits.LATA3 = 0; // Green LED off
 
     
     
@@ -274,7 +271,7 @@ unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
     return (unsigned int)hue;
 }
 
-unsigned int decision(unsigned int hue, struct PathStep *path, unsigned int path_length) {
+unsigned int decision(unsigned int hue, unsigned int path_step) {
     // Assume `colorCurrent` holds the latest colors sensor readings
     // and `colorCalibration` holds the calibration data.
 
@@ -282,30 +279,39 @@ unsigned int decision(unsigned int hue, struct PathStep *path, unsigned int path
     unsigned int color;
     
     if (hue<=10 || hue>=355) { // Red hue range
-        path_length = moveRed(&motorL, &motorR, path, path_length);
+        moveRed(&motorL, &motorR);
+        logAction('1',0, path_step); //turning actions have time = 0
         color = 1;
-    } else if (hue>=105 && hue<=130){ // Green hue range
-        path_length = moveGreen(&motorL, &motorR, path, path_length);
+    }
+        else if (hue>=105 && hue<=130){ // Green hue range
+        moveGreen(&motorL, &motorR);
+        logAction('2',0, path_step);
         color = 2;
     } else if (hue>=230 && hue<=240){ // Blue hue range
-        path_length = moveBlue(&motorL,&motorR, path, path_length);
+        moveBlue(&motorL,&motorR);
+        logAction('3',0, path_step); //turning actions have time = 0
         color = 3;
     } else if (hue>=216 && hue<=221){ // Light Blue hue range
-        path_length = moveLightBlue(&motorL,&motorR, path, path_length);
+        moveLightBlue(&motorL,&motorR);
+        logAction('5',0, path_step); //turning actions have time = 0
         color = 4;
     } else if (hue>=302 && hue<=346){ // Light Blue hue range
-        path_length = moveYellow(&motorL,&motorR, path, path_length);
+        moveYellow(&motorL,&motorR);
+        logAction('1',0, path_step); //turning actions have time = 0 CHECK THIS TO SEE IF WE NEED TO REMOVE TIME FROM THE STRAIGHT 
         color = 5;
     } else if (hue>14 && hue<=35){ // Light Blue hue range
-        path_length = moveOrange(&motorL,&motorR, path, path_length);
+        moveOrange(&motorL,&motorR);
+        logAction('4',0, path_step); //turning actions have time = 0
         color= 6;
     } else if (hue>=244 && hue<=251){ // Light Blue hue range
-        path_length = movePink(&motorL,&motorR, path, path_length);  
+        movePink(&motorL,&motorR);  
+        logAction('2',0, path_step); //turning actions have time = 0 CHECK THIS TO SEE IF WE NEED TO REMOVE TIME FROM THE STRAIGHT 
         color = 7;
 
     }
     send2USART(color);
-    return path_length;
+    path_step++; //adds a new step to the path
+    return path_step;
 
 
     // Here, you can add additional logic to act upon the color detection,

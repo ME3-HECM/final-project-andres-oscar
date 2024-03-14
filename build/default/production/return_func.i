@@ -1,4 +1,4 @@
-# 1 "main.c"
+# 1 "return_func.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,18 +6,7 @@
 # 1 "<built-in>" 2
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "main.c" 2
-
-
-
-#pragma config FEXTOSC = HS
-#pragma config RSTOSC = EXTOSC_4PLL
-#pragma config WDTE = OFF
-
-
-
-
-
+# 1 "return_func.c" 2
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\xc.h" 1 3
 # 18 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -24097,9 +24086,9 @@ __attribute__((__unsupported__("The READTIMER" "0" "() macro is not available wi
 unsigned char __t1rd16on(void);
 unsigned char __t3rd16on(void);
 # 33 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\xc.h" 2 3
-# 11 "main.c" 2
+# 1 "return_func.c" 2
 
-# 1 "./color.h" 1
+# 1 "./return_func.h" 1
 
 
 
@@ -24154,163 +24143,13 @@ void movePink(struct DC_motor *mL, struct DC_motor *mR);
 void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
 void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
 void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
-# 5 "./color.h" 2
+# 5 "./return_func.h" 2
 
 
 
 
 
-typedef struct colors {
-    unsigned int red;
-    unsigned int green;
-    unsigned int blue;
-    unsigned int clear;
-    unsigned int ambient;
-} colors;
 
-
-
-struct colors colorCalibration, colorCurrent, hue;
-
-
-
-
-void color_click_init(void);
-
-
-
-
-
-
-void color_writetoaddr(char address, char value);
-
-
-
-
-
-unsigned int color_read_Red(void);
-
-
-
-
-
-unsigned int color_read_Green(void);
-
-
-
-
-
-unsigned int color_read_Blue(void);
-
-
-
-
-
-
-unsigned int color_read_Clear(void);
-
-
-unsigned int reading_hue(colors *cCurr);
-
-unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
-
-void calibration_routine(colors *cCal);
-
-unsigned int decision(unsigned int hue, unsigned int path_step);
-# 12 "main.c" 2
-
-# 1 "./i2c.h" 1
-# 13 "./i2c.h"
-void I2C_2_Master_Init(void);
-
-
-
-
-void I2C_2_Master_Idle(void);
-
-
-
-
-void I2C_2_Master_Start(void);
-
-
-
-
-void I2C_2_Master_RepStart(void);
-
-
-
-
-void I2C_2_Master_Stop(void);
-
-
-
-
-void I2C_2_Master_Write(unsigned char data_byte);
-
-
-
-
-unsigned char I2C_2_Master_Read(unsigned char ack);
-# 13 "main.c" 2
-
-# 1 "./ADC.h" 1
-
-
-
-
-
-
-
-void ADC_init(void);
-unsigned int ADC_getval(void);
-# 14 "main.c" 2
-
-# 1 "./serial.h" 1
-# 14 "./serial.h"
-volatile char EUSART4RXbuf[20];
-volatile char RxBufWriteCnt=0;
-volatile char RxBufReadCnt=0;
-
-volatile char EUSART4TXbuf[60];
-volatile char TxBufWriteCnt=0;
-volatile char TxBufReadCnt=0;
-
-
-volatile char dataFlag=1;
-
-
-
-void initUSART4(void);
-char getCharSerial4(void);
-void sendCharSerial4(char charToSend);
-void sendStringSerial4(char *string);
-
-
-char getCharFromRxBuf(void);
-void putCharToRxBuf(char byte);
-char isDataInRxBuf (void);
-
-
-char getCharFromTxBuf(void);
-void putCharToTxBuf(char byte);
-char isDataInTxBuf (void);
-void TxBufferedString(char *string);
-void sendTxBuf(void);
-void sendAllReadings(void);
-void ADC2String(char *buf, unsigned int ADC_val);
-void send2USART(unsigned int hue);
-# 15 "main.c" 2
-
-
-# 1 "./timers.h" 1
-# 10 "./timers.h"
-void Timer0_init(void);
-unsigned int get16bitTMR0val(unsigned int path_step);
-# 17 "main.c" 2
-
-# 1 "./return_func.h" 1
-# 11 "./return_func.h"
 char action[50];
 int time[50];
 
@@ -24320,134 +24159,90 @@ void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char actionStep);
 void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, long time_ms);
 void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step);
 void customDelayMs(unsigned int milliseconds);
-# 18 "main.c" 2
-# 29 "main.c"
-void main(void) {
-
-    ADC_init();
-    color_click_init();
-    initUSART4();
-
-
-    unsigned int PWMcycle = 99;
-    initDCmotorsPWM(PWMcycle);
-
-
-    motorL.power = 0;
-    motorL.direction = 1;
-    motorL.brakemode = 1;
-    motorL.PWMperiod = PWMcycle;
-    motorL.posDutyHighByte = (unsigned char *)(&CCPR1H);
-    motorL.negDutyHighByte = (unsigned char *)(&CCPR2H);
-
-    motorR.power = 0;
-    motorR.direction = 1;
-    motorR.brakemode = 1;
-    motorR.PWMperiod = PWMcycle;
-    motorR.posDutyHighByte = (unsigned char *)(&CCPR3H);
-    motorR.negDutyHighByte = (unsigned char *)(&CCPR4H);
-
-
-    LATDbits.LATD7=0;
-    TRISDbits.TRISD7=0;
-
-
-
-
-
-
-    TRISGbits.TRISG0 = 0;
-    LATGbits.LATG0 = 0;
-    TRISEbits.TRISE7 = 0;
-    LATEbits.LATE7 = 0;
-    TRISAbits.TRISA3 = 0;
-    LATAbits.LATA3 = 0;
-
-
-
-
-    TRISFbits.TRISF3=1;
-    ANSELFbits.ANSELF3=0;
-    TRISFbits.TRISF2 = 1;
-    LATFbits.LATF2 = 0;
-    ANSELFbits.ANSELF2 = 0;
-
-
-    TRISGbits.TRISG1 = 0;
-    LATGbits.LATG1 = 0;
-
-
-
-
-
-    TRISHbits.TRISH3 = 0;
-    LATHbits.LATH3 = 1;
-    _delay((unsigned long)((300)*(64000000/4000.0)));
-    LATHbits.LATH3 = 0;
-
-
-
-    calibration_routine(&colorCalibration);
-
-    unsigned int clear_norm;
-    float current;
-    unsigned int path_step = 0;
-    unsigned int hue;
-    unsigned int ambient;
-
-    ambient = colorCurrent.ambient;
-
-
-
-    while (1) {
-
-        LATGbits.LATG0 = 1;
-        LATEbits.LATE7 = 1;
-        LATAbits.LATA3 = 1;
-
-
-        fullSpeedAhead(&motorL,&motorR);
-        T0CON0bits.T0EN=1;
-
-        (colorCurrent.clear) = color_read_Clear();
-        current = colorCurrent.clear;
-
-        clear_norm = (current-ambient)*100/(colorCalibration.clear - ambient);
-
-
-        if (clear_norm > 8){
-
-            stop(&motorL,&motorR);
-
-
-            path_step = get16bitTMR0val(path_step);
-
-            _delay((unsigned long)((200)*(64000000/4000.0)));
-
-
-            fullSpeedAhead(&motorL,&motorR);
-            _delay((unsigned long)((300)*(64000000/4000.0)));
-            stop(&motorL,&motorR);
-            _delay((unsigned long)((300)*(64000000/4000.0)));
-            hue = reading_hue(&colorCurrent);
-
-         if (clear_norm > 20){
-             fullSpeedAhead(&motorL,&motorR);
-            _delay((unsigned long)((100)*(64000000/4000.0)));
-            stop(&motorL,&motorR);
-         }
-         if ((clear_norm > 50 && !(hue >= 302 && hue <= 346)) || LATGbits.LATG1 == 1) {
-
-
-                unsigned int white = 8;
-                send2USART(white);
-                returnHome(&motorL, &motorR, path_step);
-                LATGbits.LATG1 = 0;
-            }
-
-            path_step = decision(hue, path_step);
-        }
-
+# 2 "return_func.c" 2
+# 13 "return_func.c"
+void logAction(char newAction, int newTime, unsigned int path_step) {
+    if (path_step < 50) {
+        action[path_step] = newAction;
+        time[path_step] = newTime;
 
     }
+
+}
+
+
+void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char actionStep) {
+    if (actionStep == 1) {
+        backHalf(mL,mR);
+        _delay((unsigned long)((500)*(64000000/4000.0)));
+        left90(mL,mR);
+    } else if (actionStep == 2) {
+
+        backHalf(mL,mR);
+        _delay((unsigned long)((500)*(64000000/4000.0)));
+        right90(mL,mR);
+    } else if (actionStep == 3) {
+
+         backHalf(mL,mR);
+         _delay((unsigned long)((500)*(64000000/4000.0)));
+        turn180(mL,mR);
+    } else if (actionStep == 4) {
+
+        backHalf(mL,mR);
+        _delay((unsigned long)((500)*(64000000/4000.0)));
+        left135(mL,mR);
+    } else if (actionStep == 5) {
+        backHalf(mL,mR);
+        _delay((unsigned long)((500)*(64000000/4000.0)));
+        right135(mL,mR);
+    }
+
+}
+
+
+void customDelayMs(unsigned int milliseconds) {
+    for (unsigned int i = 0; i < milliseconds; i++) {
+        _delay((unsigned long)((1)*(64000000/4000.0)));
+    }
+}
+
+
+void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, long time_ms)
+{
+
+    unsigned int delayMs = 1000;
+
+
+    if (time_ms>5500){delayMs = 3000; }
+    else if (time_ms>3000 && time_ms>4100){delayMs = 2000; }
+    else if (time_ms<3000){delayMs = 1000;}
+
+    fullSpeedAhead(&motorL,&motorR);
+    customDelayMs(delayMs);
+    stop(&motorL,&motorR);
+    _delay((unsigned long)((300)*(64000000/4000.0)));
+}
+
+
+void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step)
+{
+
+    LATGbits.LATG0 = 0;
+    LATEbits.LATE7 = 0;
+    LATAbits.LATA3 = 0;
+
+    moveWhite(&motorL,&motorR);
+
+    for (unsigned int i = path_step; i>=0; i--) {
+
+        long time_ms = time[i]*65535*4*8192/64000000;
+        char action_turn = action[i];
+        if (action[i] == 0){reverseStraight(&motorL, &motorR, time_ms);}
+
+        else {
+            reverseTurn(&motorL, &motorR,action_turn);
+        }
+
+    }
+    __asm(" sleep");
 }

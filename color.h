@@ -2,6 +2,8 @@
 #define _color_H
 
 #include <xc.h>
+#include "dc_motor.h"
+
 
 #define _XTAL_FREQ 64000000 //note intrinsic _delay function is 62.5ns at 64,000,000Hz  
 
@@ -10,6 +12,7 @@ typedef struct colors { //definition of DC_motor structure
     unsigned int green;   //green colour
     unsigned int blue;   //blue colour
     unsigned int clear;   //clear colour
+    unsigned int ambient;
 } colors;
 
 
@@ -60,5 +63,5 @@ unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
 
-unsigned int decision(unsigned int hue, struct PathStep *path, unsigned int path_length);
+unsigned int decision(unsigned int hue, unsigned int path_step);
 #endif

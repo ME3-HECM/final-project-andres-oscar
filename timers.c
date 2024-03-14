@@ -1,6 +1,7 @@
 #include <xc.h>
 #include "timers.h"
 #include "dc_motor.h"
+#include "return_func.h"
 /************************************
  * Function to set up timer 0
 ************************************/
@@ -29,11 +30,13 @@ void Timer0_init(void)
  * Function to return the full 16bit timer value
  * Note TMR0L and TMR0H must be read in the correct order, or TMR0H will not contain the correct value
 ************************************/
-unsigned int get16bitTMR0val(void)
+unsigned int get16bitTMR0val(unsigned int path_step)
 {
-    unsigned int combined_value;
+    int combined_value;
     combined_value = TMR0L | (TMR0H << 8);
-    return combined_value;
+    T0CON0bits.T0EN=0;	//stops the timer
+    logAction('0',combined_value, path_step);
+    return path_step;
 }
 void __interrupt(low_priority) LowISR()
 {   
