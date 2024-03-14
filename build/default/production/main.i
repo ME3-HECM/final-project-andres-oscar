@@ -24162,7 +24162,7 @@ unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
 
-void decision(unsigned int hue, unsigned int path_length);
+unsigned int decision(unsigned int hue, struct PathStep *path, unsigned int path_length);
 # 12 "main.c" 2
 
 # 1 "./i2c.h" 1
@@ -24249,7 +24249,7 @@ void send2USART(unsigned int hue);
 # 15 "main.c" 2
 
 # 1 "./dc_motor.h" 1
-# 10 "./dc_motor.h"
+# 11 "./dc_motor.h"
 typedef struct DC_motor {
     char power;
     char direction;
@@ -24262,9 +24262,8 @@ typedef struct DC_motor {
 struct DC_motor motorL, motorR;
 
 typedef struct PathStep{
-    char action;
-    int time;
-    unsigned int path_length;
+    unsigned int action;
+    unsigned int time;
 } PathStep;
 
 struct PathStep path[50];
@@ -24285,19 +24284,19 @@ void left135(struct DC_motor *mL, struct DC_motor *mR);
 void backHalf(struct DC_motor *mL, struct DC_motor *mR);
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
 
-void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR,unsigned int path_length);
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+unsigned int moveRed(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path, unsigned int path_length);
+unsigned int moveGreen(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path, unsigned int path_length);
+unsigned int moveBlue(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path, unsigned int path_length);
+unsigned int moveYellow(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path, unsigned int path_length);
+unsigned int movePink(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path, unsigned int path_length);
+unsigned int moveOrange(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path, unsigned int path_length);
+unsigned int moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path, unsigned int path_length);
 void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
 
-unsigned int logAction(char action, int time, unsigned int pathLength);
-void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection);
-void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time);
-void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path[], int pathLength);
+unsigned int logAction(unsigned int action, unsigned int time, struct PathStep *path, unsigned int path_length);
+void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, unsigned int action);
+void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, unsigned int time);
+void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path, unsigned int pathLength);
 # 16 "main.c" 2
 
 # 1 "./functions.h" 1
@@ -24423,9 +24422,9 @@ void main(void) {
 
             stop(&motorL,&motorR);
 
-            int time = get16bitTMR0val();
+            unsigned int time = get16bitTMR0val();
             T0CON0bits.T0EN=0;
-            logAction('F',time, path_length);
+            logAction('F',time, &path, path_length);
             _delay((unsigned long)((200)*(64000000/4000.0)));
 
 
@@ -24433,6 +24432,8 @@ void main(void) {
             _delay((unsigned long)((100)*(64000000/4000.0)));
             stop(&motorL,&motorR);
             _delay((unsigned long)((300)*(64000000/4000.0)));
+            hue = reading_hue(&colorCurrent);
+
 
             if (clear_norm > 50 && !(hue>=302 && hue<=346) || LATGbits.LATG1 == 1){
 
@@ -24442,8 +24443,7 @@ void main(void) {
                 LATGbits.LATG1 = 0;
             }
 
-            hue = reading_hue(&colorCurrent);
-            decision(hue, path_length);
+            path_length = decision(hue, path, path_length);
         }
 
 

@@ -125,9 +125,9 @@ void main(void) {
             
             stop(&motorL,&motorR); //stops moving
             
-            int time = get16bitTMR0val(); //takes the timer value at that instant
+            unsigned int time = get16bitTMR0val(); //takes the timer value at that instant
             T0CON0bits.T0EN=0;	//stops the timer
-            logAction('F',time, path_length);
+            logAction('F',time, &path, path_length);
             __delay_ms(200);
             
             //small sequence to bump wall for better readings
@@ -135,6 +135,8 @@ void main(void) {
             __delay_ms(100);
             stop(&motorL,&motorR);
             __delay_ms(300);
+            hue = reading_hue(&colorCurrent);
+
             
             if (clear_norm > 50 && !(hue>=302 && hue<=346) || LATGbits.LATG1 == 1){
 
@@ -144,8 +146,7 @@ void main(void) {
                 LATGbits.LATG1 = 0;
             }
             
-            hue = reading_hue(&colorCurrent);
-            decision(hue, path_length);
+            path_length = decision(hue, path, path_length);
         }
 
             

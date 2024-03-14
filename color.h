@@ -60,5 +60,5 @@ unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
 
-void decision(unsigned int hue, unsigned int path_length);
+unsigned int decision(unsigned int hue, struct PathStep *path, unsigned int path_length);
 #endif
