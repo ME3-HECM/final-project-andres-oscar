@@ -30,8 +30,8 @@ Yellow | Reverse 1 square and turn right 90| 1
 Pink | Reverse 1 square and turn left 90| 1
 Orange | Turn Right 135| 1
 Light blue | Turn Left 135 | 1
-White | Finish (return home)| 1
-Black | Maze wall colour| 1
+White | Finish (return home)| N/A
+Black | Maze wall colour| N/A
 
 ***
 ## Assessment
