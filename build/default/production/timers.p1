@@ -126,8 +126,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 39003: extern volatile unsigned char TMR0H __attribute__((address(0xFD4)));
 [v _TMR0H `Vuc ~T0 @X0 0 e@4052 ]
 "15 ./return_func.h
-[; ;./return_func.h: 15: void logAction(char newAction, int newTime, unsigned int path_step);
-[v _logAction `(v ~T0 @X0 0 ef3`uc`i`ui ]
+[; ;./return_func.h: 15: void logAction(char newAction, long newTime, unsigned int path_step);
+[v _logAction `(v ~T0 @X0 0 ef3`uc`l`ui ]
 [t ~ __interrupt . k ]
 [t T1 __interrupt low_priority ]
 "54 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
@@ -2108,8 +2108,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./dc_motor.h: 9: char action[50];
 [v _action `uc ~T0 @X0 -> 50 `i e ]
 "10
-[; ;./dc_motor.h: 10: int time[50];
-[v _time `i ~T0 @X0 -> 50 `i e ]
+[; ;./dc_motor.h: 10: long time[50];
+[v _time `l ~T0 @X0 -> 50 `i e ]
 "21
 [; ;./dc_motor.h: 21: struct DC_motor motorL, motorR;
 [v _motorL `S2015 ~T0 @X0 1 e ]
@@ -2118,8 +2118,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./return_func.h: 11: char action[50];
 [v _action `uc ~T0 @X0 -> 50 `i e ]
 "12
-[; ;./return_func.h: 12: int time[50];
-[v _time `i ~T0 @X0 -> 50 `i e ]
+[; ;./return_func.h: 12: long time[50];
+[v _time `l ~T0 @X0 -> 50 `i e ]
 "8 timers.c
 [; ;timers.c: 8: void Timer0_init(void)
 [v _Timer0_init `(v ~T0 @X0 1 ef ]
@@ -2194,43 +2194,47 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;timers.c: 37:     combined_value = TMR0L | (TMR0H << 8);
 [e = _combined_value | -> _TMR0L `i << -> _TMR0H `i -> 8 `i ]
 "38
-[; ;timers.c: 38:     logAction(0,combined_value, path_step);
-[e ( _logAction (3 , , -> -> 0 `i `uc _combined_value _path_step ]
-"39
-[; ;timers.c: 39:     path_step++;
-[e ++ _path_step -> -> 1 `i `ui ]
+[; ;timers.c: 38:     long time_ms = combined_value*65535*4*8192/64000000;
+[v _time_ms `l ~T0 @X0 1 a ]
+[e = _time_ms / * * * -> _combined_value `l -> 65535 `l -> -> 4 `i `l -> -> 8192 `i `l -> 64000000 `l ]
 "40
-[; ;timers.c: 40:     return path_step;
+[; ;timers.c: 40:     logAction(0,time_ms, path_step);
+[e ( _logAction (3 , , -> -> 0 `i `uc _time_ms _path_step ]
+"41
+[; ;timers.c: 41:     path_step++;
+[e ++ _path_step -> -> 1 `i `ui ]
+"43
+[; ;timers.c: 43:     return path_step;
 [e ) _path_step ]
 [e $UE 2017  ]
-"41
-[; ;timers.c: 41: }
+"44
+[; ;timers.c: 44: }
 [e :UE 2017 ]
 }
 [v $root$_LowISR `(v ~T0 @X0 0 e ]
-"42
-[; ;timers.c: 42: void __attribute__((picinterrupt(("low_priority")))) LowISR()
+"45
+[; ;timers.c: 45: void __attribute__((picinterrupt(("low_priority")))) LowISR()
 [v _LowISR `(v ~T1 @X0 1 ef ]
-"43
-[; ;timers.c: 43: {
+"46
+[; ;timers.c: 46: {
 {
 [e :U _LowISR ]
 [f ]
-"45
-[; ;timers.c: 45:     if (PIR0bits.TMR0IF == 1) {
+"48
+[; ;timers.c: 48:     if (PIR0bits.TMR0IF == 1) {
 [e $ ! == -> . . _PIR0bits 0 5 `i -> 1 `i 2019  ]
 {
-"46
-[; ;timers.c: 46:         LATGbits.LATG1 = 1;
-[e = . . _LATGbits 0 1 -> -> 1 `i `uc ]
-"48
-[; ;timers.c: 48:         PIR0bits.TMR0IF = 0;
-[e = . . _PIR0bits 0 5 -> -> 0 `i `uc ]
 "49
-[; ;timers.c: 49:     }
+[; ;timers.c: 49:         LATGbits.LATG1 = 1;
+[e = . . _LATGbits 0 1 -> -> 1 `i `uc ]
+"51
+[; ;timers.c: 51:         PIR0bits.TMR0IF = 0;
+[e = . . _PIR0bits 0 5 -> -> 0 `i `uc ]
+"52
+[; ;timers.c: 52:     }
 }
 [e :U 2019 ]
-"50
-[; ;timers.c: 50: }
+"53
+[; ;timers.c: 53: }
 [e :UE 2018 ]
 }

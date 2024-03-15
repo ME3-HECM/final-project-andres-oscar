@@ -16,6 +16,7 @@
 #include "dc_motor.h"
 #include "timers.h"
 #include "return_func.h"
+#include "calibration.h"
 
 /************************************
  * #define directives...
@@ -52,13 +53,9 @@ void main(void) {
     motorR.posDutyHighByte = (unsigned char *)(&CCPR3H); //assign the correct CCP register address
     motorR.negDutyHighByte = (unsigned char *)(&CCPR4H); //assign the correct CCP register address
     
-    // setup LEFT pin for output of battery status
-    LATDbits.LATD7=0;   //set initial output state
-    TRISDbits.TRISD7=0; //set TRIS value for pin (output)
+
     
-    //turning on the front lights
-//    TRISDbits.TRISD3 = 0; 
-//    LATDbits.LATD3 = 1; 
+
     
     //Colored LED initialization
     TRISGbits.TRISG0 = 0;
@@ -70,12 +67,11 @@ void main(void) {
     
     //finding current battery value, max 255 (we think), so putting it in infinite while loop with LED indicating low battery
     
-    //Buttons on Clicker Board Initializations
+    // setup pin for input (connected to button)
+    TRISFbits.TRISF2=1; //set TRIS value for pin (input)
+    ANSELFbits.ANSELF2=0; //turn off analogue input on pin 
     TRISFbits.TRISF3=1; //set TRIS value for pin (input)
-    ANSELFbits.ANSELF3=0; 
-    TRISFbits.TRISF2 = 1; //another pin input
-    LATFbits.LATF2 = 0;
-    ANSELFbits.ANSELF2 = 0;
+    ANSELFbits.ANSELF3=0; //turn off analogue input on pin 
     
     //initialising another pin on the board to hold interrupt value
     TRISGbits.TRISG1 = 0;
@@ -84,7 +80,7 @@ void main(void) {
 
     
     
-    //flashes light on the front of car to show initialization
+    //flashes light on the front of car to show start
     TRISHbits.TRISH3 = 0;
     LATHbits.LATH3 = 1;
     __delay_ms(300);
@@ -92,13 +88,17 @@ void main(void) {
     
     
     
-    calibration_routine(&colorCalibration);
+    calibration_colors(&colorCalibration);
+    
     unsigned int clear_norm;
     unsigned int path_step = 0;
     unsigned int hue;
     unsigned int ambient;
     float clear_current;
     float clear_max;
+    unsigned int factor;
+    
+    factor = calibration_turning(&motorL, &motorR);
 
     
     
@@ -162,11 +162,11 @@ void main(void) {
 
             unsigned int white = 8;
             send2USART(white);
-            returnHome(&motorL, &motorR, path_step);
+            returnHome(&motorL, &motorR, path_step, factor);
             LATGbits.LATG1 = 0;
         }
             
-        path_step = decision(hue, path_step);
+        path_step = decision(hue, path_step, factor);
     }
 
             

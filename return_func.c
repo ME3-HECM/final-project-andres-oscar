@@ -1,6 +1,7 @@
 #include <xc.h>
 #include "return_func.h"
 #include "dc_motor.h"
+#include "color.h"
 #define MAX_PATH_LENGTH 50
 /************************************
  * #RETURN FUNCTIONS
@@ -10,7 +11,7 @@
 ************************************/
 
 //function for logging actions into the path structure
-void logAction(char newAction, int newTime, unsigned int path_step) {
+void logAction(char newAction, long newTime, unsigned int path_step) {
     if (path_step < MAX_PATH_LENGTH) { //prevents array overflow
         action[path_step] = newAction; //logs the action
         time[path_step] = newTime; //stores the time of each movement, though only used in straight moves
@@ -20,40 +21,60 @@ void logAction(char newAction, int newTime, unsigned int path_step) {
 }
 
 //function that reverses the turns in the path for more simplicity in the returnHome function later
-void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char actionStep) {
-    if (actionStep == 1) {
-        backHalf(mL,mR); //moving back half a unit
+void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char actionStep, long time_ms, unsigned int factor) {
+    if (actionStep == 1) { //red
+        //Turns left 90 and goes back half a unit
+        
+        left90(mL,mR, factor); //turning left 90 function
         __delay_ms(500); //delay to slow down potential skidding
-        left90(mL,mR); //turning left 90 function
-    } else if (actionStep == 2) {
-        //Move back half a unit and turn right 90
         backHalf(mL,mR); //moving back half a unit
+        
+    } else if (actionStep == 2) { //blue
+        //Turns right 90 and goes back half a unit
+        
+        right90(mL,mR, factor); //turning right 90 function
         __delay_ms(500); //delay to slow down potential skidding
-        right90(mL,mR); //turning right 90 function
-    } else if (actionStep == 3) {
-        //Move back half a unit and turns 180
-         backHalf(mL,mR); //moving back half a unit
+        backHalf(mL,mR); //moving back half a unit
+        
+    } else if (actionStep == 3) { //green
+        //Turns 180 and goes back half a unit
+         
+        turn180(mL,mR, factor); //turning 180 function
          __delay_ms(500); //delay to slow down potential skidding
-        turn180(mL,mR); //turning 180 function
-    } else if (actionStep == 4) {
-        //Move back half a unit and turn left 135
         backHalf(mL,mR); //moving back half a unit
+        
+    } else if (actionStep == 4) { //ligth blue
+        //Turns left 135 and goes back half a unit
+        
+        right135(mL,mR, factor); //turning left 135 function
         __delay_ms(500); //delay to slow down potential skidding
-        left135(mL,mR); //turning left 135 function
-    } else if (actionStep == 5) {
         backHalf(mL,mR); //moving back half a unit
+        
+    } else if (actionStep == 5) { //yellow
+        //Turns right 135 and goes back half a unit
+        
+        left90(mL,mR, factor); //turning right 135 function
         __delay_ms(500); //delay to slow down potential skidding
-        right135(mL,mR); //turning right 135 function
-    }
+        backHalf(mL,mR); //moving back half a unit
+        
+    } else if (actionStep == 6) { //orange
+        //Turns right 135 and goes back half a unit
+        
+        left135(mL,mR, factor); //turning right 135 function
+        __delay_ms(500); //delay to slow down potential skidding
+        backHalf(mL,mR); //moving back half a unit
+        
+    } else if (actionStep == 7) {//pink
+        //Turns right 135 and goes back half a unit
+        
+        right90(mL,mR, factor); //turning right 135 function
+        __delay_ms(500); //delay to slow down potential skidding
+        backHalf(mL,mR); //moving back half a unit
         
 }
-
-//custom delay function for the custom delays when returning
-void customDelayMs(unsigned int milliseconds) {
-    for (unsigned int i = 0; i < milliseconds; i++) {
-        __delay_ms(1); // Delay of 1 ms
-    }
 }
+
+
 
 //function that reverses the straight direction, taking the time in ms required as an input
 void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, long time_ms) 
@@ -62,9 +83,9 @@ void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, long time_ms)
     unsigned int delayMs = 1000;
     
     //completely arbitrary delays and bit values, needs more testing!
-    if (time_ms>5500){delayMs = 3000; } //movement of 3 squares
-    else if (time_ms>3000 && time_ms>4100){delayMs = 2000; } //movements of 2 squares
-    else if (time_ms<3000){delayMs = 1000;} //movement of 1 square
+    if (time_ms>6500){delayMs = 7750; } //movement of 3 squares
+    else if (time_ms>4000 && time_ms<6500){delayMs = 5500; } //movements of 2 squares
+    else if (time_ms<4000){delayMs = 2750;} //movement of 1 square
     
     fullSpeedAhead(&motorL,&motorR);
     customDelayMs(delayMs); //custom delay in ms
@@ -73,25 +94,31 @@ void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, long time_ms)
 }
 
 //return home function
-void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step) 
+void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step, unsigned int factor) 
 {
+    
+    long time_ms;
+
     //turn off white light during normal operation
     LATGbits.LATG0 = 0; //Red is G0
     LATEbits.LATE7 = 0; //Green is E7
     LATAbits.LATA3 = 0; //Blue is A3
         
-    moveWhite(&motorL,&motorR);
+    moveWhite(&motorL,&motorR,factor);
     
     if (path_step > 0) { // Check to ensure there's at least one action to reverse.
         for (unsigned int i = path_step - 1; ; i--) {
             // Correct time calculation method here if needed.
-            long time_ms = time[i]*65535*4*8192/64000000; // Assuming this is already in milliseconds or calculate correctly.
             char action_turn = action[i];
-
+            if (action[i+1]== 5 || action[i+1]==7){
+                time_ms = time[i]-2250; //calibrate this to how much a decrease is
+            }else{
+                time_ms = time[i];
+        }
             if (action_turn == 0) { //0 denotes straight movement.
                 reverseStraight(mL, mR, time_ms);
             } else {
-                reverseTurn(mL, mR, action_turn);
+                reverseTurn(mL, mR, action_turn, time_ms, factor);
             }
 
             if (i == 0) break; // Break at 0 to avoid underflow.

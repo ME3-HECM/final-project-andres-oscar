@@ -35,8 +35,11 @@ unsigned int get16bitTMR0val(unsigned int path_step)
 {
     int combined_value;
     combined_value = TMR0L | (TMR0H << 8);
-    logAction(0,combined_value, path_step);
+    long time_ms = combined_value*65535*4*8192/64000000; // Assuming this is already in milliseconds or calculate correctly.
+
+    logAction(0,time_ms, path_step);
     path_step++;
+            
     return path_step;
 }
 void __interrupt(low_priority) LowISR()

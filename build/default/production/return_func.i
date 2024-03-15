@@ -24103,7 +24103,7 @@ unsigned char __t3rd16on(void);
 
 
 char action[50];
-int time[50];
+long time[50];
 
 typedef struct DC_motor {
     char power;
@@ -24127,22 +24127,22 @@ void turnLeft(DC_motor *mL, DC_motor *mR);
 void turnRight(DC_motor *mL, DC_motor *mR);
 void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
 
-void right90(struct DC_motor *mL, struct DC_motor *mR);
-void left90(struct DC_motor *mL, struct DC_motor *mR);
-void turn180(struct DC_motor *mL, struct DC_motor *mR);
-void right135(struct DC_motor *mL, struct DC_motor *mR);
-void left135(struct DC_motor *mL, struct DC_motor *mR);
+void right90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void left90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void turn180(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void right135(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void left135(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
 void backHalf(struct DC_motor *mL, struct DC_motor *mR);
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
 
-void moveRed(struct DC_motor *mL, struct DC_motor *mR);
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR);
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR);
-void movePink(struct DC_motor *mL, struct DC_motor *mR);
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
-void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
+void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void moveBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void moveWhite(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
 # 5 "./return_func.h" 2
 
 
@@ -24151,17 +24151,79 @@ void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
 
 
 char action[50];
-int time[50];
+long time[50];
 
 
-void logAction(char newAction, int newTime, unsigned int path_step);
-void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char actionStep);
+void logAction(char newAction, long newTime, unsigned int path_step);
+void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char actionStep, long time_ms,unsigned int factor);
 void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, long time_ms);
-void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step);
+void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step, unsigned int factor);
 void customDelayMs(unsigned int milliseconds);
 # 2 "return_func.c" 2
-# 13 "return_func.c"
-void logAction(char newAction, int newTime, unsigned int path_step) {
+
+
+# 1 "./color.h" 1
+# 10 "./color.h"
+typedef struct colors {
+    unsigned int red;
+    unsigned int green;
+    unsigned int blue;
+    unsigned int clear;
+    unsigned int ambient;
+} colors;
+
+
+
+struct colors colorCalibration, colorCurrent;
+
+
+
+
+void color_click_init(void);
+
+
+
+
+
+
+void color_writetoaddr(char address, char value);
+
+
+
+
+
+unsigned int color_read_Red(void);
+
+
+
+
+
+unsigned int color_read_Green(void);
+
+
+
+
+
+unsigned int color_read_Blue(void);
+
+
+
+
+
+
+unsigned int color_read_Clear(void);
+
+
+unsigned int reading_hue(colors *cCurr);
+
+unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
+
+void calibration_routine(colors *cCal);
+
+unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factor);
+# 4 "return_func.c" 2
+# 14 "return_func.c"
+void logAction(char newAction, long newTime, unsigned int path_step) {
     if (path_step < 50) {
         action[path_step] = newAction;
         time[path_step] = newTime;
@@ -24171,40 +24233,60 @@ void logAction(char newAction, int newTime, unsigned int path_step) {
 }
 
 
-void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char actionStep) {
+void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char actionStep, long time_ms, unsigned int factor) {
     if (actionStep == 1) {
-        backHalf(mL,mR);
+
+
+        left90(mL,mR, factor);
         _delay((unsigned long)((500)*(64000000/4000.0)));
-        left90(mL,mR);
+        backHalf(mL,mR);
+
     } else if (actionStep == 2) {
 
-        backHalf(mL,mR);
+
+        right90(mL,mR, factor);
         _delay((unsigned long)((500)*(64000000/4000.0)));
-        right90(mL,mR);
+        backHalf(mL,mR);
+
     } else if (actionStep == 3) {
 
-         backHalf(mL,mR);
+
+        turn180(mL,mR, factor);
          _delay((unsigned long)((500)*(64000000/4000.0)));
-        turn180(mL,mR);
+        backHalf(mL,mR);
+
     } else if (actionStep == 4) {
 
-        backHalf(mL,mR);
+
+        right135(mL,mR, factor);
         _delay((unsigned long)((500)*(64000000/4000.0)));
-        left135(mL,mR);
+        backHalf(mL,mR);
+
     } else if (actionStep == 5) {
-        backHalf(mL,mR);
+
+
+        left90(mL,mR, factor);
         _delay((unsigned long)((500)*(64000000/4000.0)));
-        right135(mL,mR);
-    }
+        backHalf(mL,mR);
 
+    } else if (actionStep == 6) {
+
+
+        left135(mL,mR, factor);
+        _delay((unsigned long)((500)*(64000000/4000.0)));
+        backHalf(mL,mR);
+
+    } else if (actionStep == 7) {
+
+
+        right90(mL,mR, factor);
+        _delay((unsigned long)((500)*(64000000/4000.0)));
+        backHalf(mL,mR);
+
+}
 }
 
 
-void customDelayMs(unsigned int milliseconds) {
-    for (unsigned int i = 0; i < milliseconds; i++) {
-        _delay((unsigned long)((1)*(64000000/4000.0)));
-    }
-}
 
 
 void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, long time_ms)
@@ -24213,9 +24295,9 @@ void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, long time_ms)
     unsigned int delayMs = 1000;
 
 
-    if (time_ms>5500){delayMs = 3000; }
-    else if (time_ms>3000 && time_ms>4100){delayMs = 2000; }
-    else if (time_ms<3000){delayMs = 1000;}
+    if (time_ms>6500){delayMs = 7750; }
+    else if (time_ms>4000 && time_ms<6500){delayMs = 5500; }
+    else if (time_ms<4000){delayMs = 2750;}
 
     fullSpeedAhead(&motorL,&motorR);
     customDelayMs(delayMs);
@@ -24224,25 +24306,31 @@ void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, long time_ms)
 }
 
 
-void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step)
+void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step, unsigned int factor)
 {
+
+    long time_ms;
+
 
     LATGbits.LATG0 = 0;
     LATEbits.LATE7 = 0;
     LATAbits.LATA3 = 0;
 
-    moveWhite(&motorL,&motorR);
+    moveWhite(&motorL,&motorR,factor);
 
     if (path_step > 0) {
         for (unsigned int i = path_step - 1; ; i--) {
 
-            long time_ms = time[i]*65535*4*8192/64000000;
             char action_turn = action[i];
-
+            if (action[i+1]== 5 || action[i+1]==7){
+                time_ms = time[i]-2250;
+            }else{
+                time_ms = time[i];
+        }
             if (action_turn == 0) {
                 reverseStraight(mL, mR, time_ms);
             } else {
-                reverseTurn(mL, mR, action_turn);
+                reverseTurn(mL, mR, action_turn, time_ms, factor);
             }
 
             if (i == 0) break;

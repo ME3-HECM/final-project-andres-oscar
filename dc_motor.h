@@ -7,7 +7,7 @@
 #define MAX_PATH_LENGTH 50  // variable for the maximum length of buggy path
 
 char action[MAX_PATH_LENGTH];
-int time[MAX_PATH_LENGTH];
+long time[MAX_PATH_LENGTH];
 
 typedef struct DC_motor { //definition of DC_motor structure
     char power;         //motor power, out of 100
@@ -31,21 +31,21 @@ void turnLeft(DC_motor *mL, DC_motor *mR);
 void turnRight(DC_motor *mL, DC_motor *mR);
 void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
 //set pieces
-void right90(struct DC_motor *mL, struct DC_motor *mR);
-void left90(struct DC_motor *mL, struct DC_motor *mR);
-void turn180(struct DC_motor *mL, struct DC_motor *mR);
-void right135(struct DC_motor *mL, struct DC_motor *mR);
-void left135(struct DC_motor *mL, struct DC_motor *mR);
+void right90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void left90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void turn180(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void right135(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void left135(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
 void backHalf(struct DC_motor *mL, struct DC_motor *mR);
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
 //color movements
-void moveRed(struct DC_motor *mL, struct DC_motor *mR);
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR);
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR);
-void movePink(struct DC_motor *mL, struct DC_motor *mR);
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
-void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
+void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void moveBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void moveWhite(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
 
 #endif
