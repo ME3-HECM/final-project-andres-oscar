@@ -19,6 +19,20 @@ Before running the maze our buggy has to run a calibration routine to adjust its
 
 In that said order 
 
+## Logging actions
+
+Colour | Instruction | Instruction
+---------|---------|---------
+Red | Turn Right 90 | 1
+Green | Turn Left 90| 1
+Blue | Turn 180| 1
+Yellow | Reverse 1 square and turn right 90| 1
+Pink | Reverse 1 square and turn left 90| 1
+Orange | Turn Right 135| 1
+Light blue | Turn Left 135 | 1
+White | Finish (return home)| 1
+Black | Maze wall colour| 1
+
 ***
 ## Assessment
 
