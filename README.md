@@ -15,13 +15,24 @@ Our buggy was designed to be capable of navigating a model "mine" by reading ins
 
 ## Colour Reading
 
---talk about taking colour readings--
+The method used for determining color involves a meticulous process focused on measuring hue. Hue is a fundamental component of color and is determined using normalized red, green, and blue values. The calculation of hue varies depending on which of these primary colors is dominant in the given sample. The formulas for calculating hue are as follows:
 
+1. When Red is the dominant color: Hue = (Green - Blue) / (max - min).
+2. When Green is the dominant color: Hue = 2.0 + (Blue - Red) / (max - min).
+3. When Blue is the dominant color: Hue = 4.0 + (Red - Green) / (max - min).
+
+To normalize the color values, it's essential to measure both the actual color intensity and the maximum possible intensity for each primary color. This process involves shining a red, green, or blue light from the color clicker, and then taking readings through the respective color terminal. The measured value (Rmeasured, Gmeasured, or Bmeasured) is divided by the maximum value (Rmax, Gmax, or Bmax) for that color to get the normalized value:
+
+- R_normalized = R_measured / R_max
+- G_normalized = G_measured / G_max
+- B_normalized = B_measured / B_max
+
+This approach ensures accurate and consistent color readings by adjusting for varying light intensities and environmental conditions.
 ## Calibration Routine
 
 Before running the maze our buggy has to run a calibration routine to adjust its readings for hue, which regulates colour detection according to the surroundings. Another stage of the calibration routine is to adjust the amount the buggy turns by doing some dummy rotations to operate on any given terrain without additional coding.
 
---Talk about Colour Calibration--
+To calibrate the color, press button 2 in the clicker to take a reading for each maximum RGB color. Each color should be done in order since the color clicker light goes in the RGB order. Finally, a reading for the maximum clear value is taken in order to read the white card, as well as stopping the car before hitting the wall.
 
 As for the turning calibrations we made 2 functions 'calibration_turningR' and 'calibration_turningL' in their own file called 'calibration.c'. This routine consisted of turning right 90 degrees 4 times with noticeable delays in between to attempt to complete a full circle. Once this action ocurred you can click either RF2 or RF3 to increase or decrease the rotation angle respectively. This was done by creating a 'factorR' or 'factorL' variable that increases or decreases the delay in the right90 or left90 functions. The 4 90 degree turns are then repeated. If you are satisfied with the full spin, the code will exit the calibration after 3 seconds and either start the left turn calibrations, followed by starting the forward movement after a similar 3-second wait.
 
@@ -105,10 +116,25 @@ Our team was assigned a slot at 12:00 for the test, and we were allowed into the
 
 ## Performance in the maze and Feedback
 
-Although we lack recordings for the performance of our buggy in the actual 3 mazes, our buggy performed as expected and succesfully ran our code to make it to the end of the maze. After successfully performing our calibration routine for the 3 mazes, our car advanced up to each card, read the hue, and performed the correct action for every available colour. As a results our Buggy excelled in colour detection and movement, including reading the white card at the end of the maze. However, once it turned around 
+### Key Achievements
+#### Advanced Color Detection: 
+Our buggy excelled in identifying different hues, demonstrating high accuracy, especially in recognizing the crucial white card at the end of the maze.
+#### Optimal Pathfinding: 
+Despite the complexity of the maze, our buggy found the most efficient routes, avoiding repetitive paths triggered by the yellow and pink cards.
+### Technical Challenges and Solutions
+#### Wall Length Adaptation:
+Initially, the buggy struggled with mazes where wall lengths exceeded a single unit. This limitation was identified and promptly addressed, enhancing its adaptability to various maze configurations.
+#### Timer Overflow Issue: 
+We encountered a timer overflow problem, suspected and confirmed after consulting with expert Richard Silversides. To resolve this, we adjusted the prescaler value of our timer.
+#### Lost Function: 
+Capitalizing on the opportunity presented by the timer adjustment, we integrated a 'return home' feature. This function activates when the timer overflows at 33 seconds, adding an extra layer of reliability to our buggy's operation.### Lost Function: 
+#### Calibration: 
+The calibration was tedious and slow, thus we could have worked on implementing a calibration routine that would have retained the values, thus allowing to do just one routine for the three mazes.
+### Conclusion
+Our buggy's journey through the maze was not just a test of mechanical and programming prowess but also a learning curve in troubleshooting and iterative improvement. The project highlights our commitment to excellence and innovation in robotics and autonomous navigation.
 
 
-## Post exam discussion and changes
+
 
 
 
