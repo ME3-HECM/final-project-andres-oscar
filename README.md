@@ -36,6 +36,8 @@ To calibrate the color, press button 2 in the clicker to take a reading for each
 
 As for the turning calibrations we made 2 functions 'calibration_turningR' and 'calibration_turningL' in their own file called 'calibration.c'. This routine consisted of turning right 90 degrees 4 times with noticeable delays in between to attempt to complete a full circle. Once this action ocurred you can click either RF2 or RF3 to increase or decrease the rotation angle respectively. This was done by creating a 'factorR' or 'factorL' variable that increases or decreases the delay in the right90 or left90 functions. The 4 90 degree turns are then repeated. If you are satisfied with the full spin, the code will exit the calibration after 3 seconds and either start the left turn calibrations, followed by starting the forward movement after a similar 3-second wait.
 
+ **SEE VIDEO BELOW FOR FULL CALIBRATION ROUTINE**
+ https://imperiallondon-my.sharepoint.com/:v:/g/personal/ab3021_ic_ac_uk/Eck4Z7FYtTtJgOVzpoH40hMBbt_YMrK89lyhfmXwoFc70A?e=4tpVZI&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D
 ## Logging actions and Returning
 
 A tough part of this project was providing the buggy with a 'memory' of its actions as it traverses the maze so it can accurately recreate them in reverse on when returning. We handled this by creating 2 global arrays, one for the 'action' that it performed at each instance, and the second for the associate 'time' duration of that action. The second array serves the purpose of remembering how far the straight sections of the maze are. The following table shows each colour, the 'action' that we referred to it as in our code, and the instruction it carried out:
@@ -72,7 +74,7 @@ As a result, we implemented an if statement in the returning function as follows
 		time_ms = time[i]-2250;
 	 }
 
-This code checks if the following action is pink or yellow when returning and amends the time for the current path index by approximately a unit cell. **This key feature is evident when watching the video that has been attached.**
+This code checks if the following action is pink or yellow when returning and amends the time for the current path index by approximately a unit cell.
 
 
 ## Lost function
@@ -135,8 +137,8 @@ Our buggy's journey through the maze was not just a test of mechanical and progr
 
 
 
-
-
+# Supplementary video of car working
+https://imperiallondon-my.sharepoint.com/:v:/g/personal/ab3021_ic_ac_uk/EYvmuaKBo-VBjjWMY7DqLpgBAPuHbBGAbeLbJz5Xqm3itg?e=GgIBje&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D
 
 
 
