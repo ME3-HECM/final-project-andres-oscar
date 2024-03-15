@@ -1,3 +1,151 @@
+# Course project - Mine navigation search and rescue
+
+## Challenge brief
+
+Our buggy was designed to be capable of navigating a model "mine" by reading instructions for its movement using a predetermined set of coloured cards. Once it reached the end of the "mine", our buggy was intended to return to its starting position and sleep to conserve energy. In more detail our buggy had to do the following according to the task brief:
+
+1. Navigate towards a colored card and stop before impacting the card
+1. Read the card colour
+1. Interpret the card colour using a predefined code and perform the navigation instruction
+1. When the final card is reached, navigate back to the starting position
+1. Handle exceptions and return to the starting position if the final card cannot be found
+
+***
+# Our code explained:
+
+## Colour Reading
+
+The method used for determining color involves a meticulous process focused on measuring hue. Hue is a fundamental component of color and is determined using normalized red, green, and blue values. The calculation of hue varies depending on which of these primary colors is dominant in the given sample. The formulas for calculating hue are as follows:
+
+1. When Red is the dominant color: Hue = (Green - Blue) / (max - min).
+2. When Green is the dominant color: Hue = 2.0 + (Blue - Red) / (max - min).
+3. When Blue is the dominant color: Hue = 4.0 + (Red - Green) / (max - min).
+
+To normalize the color values, it's essential to measure both the actual color intensity and the maximum possible intensity for each primary color. This process involves shining a red, green, or blue light from the color clicker, and then taking readings through the respective color terminal. The measured value (Rmeasured, Gmeasured, or Bmeasured) is divided by the maximum value (Rmax, Gmax, or Bmax) for that color to get the normalized value:
+
+- R_normalized = R_measured / R_max
+- G_normalized = G_measured / G_max
+- B_normalized = B_measured / B_max
+
+This approach ensures accurate and consistent color readings by adjusting for varying light intensities and environmental conditions.
+## Calibration Routine
+
+Before running the maze our buggy has to run a calibration routine to adjust its readings for hue, which regulates colour detection according to the surroundings. Another stage of the calibration routine is to adjust the amount the buggy turns by doing some dummy rotations to operate on any given terrain without additional coding.
+
+To calibrate the color, press button 2 in the clicker to take a reading for each maximum RGB color. Each color should be done in order since the color clicker light goes in the RGB order. Finally, a reading for the maximum clear value is taken in order to read the white card, as well as stopping the car before hitting the wall.
+
+As for the turning calibrations we made 2 functions 'calibration_turningR' and 'calibration_turningL' in their own file called 'calibration.c'. This routine consisted of turning right 90 degrees 4 times with noticeable delays in between to attempt to complete a full circle. Once this action ocurred you can click either RF2 or RF3 to increase or decrease the rotation angle respectively. This was done by creating a 'factorR' or 'factorL' variable that increases or decreases the delay in the right90 or left90 functions. The 4 90 degree turns are then repeated. If you are satisfied with the full spin, the code will exit the calibration after 3 seconds and either start the left turn calibrations, followed by starting the forward movement after a similar 3-second wait.
+
+ **SEE VIDEO BELOW FOR FULL CALIBRATION ROUTINE**
+ https://imperiallondon-my.sharepoint.com/:v:/g/personal/ab3021_ic_ac_uk/Eck4Z7FYtTtJgOVzpoH40hMBbt_YMrK89lyhfmXwoFc70A?e=4tpVZI&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D
+## Logging actions and Returning
+
+A tough part of this project was providing the buggy with a 'memory' of its actions as it traverses the maze so it can accurately recreate them in reverse on when returning. We handled this by creating 2 global arrays, one for the 'action' that it performed at each instance, and the second for the associate 'time' duration of that action. The second array serves the purpose of remembering how far the straight sections of the maze are. The following table shows each colour, the 'action' that we referred to it as in our code, and the instruction it carried out:
+
+Colour | Action pointer | Instruction
+---------|---------|---------
+Red | 1 | Turn Right 90
+Green | 2 | Turn Left 90
+Blue | 3 | Turn 180
+Light blue | 4 | Turn Left 135
+Yellow | 5 | Reverse 1 square and turn right 90
+Orange | 6 | Turn Right 135
+Pink | 7 | Reverse 1 square and turn left 90
+White | N/A | Finish (return home)
+Black | N/A | Maze wall colour
+
+Every time the buggy either advances or makes a correct reading of a colour, it logs the corresponding action and time using our 'logAction()' function. We also create a local variable in the main.c file, 'path_step' that keeps track of the total number of actions so that the logAction function knows which index to insert the action and time into, and for our 'returnHome' function to read backward through the arrays using the following for loop:
+
+	for (i=path_length-1,i>=0,i--)
+	{
+		if (action[i] == 0) //reverses the straight movement for time[i] seconds
+		else //goes through the turns in reverse
+		Sleep(); //goes to sleep to conserve energy
+	}
+
+The time is converted into a 16-bit number by combining TMR0L and TMR0H and is directly converted into ms within that same 'get16bitTMR0val()' function. This is then passed into the global array and used to return the buggy home.
+
+Our return returnHome function also ensures that after performing each inverse movement it can go backwards into the wall to realign itself.
+#### Key feature:
+During the return operation, it became clear that the path back could be optimized, particularly when reading yellow and pink since it could cut that corner out entirely. As a result when logging actions, instead of telling the car to perform the same movement but inverted for pink and yellow, we simply inverted the turn that it performs at the end. However, this came with the problem that the car would then have to advance 1 unit cell less when returning and cutting the corner since the straight action on the way 'into the mine' was longer. 
+As a result, we implemented an if statement in the returning function as follows:
+
+	if (action[i+1]== 5 || action[i+1]==7){
+		time_ms = time[i]-2250;
+	 }
+
+This code checks if the following action is pink or yellow when returning and amends the time for the current path index by approximately a unit cell.
+
+
+## Lost function
+
+Our buggy also included an additional feature of returning home if lost. This is triggered if enough time has passed to determine that the buggy is certainly not finding the final card (i.e. the end of the maze). We wanted this to occur after approximately 30 seconds of operation, so we selected a timer prescale value of 8912 in 16-bit mode to overflow after 33.55 seconds precisely. The following code shows the interrupt service routine in order to read the flag that triggered in the instance of overflow:
+
+	void __interrupt(low_priority) LowISR()
+	{  
+	    //toggles bit on board on, to show that it needs to go home and abondon search
+	    if (PIR0bits.TMR0IF == 1) { // check interrupt flag
+	        LATGbits.LATG1 = 1;
+	       
+	        PIR0bits.TMR0IF = 0; // clear interrupt flag
+	    }
+	}
+
+An additional feature of this code is that the interrupt service routine for timer overflow also triggers the return function by writing to a arbitrary unused pin 'G1' on the buggy:
+
+	if ((clear_norm > 85 && !(hue >= 302 && hue <= 346)) && !(hue>14 && hue<=35) || LATGbits.LATG1 == 1) {
+ 		//turn off white light during normal operation
+        	LATGbits.LATG0 = 0; //Red is G0
+        	LATEbits.LATE7 = 0; //Green is E7
+        	LATAbits.LATA3 = 0; //Blue is A3
+
+		if (LATGbits.LATG1 == 1){
+                	path_step = get16bitTMR0val(path_step);
+            	}
+            returnHome(&motorL, &motorR, path_step, factorR, factorL);
+        }
+
+***
+## Assessment
+
+The assessment consisted of running mazes of 3 difficulties:
+
+1. Easy: Just a sequence of 3-4 Red and Green cards.
+2. Medium: Red, Green, and Yellow cards. This maze incorporated the two cards with a step back, which were harder to read.
+3. Hard: Larger maze incorporating all card colours. Maze now had the 135-degree turns and long straight paths making alignment harder.
+
+Our team was assigned a slot at 12:00 for the test, and we were allowed into the room 10 minutes before to perform any last-minute adjustments.
+
+## Performance in the Maze and Feedback
+
+### Key Achievements
+#### Advanced Color Detection: 
+Our buggy excelled in identifying different hues, demonstrating high accuracy, especially in recognizing the crucial white card at the end of the maze.
+#### Optimal Pathfinding: 
+Despite the complexity of the maze, our buggy found the most efficient routes, avoiding repetitive paths triggered by the yellow and pink cards.
+### Technical Challenges and Solutions
+#### Wall Length Adaptation:
+Initially, the buggy struggled with mazes where wall lengths exceeded a single unit. This limitation was identified and promptly addressed, enhancing its adaptability to various maze configurations.
+#### Timer Overflow Issue: 
+We encountered a timer overflow problem, suspected and confirmed after consulting with expert Richard Silversides. To resolve this, we adjusted the prescaler value of our timer.
+#### Lost Function: 
+Capitalizing on the opportunity presented by the timer adjustment, we integrated a 'return home' feature. This function activates when the timer overflows at 33 seconds, adding an extra layer of reliability to our buggy's operation.### Lost Function: 
+#### Calibration: 
+The calibration was tedious and slow, thus we could have worked on implementing a calibration routine that would have retained the values, thus allowing to do just one routine for the three mazes.
+### Conclusion
+Our buggy's journey through the maze was not just a test of mechanical and programming prowess but also a learning curve in troubleshooting and iterative improvement. The project highlights our commitment to excellence and innovation in robotics and autonomous navigation.
+
+
+
+# Supplementary video of car working
+https://imperiallondon-my.sharepoint.com/:v:/g/personal/ab3021_ic_ac_uk/EYvmuaKBo-VBjjWMY7DqLpgBAPuHbBGAbeLbJz5Xqm3itg?e=GgIBje&nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D
+
+
+
+
+
+
+
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/c8ng1gdc)
 # Course project - Mine navigation search and rescue
 
