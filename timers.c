@@ -28,22 +28,25 @@ void Timer0_init(void)
     TMR0H = 0;
     
 }
-
 /************************************
  * Function to return the full 16bit timer value
  * Note TMR0L and TMR0H must be read in the correct order, or TMR0H will not contain the correct value
 ************************************/
-unsigned int get16bitTMR0val(unsigned int path_step)
+void get16bitTMR0val(unsigned int path_step)
 {
     int combined_value;
     combined_value = TMR0L | (TMR0H << 8);
-    long time_ms = combined_value*65535*4*8192/64000000; // Assuming this is already in milliseconds or calculate correctly.
+    long time_ms = combined_value*65535*4*8192/64000; // Assuming this is already in milliseconds or calculate correctly.
 
-    logAction(0,time_ms, path_step);
-    path_step++;
-            
-    return path_step;
+    logAction(0, time_ms, path_step);      
+    TMR0L = 0;
+    TMR0H = 0;
 }
+
+
+/************************************
+ * Interrupt service routine for the timer overflow in the case of a lost function
+************************************/
 void __interrupt(low_priority) LowISR()
 {   
     //toggles bit on board on, to show that it needs to go home and abondon search

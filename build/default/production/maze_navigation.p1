@@ -7,74 +7,103 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./color.h: 10: typedef struct colors {
 [s S2016 `ui 1 `ui 1 `ui 1 `ui 1 ]
 [n S2016 colors red green blue clear ]
-[p mainexit ]
-"8 ./ADC.h
-[; ;./ADC.h: 8: void ADC_init(void);
-[v _ADC_init `(v ~T0 @X0 0 ef ]
-"24 ./color.h
-[; ;./color.h: 24: void color_click_init(void);
-[v _color_click_init `(v ~T0 @X0 0 ef ]
-"27 ./serial.h
-[; ;./serial.h: 27: void initUSART4(void);
-[v _initUSART4 `(v ~T0 @X0 0 ef ]
-"10 ./timers.h
-[; ;./timers.h: 10: void Timer0_init(void);
-[v _Timer0_init `(v ~T0 @X0 0 ef ]
-"12 ./calibration.h
-[; ;./calibration.h: 12: void buttons_init(void);
-[v _buttons_init `(v ~T0 @X0 0 ef ]
-"58 ./color.h
-[; ;./color.h: 58: void color_clicker_lights_init(void);
-[v _color_clicker_lights_init `(v ~T0 @X0 0 ef ]
-"27 ./dc_motor.h
-[; ;./dc_motor.h: 27: void initDCmotorsPWM(unsigned int PWMperiod);
-[v _initDCmotorsPWM `(v ~T0 @X0 0 ef1`ui ]
-"29
-[; ;./dc_motor.h: 29: void variablesMotorInit(struct DC_motor *mL, struct DC_motor *mR, unsigned int PWMcycle);
-[v _variablesMotorInit `(v ~T0 @X0 0 ef3`*S2015`*S2015`ui ]
-"9 ./calibration.h
-[; ;./calibration.h: 9: void calibration_colors(colors *cCal);
-[v _calibration_colors `(v ~T0 @X0 0 ef1`*S2016 ]
-"10
-[; ;./calibration.h: 10: unsigned int calibration_turningR(struct DC_motor *mL, struct DC_motor *mR);
-[v _calibration_turningR `(ui ~T0 @X0 0 ef2`*S2015`*S2015 ]
-"11
-[; ;./calibration.h: 11: unsigned int calibration_turningL(struct DC_motor *mL, struct DC_motor *mR);
-[v _calibration_turningL `(ui ~T0 @X0 0 ef2`*S2015`*S2015 ]
-"19 ./maze_navigation.h
-[; ;./maze_navigation.h: 19: void intial_stage_movement(struct DC_motor *mL, struct DC_motor *mR);
-[v _intial_stage_movement `(v ~T0 @X0 0 ef2`*S2015`*S2015 ]
-"21
-[; ;./maze_navigation.h: 21: void looking_for_card(struct DC_motor *mL, struct DC_motor *mR, struct colors *cCurr, struct colors *cMax, unsigned int path_step);
-[v _looking_for_card `(v ~T0 @X0 0 ef5`*S2015`*S2015`*S2016`*S2016`ui ]
+"40 ./dc_motor.h
+[; ;./dc_motor.h: 40: void backHalf(struct DC_motor *mL, struct DC_motor *mR);
+[v _backHalf `(v ~T0 @X0 0 ef2`*S2015`*S2015 ]
 [v F205 `(v ~T0 @X0 1 tf1`ul ]
 "20 C:\Program Files\Microchip\xc8\v2.45\pic\include\builtins.h
 [v __delay `JF205 ~T0 @X0 0 e ]
 [p i __delay ]
-"20 ./maze_navigation.h
-[; ;./maze_navigation.h: 20: void bump_wall(struct DC_motor *mL, struct DC_motor *mR);
-[v _bump_wall `(v ~T0 @X0 0 ef2`*S2015`*S2015 ]
-"60 ./color.h
-[; ;./color.h: 60: unsigned int reading_hue(colors *cCurr);
-[v _reading_hue `(ui ~T0 @X0 0 ef1`*S2016 ]
-"45 ./serial.h
-[; ;./serial.h: 45: void send2USART(unsigned int hue);
-[v _send2USART `(v ~T0 @X0 0 ef1`ui ]
+"35 ./dc_motor.h
+[; ;./dc_motor.h: 35: void right90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+[v _right90 `(v ~T0 @X0 0 ef3`*S2015`*S2015`ui ]
+"36
+[; ;./dc_motor.h: 36: void left90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+[v _left90 `(v ~T0 @X0 0 ef3`*S2015`*S2015`ui ]
+"37
+[; ;./dc_motor.h: 37: void turn180(struct DC_motor *mL, struct DC_motor *mR);
+[v _turn180 `(v ~T0 @X0 0 ef2`*S2015`*S2015 ]
+"41
+[; ;./dc_motor.h: 41: void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
+[v _backOneAndHalf `(v ~T0 @X0 0 ef2`*S2015`*S2015 ]
+"38
+[; ;./dc_motor.h: 38: void right135(struct DC_motor *mL, struct DC_motor *mR);
+[v _right135 `(v ~T0 @X0 0 ef2`*S2015`*S2015 ]
+"39
+[; ;./dc_motor.h: 39: void left135(struct DC_motor *mL, struct DC_motor *mR);
+[v _left135 `(v ~T0 @X0 0 ef2`*S2015`*S2015 ]
+"28823 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28823:     struct {
+[s S1358 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1358 . LATG0 LATG1 LATG2 LATG3 LATG4 . LATG6 LATG7 ]
+"28833
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28833:     struct {
+[s S1359 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1359 . LG0 LG1 LG2 LG3 LG4 ]
+"28822
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28822: typedef union {
+[u S1357 `S1358 1 `S1359 1 ]
+[n S1357 . . . ]
+"28841
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28841: extern volatile LATGbits_t LATGbits __attribute__((address(0xF7F)));
+[v _LATGbits `VS1357 ~T0 @X0 0 e@3967 ]
+"28599
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28599:     struct {
+[s S1352 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1352 . LATE0 LATE1 LATE2 LATE3 LATE4 LATE5 LATE6 LATE7 ]
+"28609
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28609:     struct {
+[s S1353 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1353 . LE0 LE1 LE2 LE3 LE4 LE5 LE6 LE7 ]
+"28598
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28598: typedef union {
+[u S1351 `S1352 1 `S1353 1 ]
+[n S1351 . . . ]
+"28620
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28620: extern volatile LATEbits_t LATEbits __attribute__((address(0xF7D)));
+[v _LATEbits `VS1351 ~T0 @X0 0 e@3965 ]
+"28151
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28151:     struct {
+[s S1340 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1340 . LATA0 LATA1 LATA2 LATA3 LATA4 LATA5 LATA6 LATA7 ]
+"28161
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28161:     struct {
+[s S1341 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1341 . LA0 LA1 LA2 LA3 LA4 LA5 LA6 LA7 ]
+"28150
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28150: typedef union {
+[u S1339 `S1340 1 `S1341 1 ]
+[n S1339 . . . ]
+"28172
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28172: extern volatile LATAbits_t LATAbits __attribute__((address(0xF79)));
+[v _LATAbits `VS1339 ~T0 @X0 0 e@3961 ]
+"33 ./dc_motor.h
+[; ;./dc_motor.h: 33: void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
+[v _fullSpeedAhead `(v ~T0 @X0 0 ef2`*S2015`*S2015 ]
+"39263 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 39263:     struct {
+[s S1922 :4 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1922 . T0OUTPS T016BIT T0OUT . T0EN ]
+"39270
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 39270:     struct {
+[s S1923 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1923 . T0OUTPS0 T0OUTPS1 T0OUTPS2 T0OUTPS3 ]
+"39262
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 39262: typedef union {
+[u S1921 `S1922 1 `S1923 1 ]
+[n S1921 . . . ]
+"39277
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 39277: extern volatile T0CON0bits_t T0CON0bits __attribute__((address(0xFD5)));
+[v _T0CON0bits `VS1921 ~T0 @X0 0 e@4053 ]
 "66 ./color.h
 [; ;./color.h: 66: unsigned int calc_clear_norm(struct colors *cCurr, struct colors *cMax);
 [v _calc_clear_norm `(ui ~T0 @X0 0 ef2`*S2016`*S2016 ]
-"70
-[; ;./color.h: 70: unsigned int is_white(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step, unsigned int factorR, unsigned int factorL, unsigned int hue, unsigned int clear_norm);
-[v _is_white `(ui ~T0 @X0 0 ef7`*S2015`*S2015`ui`ui`ui`ui`ui ]
-"68
-[; ;./color.h: 68: unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factorR, unsigned int factorL);
-[v _decision `(ui ~T0 @X0 0 ef4`ui`ui`ui`ui ]
-"4 main.c
-[p x FEXTOSC  =  HS ]
-"5
-[p x RSTOSC  =  EXTOSC_4PLL  ]
-"6
-[p x WDTE  =  OFF         ]
+"30 ./dc_motor.h
+[; ;./dc_motor.h: 30: void stop(DC_motor *mL, DC_motor *mR);
+[v _stop `(v ~T0 @X0 0 ef2`*S2015`*S2015 ]
+"11 ./timers.h
+[; ;./timers.h: 11: void get16bitTMR0val(unsigned int path_step);
+[v _get16bitTMR0val `(v ~T0 @X0 0 ef1`ui ]
 "54 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 54: __asm("PPSLOCK equ 0DEFh");
 [; <" PPSLOCK equ 0DEFh ;# ">
@@ -2063,145 +2092,339 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./color.h: 19: struct colors colorCalibration, colorCurrent;
 [v _colorCalibration `S2016 ~T0 @X0 1 e ]
 [v _colorCurrent `S2016 ~T0 @X0 1 e ]
-"14 ./serial.h
-[; ;./serial.h: 14: volatile char EUSART4RXbuf[20];
-[v _EUSART4RXbuf `Vuc ~T0 @X0 -> 20 `i e ]
-"15
-[; ;./serial.h: 15: volatile char RxBufWriteCnt=0;
-[v _RxBufWriteCnt `Vuc ~T0 @X0 1 e ]
-[i _RxBufWriteCnt
--> -> 0 `i `uc
-]
+"15 maze_navigation.c
+[; ;maze_navigation.c: 15: void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR)
+[v _moveRed `(v ~T0 @X0 1 ef3`*S2015`*S2015`ui ]
 "16
-[; ;./serial.h: 16: volatile char RxBufReadCnt=0;
-[v _RxBufReadCnt `Vuc ~T0 @X0 1 e ]
-[i _RxBufReadCnt
--> -> 0 `i `uc
-]
-"18
-[; ;./serial.h: 18: volatile char EUSART4TXbuf[60];
-[v _EUSART4TXbuf `Vuc ~T0 @X0 -> 60 `i e ]
-"19
-[; ;./serial.h: 19: volatile char TxBufWriteCnt=0;
-[v _TxBufWriteCnt `Vuc ~T0 @X0 1 e ]
-[i _TxBufWriteCnt
--> -> 0 `i `uc
-]
-"20
-[; ;./serial.h: 20: volatile char TxBufReadCnt=0;
-[v _TxBufReadCnt `Vuc ~T0 @X0 1 e ]
-[i _TxBufReadCnt
--> -> 0 `i `uc
-]
-"23
-[; ;./serial.h: 23: volatile char dataFlag=1;
-[v _dataFlag `Vuc ~T0 @X0 1 e ]
-[i _dataFlag
--> -> 1 `i `uc
-]
-"11 ./return_func.h
-[; ;./return_func.h: 11: char action[50];
-[v _action `uc ~T0 @X0 -> 50 `i e ]
-"12
-[; ;./return_func.h: 12: long time[50];
-[v _time `l ~T0 @X0 -> 50 `i e ]
-[v $root$_main `(v ~T0 @X0 0 e ]
-"31 main.c
-[; ;main.c: 31: void main(void) {
-[v _main `(v ~T0 @X0 1 ef ]
+[; ;maze_navigation.c: 16: {
 {
-[e :U _main ]
+[e :U _moveRed ]
+"15
+[; ;maze_navigation.c: 15: void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR)
+[v _mL `*S2015 ~T0 @X0 1 r1 ]
+[v _mR `*S2015 ~T0 @X0 1 r2 ]
+[v _factorR `ui ~T0 @X0 1 r3 ]
+"16
+[; ;maze_navigation.c: 16: {
 [f ]
-"33
-[; ;main.c: 33:     unsigned int clear_norm;
-[v _clear_norm `ui ~T0 @X0 1 a ]
-"34
-[; ;main.c: 34:     unsigned int path_step = 0;
-[v _path_step `ui ~T0 @X0 1 a ]
-[e = _path_step -> -> 0 `i `ui ]
-"35
-[; ;main.c: 35:     unsigned int hue;
-[v _hue `ui ~T0 @X0 1 a ]
-"36
-[; ;main.c: 36:     unsigned int factorR;
-[v _factorR `ui ~T0 @X0 1 a ]
-"37
-[; ;main.c: 37:     unsigned int factorL;
-[v _factorL `ui ~T0 @X0 1 a ]
-"41
-[; ;main.c: 41:     ADC_init();
-[e ( _ADC_init ..  ]
-"42
-[; ;main.c: 42:     color_click_init();
-[e ( _color_click_init ..  ]
-"43
-[; ;main.c: 43:     initUSART4();
-[e ( _initUSART4 ..  ]
-"44
-[; ;main.c: 44:     Timer0_init();
-[e ( _Timer0_init ..  ]
-"46
-[; ;main.c: 46:     buttons_init();
-[e ( _buttons_init ..  ]
-"48
-[; ;main.c: 48:     color_clicker_lights_init();
-[e ( _color_clicker_lights_init ..  ]
-"50
-[; ;main.c: 50:     initDCmotorsPWM(99);
-[e ( _initDCmotorsPWM (1 -> -> 99 `i `ui ]
-"51
-[; ;main.c: 51:     variablesMotorInit(&motorL, &motorR, 99);
-[e ( _variablesMotorInit (3 , , &U _motorL &U _motorR -> -> 99 `i `ui ]
-"53
-[; ;main.c: 53:     calibration_colors(&colorCalibration);
-[e ( _calibration_colors (1 &U _colorCalibration ]
-"54
-[; ;main.c: 54:     factorR = calibration_turningR(&motorL, &motorR) ;
-[e = _factorR ( _calibration_turningR (2 , &U _motorL &U _motorR ]
-"55
-[; ;main.c: 55:     factorL = calibration_turningL(&motorL, &motorR) ;
-[e = _factorL ( _calibration_turningL (2 , &U _motorL &U _motorR ]
-"58
-[; ;main.c: 58:     while (1) {
-[e :U 2019 ]
-{
-"59
-[; ;main.c: 59:         intial_stage_movement(&motorL, &motorR);
-[e ( _intial_stage_movement (2 , &U _motorL &U _motorR ]
-"61
-[; ;main.c: 61:         looking_for_card(&motorL,&motorR,&colorCurrent, &colorCalibration, path_step);
-[e ( _looking_for_card (4 , , , , &U _motorL &U _motorR &U _colorCurrent &U _colorCalibration _path_step ]
-"63
-[; ;main.c: 63:         path_step++;
-[e ++ _path_step -> -> 1 `i `ui ]
-"65
-[; ;main.c: 65:         _delay((unsigned long)((200)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"67
-[; ;main.c: 67:         bump_wall(&motorL, &motorR);
-[e ( _bump_wall (2 , &U _motorL &U _motorR ]
-"69
-[; ;main.c: 69:         hue = reading_hue(&colorCurrent);
-[e = _hue ( _reading_hue (1 &U _colorCurrent ]
-"71
-[; ;main.c: 71:         send2USART(hue);
-[e ( _send2USART (1 _hue ]
-"74
-[; ;main.c: 74:         clear_norm = calc_clear_norm(&colorCurrent, &colorCalibration);
-[e = _clear_norm ( _calc_clear_norm (2 , &U _colorCurrent &U _colorCalibration ]
-"76
-[; ;main.c: 76:         is_white(&motorL, &motorR,path_step, factorR, factorL, hue, clear_norm);
-[e ( _is_white (4 , , , , , , &U _motorL &U _motorR _path_step _factorR _factorL _hue _clear_norm ]
-"78
-[; ;main.c: 78:         path_step = decision(hue, path_step, factorR, factorL);
-[e = _path_step ( _decision (4 , , , _hue _path_step _factorR _factorL ]
-"79
-[; ;main.c: 79:     }
+"18
+[; ;maze_navigation.c: 18:     backHalf(mL,mR);
+[e ( _backHalf (2 , _mL _mR ]
+"19
+[; ;maze_navigation.c: 19:     _delay((unsigned long)((500)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"20
+[; ;maze_navigation.c: 20:     right90(mL,mR,factorR);
+[e ( _right90 (3 , , _mL _mR _factorR ]
+"24
+[; ;maze_navigation.c: 24: }
+[e :UE 2019 ]
 }
-[e :U 2018 ]
-[e $U 2019  ]
-[e :U 2020 ]
+"26
+[; ;maze_navigation.c: 26: void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL)
+[v _moveGreen `(v ~T0 @X0 1 ef3`*S2015`*S2015`ui ]
+"27
+[; ;maze_navigation.c: 27: {
+{
+[e :U _moveGreen ]
+"26
+[; ;maze_navigation.c: 26: void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL)
+[v _mL `*S2015 ~T0 @X0 1 r1 ]
+[v _mR `*S2015 ~T0 @X0 1 r2 ]
+[v _factorL `ui ~T0 @X0 1 r3 ]
+"27
+[; ;maze_navigation.c: 27: {
+[f ]
+"29
+[; ;maze_navigation.c: 29:     backHalf(mL,mR);
+[e ( _backHalf (2 , _mL _mR ]
+"30
+[; ;maze_navigation.c: 30:     _delay((unsigned long)((500)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"31
+[; ;maze_navigation.c: 31:     left90(mL,mR,factorL);
+[e ( _left90 (3 , , _mL _mR _factorL ]
+"33
+[; ;maze_navigation.c: 33: }
+[e :UE 2020 ]
+}
+"35
+[; ;maze_navigation.c: 35: void moveBlue(struct DC_motor *mL, struct DC_motor *mR)
+[v _moveBlue `(v ~T0 @X0 1 ef2`*S2015`*S2015 ]
+"36
+[; ;maze_navigation.c: 36: {
+{
+[e :U _moveBlue ]
+"35
+[; ;maze_navigation.c: 35: void moveBlue(struct DC_motor *mL, struct DC_motor *mR)
+[v _mL `*S2015 ~T0 @X0 1 r1 ]
+[v _mR `*S2015 ~T0 @X0 1 r2 ]
+"36
+[; ;maze_navigation.c: 36: {
+[f ]
+"38
+[; ;maze_navigation.c: 38:     backHalf(mL,mR);
+[e ( _backHalf (2 , _mL _mR ]
+"39
+[; ;maze_navigation.c: 39:     _delay((unsigned long)((500)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"40
+[; ;maze_navigation.c: 40:     turn180(mL,mR);
+[e ( _turn180 (2 , _mL _mR ]
+"42
+[; ;maze_navigation.c: 42: }
+[e :UE 2021 ]
+}
+"44
+[; ;maze_navigation.c: 44:  void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR)
+[v _moveYellow `(v ~T0 @X0 1 ef3`*S2015`*S2015`ui ]
+"45
+[; ;maze_navigation.c: 45: {
+{
+[e :U _moveYellow ]
+"44
+[; ;maze_navigation.c: 44:  void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR)
+[v _mL `*S2015 ~T0 @X0 1 r1 ]
+[v _mR `*S2015 ~T0 @X0 1 r2 ]
+[v _factorR `ui ~T0 @X0 1 r3 ]
+"45
+[; ;maze_navigation.c: 45: {
+[f ]
+"47
+[; ;maze_navigation.c: 47:     backOneAndHalf(mL,mR);
+[e ( _backOneAndHalf (2 , _mL _mR ]
+"48
+[; ;maze_navigation.c: 48:     _delay((unsigned long)((500)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"49
+[; ;maze_navigation.c: 49:     right90(mL,mR, factorR);
+[e ( _right90 (3 , , _mL _mR _factorR ]
+"50
+[; ;maze_navigation.c: 50: }
+[e :UE 2022 ]
+}
+"53
+[; ;maze_navigation.c: 53: void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL)
+[v _movePink `(v ~T0 @X0 1 ef3`*S2015`*S2015`ui ]
+"54
+[; ;maze_navigation.c: 54: {
+{
+[e :U _movePink ]
+"53
+[; ;maze_navigation.c: 53: void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL)
+[v _mL `*S2015 ~T0 @X0 1 r1 ]
+[v _mR `*S2015 ~T0 @X0 1 r2 ]
+[v _factorL `ui ~T0 @X0 1 r3 ]
+"54
+[; ;maze_navigation.c: 54: {
+[f ]
+"56
+[; ;maze_navigation.c: 56:     backOneAndHalf(mL,mR);
+[e ( _backOneAndHalf (2 , _mL _mR ]
+"57
+[; ;maze_navigation.c: 57:     _delay((unsigned long)((500)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"58
+[; ;maze_navigation.c: 58:     left90(mL,mR, factorL);
+[e ( _left90 (3 , , _mL _mR _factorL ]
+"60
+[; ;maze_navigation.c: 60: }
+[e :UE 2023 ]
+}
+"62
+[; ;maze_navigation.c: 62: void moveOrange(struct DC_motor *mL, struct DC_motor *mR)
+[v _moveOrange `(v ~T0 @X0 1 ef2`*S2015`*S2015 ]
+"63
+[; ;maze_navigation.c: 63: {
+{
+[e :U _moveOrange ]
+"62
+[; ;maze_navigation.c: 62: void moveOrange(struct DC_motor *mL, struct DC_motor *mR)
+[v _mL `*S2015 ~T0 @X0 1 r1 ]
+[v _mR `*S2015 ~T0 @X0 1 r2 ]
+"63
+[; ;maze_navigation.c: 63: {
+[f ]
+"65
+[; ;maze_navigation.c: 65:     backHalf(mL,mR);
+[e ( _backHalf (2 , _mL _mR ]
+"66
+[; ;maze_navigation.c: 66:     _delay((unsigned long)((500)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"67
+[; ;maze_navigation.c: 67:     right135(mL,mR);
+[e ( _right135 (2 , _mL _mR ]
+"69
+[; ;maze_navigation.c: 69: }
+[e :UE 2024 ]
+}
+"71
+[; ;maze_navigation.c: 71: void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR)
+[v _moveLightBlue `(v ~T0 @X0 1 ef2`*S2015`*S2015 ]
+"72
+[; ;maze_navigation.c: 72: {
+{
+[e :U _moveLightBlue ]
+"71
+[; ;maze_navigation.c: 71: void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR)
+[v _mL `*S2015 ~T0 @X0 1 r1 ]
+[v _mR `*S2015 ~T0 @X0 1 r2 ]
+"72
+[; ;maze_navigation.c: 72: {
+[f ]
+"74
+[; ;maze_navigation.c: 74:     backHalf(mL,mR);
+[e ( _backHalf (2 , _mL _mR ]
+"75
+[; ;maze_navigation.c: 75:     _delay((unsigned long)((500)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"76
+[; ;maze_navigation.c: 76:     left135(mL,mR);
+[e ( _left135 (2 , _mL _mR ]
+"79
+[; ;maze_navigation.c: 79: }
+[e :UE 2025 ]
+}
+"81
+[; ;maze_navigation.c: 81: void moveWhite(struct DC_motor *mL, struct DC_motor *mR)
+[v _moveWhite `(v ~T0 @X0 1 ef2`*S2015`*S2015 ]
 "82
-[; ;main.c: 82: }
-[e :UE 2017 ]
+[; ;maze_navigation.c: 82: {
+{
+[e :U _moveWhite ]
+"81
+[; ;maze_navigation.c: 81: void moveWhite(struct DC_motor *mL, struct DC_motor *mR)
+[v _mL `*S2015 ~T0 @X0 1 r1 ]
+[v _mR `*S2015 ~T0 @X0 1 r2 ]
+"82
+[; ;maze_navigation.c: 82: {
+[f ]
+"84
+[; ;maze_navigation.c: 84:     backHalf(mL,mR);
+[e ( _backHalf (2 , _mL _mR ]
+"85
+[; ;maze_navigation.c: 85:     _delay((unsigned long)((500)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"86
+[; ;maze_navigation.c: 86:     turn180(mL,mR);
+[e ( _turn180 (2 , _mL _mR ]
+"87
+[; ;maze_navigation.c: 87:     backHalf(mL,mR);
+[e ( _backHalf (2 , _mL _mR ]
+"89
+[; ;maze_navigation.c: 89: }
+[e :UE 2026 ]
+}
+"91
+[; ;maze_navigation.c: 91: void intial_stage_movement(struct DC_motor *mL, struct DC_motor *mR)
+[v _intial_stage_movement `(v ~T0 @X0 1 ef2`*S2015`*S2015 ]
+"92
+[; ;maze_navigation.c: 92: {
+{
+[e :U _intial_stage_movement ]
+"91
+[; ;maze_navigation.c: 91: void intial_stage_movement(struct DC_motor *mL, struct DC_motor *mR)
+[v _mL `*S2015 ~T0 @X0 1 r1 ]
+[v _mR `*S2015 ~T0 @X0 1 r2 ]
+"92
+[; ;maze_navigation.c: 92: {
+[f ]
+"94
+[; ;maze_navigation.c: 94:         LATGbits.LATG0 = 1;
+[e = . . _LATGbits 0 0 -> -> 1 `i `uc ]
+"95
+[; ;maze_navigation.c: 95:         LATEbits.LATE7 = 1;
+[e = . . _LATEbits 0 7 -> -> 1 `i `uc ]
+"96
+[; ;maze_navigation.c: 96:         LATAbits.LATA3 = 1;
+[e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
+"99
+[; ;maze_navigation.c: 99:         fullSpeedAhead(mL,mR);
+[e ( _fullSpeedAhead (2 , _mL _mR ]
+"100
+[; ;maze_navigation.c: 100:         T0CON0bits.T0EN=1;
+[e = . . _T0CON0bits 0 4 -> -> 1 `i `uc ]
+"101
+[; ;maze_navigation.c: 101: }
+[e :UE 2027 ]
+}
+"103
+[; ;maze_navigation.c: 103: void looking_for_card(struct DC_motor *mL, struct DC_motor *mR, struct colors *cCurr, struct colors *cMax, unsigned int path_step)
+[v _looking_for_card `(v ~T0 @X0 1 ef5`*S2015`*S2015`*S2016`*S2016`ui ]
+"104
+[; ;maze_navigation.c: 104: {
+{
+[e :U _looking_for_card ]
+"103
+[; ;maze_navigation.c: 103: void looking_for_card(struct DC_motor *mL, struct DC_motor *mR, struct colors *cCurr, struct colors *cMax, unsigned int path_step)
+[v _mL `*S2015 ~T0 @X0 1 r1 ]
+[v _mR `*S2015 ~T0 @X0 1 r2 ]
+[v _cCurr `*S2016 ~T0 @X0 1 r3 ]
+[v _cMax `*S2016 ~T0 @X0 1 r4 ]
+[v _path_step `ui ~T0 @X0 1 r5 ]
+"104
+[; ;maze_navigation.c: 104: {
+[f ]
+"105
+[; ;maze_navigation.c: 105:     unsigned int clear_norm=0;
+[v _clear_norm `ui ~T0 @X0 1 a ]
+[e = _clear_norm -> -> 0 `i `ui ]
+"106
+[; ;maze_navigation.c: 106:     while(clear_norm<10){
+[e $U 2029  ]
+[e :U 2030 ]
+{
+"107
+[; ;maze_navigation.c: 107:         clear_norm = calc_clear_norm(cCurr, cMax);
+[e = _clear_norm ( _calc_clear_norm (2 , _cCurr _cMax ]
+"108
+[; ;maze_navigation.c: 108:     }
+}
+[e :U 2029 ]
+"106
+[; ;maze_navigation.c: 106:     while(clear_norm<10){
+[e $ < _clear_norm -> -> 10 `i `ui 2030  ]
+[e :U 2031 ]
+"110
+[; ;maze_navigation.c: 110:     T0CON0bits.T0EN=0;
+[e = . . _T0CON0bits 0 4 -> -> 0 `i `uc ]
+"112
+[; ;maze_navigation.c: 112:     stop(mL,mR);
+[e ( _stop (2 , _mL _mR ]
+"114
+[; ;maze_navigation.c: 114:     get16bitTMR0val(path_step);
+[e ( _get16bitTMR0val (1 _path_step ]
+"116
+[; ;maze_navigation.c: 116: }
+[e :UE 2028 ]
+}
+"118
+[; ;maze_navigation.c: 118: void bump_wall(struct DC_motor *mL, struct DC_motor *mR)
+[v _bump_wall `(v ~T0 @X0 1 ef2`*S2015`*S2015 ]
+"119
+[; ;maze_navigation.c: 119: {
+{
+[e :U _bump_wall ]
+"118
+[; ;maze_navigation.c: 118: void bump_wall(struct DC_motor *mL, struct DC_motor *mR)
+[v _mL `*S2015 ~T0 @X0 1 r1 ]
+[v _mR `*S2015 ~T0 @X0 1 r2 ]
+"119
+[; ;maze_navigation.c: 119: {
+[f ]
+"121
+[; ;maze_navigation.c: 121:     fullSpeedAhead(mL,mR);
+[e ( _fullSpeedAhead (2 , _mL _mR ]
+"122
+[; ;maze_navigation.c: 122:     _delay((unsigned long)((300)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 300 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"123
+[; ;maze_navigation.c: 123:     stop(mL,mR);
+[e ( _stop (2 , _mL _mR ]
+"124
+[; ;maze_navigation.c: 124:     _delay((unsigned long)((300)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 300 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"125
+[; ;maze_navigation.c: 125: }
+[e :UE 2032 ]
 }

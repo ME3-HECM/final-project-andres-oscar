@@ -5,8 +5,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [n S2015 DC_motor power direction brakemode PWMperiod posDutyHighByte negDutyHighByte ]
 "10 ./color.h
 [; ;./color.h: 10: typedef struct colors {
-[s S2016 `ui 1 `ui 1 `ui 1 `ui 1 `ui 1 ]
-[n S2016 colors red green blue clear ambient ]
+[s S2016 `ui 1 `ui 1 `ui 1 `ui 1 ]
+[n S2016 colors red green blue clear ]
 "28823 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28823:     struct {
 [s S1358 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
@@ -52,13 +52,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 "28172
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 28172: extern volatile LATAbits_t LATAbits __attribute__((address(0xF79)));
 [v _LATAbits `VS1339 ~T0 @X0 0 e@3961 ]
-"20 calibration.c
-[; ;calibration.c: 20:     sprintf(cal_state,"Calibration state = red", ".");
-[v _sprintf `(i ~T0 @X0 0 e? ]
-"30 ./serial.h
-[; ;./serial.h: 30: void sendStringSerial4(char *string);
-[v _sendStringSerial4 `(v ~T0 @X0 0 ef1`*uc ]
-"30262 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
+"30262
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 30262:     struct {
 [s S1412 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S1412 . RF0 RF1 RF2 RF3 RF4 RF5 RF6 RF7 ]
@@ -77,26 +71,45 @@ Version 4.0 HI-TECH Software Intermediate Code
 "20 C:\Program Files\Microchip\xc8\v2.45\pic\include\builtins.h
 [v __delay `JF205 ~T0 @X0 0 e ]
 [p i __delay ]
-"38 ./color.h
-[; ;./color.h: 38: unsigned int color_read_Red(void);
+"37 ./color.h
+[; ;./color.h: 37: unsigned int color_read_Red(void);
 [v _color_read_Red `(ui ~T0 @X0 0 ef ]
-"44
-[; ;./color.h: 44: unsigned int color_read_Green(void);
+"43
+[; ;./color.h: 43: unsigned int color_read_Green(void);
 [v _color_read_Green `(ui ~T0 @X0 0 ef ]
-"50
-[; ;./color.h: 50: unsigned int color_read_Blue(void);
+"49
+[; ;./color.h: 49: unsigned int color_read_Blue(void);
 [v _color_read_Blue `(ui ~T0 @X0 0 ef ]
-"57
-[; ;./color.h: 57: unsigned int color_read_Clear(void);
+"56
+[; ;./color.h: 56: unsigned int color_read_Clear(void);
 [v _color_read_Clear `(ui ~T0 @X0 0 ef ]
-"45 ./serial.h
-[; ;./serial.h: 45: void send2USART(unsigned int hue);
-[v _send2USART `(v ~T0 @X0 0 ef1`ui ]
-"34 ./dc_motor.h
-[; ;./dc_motor.h: 34: void right90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+"29622 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 29622:     struct {
+[s S1388 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1388 . TRISF0 TRISF1 TRISF2 TRISF3 TRISF4 TRISF5 TRISF6 TRISF7 ]
+"29621
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 29621: typedef union {
+[u S1387 `S1388 1 ]
+[n S1387 . . ]
+"29633
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 29633: extern volatile TRISFbits_t TRISFbits __attribute__((address(0xF86)));
+[v _TRISFbits `VS1387 ~T0 @X0 0 e@3974 ]
+"12308
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 12308:     struct {
+[s S568 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S568 . ANSELF0 ANSELF1 ANSELF2 ANSELF3 ANSELF4 ANSELF5 ANSELF6 ANSELF7 ]
+"12307
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 12307: typedef union {
+[u S567 `S568 1 ]
+[n S567 . . ]
+"12319
+[; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 12319: extern volatile ANSELFbits_t ANSELFbits __attribute__((address(0xEB4)));
+[v _ANSELFbits `VS567 ~T0 @X0 0 e@3764 ]
+"35 ./dc_motor.h
+[; ;./dc_motor.h: 35: void right90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
 [v _right90 `(v ~T0 @X0 0 ef3`*S2015`*S2015`ui ]
-"35
-[; ;./dc_motor.h: 35: void left90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+"36
+[; ;./dc_motor.h: 36: void left90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
 [v _left90 `(v ~T0 @X0 0 ef3`*S2015`*S2015`ui ]
 "54 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 54: __asm("PPSLOCK equ 0DEFh");
@@ -2082,8 +2095,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./dc_motor.h: 21: struct DC_motor motorL, motorR;
 [v _motorL `S2015 ~T0 @X0 1 e ]
 [v _motorR `S2015 ~T0 @X0 1 e ]
-"20 ./color.h
-[; ;./color.h: 20: struct colors colorCalibration, colorCurrent;
+"19 ./color.h
+[; ;./color.h: 19: struct colors colorCalibration, colorCurrent;
 [v _colorCalibration `S2016 ~T0 @X0 1 e ]
 [v _colorCurrent `S2016 ~T0 @X0 1 e ]
 "14 ./serial.h
@@ -2150,580 +2163,511 @@ Version 4.0 HI-TECH Software Intermediate Code
 "14
 [; ;calibration.c: 14:     LATAbits.LATA3 = 0;
 [e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
-"16
-[; ;calibration.c: 16:     char cal_state[20];
-[v _cal_state `uc ~T0 @X0 -> 20 `i a ]
-"20
-[; ;calibration.c: 20:     sprintf(cal_state,"Calibration state = red", ".");
-[e ( _sprintf , , &U _cal_state :s 1C :s 2C ]
-"21
-[; ;calibration.c: 21:     sendStringSerial4(cal_state);
-[e ( _sendStringSerial4 (1 &U _cal_state ]
-"24
-[; ;calibration.c: 24:     while(PORTFbits.RF2 == 1){
+"18
+[; ;calibration.c: 18:     while(PORTFbits.RF2 == 1){
 [e $U 2018  ]
 [e :U 2019 ]
 {
-"26
-[; ;calibration.c: 26:     }
+"20
+[; ;calibration.c: 20:     }
 }
 [e :U 2018 ]
-"24
-[; ;calibration.c: 24:     while(PORTFbits.RF2 == 1){
+"18
+[; ;calibration.c: 18:     while(PORTFbits.RF2 == 1){
 [e $ == -> . . _PORTFbits 0 2 `i -> 1 `i 2019  ]
 [e :U 2020 ]
-"28
-[; ;calibration.c: 28:     LATGbits.LATG0 = 1;
+"22
+[; ;calibration.c: 22:     LATGbits.LATG0 = 1;
 [e = . . _LATGbits 0 0 -> -> 1 `i `uc ]
-"29
-[; ;calibration.c: 29:     _delay((unsigned long)((500)*(64000000/4000.0)));
+"23
+[; ;calibration.c: 23:     _delay((unsigned long)((500)*(64000000/4000.0)));
 [e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"30
-[; ;calibration.c: 30:     (cCal->red) = color_read_Red();
+"24
+[; ;calibration.c: 24:     (cCal->red) = color_read_Red();
 [e = . *U _cCal 0 ( _color_read_Red ..  ]
-"31
-[; ;calibration.c: 31:     LATGbits.LATG0 = 0;
+"25
+[; ;calibration.c: 25:     LATGbits.LATG0 = 0;
 [e = . . _LATGbits 0 0 -> -> 0 `i `uc ]
-"34
-[; ;calibration.c: 34:     sprintf(cal_state,"Calibration state = green \n\r", ".");
-[e ( _sprintf , , &U _cal_state :s 3C :s 4C ]
-"35
-[; ;calibration.c: 35:     sendStringSerial4(&cal_state);
-[e ( _sendStringSerial4 (1 -> &U _cal_state `*uc ]
-"37
-[; ;calibration.c: 37:     while(PORTFbits.RF2 == 1){
+"29
+[; ;calibration.c: 29:     while(PORTFbits.RF2 == 1){
 [e $U 2021  ]
 [e :U 2022 ]
 {
-"39
-[; ;calibration.c: 39:     }
+"31
+[; ;calibration.c: 31:     }
 }
 [e :U 2021 ]
-"37
-[; ;calibration.c: 37:     while(PORTFbits.RF2 == 1){
+"29
+[; ;calibration.c: 29:     while(PORTFbits.RF2 == 1){
 [e $ == -> . . _PORTFbits 0 2 `i -> 1 `i 2022  ]
 [e :U 2023 ]
-"41
-[; ;calibration.c: 41:     LATEbits.LATE7 = 1;
+"33
+[; ;calibration.c: 33:     LATEbits.LATE7 = 1;
 [e = . . _LATEbits 0 7 -> -> 1 `i `uc ]
-"42
-[; ;calibration.c: 42:     _delay((unsigned long)((500)*(64000000/4000.0)));
+"34
+[; ;calibration.c: 34:     _delay((unsigned long)((500)*(64000000/4000.0)));
 [e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"43
-[; ;calibration.c: 43:     (cCal->green) = color_read_Green();
+"35
+[; ;calibration.c: 35:     (cCal->green) = color_read_Green();
 [e = . *U _cCal 1 ( _color_read_Green ..  ]
-"44
-[; ;calibration.c: 44:     LATEbits.LATE7 = 0;
+"36
+[; ;calibration.c: 36:     LATEbits.LATE7 = 0;
 [e = . . _LATEbits 0 7 -> -> 0 `i `uc ]
-"47
-[; ;calibration.c: 47:     sprintf(cal_state,"Calibration state= blue \n\r", ".");
-[e ( _sprintf , , &U _cal_state :s 5C :s 6C ]
-"48
-[; ;calibration.c: 48:     sendStringSerial4(&cal_state);
-[e ( _sendStringSerial4 (1 -> &U _cal_state `*uc ]
-"50
-[; ;calibration.c: 50:     while(PORTFbits.RF2 == 1){
+"40
+[; ;calibration.c: 40:     while(PORTFbits.RF2 == 1){
 [e $U 2024  ]
 [e :U 2025 ]
+{
+"42
+[; ;calibration.c: 42:     }
+}
+[e :U 2024 ]
+"40
+[; ;calibration.c: 40:     while(PORTFbits.RF2 == 1){
+[e $ == -> . . _PORTFbits 0 2 `i -> 1 `i 2025  ]
+[e :U 2026 ]
+"44
+[; ;calibration.c: 44:     LATAbits.LATA3 = 1;
+[e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
+"45
+[; ;calibration.c: 45:     _delay((unsigned long)((500)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"46
+[; ;calibration.c: 46:     (cCal->blue) = color_read_Blue();
+[e = . *U _cCal 2 ( _color_read_Blue ..  ]
+"47
+[; ;calibration.c: 47:     LATAbits.LATA3 = 0;
+[e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
+"50
+[; ;calibration.c: 50:     while(PORTFbits.RF2 == 1){
+[e $U 2027  ]
+[e :U 2028 ]
 {
 "52
 [; ;calibration.c: 52:     }
 }
-[e :U 2024 ]
+[e :U 2027 ]
 "50
 [; ;calibration.c: 50:     while(PORTFbits.RF2 == 1){
-[e $ == -> . . _PORTFbits 0 2 `i -> 1 `i 2025  ]
-[e :U 2026 ]
-"54
-[; ;calibration.c: 54:     LATAbits.LATA3 = 1;
-[e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
-"55
-[; ;calibration.c: 55:     _delay((unsigned long)((500)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"56
-[; ;calibration.c: 56:     (cCal->blue) = color_read_Blue();
-[e = . *U _cCal 2 ( _color_read_Blue ..  ]
-"57
-[; ;calibration.c: 57:     LATAbits.LATA3 = 0;
-[e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
-"60
-[; ;calibration.c: 60:     sprintf(cal_state,"Calibration state =  white", ".");
-[e ( _sprintf , , &U _cal_state :s 7C :s 8C ]
-"61
-[; ;calibration.c: 61:     sendStringSerial4(&cal_state);
-[e ( _sendStringSerial4 (1 -> &U _cal_state `*uc ]
-"63
-[; ;calibration.c: 63:     while(PORTFbits.RF2 == 1){
-[e $U 2027  ]
-[e :U 2028 ]
-{
-"65
-[; ;calibration.c: 65:     }
-}
-[e :U 2027 ]
-"63
-[; ;calibration.c: 63:     while(PORTFbits.RF2 == 1){
 [e $ == -> . . _PORTFbits 0 2 `i -> 1 `i 2028  ]
 [e :U 2029 ]
-"66
-[; ;calibration.c: 66:     LATGbits.LATG0 = 1;
+"53
+[; ;calibration.c: 53:     LATGbits.LATG0 = 1;
 [e = . . _LATGbits 0 0 -> -> 1 `i `uc ]
-"67
-[; ;calibration.c: 67:     LATEbits.LATE7 = 1;
+"54
+[; ;calibration.c: 54:     LATEbits.LATE7 = 1;
 [e = . . _LATEbits 0 7 -> -> 1 `i `uc ]
-"68
-[; ;calibration.c: 68:     LATAbits.LATA3 = 1;
+"55
+[; ;calibration.c: 55:     LATAbits.LATA3 = 1;
 [e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
-"69
-[; ;calibration.c: 69:     _delay((unsigned long)((500)*(64000000/4000.0)));
+"56
+[; ;calibration.c: 56:     _delay((unsigned long)((500)*(64000000/4000.0)));
 [e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"70
-[; ;calibration.c: 70:     (cCal->clear) = color_read_Clear();
+"57
+[; ;calibration.c: 57:     (cCal->clear) = color_read_Clear();
 [e = . *U _cCal 3 ( _color_read_Clear ..  ]
-"71
-[; ;calibration.c: 71:     LATGbits.LATG0 = 0;
+"58
+[; ;calibration.c: 58:     LATGbits.LATG0 = 0;
 [e = . . _LATGbits 0 0 -> -> 0 `i `uc ]
-"72
-[; ;calibration.c: 72:     LATEbits.LATE7 = 0;
+"59
+[; ;calibration.c: 59:     LATEbits.LATE7 = 0;
 [e = . . _LATEbits 0 7 -> -> 0 `i `uc ]
-"73
-[; ;calibration.c: 73:     LATAbits.LATA3 = 0;
+"60
+[; ;calibration.c: 60:     LATAbits.LATA3 = 0;
 [e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
-"75
-[; ;calibration.c: 75:     sprintf(cal_state,"Calibration state =  ambient", ".");
-[e ( _sprintf , , &U _cal_state :s 9C :s 10C ]
-"76
-[; ;calibration.c: 76:     sendStringSerial4(&cal_state);
-[e ( _sendStringSerial4 (1 -> &U _cal_state `*uc ]
-"78
-[; ;calibration.c: 78:     while(PORTFbits.RF2 == 1){
+"64
+[; ;calibration.c: 64:     while(PORTFbits.RF2 == 1){
 [e $U 2030  ]
 [e :U 2031 ]
 {
-"80
-[; ;calibration.c: 80:     }
+"66
+[; ;calibration.c: 66:     }
 }
 [e :U 2030 ]
-"78
-[; ;calibration.c: 78:     while(PORTFbits.RF2 == 1){
+"64
+[; ;calibration.c: 64:     while(PORTFbits.RF2 == 1){
 [e $ == -> . . _PORTFbits 0 2 `i -> 1 `i 2031  ]
 [e :U 2032 ]
-"81
-[; ;calibration.c: 81:     LATGbits.LATG0 = 1;
-[e = . . _LATGbits 0 0 -> -> 1 `i `uc ]
-"82
-[; ;calibration.c: 82:     LATEbits.LATE7 = 1;
-[e = . . _LATEbits 0 7 -> -> 1 `i `uc ]
-"83
-[; ;calibration.c: 83:     LATAbits.LATA3 = 1;
-[e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
-"84
-[; ;calibration.c: 84:     _delay((unsigned long)((500)*(64000000/4000.0)));
+"67
+[; ;calibration.c: 67:     _delay((unsigned long)((500)*(64000000/4000.0)));
 [e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"85
-[; ;calibration.c: 85:     (cCal->ambient) = color_read_Clear();
-[e = . *U _cCal 4 ( _color_read_Clear ..  ]
-"86
-[; ;calibration.c: 86:     LATGbits.LATG0 = 0;
-[e = . . _LATGbits 0 0 -> -> 0 `i `uc ]
-"87
-[; ;calibration.c: 87:     LATEbits.LATE7 = 0;
-[e = . . _LATEbits 0 7 -> -> 0 `i `uc ]
-"88
-[; ;calibration.c: 88:     LATAbits.LATA3 = 0;
-[e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
-"92
-[; ;calibration.c: 92:     sprintf(cal_state,"CALIBRATION COMPLETED \n\r", ".");
-[e ( _sprintf , , &U _cal_state :s 11C :s 12C ]
-"93
-[; ;calibration.c: 93:     sendStringSerial4(&cal_state);
-[e ( _sendStringSerial4 (1 -> &U _cal_state `*uc ]
-"94
-[; ;calibration.c: 94:     send2USART(colorCalibration.ambient);
-[e ( _send2USART (1 . _colorCalibration 4 ]
-"96
-[; ;calibration.c: 96:     while(PORTFbits.RF2 == 1){
-[e $U 2033  ]
-[e :U 2034 ]
-{
-"98
-[; ;calibration.c: 98:     }
-}
-[e :U 2033 ]
-"96
-[; ;calibration.c: 96:     while(PORTFbits.RF2 == 1){
-[e $ == -> . . _PORTFbits 0 2 `i -> 1 `i 2034  ]
-[e :U 2035 ]
-"99
-[; ;calibration.c: 99:     _delay((unsigned long)((500)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"100
-[; ;calibration.c: 100: }
+"68
+[; ;calibration.c: 68: }
 [e :UE 2017 ]
 }
-"143
-[; ;calibration.c: 143: unsigned int calibration_turningR(struct DC_motor *mL, struct DC_motor *mR) {
+"70
+[; ;calibration.c: 70: void buttons_init(void){
+[v _buttons_init `(v ~T0 @X0 1 ef ]
+{
+[e :U _buttons_init ]
+[f ]
+"72
+[; ;calibration.c: 72:     TRISFbits.TRISF2=1;
+[e = . . _TRISFbits 0 2 -> -> 1 `i `uc ]
+"73
+[; ;calibration.c: 73:     ANSELFbits.ANSELF2=0;
+[e = . . _ANSELFbits 0 2 -> -> 0 `i `uc ]
+"74
+[; ;calibration.c: 74:     TRISFbits.TRISF3=1;
+[e = . . _TRISFbits 0 3 -> -> 1 `i `uc ]
+"75
+[; ;calibration.c: 75:     ANSELFbits.ANSELF3=0;
+[e = . . _ANSELFbits 0 3 -> -> 0 `i `uc ]
+"76
+[; ;calibration.c: 76: }
+[e :UE 2033 ]
+}
+"78
+[; ;calibration.c: 78: unsigned int calibration_turningR(struct DC_motor *mL, struct DC_motor *mR) {
 [v _calibration_turningR `(ui ~T0 @X0 1 ef2`*S2015`*S2015 ]
 {
 [e :U _calibration_turningR ]
 [v _mL `*S2015 ~T0 @X0 1 r1 ]
 [v _mR `*S2015 ~T0 @X0 1 r2 ]
 [f ]
-"144
-[; ;calibration.c: 144:     int factorR = 0;
+"79
+[; ;calibration.c: 79:     int factorR = 0;
 [v _factorR `i ~T0 @X0 1 a ]
 [e = _factorR -> 0 `i ]
-"145
-[; ;calibration.c: 145:     float adjustment = 10;
+"80
+[; ;calibration.c: 80:     float adjustment = 10;
 [v _adjustment `f ~T0 @X0 1 a ]
 [e = _adjustment -> -> 10 `i `f ]
-"146
-[; ;calibration.c: 146:     unsigned long inactivityCounter = 0;
+"81
+[; ;calibration.c: 81:     unsigned long inactivityCounter = 0;
 [v _inactivityCounter `ul ~T0 @X0 1 a ]
 [e = _inactivityCounter -> -> -> 0 `i `l `ul ]
-"147
-[; ;calibration.c: 147:     const unsigned long inactivityLimit = 3000 / 1;
+"82
+[; ;calibration.c: 82:     const unsigned long inactivityLimit = 3000 / 1;
 [v _inactivityLimit `Cul ~T0 @X0 1 a ]
 [e = _inactivityLimit -> -> / -> 3000 `i -> 1 `i `l `ul ]
-"149
-[; ;calibration.c: 149:     while (1) {
-[e :U 2038 ]
+"84
+[; ;calibration.c: 84:     while (1) {
+[e :U 2036 ]
 {
-"151
-[; ;calibration.c: 151:         for (int i = 0; i < 4; i++) {
+"86
+[; ;calibration.c: 86:         for (int i = 0; i < 4; i++) {
 {
 [v _i `i ~T0 @X0 1 a ]
 [e = _i -> 0 `i ]
-[e $ < _i -> 4 `i 2040  ]
-[e $U 2041  ]
-[e :U 2040 ]
+[e $ < _i -> 4 `i 2038  ]
+[e $U 2039  ]
+[e :U 2038 ]
 {
-"152
-[; ;calibration.c: 152:             right90(mL, mR, factorR);
+"87
+[; ;calibration.c: 87:             right90(mL, mR, factorR);
 [e ( _right90 (3 , , _mL _mR -> _factorR `ui ]
-"153
-[; ;calibration.c: 153:             _delay((unsigned long)((1000)*(64000000/4000.0)));
+"88
+[; ;calibration.c: 88:             _delay((unsigned long)((1000)*(64000000/4000.0)));
 [e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"154
-[; ;calibration.c: 154:         }
+"89
+[; ;calibration.c: 89:         }
 }
 [e ++ _i -> 1 `i ]
-[e $ < _i -> 4 `i 2040  ]
-[e :U 2041 ]
+[e $ < _i -> 4 `i 2038  ]
+[e :U 2039 ]
 }
-"156
-[; ;calibration.c: 156:         inactivityCounter = 0;
+"91
+[; ;calibration.c: 91:         inactivityCounter = 0;
 [e = _inactivityCounter -> -> -> 0 `i `l `ul ]
-"159
-[; ;calibration.c: 159:         while (1) {
+"94
+[; ;calibration.c: 94:         while (1) {
+[e :U 2042 ]
+{
+"95
+[; ;calibration.c: 95:             if (!PORTFbits.RF2 || !PORTFbits.RF3) {
+[e $ ! || ! != -> . . _PORTFbits 0 2 `i -> 0 `i ! != -> . . _PORTFbits 0 3 `i -> 0 `i 2044  ]
+{
+"96
+[; ;calibration.c: 96:                 inactivityCounter = 0;
+[e = _inactivityCounter -> -> -> 0 `i `l `ul ]
+"97
+[; ;calibration.c: 97:             } else {
+}
+[e $U 2045  ]
 [e :U 2044 ]
 {
-"160
-[; ;calibration.c: 160:             if (!PORTFbits.RF2 || !PORTFbits.RF3) {
-[e $ ! || ! != -> . . _PORTFbits 0 2 `i -> 0 `i ! != -> . . _PORTFbits 0 3 `i -> 0 `i 2046  ]
-{
-"161
-[; ;calibration.c: 161:                 inactivityCounter = 0;
-[e = _inactivityCounter -> -> -> 0 `i `l `ul ]
-"162
-[; ;calibration.c: 162:             } else {
-}
-[e $U 2047  ]
-[e :U 2046 ]
-{
-"163
-[; ;calibration.c: 163:                 inactivityCounter++;
+"98
+[; ;calibration.c: 98:                 inactivityCounter++;
 [e ++ _inactivityCounter -> -> -> 1 `i `l `ul ]
-"164
-[; ;calibration.c: 164:                 if (inactivityCounter > inactivityLimit) {
-[e $ ! > _inactivityCounter _inactivityLimit 2048  ]
+"99
+[; ;calibration.c: 99:                 if (inactivityCounter > inactivityLimit) {
+[e $ ! > _inactivityCounter _inactivityLimit 2046  ]
 {
-"166
-[; ;calibration.c: 166:                     return (unsigned int)factorR;
+"101
+[; ;calibration.c: 101:                     return (unsigned int)factorR;
 [e ) -> _factorR `ui ]
-[e $UE 2036  ]
-"167
-[; ;calibration.c: 167:                 }
+[e $UE 2034  ]
+"102
+[; ;calibration.c: 102:                 }
 }
+[e :U 2046 ]
+"103
+[; ;calibration.c: 103:             }
+}
+[e :U 2045 ]
+"104
+[; ;calibration.c: 104:             _delay((unsigned long)((1)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 1 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"107
+[; ;calibration.c: 107:             if (PORTFbits.RF2 == 0) {
+[e $ ! == -> . . _PORTFbits 0 2 `i -> 0 `i 2047  ]
+{
+"108
+[; ;calibration.c: 108:                 _delay((unsigned long)((200)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"109
+[; ;calibration.c: 109:                 factorR += adjustment;
+[e =+ _factorR _adjustment ]
+"110
+[; ;calibration.c: 110:                 while (PORTFbits.RF2 == 0);
+[e $U 2048  ]
+[e :U 2049 ]
 [e :U 2048 ]
-"168
-[; ;calibration.c: 168:             }
+[e $ == -> . . _PORTFbits 0 2 `i -> 0 `i 2049  ]
+[e :U 2050 ]
+"111
+[; ;calibration.c: 111:                 _delay((unsigned long)((200)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"112
+[; ;calibration.c: 112:                 break;
+[e $U 2043  ]
+"113
+[; ;calibration.c: 113:             }
 }
 [e :U 2047 ]
-"169
-[; ;calibration.c: 169:             _delay((unsigned long)((1)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 1 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"172
-[; ;calibration.c: 172:             if (PORTFbits.RF2 == 0) {
-[e $ ! == -> . . _PORTFbits 0 2 `i -> 0 `i 2049  ]
+"116
+[; ;calibration.c: 116:             if (PORTFbits.RF3 == 0) {
+[e $ ! == -> . . _PORTFbits 0 3 `i -> 0 `i 2051  ]
 {
-"173
-[; ;calibration.c: 173:                 _delay((unsigned long)((200)*(64000000/4000.0)));
+"117
+[; ;calibration.c: 117:                 _delay((unsigned long)((200)*(64000000/4000.0)));
 [e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"174
-[; ;calibration.c: 174:                 factorR += adjustment;
-[e =+ _factorR _adjustment ]
-"175
-[; ;calibration.c: 175:                 while (PORTFbits.RF2 == 0);
-[e $U 2050  ]
-[e :U 2051 ]
-[e :U 2050 ]
-[e $ == -> . . _PORTFbits 0 2 `i -> 0 `i 2051  ]
-[e :U 2052 ]
-"176
-[; ;calibration.c: 176:                 _delay((unsigned long)((200)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"177
-[; ;calibration.c: 177:                 break;
-[e $U 2045  ]
-"178
-[; ;calibration.c: 178:             }
-}
-[e :U 2049 ]
-"181
-[; ;calibration.c: 181:             if (PORTFbits.RF3 == 0) {
-[e $ ! == -> . . _PORTFbits 0 3 `i -> 0 `i 2053  ]
-{
-"182
-[; ;calibration.c: 182:                 _delay((unsigned long)((200)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"183
-[; ;calibration.c: 183:                 factorR -= adjustment;
+"118
+[; ;calibration.c: 118:                 factorR -= adjustment;
 [e =- _factorR _adjustment ]
-"184
-[; ;calibration.c: 184:                 while (PORTFbits.RF3 == 0);
-[e $U 2054  ]
-[e :U 2055 ]
-[e :U 2054 ]
-[e $ == -> . . _PORTFbits 0 3 `i -> 0 `i 2055  ]
-[e :U 2056 ]
-"185
-[; ;calibration.c: 185:                 _delay((unsigned long)((200)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"186
-[; ;calibration.c: 186:                 break;
-[e $U 2045  ]
-"187
-[; ;calibration.c: 187:             }
-}
+"119
+[; ;calibration.c: 119:                 while (PORTFbits.RF3 == 0);
+[e $U 2052  ]
 [e :U 2053 ]
-"188
-[; ;calibration.c: 188:         }
+[e :U 2052 ]
+[e $ == -> . . _PORTFbits 0 3 `i -> 0 `i 2053  ]
+[e :U 2054 ]
+"120
+[; ;calibration.c: 120:                 _delay((unsigned long)((200)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"121
+[; ;calibration.c: 121:                 break;
+[e $U 2043  ]
+"122
+[; ;calibration.c: 122:             }
 }
+[e :U 2051 ]
+"123
+[; ;calibration.c: 123:         }
+}
+[e :U 2041 ]
+[e $U 2042  ]
 [e :U 2043 ]
-[e $U 2044  ]
-[e :U 2045 ]
-"189
-[; ;calibration.c: 189:     }
+"124
+[; ;calibration.c: 124:     }
 }
+[e :U 2035 ]
+[e $U 2036  ]
 [e :U 2037 ]
-[e $U 2038  ]
-[e :U 2039 ]
-"191
-[; ;calibration.c: 191: }
-[e :UE 2036 ]
+"126
+[; ;calibration.c: 126: }
+[e :UE 2034 ]
 }
-"193
-[; ;calibration.c: 193: unsigned int calibration_turningL(struct DC_motor *mL, struct DC_motor *mR) {
+"128
+[; ;calibration.c: 128: unsigned int calibration_turningL(struct DC_motor *mL, struct DC_motor *mR) {
 [v _calibration_turningL `(ui ~T0 @X0 1 ef2`*S2015`*S2015 ]
 {
 [e :U _calibration_turningL ]
 [v _mL `*S2015 ~T0 @X0 1 r1 ]
 [v _mR `*S2015 ~T0 @X0 1 r2 ]
 [f ]
-"194
-[; ;calibration.c: 194:     int factorL = 0;
+"129
+[; ;calibration.c: 129:     int factorL = 0;
 [v _factorL `i ~T0 @X0 1 a ]
 [e = _factorL -> 0 `i ]
-"195
-[; ;calibration.c: 195:     float adjustment = 10;
+"130
+[; ;calibration.c: 130:     float adjustment = 10;
 [v _adjustment `f ~T0 @X0 1 a ]
 [e = _adjustment -> -> 10 `i `f ]
-"196
-[; ;calibration.c: 196:     unsigned long inactivityCounter = 0;
+"131
+[; ;calibration.c: 131:     unsigned long inactivityCounter = 0;
 [v _inactivityCounter `ul ~T0 @X0 1 a ]
 [e = _inactivityCounter -> -> -> 0 `i `l `ul ]
-"197
-[; ;calibration.c: 197:     const unsigned long inactivityLimit = 5000 / 1;
+"132
+[; ;calibration.c: 132:     const unsigned long inactivityLimit = 5000 / 1;
 [v _inactivityLimit `Cul ~T0 @X0 1 a ]
 [e = _inactivityLimit -> -> / -> 5000 `i -> 1 `i `l `ul ]
-"199
-[; ;calibration.c: 199:     while (1) {
-[e :U 2059 ]
+"134
+[; ;calibration.c: 134:     while (1) {
+[e :U 2057 ]
 {
-"201
-[; ;calibration.c: 201:         for (int i = 0; i < 4; i++) {
+"136
+[; ;calibration.c: 136:         for (int i = 0; i < 4; i++) {
 {
 [v _i `i ~T0 @X0 1 a ]
 [e = _i -> 0 `i ]
-[e $ < _i -> 4 `i 2061  ]
-[e $U 2062  ]
-[e :U 2061 ]
+[e $ < _i -> 4 `i 2059  ]
+[e $U 2060  ]
+[e :U 2059 ]
 {
-"202
-[; ;calibration.c: 202:             left90(mL, mR, factorL);
+"137
+[; ;calibration.c: 137:             left90(mL, mR, factorL);
 [e ( _left90 (3 , , _mL _mR -> _factorL `ui ]
-"203
-[; ;calibration.c: 203:             _delay((unsigned long)((1000)*(64000000/4000.0)));
+"138
+[; ;calibration.c: 138:             _delay((unsigned long)((1000)*(64000000/4000.0)));
 [e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"204
-[; ;calibration.c: 204:         }
+"139
+[; ;calibration.c: 139:         }
 }
 [e ++ _i -> 1 `i ]
-[e $ < _i -> 4 `i 2061  ]
-[e :U 2062 ]
+[e $ < _i -> 4 `i 2059  ]
+[e :U 2060 ]
 }
-"206
-[; ;calibration.c: 206:         inactivityCounter = 0;
+"141
+[; ;calibration.c: 141:         inactivityCounter = 0;
 [e = _inactivityCounter -> -> -> 0 `i `l `ul ]
-"209
-[; ;calibration.c: 209:         while (1) {
+"144
+[; ;calibration.c: 144:         while (1) {
+[e :U 2063 ]
+{
+"145
+[; ;calibration.c: 145:             if (!PORTFbits.RF2 || !PORTFbits.RF3) {
+[e $ ! || ! != -> . . _PORTFbits 0 2 `i -> 0 `i ! != -> . . _PORTFbits 0 3 `i -> 0 `i 2065  ]
+{
+"146
+[; ;calibration.c: 146:                 inactivityCounter = 0;
+[e = _inactivityCounter -> -> -> 0 `i `l `ul ]
+"147
+[; ;calibration.c: 147:             } else {
+}
+[e $U 2066  ]
 [e :U 2065 ]
 {
-"210
-[; ;calibration.c: 210:             if (!PORTFbits.RF2 || !PORTFbits.RF3) {
-[e $ ! || ! != -> . . _PORTFbits 0 2 `i -> 0 `i ! != -> . . _PORTFbits 0 3 `i -> 0 `i 2067  ]
-{
-"211
-[; ;calibration.c: 211:                 inactivityCounter = 0;
-[e = _inactivityCounter -> -> -> 0 `i `l `ul ]
-"212
-[; ;calibration.c: 212:             } else {
-}
-[e $U 2068  ]
-[e :U 2067 ]
-{
-"213
-[; ;calibration.c: 213:                 inactivityCounter++;
+"148
+[; ;calibration.c: 148:                 inactivityCounter++;
 [e ++ _inactivityCounter -> -> -> 1 `i `l `ul ]
-"214
-[; ;calibration.c: 214:                 if (inactivityCounter > inactivityLimit) {
-[e $ ! > _inactivityCounter _inactivityLimit 2069  ]
+"149
+[; ;calibration.c: 149:                 if (inactivityCounter > inactivityLimit) {
+[e $ ! > _inactivityCounter _inactivityLimit 2067  ]
 {
-"216
-[; ;calibration.c: 216:                     return (unsigned int)factorL;
+"151
+[; ;calibration.c: 151:                     return (unsigned int)factorL;
 [e ) -> _factorL `ui ]
-[e $UE 2057  ]
-"217
-[; ;calibration.c: 217:                 }
+[e $UE 2055  ]
+"152
+[; ;calibration.c: 152:                 }
 }
+[e :U 2067 ]
+"153
+[; ;calibration.c: 153:             }
+}
+[e :U 2066 ]
+"154
+[; ;calibration.c: 154:             _delay((unsigned long)((1)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 1 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"157
+[; ;calibration.c: 157:             if (PORTFbits.RF2 == 0) {
+[e $ ! == -> . . _PORTFbits 0 2 `i -> 0 `i 2068  ]
+{
+"158
+[; ;calibration.c: 158:                 _delay((unsigned long)((200)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"159
+[; ;calibration.c: 159:                 factorL += adjustment;
+[e =+ _factorL _adjustment ]
+"160
+[; ;calibration.c: 160:                 while (PORTFbits.RF2 == 0);
+[e $U 2069  ]
+[e :U 2070 ]
 [e :U 2069 ]
-"218
-[; ;calibration.c: 218:             }
+[e $ == -> . . _PORTFbits 0 2 `i -> 0 `i 2070  ]
+[e :U 2071 ]
+"161
+[; ;calibration.c: 161:                 _delay((unsigned long)((200)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"162
+[; ;calibration.c: 162:                 break;
+[e $U 2064  ]
+"163
+[; ;calibration.c: 163:             }
 }
 [e :U 2068 ]
-"219
-[; ;calibration.c: 219:             _delay((unsigned long)((1)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 1 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"222
-[; ;calibration.c: 222:             if (PORTFbits.RF2 == 0) {
-[e $ ! == -> . . _PORTFbits 0 2 `i -> 0 `i 2070  ]
+"166
+[; ;calibration.c: 166:             if (PORTFbits.RF3 == 0) {
+[e $ ! == -> . . _PORTFbits 0 3 `i -> 0 `i 2072  ]
 {
-"223
-[; ;calibration.c: 223:                 _delay((unsigned long)((200)*(64000000/4000.0)));
+"167
+[; ;calibration.c: 167:                 _delay((unsigned long)((200)*(64000000/4000.0)));
 [e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"224
-[; ;calibration.c: 224:                 factorL += adjustment;
-[e =+ _factorL _adjustment ]
-"225
-[; ;calibration.c: 225:                 while (PORTFbits.RF2 == 0);
-[e $U 2071  ]
-[e :U 2072 ]
-[e :U 2071 ]
-[e $ == -> . . _PORTFbits 0 2 `i -> 0 `i 2072  ]
-[e :U 2073 ]
-"226
-[; ;calibration.c: 226:                 _delay((unsigned long)((200)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"227
-[; ;calibration.c: 227:                 break;
-[e $U 2066  ]
-"228
-[; ;calibration.c: 228:             }
-}
-[e :U 2070 ]
-"231
-[; ;calibration.c: 231:             if (PORTFbits.RF3 == 0) {
-[e $ ! == -> . . _PORTFbits 0 3 `i -> 0 `i 2074  ]
-{
-"232
-[; ;calibration.c: 232:                 _delay((unsigned long)((200)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"233
-[; ;calibration.c: 233:                 factorL -= adjustment;
+"168
+[; ;calibration.c: 168:                 factorL -= adjustment;
 [e =- _factorL _adjustment ]
-"234
-[; ;calibration.c: 234:                 while (PORTFbits.RF3 == 0);
-[e $U 2075  ]
-[e :U 2076 ]
-[e :U 2075 ]
-[e $ == -> . . _PORTFbits 0 3 `i -> 0 `i 2076  ]
-[e :U 2077 ]
-"235
-[; ;calibration.c: 235:                 _delay((unsigned long)((200)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"236
-[; ;calibration.c: 236:                 break;
-[e $U 2066  ]
-"237
-[; ;calibration.c: 237:             }
-}
+"169
+[; ;calibration.c: 169:                 while (PORTFbits.RF3 == 0);
+[e $U 2073  ]
 [e :U 2074 ]
-"238
-[; ;calibration.c: 238:         }
+[e :U 2073 ]
+[e $ == -> . . _PORTFbits 0 3 `i -> 0 `i 2074  ]
+[e :U 2075 ]
+"170
+[; ;calibration.c: 170:                 _delay((unsigned long)((200)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"171
+[; ;calibration.c: 171:                 break;
+[e $U 2064  ]
+"172
+[; ;calibration.c: 172:             }
 }
+[e :U 2072 ]
+"173
+[; ;calibration.c: 173:         }
+}
+[e :U 2062 ]
+[e $U 2063  ]
 [e :U 2064 ]
-[e $U 2065  ]
-[e :U 2066 ]
-"239
-[; ;calibration.c: 239:     }
+"174
+[; ;calibration.c: 174:     }
 }
+[e :U 2056 ]
+[e $U 2057  ]
 [e :U 2058 ]
-[e $U 2059  ]
-[e :U 2060 ]
-"241
-[; ;calibration.c: 241: }
-[e :UE 2057 ]
+"176
+[; ;calibration.c: 176: }
+[e :UE 2055 ]
 }
-"247
-[; ;calibration.c: 247: void customDelayMs(unsigned int milliseconds) {
+"182
+[; ;calibration.c: 182: void customDelayMs(unsigned int milliseconds) {
 [v _customDelayMs `(v ~T0 @X0 1 ef1`ui ]
 {
 [e :U _customDelayMs ]
 [v _milliseconds `ui ~T0 @X0 1 r1 ]
 [f ]
-"248
-[; ;calibration.c: 248:     for (unsigned int i = 0; i < milliseconds; i++) {
+"183
+[; ;calibration.c: 183:     for (unsigned int i = 0; i < milliseconds; i++) {
 {
 [v _i `ui ~T0 @X0 1 a ]
 [e = _i -> -> 0 `i `ui ]
-[e $U 2082  ]
-[e :U 2079 ]
+[e $U 2080  ]
+[e :U 2077 ]
 {
-"249
-[; ;calibration.c: 249:         _delay((unsigned long)((1)*(64000000/4000.0)));
+"184
+[; ;calibration.c: 184:         _delay((unsigned long)((1)*(64000000/4000.0)));
 [e ( __delay (1 -> * -> -> 1 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"250
-[; ;calibration.c: 250:     }
+"185
+[; ;calibration.c: 185:     }
 }
 [e ++ _i -> -> 1 `i `ui ]
-[e :U 2082 ]
-[e $ < _i _milliseconds 2079  ]
 [e :U 2080 ]
+[e $ < _i _milliseconds 2077  ]
+[e :U 2078 ]
 }
-"251
-[; ;calibration.c: 251: }
-[e :UE 2078 ]
+"186
+[; ;calibration.c: 186: }
+[e :UE 2076 ]
 }
-[a 9C 67 97 108 105 98 114 97 116 105 111 110 32 115 116 97 116 101 32 61 32 32 97 109 98 105 101 110 116 0 ]
-[a 7C 67 97 108 105 98 114 97 116 105 111 110 32 115 116 97 116 101 32 61 32 32 119 104 105 116 101 0 ]
-[a 1C 67 97 108 105 98 114 97 116 105 111 110 32 115 116 97 116 101 32 61 32 114 101 100 0 ]
-[a 2C 46 0 ]
-[a 4C 46 0 ]
-[a 6C 46 0 ]
-[a 8C 46 0 ]
-[a 10C 46 0 ]
-[a 12C 46 0 ]
-[a 3C 67 97 108 105 98 114 97 116 105 111 110 32 115 116 97 116 101 32 61 32 103 114 101 101 110 32 10 13 0 ]
-[a 5C 67 97 108 105 98 114 97 116 105 111 110 32 115 116 97 116 101 61 32 98 108 117 101 32 10 13 0 ]
-[a 11C 67 65 76 73 66 82 65 84 73 79 78 32 67 79 77 80 76 69 84 69 68 32 10 13 0 ]

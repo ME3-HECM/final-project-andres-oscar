@@ -1,3 +1,4 @@
+
 #include <xc.h>
 #include "serial.h"
 #include "ADC.h"
@@ -10,7 +11,9 @@ extern volatile char dataFlag; // Flag to indicate data is in the TX buffer
 volatile unsigned int ldrReadings[10]; // Buffer to store LDR readings
 volatile unsigned char readingIndex = 0; // Index for the next LDR reading to store
 
-
+/************************************
+ * Initialises the USART
+************************************/
 void initUSART4(void) {
     RC0PPS = 0x12; // Map EUSART4 TX to RC0
     RX4PPS = 0x11; // RX is RC1   

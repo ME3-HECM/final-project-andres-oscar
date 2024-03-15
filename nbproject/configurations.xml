@@ -6,12 +6,12 @@
                    projectFiles="true">
       <itemPath>color.h</itemPath>
       <itemPath>i2c.h</itemPath>
-      <itemPath>ADC.h</itemPath>
       <itemPath>dc_motor.h</itemPath>
       <itemPath>serial.h</itemPath>
       <itemPath>timers.h</itemPath>
       <itemPath>return_func.h</itemPath>
       <itemPath>calibration.h</itemPath>
+      <itemPath>maze_navigation.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -23,12 +23,12 @@
       <itemPath>color.c</itemPath>
       <itemPath>i2c.c</itemPath>
       <itemPath>main.c</itemPath>
-      <itemPath>ADC.c</itemPath>
       <itemPath>dc_motor.c</itemPath>
       <itemPath>serial.c</itemPath>
       <itemPath>timers.c</itemPath>
       <itemPath>return_func.c</itemPath>
       <itemPath>calibration.c</itemPath>
+      <itemPath>maze_navigation.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

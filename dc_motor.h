@@ -26,6 +26,7 @@ struct DC_motor motorL, motorR; 		//declare two DC_motor structures
 //function prototypes
 void initDCmotorsPWM(unsigned int PWMperiod); // function to setup PWM
 void setMotorPWM(DC_motor *m);
+void variablesMotorInit(struct DC_motor *mL, struct DC_motor *mR, unsigned int PWMcycle);
 void stop(DC_motor *mL, DC_motor *mR);
 void turnLeft(DC_motor *mL, DC_motor *mR);
 void turnRight(DC_motor *mL, DC_motor *mR);
@@ -38,14 +39,6 @@ void right135(struct DC_motor *mL, struct DC_motor *mR);
 void left135(struct DC_motor *mL, struct DC_motor *mR);
 void backHalf(struct DC_motor *mL, struct DC_motor *mR);
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
-//color movements
-void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
-void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
-void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
+
 
 #endif

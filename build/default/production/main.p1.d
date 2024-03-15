@@ -7,4 +7,5 @@ ADC.h  \
 serial.h  \
 timers.h  \
 return_func.h  \
-calibration.h 
+calibration.h  \
+maze_navigation.h 

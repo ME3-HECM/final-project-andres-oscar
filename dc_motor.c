@@ -1,7 +1,12 @@
 #include <xc.h>
 #include "dc_motor.h"
 #include "calibration.h"
-// function initialise T2 and CCP for DC motor control
+#include "color.h"
+
+/************************************
+ * function initialise T2 and CCP for DC motor control
+************************************/
+
 void initDCmotorsPWM(unsigned int PWMperiod){
     //initialise your TRIS and LAT registers for PWM  
     TRISEbits.TRISE2=0; //output on RE2
@@ -61,7 +66,10 @@ void initDCmotorsPWM(unsigned int PWMperiod){
     CCP4CONbits.EN=1; //turn on
 }
 
-// function to set CCP PWM output from the values in the motor structure
+/************************************
+ * function to set CCP PWM output from the values in the motor structure
+************************************/
+
 void setMotorPWM(DC_motor *m)
 {
     unsigned char posDuty, negDuty; //duty cycle values for different sides of the motor
@@ -84,7 +92,32 @@ void setMotorPWM(DC_motor *m)
     }
 }
 
-//function to stop the robot gradually 
+/************************************
+ * function to initialise motor variables
+************************************/
+
+void variablesMotorInit(struct DC_motor *mL, struct DC_motor *mR, unsigned int PWMcycle){
+        //set initial values for the motorL and motorR structures
+    motorL.power = 0;
+    motorL.direction = 1;  
+    motorL.brakemode = 1; 
+    motorL.PWMperiod = PWMcycle;
+    motorL.posDutyHighByte = (unsigned char *)(&CCPR1H); //assign the correct CCP register address
+    motorL.negDutyHighByte = (unsigned char *)(&CCPR2H); //assign the correct CCP register address
+
+    motorR.power = 0;
+    motorR.direction = 1;  
+    motorR.brakemode = 1;
+    motorR.PWMperiod = PWMcycle;
+    motorR.posDutyHighByte = (unsigned char *)(&CCPR3H); //assign the correct CCP register address
+    motorR.negDutyHighByte = (unsigned char *)(&CCPR4H); //assign the correct CCP register address
+    
+}
+
+/************************************
+ * function to gradually stop robot
+************************************/
+
 void stop(DC_motor *mL, DC_motor *mR)
 {
     //as long as each motor power is greater than 0 it gradually decreases it
@@ -252,84 +285,3 @@ void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR)
 }
 
 
-
-/************************************
- * #COLOR MOVEMENT FUNCTIONS! for tuning look above at set pieces
- * This is where you log actions into the path
-************************************/
-
-void  moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR)
-{
-    //Move back half a unit and turn right 90
-    backHalf(mL,mR); //moving back half a unit
-    __delay_ms(500); //delay to slow down potential skidding
-    right90(mL,mR,factorR); //turning right 90 function
-
-
-    
-}
-
-void  moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL)
-{
-    //Move back half a unit and turn left 90
-    backHalf(mL,mR); //moving back half a unit
-    __delay_ms(500); //delay to slow down potential skidding
-    left90(mL,mR,factorL); //turning left 90 function
-
-}
-
-void  moveBlue(struct DC_motor *mL, struct DC_motor *mR)
-{
-    //Move back half a unit and turns 180
-    backHalf(mL,mR); //moving back half a unit
-    __delay_ms(500); //delay to slow down potential skidding
-    turn180(mL,mR); //turning 180 function
-
-}
-
- void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR)
-{
-    //Move back one and a half units and turn right 90
-    backOneAndHalf(mL,mR); //moving back half a unit
-    __delay_ms(500); //delay to slow down potential skidding
-    right90(mL,mR, factorR); //turning right 90 function
-}
-
-
-void  movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL)
-{
-    //Move back one and a half units and turn left 90
-    backOneAndHalf(mL,mR); //moving back half a unit
-    __delay_ms(500); //delay to slow down potential skidding
-    left90(mL,mR, factorL); //turning left 90 function
-
-}
-
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR)
-{
-    //Move back half a unit and turn right 135
-    backHalf(mL,mR); //moving back half a unit
-    __delay_ms(500); //delay to slow down potential skidding
-    right135(mL,mR); //turning right 135 function
-
-}
-
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR)
-{
-    //Move back half a unit and turn left 135
-    backHalf(mL,mR); //moving back half a unit
-    __delay_ms(500); //delay to slow down potential skidding
-    left135(mL,mR); //turning left 135 function
-
-
-}
-
-void moveWhite(struct DC_motor *mL, struct DC_motor *mR)
-{
-    //Move back half a unit and turn around
-    backHalf(mL,mR); //moving back half a unit
-    __delay_ms(500); //delay to slow down potential skidding
-    turn180(mL,mR); //turning around 180
-    backHalf(mL,mR); //moving back half a unit
-
-}

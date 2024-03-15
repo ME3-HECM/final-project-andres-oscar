@@ -5,6 +5,8 @@
 #include "serial.h"
 #include "dc_motor.h"
 #include "return_func.h"
+#include "timers.h"
+#include "maze_navigation.h"
 
 void color_click_init(void)
 {   
@@ -20,6 +22,18 @@ void color_click_init(void)
 
     //set integration time
 	color_writetoaddr(0x01, 0xD5);
+}
+
+void color_clicker_lights_init(void){
+        
+    //Colored LED initialization
+    TRISGbits.TRISG0 = 0;
+    LATGbits.LATG0 = 0; //Red is G0
+    TRISEbits.TRISE7 = 0;
+    LATEbits.LATE7 = 0; //Green is E7
+    TRISAbits.TRISA3 = 0;
+    LATAbits.LATA3 = 0; //Blue is A3
+    
 }
 
 void color_writetoaddr(char address, char value){
@@ -226,4 +240,37 @@ unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int fac
     }
     //send2USART(color);
     return path_step;
+}
+
+unsigned int calc_clear_norm(struct colors *cCurr, struct colors *cMax)
+{
+    unsigned int clear_norm;
+    float clear_max;
+    float clear_current;
+    colorCurrent.clear = color_read_Clear();
+    clear_current = cCurr->clear;
+    clear_max = cMax->clear;
+    clear_norm = (clear_current)*100/clear_max; 
+
+    return clear_norm;
+}
+
+
+unsigned int is_white(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step, unsigned int factorR, unsigned int factorL, unsigned int hue, unsigned int clear_norm)
+{
+    if (((clear_norm > 85 && !(hue >= 302 && hue <= 346)) && !(hue>14 && hue<=35)) || LATGbits.LATG1 == 1) {
+        //turn off white light when getting home
+        LATGbits.LATG0 = 0; //Red is G0
+        LATEbits.LATE7 = 0; //Green is E7
+        LATAbits.LATA3 = 0; //Blue is A3
+
+        if (LATGbits.LATG1 == 1){
+            get16bitTMR0val(path_step);
+            path_step++;
+        }
+        unsigned int white = 8;
+        send2USART(white);
+        returnHome(&motorL, &motorR, path_step, factorR, factorL);
+
+    }
 }

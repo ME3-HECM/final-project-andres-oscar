@@ -24122,6 +24122,7 @@ struct DC_motor motorL, motorR;
 
 void initDCmotorsPWM(unsigned int PWMperiod);
 void setMotorPWM(DC_motor *m);
+void variablesMotorInit(struct DC_motor *mL, struct DC_motor *mR, unsigned int PWMcycle);
 void stop(DC_motor *mL, DC_motor *mR);
 void turnLeft(DC_motor *mL, DC_motor *mR);
 void turnRight(DC_motor *mL, DC_motor *mR);
@@ -24134,15 +24135,6 @@ void right135(struct DC_motor *mL, struct DC_motor *mR);
 void left135(struct DC_motor *mL, struct DC_motor *mR);
 void backHalf(struct DC_motor *mL, struct DC_motor *mR);
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
-
-void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
-void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
-void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
 # 5 "./return_func.h" 2
 
 
@@ -24169,7 +24161,6 @@ typedef struct colors {
     unsigned int green;
     unsigned int blue;
     unsigned int clear;
-    unsigned int ambient;
 } colors;
 
 
@@ -24213,6 +24204,7 @@ unsigned int color_read_Blue(void);
 
 unsigned int color_read_Clear(void);
 
+void color_clicker_lights_init(void);
 
 unsigned int reading_hue(colors *cCurr);
 
@@ -24220,9 +24212,39 @@ unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
 
+unsigned int calc_clear_norm(struct colors *cCurr, struct colors *cMax);
+
 unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factorR, unsigned int factorL);
+
+unsigned int is_white(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step, unsigned int factorR, unsigned int factorL, unsigned int hue, unsigned int clear_norm);
 # 4 "return_func.c" 2
-# 14 "return_func.c"
+
+# 1 "./maze_navigation.h" 1
+
+
+
+
+# 1 "./maze_navigation.h" 1
+# 5 "./maze_navigation.h" 2
+
+
+
+
+void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
+void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
+void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
+void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
+void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
+void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
+void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
+void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
+
+
+void intial_stage_movement(struct DC_motor *mL, struct DC_motor *mR);
+void bump_wall(struct DC_motor *mL, struct DC_motor *mR);
+void looking_for_card(struct DC_motor *mL, struct DC_motor *mR, struct colors *cCurr, struct colors *cMax, unsigned int path_step);
+# 5 "return_func.c" 2
+# 15 "return_func.c"
 void logAction(char newAction, long newTime, unsigned int path_step) {
     if (path_step < 50) {
         action[path_step] = newAction;
@@ -24300,15 +24322,8 @@ void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char actionStep, long
 void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, long time_ms)
 {
 
-    unsigned int delayMs = 1000;
-
-
-
-    if (time_ms>3300 && time< 5000){delayMs = 4000; }
-    else if (time_ms>1600 && time_ms<3200){delayMs = 2750; }
-    else if (time_ms<1600){delayMs = 1550;}
-    else if (time>5000){delayMs = 5700;}
-
+    unsigned int delayMs = 1550;
+# 101 "return_func.c"
     fullSpeedAhead(&motorL,&motorR);
     customDelayMs(delayMs);
     stop(&motorL,&motorR);

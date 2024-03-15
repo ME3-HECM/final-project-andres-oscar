@@ -12,7 +12,6 @@ typedef struct colors { //definition of DC_motor structure
     unsigned int green;   //green colour
     unsigned int blue;   //blue colour
     unsigned int clear;   //clear colour
-    unsigned int ambient;
 } colors;
 
 
@@ -56,6 +55,7 @@ unsigned int color_read_Blue(void);
  ***********************************************/
 unsigned int color_read_Clear(void);
 
+void color_clicker_lights_init(void);
 
 unsigned int reading_hue(colors *cCurr);
 
@@ -63,5 +63,9 @@ unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
 
+unsigned int calc_clear_norm(struct colors *cCurr, struct colors *cMax);
+
 unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factorR, unsigned int factorL);
+
+unsigned int is_white(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step, unsigned int factorR, unsigned int factorL, unsigned int hue, unsigned int clear_norm);
 #endif

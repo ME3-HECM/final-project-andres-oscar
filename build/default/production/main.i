@@ -24133,6 +24133,7 @@ struct DC_motor motorL, motorR;
 
 void initDCmotorsPWM(unsigned int PWMperiod);
 void setMotorPWM(DC_motor *m);
+void variablesMotorInit(struct DC_motor *mL, struct DC_motor *mR, unsigned int PWMcycle);
 void stop(DC_motor *mL, DC_motor *mR);
 void turnLeft(DC_motor *mL, DC_motor *mR);
 void turnRight(DC_motor *mL, DC_motor *mR);
@@ -24145,15 +24146,6 @@ void right135(struct DC_motor *mL, struct DC_motor *mR);
 void left135(struct DC_motor *mL, struct DC_motor *mR);
 void backHalf(struct DC_motor *mL, struct DC_motor *mR);
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
-
-void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
-void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
-void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
 # 5 "./color.h" 2
 
 
@@ -24165,7 +24157,6 @@ typedef struct colors {
     unsigned int green;
     unsigned int blue;
     unsigned int clear;
-    unsigned int ambient;
 } colors;
 
 
@@ -24209,6 +24200,7 @@ unsigned int color_read_Blue(void);
 
 unsigned int color_read_Clear(void);
 
+void color_clicker_lights_init(void);
 
 unsigned int reading_hue(colors *cCurr);
 
@@ -24216,7 +24208,11 @@ unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
 
+unsigned int calc_clear_norm(struct colors *cCurr, struct colors *cMax);
+
 unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factorR, unsigned int factorL);
+
+unsigned int is_white(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step, unsigned int factorR, unsigned int factorL, unsigned int hue, unsigned int clear_norm);
 # 12 "main.c" 2
 
 # 1 "./i2c.h" 1
@@ -24304,9 +24300,19 @@ void send2USART(unsigned int hue);
 
 
 # 1 "./timers.h" 1
-# 10 "./timers.h"
+
+
+
+
+# 1 "./timers.h" 1
+# 5 "./timers.h" 2
+
+
+
+
+
 void Timer0_init(void);
-unsigned int get16bitTMR0val(unsigned int path_step);
+void get16bitTMR0val(unsigned int path_step);
 # 17 "main.c" 2
 
 # 1 "./return_func.h" 1
@@ -24323,160 +24329,93 @@ void customDelayMs(unsigned int milliseconds);
 # 18 "main.c" 2
 
 # 1 "./calibration.h" 1
-# 12 "./calibration.h"
+
+
+
+
+
+
+
+
 void calibration_colors(colors *cCal);
 unsigned int calibration_turningR(struct DC_motor *mL, struct DC_motor *mR);
 unsigned int calibration_turningL(struct DC_motor *mL, struct DC_motor *mR);
+void buttons_init(void);
 void customDelayMs(unsigned int milliseconds);
 # 19 "main.c" 2
-# 30 "main.c"
+
+# 1 "./maze_navigation.h" 1
+
+
+
+
+# 1 "./maze_navigation.h" 1
+# 5 "./maze_navigation.h" 2
+
+
+
+
+void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
+void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
+void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
+void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
+void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
+void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
+void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
+void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
+
+
+void intial_stage_movement(struct DC_motor *mL, struct DC_motor *mR);
+void bump_wall(struct DC_motor *mL, struct DC_motor *mR);
+void looking_for_card(struct DC_motor *mL, struct DC_motor *mR, struct colors *cCurr, struct colors *cMax, unsigned int path_step);
+# 20 "main.c" 2
+# 31 "main.c"
 void main(void) {
+
+    unsigned int clear_norm;
+    unsigned int path_step = 0;
+    unsigned int hue;
+    unsigned int factorR;
+    unsigned int factorL;
+
+
 
     ADC_init();
     color_click_init();
     initUSART4();
     Timer0_init();
 
+    buttons_init();
 
-    unsigned int PWMcycle = 99;
-    initDCmotorsPWM(PWMcycle);
+    color_clicker_lights_init();
 
-
-    motorL.power = 0;
-    motorL.direction = 1;
-    motorL.brakemode = 1;
-    motorL.PWMperiod = PWMcycle;
-    motorL.posDutyHighByte = (unsigned char *)(&CCPR1H);
-    motorL.negDutyHighByte = (unsigned char *)(&CCPR2H);
-
-    motorR.power = 0;
-    motorR.direction = 1;
-    motorR.brakemode = 1;
-    motorR.PWMperiod = PWMcycle;
-    motorR.posDutyHighByte = (unsigned char *)(&CCPR3H);
-    motorR.negDutyHighByte = (unsigned char *)(&CCPR4H);
-
-
-
-
-
-
-    TRISGbits.TRISG0 = 0;
-    LATGbits.LATG0 = 0;
-    TRISEbits.TRISE7 = 0;
-    LATEbits.LATE7 = 0;
-    TRISAbits.TRISA3 = 0;
-    LATAbits.LATA3 = 0;
-
-
-
-
-    TRISFbits.TRISF2=1;
-    ANSELFbits.ANSELF2=0;
-    TRISFbits.TRISF3=1;
-    ANSELFbits.ANSELF3=0;
-
-
-
-
-
-
-
-    TRISHbits.TRISH3 = 0;
-    LATHbits.LATH3 = 1;
-    _delay((unsigned long)((300)*(64000000/4000.0)));
-    LATHbits.LATH3 = 0;
-
-
+    initDCmotorsPWM(99);
+    variablesMotorInit(&motorL, &motorR, 99);
 
     calibration_colors(&colorCalibration);
-
-    unsigned int clear_norm;
-    unsigned int path_step = 0;
-    unsigned int hue;
-    unsigned int ambient;
-    float clear_current;
-    float clear_max;
-    unsigned int factorR;
-    unsigned int factorL;
-
-
     factorR = calibration_turningR(&motorL, &motorR) ;
     factorL = calibration_turningL(&motorL, &motorR) ;
 
-    ambient = colorCalibration.ambient;
-
-    send2USART(ambient);
 
     while (1) {
+        intial_stage_movement(&motorL, &motorR);
 
-        LATGbits.LATG0 = 1;
-        LATEbits.LATE7 = 1;
-        LATAbits.LATA3 = 1;
+        looking_for_card(&motorL,&motorR,&colorCurrent, &colorCalibration, path_step);
 
-
-        fullSpeedAhead(&motorL,&motorR);
-        T0CON0bits.T0EN=1;
-
-        colorCurrent.clear = color_read_Clear();
-
-        clear_current = colorCurrent.clear;
-        send2USART(clear_current);
-        clear_max = colorCalibration.clear;
-
-        clear_norm = (clear_current)*100/clear_max;
-
-
-
-        while(clear_norm<10){
-            (colorCurrent.clear) = color_read_Clear();
-            clear_current = colorCurrent.clear;
-            clear_max = colorCalibration.clear;
-            clear_norm = clear_current*100/clear_max;
-
-            }
-
-        T0CON0bits.T0EN=0;
-
-        stop(&motorL,&motorR);
-
-
-        path_step = get16bitTMR0val(path_step);
+        path_step++;
 
         _delay((unsigned long)((200)*(64000000/4000.0)));
 
-
-        fullSpeedAhead(&motorL,&motorR);
-        _delay((unsigned long)((300)*(64000000/4000.0)));
-        stop(&motorL,&motorR);
-        _delay((unsigned long)((300)*(64000000/4000.0)));
+        bump_wall(&motorL, &motorR);
 
         hue = reading_hue(&colorCurrent);
+
         send2USART(hue);
-        clear_current = colorCurrent.clear;
-        clear_max = colorCalibration.clear;
-        clear_norm = clear_current*100/clear_max;
-        send2USART(clear_norm);
 
-        if (clear_norm > 20){
-            fullSpeedAhead(&motorL,&motorR);
-            _delay((unsigned long)((100)*(64000000/4000.0)));
-            stop(&motorL,&motorR);
-        }
-        if ((clear_norm > 85 && !(hue >= 302 && hue <= 346)) && !(hue>14 && hue<=35) || LATGbits.LATG1 == 1) {
 
-            LATGbits.LATG0 = 0;
-            LATEbits.LATE7 = 0;
-            LATAbits.LATA3 = 0;
+        clear_norm = calc_clear_norm(&colorCurrent, &colorCalibration);
 
-            if (LATGbits.LATG1 == 1){
-                path_step = get16bitTMR0val(path_step);
-            }
-            unsigned int white = 8;
-            send2USART(white);
-            returnHome(&motorL, &motorR, path_step, factorR, factorL);
-
-        }
+        is_white(&motorL, &motorR,path_step, factorR, factorL, hue, clear_norm);
 
         path_step = decision(hue, path_step, factorR, factorL);
     }

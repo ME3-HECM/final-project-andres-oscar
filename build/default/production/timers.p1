@@ -2174,67 +2174,66 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;timers.c: 30: }
 [e :UE 2016 ]
 }
+"35
+[; ;timers.c: 35: void get16bitTMR0val(unsigned int path_step)
+[v _get16bitTMR0val `(v ~T0 @X0 1 ef1`ui ]
 "36
-[; ;timers.c: 36: unsigned int get16bitTMR0val(unsigned int path_step)
-[v _get16bitTMR0val `(ui ~T0 @X0 1 ef1`ui ]
-"37
-[; ;timers.c: 37: {
+[; ;timers.c: 36: {
 {
 [e :U _get16bitTMR0val ]
-"36
-[; ;timers.c: 36: unsigned int get16bitTMR0val(unsigned int path_step)
+"35
+[; ;timers.c: 35: void get16bitTMR0val(unsigned int path_step)
 [v _path_step `ui ~T0 @X0 1 r1 ]
-"37
-[; ;timers.c: 37: {
+"36
+[; ;timers.c: 36: {
 [f ]
-"38
-[; ;timers.c: 38:     int combined_value;
+"37
+[; ;timers.c: 37:     int combined_value;
 [v _combined_value `i ~T0 @X0 1 a ]
-"39
-[; ;timers.c: 39:     combined_value = TMR0L | (TMR0H << 8);
+"38
+[; ;timers.c: 38:     combined_value = TMR0L | (TMR0H << 8);
 [e = _combined_value | -> _TMR0L `i << -> _TMR0H `i -> 8 `i ]
-"40
-[; ;timers.c: 40:     long time_ms = combined_value*65535*4*8192/64000000;
+"39
+[; ;timers.c: 39:     long time_ms = combined_value*65535*4*8192/64000;
 [v _time_ms `l ~T0 @X0 1 a ]
-[e = _time_ms / * * * -> _combined_value `l -> 65535 `l -> -> 4 `i `l -> -> 8192 `i `l -> 64000000 `l ]
-"42
-[; ;timers.c: 42:     logAction(0,time_ms, path_step);
+[e = _time_ms / * * * -> _combined_value `l -> 65535 `l -> -> 4 `i `l -> -> 8192 `i `l -> 64000 `l ]
+"41
+[; ;timers.c: 41:     logAction(0, time_ms, path_step);
 [e ( _logAction (3 , , -> -> 0 `i `uc _time_ms _path_step ]
+"42
+[; ;timers.c: 42:     TMR0L = 0;
+[e = _TMR0L -> -> 0 `i `uc ]
 "43
-[; ;timers.c: 43:     path_step++;
-[e ++ _path_step -> -> 1 `i `ui ]
-"45
-[; ;timers.c: 45:     return path_step;
-[e ) _path_step ]
-[e $UE 2017  ]
-"46
-[; ;timers.c: 46: }
+[; ;timers.c: 43:     TMR0H = 0;
+[e = _TMR0H -> -> 0 `i `uc ]
+"44
+[; ;timers.c: 44: }
 [e :UE 2017 ]
 }
 [v $root$_LowISR `(v ~T0 @X0 0 e ]
-"47
-[; ;timers.c: 47: void __attribute__((picinterrupt(("low_priority")))) LowISR()
-[v _LowISR `(v ~T1 @X0 1 ef ]
 "48
-[; ;timers.c: 48: {
+[; ;timers.c: 48: void __attribute__((picinterrupt(("low_priority")))) LowISR()
+[v _LowISR `(v ~T1 @X0 1 ef ]
+"49
+[; ;timers.c: 49: {
 {
 [e :U _LowISR ]
 [f ]
-"50
-[; ;timers.c: 50:     if (PIR0bits.TMR0IF == 1) {
+"51
+[; ;timers.c: 51:     if (PIR0bits.TMR0IF == 1) {
 [e $ ! == -> . . _PIR0bits 0 5 `i -> 1 `i 2019  ]
 {
-"51
-[; ;timers.c: 51:         LATGbits.LATG1 = 1;
+"52
+[; ;timers.c: 52:         LATGbits.LATG1 = 1;
 [e = . . _LATGbits 0 1 -> -> 1 `i `uc ]
-"53
-[; ;timers.c: 53:         PIR0bits.TMR0IF = 0;
-[e = . . _PIR0bits 0 5 -> -> 0 `i `uc ]
 "54
-[; ;timers.c: 54:     }
+[; ;timers.c: 54:         PIR0bits.TMR0IF = 0;
+[e = . . _PIR0bits 0 5 -> -> 0 `i `uc ]
+"55
+[; ;timers.c: 55:     }
 }
 [e :U 2019 ]
-"55
-[; ;timers.c: 55: }
+"56
+[; ;timers.c: 56: }
 [e :UE 2018 ]
 }

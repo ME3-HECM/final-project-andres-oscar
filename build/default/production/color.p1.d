@@ -4,4 +4,6 @@ color.h  \
 dc_motor.h  \
 i2c.h  \
 serial.h  \
-return_func.h 
+return_func.h  \
+timers.h  \
+maze_navigation.h 

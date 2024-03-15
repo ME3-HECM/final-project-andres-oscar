@@ -24496,6 +24496,7 @@ struct DC_motor motorL, motorR;
 
 void initDCmotorsPWM(unsigned int PWMperiod);
 void setMotorPWM(DC_motor *m);
+void variablesMotorInit(struct DC_motor *mL, struct DC_motor *mR, unsigned int PWMcycle);
 void stop(DC_motor *mL, DC_motor *mR);
 void turnLeft(DC_motor *mL, DC_motor *mR);
 void turnRight(DC_motor *mL, DC_motor *mR);
@@ -24508,15 +24509,6 @@ void right135(struct DC_motor *mL, struct DC_motor *mR);
 void left135(struct DC_motor *mL, struct DC_motor *mR);
 void backHalf(struct DC_motor *mL, struct DC_motor *mR);
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
-
-void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
-void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
-void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
 # 5 "./color.h" 2
 
 
@@ -24528,7 +24520,6 @@ typedef struct colors {
     unsigned int green;
     unsigned int blue;
     unsigned int clear;
-    unsigned int ambient;
 } colors;
 
 
@@ -24572,6 +24563,7 @@ unsigned int color_read_Blue(void);
 
 unsigned int color_read_Clear(void);
 
+void color_clicker_lights_init(void);
 
 unsigned int reading_hue(colors *cCurr);
 
@@ -24579,7 +24571,11 @@ unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
 
+unsigned int calc_clear_norm(struct colors *cCurr, struct colors *cMax);
+
 unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factorR, unsigned int factorL);
+
+unsigned int is_white(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step, unsigned int factorR, unsigned int factorL, unsigned int hue, unsigned int clear_norm);
 # 3 "calibration.c" 2
 
 # 1 "./i2c.h" 1
@@ -24668,10 +24664,18 @@ void customDelayMs(unsigned int milliseconds);
 # 7 "calibration.c" 2
 
 # 1 "./calibration.h" 1
-# 12 "./calibration.h"
+
+
+
+
+
+
+
+
 void calibration_colors(colors *cCal);
 unsigned int calibration_turningR(struct DC_motor *mL, struct DC_motor *mR);
 unsigned int calibration_turningL(struct DC_motor *mL, struct DC_motor *mR);
+void buttons_init(void);
 void customDelayMs(unsigned int milliseconds);
 # 8 "calibration.c" 2
 
@@ -24682,12 +24686,6 @@ void calibration_colors(colors *cCal)
     LATEbits.LATE7 = 0;
     LATAbits.LATA3 = 0;
 
-    char cal_state[20];
-
-
-
-    sprintf(cal_state,"Calibration state = red", ".");
-    sendStringSerial4(cal_state);
 
 
     while(PORTFbits.RF2 == 1){
@@ -24700,8 +24698,6 @@ void calibration_colors(colors *cCal)
     LATGbits.LATG0 = 0;
 
 
-    sprintf(cal_state,"Calibration state = green \n\r", ".");
-    sendStringSerial4(&cal_state);
 
     while(PORTFbits.RF2 == 1){
 
@@ -24713,8 +24709,6 @@ void calibration_colors(colors *cCal)
     LATEbits.LATE7 = 0;
 
 
-    sprintf(cal_state,"Calibration state= blue \n\r", ".");
-    sendStringSerial4(&cal_state);
 
     while(PORTFbits.RF2 == 1){
 
@@ -24725,9 +24719,6 @@ void calibration_colors(colors *cCal)
     (cCal->blue) = color_read_Blue();
     LATAbits.LATA3 = 0;
 
-
-    sprintf(cal_state,"Calibration state =  white", ".");
-    sendStringSerial4(&cal_state);
 
     while(PORTFbits.RF2 == 1){
 
@@ -24741,33 +24732,22 @@ void calibration_colors(colors *cCal)
     LATEbits.LATE7 = 0;
     LATAbits.LATA3 = 0;
 
-    sprintf(cal_state,"Calibration state =  ambient", ".");
-    sendStringSerial4(&cal_state);
 
-    while(PORTFbits.RF2 == 1){
-
-    }
-    LATGbits.LATG0 = 1;
-    LATEbits.LATE7 = 1;
-    LATAbits.LATA3 = 1;
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    (cCal->ambient) = color_read_Clear();
-    LATGbits.LATG0 = 0;
-    LATEbits.LATE7 = 0;
-    LATAbits.LATA3 = 0;
-
-
-
-    sprintf(cal_state,"CALIBRATION COMPLETED \n\r", ".");
-    sendStringSerial4(&cal_state);
-    send2USART(colorCalibration.ambient);
 
     while(PORTFbits.RF2 == 1){
 
     }
     _delay((unsigned long)((500)*(64000000/4000.0)));
 }
-# 143 "calibration.c"
+
+void buttons_init(void){
+
+    TRISFbits.TRISF2=1;
+    ANSELFbits.ANSELF2=0;
+    TRISFbits.TRISF3=1;
+    ANSELFbits.ANSELF3=0;
+}
+
 unsigned int calibration_turningR(struct DC_motor *mL, struct DC_motor *mR) {
     int factorR = 0;
     float adjustment = 10;

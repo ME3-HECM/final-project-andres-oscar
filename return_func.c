@@ -2,6 +2,7 @@
 #include "return_func.h"
 #include "dc_motor.h"
 #include "color.h"
+#include "maze_navigation.h"
 #define MAX_PATH_LENGTH 50
 /************************************
  * #RETURN FUNCTIONS
@@ -87,54 +88,54 @@ void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char actionStep, long
 //function that reverses the straight direction, taking the time in ms required as an input
 void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, long time_ms) 
 {
-    //NEED TO UPDATE TIME SINCE IT WILL BE IN BITS
-    unsigned int delayMs = 1000;
+    //time is already in ms
+    unsigned int delayMs = 1550;
     
-    //completely arbitrary delays and bit values, needs more testing!
-    
-    if (time_ms>3300 && time< 5000){delayMs = 4000; } //movement of 3 squares
-    else if (time_ms>1600 && time_ms<3200){delayMs = 2750; } //movements of 2 squares
-    else if (time_ms<1600){delayMs = 1550;} //movement of 1 square
-    else if (time>5000){delayMs = 5700;}
+    //expressing ranges of the timer value that corresponding to delay by a certain number of cells
+    //this makes the return function more robust, assuming maximum movement of 4 squares
+    if (time_ms>150000 && time< 15000){delayMs = 6200; } //movement of 4 squares
+    else if (time_ms>12000 && time< 15000){delayMs = 44000; } //movement of 3 squares
+    else if (time_ms>10000 && time_ms<12000){delayMs = 2750; } //movements of 2 squares
+    else if (time_ms<10000){delayMs = 1550;} //movement of 1 square
      
-    fullSpeedAhead(&motorL,&motorR);
+    //goes forward for the designated time period
+    fullSpeedAhead(&motorL,&motorR); 
     customDelayMs(delayMs); //custom delay in ms
     stop(&motorL,&motorR);
     __delay_ms(300); //delay to think
 }
 
-//return home function
+//return home function, recieves motor structures and the calibrated delays for turns
 void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step, unsigned int factorR, unsigned int factorL) 
 {
-    
+    //setting variables
     long time_ms;
 
-
+    //does a 360 once it reads white
     moveWhite(&motorL,&motorR);
     
-    if (path_step > 0) { // Check to ensure there's at least one action to reverse.
+    if (path_step > 0) { //check to ensure there's at least one action to reverse.
         for (unsigned int i = path_step - 1; ; i--) {
-            // Correct time calculation method here if needed.
+            //correct time calculation method here if needed.
             char action_turn = action[i];
-//            if ((action[i] == 5 || action[i] == 7)&&(time[i-1]<2000)){
-//                action[i] = 3;
-//            }
+            
+            //if statement to optimise our return function
             if (action[i+1]== 5 || action[i+1]==7){
-                time_ms = time[i]-2250; //calibrate this to how much a decrease is
+                time_ms = time[i]-2250; //calibrated to decrease by a single unit cell
             }else{
                 time_ms = time[i];
         }
            
             if (action_turn == 0) { //0 denotes straight movement.
                 reverseStraight(mL, mR, time_ms);
-            } else {
+            } else { //else its a turn so it goes into the reverse turn function
                 reverseTurn(mL, mR, action_turn, time_ms, factorR, factorL);
             }
 
-            if (i == 0) break; // Break at 0 to avoid underflow.
+            if (i == 0) break; //break at 0 to avoid underflow.
         }
     }   
-    Sleep();
+    Sleep(); //sleeps for energy conservation
 }
     
 

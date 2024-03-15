@@ -24117,6 +24117,7 @@ struct DC_motor motorL, motorR;
 
 void initDCmotorsPWM(unsigned int PWMperiod);
 void setMotorPWM(DC_motor *m);
+void variablesMotorInit(struct DC_motor *mL, struct DC_motor *mR, unsigned int PWMcycle);
 void stop(DC_motor *mL, DC_motor *mR);
 void turnLeft(DC_motor *mL, DC_motor *mR);
 void turnRight(DC_motor *mL, DC_motor *mR);
@@ -24129,15 +24130,6 @@ void right135(struct DC_motor *mL, struct DC_motor *mR);
 void left135(struct DC_motor *mL, struct DC_motor *mR);
 void backHalf(struct DC_motor *mL, struct DC_motor *mR);
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
-
-void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
-void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
-void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
 # 2 "dc_motor.c" 2
 
 # 1 "./calibration.h" 1
@@ -24152,7 +24144,6 @@ typedef struct colors {
     unsigned int green;
     unsigned int blue;
     unsigned int clear;
-    unsigned int ambient;
 } colors;
 
 
@@ -24196,6 +24187,7 @@ unsigned int color_read_Blue(void);
 
 unsigned int color_read_Clear(void);
 
+void color_clicker_lights_init(void);
 
 unsigned int reading_hue(colors *cCurr);
 
@@ -24203,11 +24195,12 @@ unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
 
+unsigned int calc_clear_norm(struct colors *cCurr, struct colors *cMax);
+
 unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factorR, unsigned int factorL);
+
+unsigned int is_white(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step, unsigned int factorR, unsigned int factorL, unsigned int hue, unsigned int clear_norm);
 # 5 "./calibration.h" 2
-
-
-
 
 
 
@@ -24215,8 +24208,10 @@ unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int fac
 void calibration_colors(colors *cCal);
 unsigned int calibration_turningR(struct DC_motor *mL, struct DC_motor *mR);
 unsigned int calibration_turningL(struct DC_motor *mL, struct DC_motor *mR);
+void buttons_init(void);
 void customDelayMs(unsigned int milliseconds);
 # 3 "dc_motor.c" 2
+
 
 
 void initDCmotorsPWM(unsigned int PWMperiod){
@@ -24300,7 +24295,23 @@ void setMotorPWM(DC_motor *m)
         *(m->negDutyHighByte)=posDuty;
     }
 }
+void variablesMotorInit(struct DC_motor *mL, struct DC_motor *mR, unsigned int PWMcycle){
 
+    motorL.power = 0;
+    motorL.direction = 1;
+    motorL.brakemode = 1;
+    motorL.PWMperiod = PWMcycle;
+    motorL.posDutyHighByte = (unsigned char *)(&CCPR1H);
+    motorL.negDutyHighByte = (unsigned char *)(&CCPR2H);
+
+    motorR.power = 0;
+    motorR.direction = 1;
+    motorR.brakemode = 1;
+    motorR.PWMperiod = PWMcycle;
+    motorR.posDutyHighByte = (unsigned char *)(&CCPR3H);
+    motorR.negDutyHighByte = (unsigned char *)(&CCPR4H);
+
+}
 
 void stop(DC_motor *mL, DC_motor *mR)
 {
@@ -24398,7 +24409,7 @@ void fullSpeedBack(DC_motor *mL, DC_motor *mR)
     }
 
 }
-# 193 "dc_motor.c"
+# 210 "dc_motor.c"
 void right90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR)
 {
     unsigned int delay = 290;
@@ -24458,80 +24469,4 @@ void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR)
     fullSpeedBack(mL,mR);
     _delay((unsigned long)((1300)*(64000000/4000.0)));
     stop(mL,mR);
-}
-# 261 "dc_motor.c"
-void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR)
-{
-
-    backHalf(mL,mR);
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    right90(mL,mR,factorR);
-
-
-
-}
-
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL)
-{
-
-    backHalf(mL,mR);
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    left90(mL,mR,factorL);
-
-}
-
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR)
-{
-
-    backHalf(mL,mR);
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    turn180(mL,mR);
-
-}
-
- void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR)
-{
-
-    backOneAndHalf(mL,mR);
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    right90(mL,mR, factorR);
-}
-
-
-void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL)
-{
-
-    backOneAndHalf(mL,mR);
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    left90(mL,mR, factorL);
-
-}
-
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR)
-{
-
-    backHalf(mL,mR);
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    right135(mL,mR);
-
-}
-
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR)
-{
-
-    backHalf(mL,mR);
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    left135(mL,mR);
-
-
-}
-
-void moveWhite(struct DC_motor *mL, struct DC_motor *mR)
-{
-
-    backHalf(mL,mR);
-    _delay((unsigned long)((500)*(64000000/4000.0)));
-    turn180(mL,mR);
-    backHalf(mL,mR);
-
 }

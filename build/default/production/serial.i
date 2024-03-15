@@ -7,6 +7,7 @@
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
 # 1 "serial.c" 2
+
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\xc.h" 1 3
 # 18 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -24086,7 +24087,7 @@ __attribute__((__unsupported__("The READTIMER" "0" "() macro is not available wi
 unsigned char __t1rd16on(void);
 unsigned char __t3rd16on(void);
 # 33 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\xc.h" 2 3
-# 1 "serial.c" 2
+# 2 "serial.c" 2
 
 # 1 "./serial.h" 1
 # 14 "./serial.h"
@@ -24122,7 +24123,7 @@ void sendTxBuf(void);
 void sendAllReadings(void);
 void ADC2String(char *buf, unsigned int ADC_val);
 void send2USART(unsigned int hue);
-# 2 "serial.c" 2
+# 3 "serial.c" 2
 
 # 1 "./ADC.h" 1
 
@@ -24134,7 +24135,7 @@ void send2USART(unsigned int hue);
 
 void ADC_init(void);
 unsigned int ADC_getval(void);
-# 3 "serial.c" 2
+# 4 "serial.c" 2
 
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\c99\\stdio.h" 1 3
 # 24 "C:\\Program Files\\Microchip\\xc8\\v2.45\\pic\\include\\c99\\stdio.h" 3
@@ -24288,7 +24289,7 @@ char *ctermid(char *);
 
 
 char *tempnam(const char *, const char *);
-# 4 "serial.c" 2
+# 5 "serial.c" 2
 
 
 
