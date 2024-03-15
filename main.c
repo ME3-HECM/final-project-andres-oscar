@@ -56,8 +56,10 @@ void main(void) {
 
 
     while (1) {
+        //starts moving the car
         intial_stage_movement(&motorL, &motorR);
         
+        //looks for clear value to increase in order to stop car, and read values for time taken for the stepHome
         looking_for_card(&motorL,&motorR,&colorCurrent, &colorCalibration, path_step);
         
         path_step++;

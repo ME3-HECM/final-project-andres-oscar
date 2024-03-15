@@ -192,6 +192,8 @@ unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
     return (unsigned int)hue;
 }
 
+
+
 unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factorR, unsigned int factorL) {
     // Assume `colorCurrent` holds the latest colors sensor readings
     // and `colorCalibration` holds the calibration data.

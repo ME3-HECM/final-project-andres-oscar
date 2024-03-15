@@ -134,7 +134,11 @@ void stop(DC_motor *mL, DC_motor *mR)
     }
 }
 
-//function to make the robot turn left 
+
+/************************************
+ * function to turn left
+************************************/
+
 void turnLeft(DC_motor *mL, DC_motor *mR)
 {
     //setting motor pair directions to turn
@@ -154,7 +158,11 @@ void turnLeft(DC_motor *mL, DC_motor *mR)
     
 }
 
-//function to make the robot turn right 
+
+/************************************
+ * function to turn right
+************************************/
+
 void turnRight(DC_motor *mL, DC_motor *mR)
 {
     //setting motor pair directions to turn
@@ -173,7 +181,10 @@ void turnRight(DC_motor *mL, DC_motor *mR)
     } 
 }
 
-//function to make the robot go straight
+/************************************
+ * function to go straight
+************************************/
+
 void fullSpeedAhead(DC_motor *mL, DC_motor *mR)
 {
     //setting motor pair directions to go straight ahead
@@ -194,7 +205,10 @@ void fullSpeedAhead(DC_motor *mL, DC_motor *mR)
     
 }
 
-//function to make the robot go backwards
+/************************************
+ * function to go backwards
+************************************/
+
 void fullSpeedBack(DC_motor *mL, DC_motor *mR)
 {
     //setting motor pair directions to go backwards

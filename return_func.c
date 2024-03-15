@@ -25,7 +25,7 @@ void logAction(char newAction, long newTime, unsigned int path_step) {
 void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char actionStep, long time_ms, unsigned int factorR, unsigned int factorL) {
     if (actionStep == 1) { //red
         //Turns left 90 and goes back half a unit
-        
+      
         left90(mL,mR, factorL); //turning left 90 function
         __delay_ms(500); //delay to slow down potential skidding
         backHalf(mL,mR); //moving back half a unit
