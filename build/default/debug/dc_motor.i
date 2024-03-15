@@ -24283,22 +24283,7 @@ void turnRight(DC_motor *mL, DC_motor *mR)
 
 void fullSpeedAhead(DC_motor *mL, DC_motor *mR)
 {
-
-    mL->direction = 1;
-    mR->direction = 1;
-
-    for(int power = 0; power <= 50; power++) {
-        mL->power = power;
-        mR->power = power*1.05;
-
-
-        setMotorPWM(mL);
-        setMotorPWM(mR);
-
-
-        _delay((unsigned long)((500)*(64000000/4000000.0)));
-    }
-
+# 162 "dc_motor.c"
 }
 
 

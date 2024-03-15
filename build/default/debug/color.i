@@ -24533,7 +24533,7 @@ typedef struct colors {
 
 
 
-struct colors colorCalibration, colorCurrent, hue;
+struct colors colorCalibration, colorCurrent;
 
 
 
@@ -24877,6 +24877,7 @@ void calibration_routine(colors *cCal)
 
     sprintf(cal_state,"CALIBRATION COMPLETED \n\r", ".");
     sendStringSerial4(&cal_state);
+    send2USART(colorCalibration.ambient);
 
     while(PORTFbits.RF2 == 1){
 

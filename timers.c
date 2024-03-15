@@ -22,7 +22,8 @@ void Timer0_init(void)
     TRISGbits.TRISG1 = 1;
     LATGbits.LATG1 = 0;
       
-    
+    TMR0L = 0;
+    TMR0H = 0;
     
 }
 
@@ -36,6 +37,7 @@ unsigned int get16bitTMR0val(unsigned int path_step)
     combined_value = TMR0L | (TMR0H << 8);
     T0CON0bits.T0EN=0;	//stops the timer
     logAction('0',combined_value, path_step);
+    path_step++;
     return path_step;
 }
 void __interrupt(low_priority) LowISR()

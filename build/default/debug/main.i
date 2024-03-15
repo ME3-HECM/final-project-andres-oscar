@@ -24170,7 +24170,7 @@ typedef struct colors {
 
 
 
-struct colors colorCalibration, colorCurrent, hue;
+struct colors colorCalibration, colorCurrent;
 
 
 
@@ -24388,13 +24388,13 @@ void main(void) {
 
 
     calibration_routine(&colorCalibration);
-
     unsigned int clear_norm;
-    float current;
     unsigned int path_step = 0;
     unsigned int hue;
     unsigned int ambient;
-    unsigned int diff_clears;
+    float clear_current;
+    float clear_max;
+
 
 
 
@@ -24410,20 +24410,22 @@ void main(void) {
         fullSpeedAhead(&motorL,&motorR);
         T0CON0bits.T0EN=1;
 
-        (colorCurrent.clear) = color_read_Clear();
+        colorCurrent.clear = color_read_Clear();
 
-        diff_clears = (colorCalibration.clear - colorCurrent.ambient);
-        clear_norm = (colorCurrent.clear - colorCurrent.ambient)*100;
-        clear_norm = clear_norm/diff_clears;
+        clear_current = colorCurrent.clear;
+        clear_max = colorCalibration.clear;
+        clear_norm = clear_current*100/clear_max;
 
 
         send2USART(clear_norm);
 
         while(clear_norm<8){
             (colorCurrent.clear) = color_read_Clear();
-            diff_clears = (colorCalibration.clear - colorCurrent.ambient);
-            clear_norm = (colorCurrent.clear - colorCurrent.ambient)*100;
-            clear_norm = clear_norm/diff_clears;
+            clear_current = colorCurrent.clear;
+            clear_max = colorCalibration.clear;
+            clear_norm = clear_current*100/clear_max;
+            send2USART(clear_norm);
+
         }
 
         T0CON0bits.T0EN=0;
@@ -24442,9 +24444,9 @@ void main(void) {
 
         hue = reading_hue(&colorCurrent);
 
-        diff_clears = (colorCalibration.clear - colorCurrent.ambient);
-        clear_norm = (colorCurrent.clear - colorCurrent.ambient)*100;
-        clear_norm = clear_norm/diff_clears;
+        clear_current = colorCurrent.clear;
+        clear_max = colorCalibration.clear;
+        clear_norm = clear_current*100/clear_max;
 
         if (clear_norm > 20){
             fullSpeedAhead(&motorL,&motorR);

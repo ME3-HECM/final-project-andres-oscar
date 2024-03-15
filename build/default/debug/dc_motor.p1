@@ -2663,43 +2663,6 @@ Version 4.0 HI-TECH Software Intermediate Code
 "145
 [; ;dc_motor.c: 145: {
 [f ]
-"147
-[; ;dc_motor.c: 147:     mL->direction = 1;
-[e = . *U _mL 1 -> -> 1 `i `uc ]
-"148
-[; ;dc_motor.c: 148:     mR->direction = 1;
-[e = . *U _mR 1 -> -> 1 `i `uc ]
-"150
-[; ;dc_motor.c: 150:     for(int power = 0; power <= 50; power++) {
-{
-[v _power `i ~T0 @X0 1 a ]
-[e = _power -> 0 `i ]
-[e $ <= _power -> 50 `i 2037  ]
-[e $U 2038  ]
-[e :U 2037 ]
-{
-"151
-[; ;dc_motor.c: 151:         mL->power = power;
-[e = . *U _mL 0 -> _power `uc ]
-"152
-[; ;dc_motor.c: 152:         mR->power = power*1.05;
-[e = . *U _mR 0 -> * -> _power `d .1.05 `uc ]
-"155
-[; ;dc_motor.c: 155:         setMotorPWM(mL);
-[e ( _setMotorPWM (1 _mL ]
-"156
-[; ;dc_motor.c: 156:         setMotorPWM(mR);
-[e ( _setMotorPWM (1 _mR ]
-"159
-[; ;dc_motor.c: 159:         _delay((unsigned long)((500)*(64000000/4000000.0)));
-[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000000.0 `ul ]
-"160
-[; ;dc_motor.c: 160:     }
-}
-[e ++ _power -> 1 `i ]
-[e $ <= _power -> 50 `i 2037  ]
-[e :U 2038 ]
-}
 "162
 [; ;dc_motor.c: 162: }
 [e :UE 2036 ]
@@ -2729,9 +2692,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 {
 [v _power `i ~T0 @X0 1 a ]
 [e = _power -> 0 `i ]
-[e $ <= _power -> 50 `i 2041  ]
-[e $U 2042  ]
-[e :U 2041 ]
+[e $ <= _power -> 50 `i 2038  ]
+[e $U 2039  ]
+[e :U 2038 ]
 {
 "172
 [; ;dc_motor.c: 172:         mL->power = power;
@@ -2752,12 +2715,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;dc_motor.c: 181:     }
 }
 [e ++ _power -> 1 `i ]
-[e $ <= _power -> 50 `i 2041  ]
-[e :U 2042 ]
+[e $ <= _power -> 50 `i 2038  ]
+[e :U 2039 ]
 }
 "183
 [; ;dc_motor.c: 183: }
-[e :UE 2040 ]
+[e :UE 2037 ]
 }
 "193
 [; ;dc_motor.c: 193: void right90(struct DC_motor *mL, struct DC_motor *mR)
@@ -2784,7 +2747,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _stop (2 , _mL _mR ]
 "198
 [; ;dc_motor.c: 198: }
-[e :UE 2044 ]
+[e :UE 2041 ]
 }
 "201
 [; ;dc_motor.c: 201: void left90(struct DC_motor *mL, struct DC_motor *mR)
@@ -2811,7 +2774,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _stop (2 , _mL _mR ]
 "206
 [; ;dc_motor.c: 206: }
-[e :UE 2045 ]
+[e :UE 2042 ]
 }
 "209
 [; ;dc_motor.c: 209: void turn180(struct DC_motor *mL, struct DC_motor *mR)
@@ -2838,7 +2801,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _stop (2 , _mL _mR ]
 "214
 [; ;dc_motor.c: 214: }
-[e :UE 2046 ]
+[e :UE 2043 ]
 }
 "217
 [; ;dc_motor.c: 217: void right135(struct DC_motor *mL, struct DC_motor *mR)
@@ -2865,7 +2828,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _stop (2 , _mL _mR ]
 "222
 [; ;dc_motor.c: 222: }
-[e :UE 2047 ]
+[e :UE 2044 ]
 }
 "225
 [; ;dc_motor.c: 225: void left135(struct DC_motor *mL, struct DC_motor *mR)
@@ -2892,7 +2855,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _stop (2 , _mL _mR ]
 "230
 [; ;dc_motor.c: 230: }
-[e :UE 2048 ]
+[e :UE 2045 ]
 }
 "233
 [; ;dc_motor.c: 233: void backHalf(struct DC_motor *mL, struct DC_motor *mR)
@@ -2919,7 +2882,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _stop (2 , _mL _mR ]
 "238
 [; ;dc_motor.c: 238: }
-[e :UE 2049 ]
+[e :UE 2046 ]
 }
 "241
 [; ;dc_motor.c: 241: void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR)
@@ -2946,7 +2909,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _stop (2 , _mL _mR ]
 "246
 [; ;dc_motor.c: 246: }
-[e :UE 2050 ]
+[e :UE 2047 ]
 }
 "255
 [; ;dc_motor.c: 255: void moveRed(struct DC_motor *mL, struct DC_motor *mR)
@@ -2973,7 +2936,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _right90 (2 , _mL _mR ]
 "264
 [; ;dc_motor.c: 264: }
-[e :UE 2051 ]
+[e :UE 2048 ]
 }
 "266
 [; ;dc_motor.c: 266: void moveGreen(struct DC_motor *mL, struct DC_motor *mR)
@@ -3000,7 +2963,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _left90 (2 , _mL _mR ]
 "273
 [; ;dc_motor.c: 273: }
-[e :UE 2052 ]
+[e :UE 2049 ]
 }
 "275
 [; ;dc_motor.c: 275: void moveBlue(struct DC_motor *mL, struct DC_motor *mR)
@@ -3027,7 +2990,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _turn180 (2 , _mL _mR ]
 "282
 [; ;dc_motor.c: 282: }
-[e :UE 2053 ]
+[e :UE 2050 ]
 }
 "284
 [; ;dc_motor.c: 284: void moveYellow(struct DC_motor *mL, struct DC_motor *mR)
@@ -3054,7 +3017,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _right90 (2 , _mL _mR ]
 "290
 [; ;dc_motor.c: 290: }
-[e :UE 2054 ]
+[e :UE 2051 ]
 }
 "293
 [; ;dc_motor.c: 293: void movePink(struct DC_motor *mL, struct DC_motor *mR)
@@ -3081,7 +3044,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _left90 (2 , _mL _mR ]
 "300
 [; ;dc_motor.c: 300: }
-[e :UE 2055 ]
+[e :UE 2052 ]
 }
 "302
 [; ;dc_motor.c: 302: void moveOrange(struct DC_motor *mL, struct DC_motor *mR)
@@ -3108,7 +3071,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _right135 (2 , _mL _mR ]
 "309
 [; ;dc_motor.c: 309: }
-[e :UE 2056 ]
+[e :UE 2053 ]
 }
 "311
 [; ;dc_motor.c: 311: void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR)
@@ -3135,7 +3098,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _left135 (2 , _mL _mR ]
 "319
 [; ;dc_motor.c: 319: }
-[e :UE 2057 ]
+[e :UE 2054 ]
 }
 "321
 [; ;dc_motor.c: 321: void moveWhite(struct DC_motor *mL, struct DC_motor *mR)
@@ -3162,5 +3125,5 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ( _turn180 (2 , _mL _mR ]
 "327
 [; ;dc_motor.c: 327: }
-[e :UE 2058 ]
+[e :UE 2055 ]
 }

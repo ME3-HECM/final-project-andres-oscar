@@ -88,7 +88,7 @@ void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step
             long time_ms = time[i]*65535*4*8192/64000000; // Assuming this is already in milliseconds or calculate correctly.
             char action_turn = action[i];
 
-            if (action_turn == 0) { // Assuming 0 denotes straight movement.
+            if (action_turn == 0) { //0 denotes straight movement.
                 reverseStraight(mL, mR, time_ms);
             } else {
                 reverseTurn(mL, mR, action_turn);

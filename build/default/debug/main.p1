@@ -2252,10 +2252,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _motorL `S2015 ~T0 @X0 1 e ]
 [v _motorR `S2015 ~T0 @X0 1 e ]
 "20 ./color.h
-[; ;./color.h: 20: struct colors colorCalibration, colorCurrent, hue;
+[; ;./color.h: 20: struct colors colorCalibration, colorCurrent;
 [v _colorCalibration `S2016 ~T0 @X0 1 e ]
 [v _colorCurrent `S2016 ~T0 @X0 1 e ]
-[v _hue `S2016 ~T0 @X0 1 e ]
 "14 ./serial.h
 [; ;./serial.h: 14: volatile char EUSART4RXbuf[20];
 [v _EUSART4RXbuf `Vuc ~T0 @X0 -> 20 `i e ]
@@ -2417,25 +2416,25 @@ Version 4.0 HI-TECH Software Intermediate Code
 "94
 [; ;main.c: 94:     calibration_routine(&colorCalibration);
 [e ( _calibration_routine (1 &U _colorCalibration ]
-"96
-[; ;main.c: 96:     unsigned int clear_norm;
+"95
+[; ;main.c: 95:     unsigned int clear_norm;
 [v _clear_norm `ui ~T0 @X0 1 a ]
-"97
-[; ;main.c: 97:     float current;
-[v _current `f ~T0 @X0 1 a ]
-"98
-[; ;main.c: 98:     unsigned int path_step = 0;
+"96
+[; ;main.c: 96:     unsigned int path_step = 0;
 [v _path_step `ui ~T0 @X0 1 a ]
 [e = _path_step -> -> 0 `i `ui ]
-"99
-[; ;main.c: 99:     unsigned int hue;
+"97
+[; ;main.c: 97:     unsigned int hue;
 [v _hue `ui ~T0 @X0 1 a ]
-"100
-[; ;main.c: 100:     unsigned int ambient;
+"98
+[; ;main.c: 98:     unsigned int ambient;
 [v _ambient `ui ~T0 @X0 1 a ]
-"101
-[; ;main.c: 101:     unsigned int diff_clears;
-[v _diff_clears `ui ~T0 @X0 1 a ]
+"99
+[; ;main.c: 99:     float clear_current;
+[v _clear_current `f ~T0 @X0 1 a ]
+"100
+[; ;main.c: 100:     float clear_max;
+[v _clear_max `f ~T0 @X0 1 a ]
 "107
 [; ;main.c: 107:     while (1) {
 [e :U 2019 ]
@@ -2456,17 +2455,17 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 115:         T0CON0bits.T0EN=1;
 [e = . . _T0CON0bits 0 4 -> -> 1 `i `uc ]
 "117
-[; ;main.c: 117:         (colorCurrent.clear) = color_read_Clear();
+[; ;main.c: 117:         colorCurrent.clear = color_read_Clear();
 [e = . _colorCurrent 3 ( _color_read_Clear ..  ]
 "119
-[; ;main.c: 119:         diff_clears = (colorCalibration.clear - colorCurrent.ambient);
-[e = _diff_clears - . _colorCalibration 3 . _colorCurrent 4 ]
+[; ;main.c: 119:         clear_current = colorCurrent.clear;
+[e = _clear_current -> . _colorCurrent 3 `f ]
 "120
-[; ;main.c: 120:         clear_norm = (colorCurrent.clear - colorCurrent.ambient)*100;
-[e = _clear_norm * - . _colorCurrent 3 . _colorCurrent 4 -> -> 100 `i `ui ]
+[; ;main.c: 120:         clear_max = colorCalibration.clear;
+[e = _clear_max -> . _colorCalibration 3 `f ]
 "121
-[; ;main.c: 121:         clear_norm = clear_norm/diff_clears;
-[e = _clear_norm / _clear_norm _diff_clears ]
+[; ;main.c: 121:         clear_norm = clear_current*100/clear_max;
+[e = _clear_norm -> / * _clear_current -> -> 100 `i `f _clear_max `ui ]
 "124
 [; ;main.c: 124:         send2USART(clear_norm);
 [e ( _send2USART (1 _clear_norm ]
@@ -2479,106 +2478,109 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 127:             (colorCurrent.clear) = color_read_Clear();
 [e = . _colorCurrent 3 ( _color_read_Clear ..  ]
 "128
-[; ;main.c: 128:             diff_clears = (colorCalibration.clear - colorCurrent.ambient);
-[e = _diff_clears - . _colorCalibration 3 . _colorCurrent 4 ]
+[; ;main.c: 128:             clear_current = colorCurrent.clear;
+[e = _clear_current -> . _colorCurrent 3 `f ]
 "129
-[; ;main.c: 129:             clear_norm = (colorCurrent.clear - colorCurrent.ambient)*100;
-[e = _clear_norm * - . _colorCurrent 3 . _colorCurrent 4 -> -> 100 `i `ui ]
+[; ;main.c: 129:             clear_max = colorCalibration.clear;
+[e = _clear_max -> . _colorCalibration 3 `f ]
 "130
-[; ;main.c: 130:             clear_norm = clear_norm/diff_clears;
-[e = _clear_norm / _clear_norm _diff_clears ]
+[; ;main.c: 130:             clear_norm = clear_current*100/clear_max;
+[e = _clear_norm -> / * _clear_current -> -> 100 `i `f _clear_max `ui ]
 "131
-[; ;main.c: 131:         }
+[; ;main.c: 131:             send2USART(clear_norm);
+[e ( _send2USART (1 _clear_norm ]
+"133
+[; ;main.c: 133:         }
 }
 [e :U 2021 ]
 "126
 [; ;main.c: 126:         while(clear_norm<8){
 [e $ < _clear_norm -> -> 8 `i `ui 2022  ]
 [e :U 2023 ]
-"133
-[; ;main.c: 133:         T0CON0bits.T0EN=0;
+"135
+[; ;main.c: 135:         T0CON0bits.T0EN=0;
 [e = . . _T0CON0bits 0 4 -> -> 0 `i `uc ]
-"134
-[; ;main.c: 134:         stop(&motorL,&motorR);
+"136
+[; ;main.c: 136:         stop(&motorL,&motorR);
 [e ( _stop (2 , &U _motorL &U _motorR ]
-"137
-[; ;main.c: 137:         path_step = get16bitTMR0val(path_step);
-[e = _path_step ( _get16bitTMR0val (1 _path_step ]
 "139
-[; ;main.c: 139:         _delay((unsigned long)((200)*(64000000/4000.0)));
+[; ;main.c: 139:         path_step = get16bitTMR0val(path_step);
+[e = _path_step ( _get16bitTMR0val (1 _path_step ]
+"141
+[; ;main.c: 141:         _delay((unsigned long)((200)*(64000000/4000.0)));
 [e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
-"142
-[; ;main.c: 142:         fullSpeedAhead(&motorL,&motorR);
-[e ( _fullSpeedAhead (2 , &U _motorL &U _motorR ]
-"143
-[; ;main.c: 143:         _delay((unsigned long)((300)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 300 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
 "144
-[; ;main.c: 144:         stop(&motorL,&motorR);
-[e ( _stop (2 , &U _motorL &U _motorR ]
+[; ;main.c: 144:         fullSpeedAhead(&motorL,&motorR);
+[e ( _fullSpeedAhead (2 , &U _motorL &U _motorR ]
 "145
 [; ;main.c: 145:         _delay((unsigned long)((300)*(64000000/4000.0)));
 [e ( __delay (1 -> * -> -> 300 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"146
+[; ;main.c: 146:         stop(&motorL,&motorR);
+[e ( _stop (2 , &U _motorL &U _motorR ]
 "147
-[; ;main.c: 147:         hue = reading_hue(&colorCurrent);
-[e = _hue ( _reading_hue (1 &U _colorCurrent ]
+[; ;main.c: 147:         _delay((unsigned long)((300)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 300 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
 "149
-[; ;main.c: 149:         diff_clears = (colorCalibration.clear - colorCurrent.ambient);
-[e = _diff_clears - . _colorCalibration 3 . _colorCurrent 4 ]
-"150
-[; ;main.c: 150:         clear_norm = (colorCurrent.clear - colorCurrent.ambient)*100;
-[e = _clear_norm * - . _colorCurrent 3 . _colorCurrent 4 -> -> 100 `i `ui ]
+[; ;main.c: 149:         hue = reading_hue(&colorCurrent);
+[e = _hue ( _reading_hue (1 &U _colorCurrent ]
 "151
-[; ;main.c: 151:         clear_norm = clear_norm/diff_clears;
-[e = _clear_norm / _clear_norm _diff_clears ]
+[; ;main.c: 151:         clear_current = colorCurrent.clear;
+[e = _clear_current -> . _colorCurrent 3 `f ]
+"152
+[; ;main.c: 152:         clear_max = colorCalibration.clear;
+[e = _clear_max -> . _colorCalibration 3 `f ]
 "153
-[; ;main.c: 153:         if (clear_norm > 20){
+[; ;main.c: 153:         clear_norm = clear_current*100/clear_max;
+[e = _clear_norm -> / * _clear_current -> -> 100 `i `f _clear_max `ui ]
+"155
+[; ;main.c: 155:         if (clear_norm > 20){
 [e $ ! > _clear_norm -> -> 20 `i `ui 2024  ]
 {
-"154
-[; ;main.c: 154:             fullSpeedAhead(&motorL,&motorR);
-[e ( _fullSpeedAhead (2 , &U _motorL &U _motorR ]
-"155
-[; ;main.c: 155:             _delay((unsigned long)((100)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
 "156
-[; ;main.c: 156:             stop(&motorL,&motorR);
-[e ( _stop (2 , &U _motorL &U _motorR ]
+[; ;main.c: 156:             fullSpeedAhead(&motorL,&motorR);
+[e ( _fullSpeedAhead (2 , &U _motorL &U _motorR ]
 "157
-[; ;main.c: 157:         }
+[; ;main.c: 157:             _delay((unsigned long)((100)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 100 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"158
+[; ;main.c: 158:             stop(&motorL,&motorR);
+[e ( _stop (2 , &U _motorL &U _motorR ]
+"159
+[; ;main.c: 159:         }
 }
 [e :U 2024 ]
-"158
-[; ;main.c: 158:         if ((clear_norm > 60 && !(hue >= 302 && hue <= 346)) || LATGbits.LATG1 == 1) {
+"160
+[; ;main.c: 160:         if ((clear_norm > 60 && !(hue >= 302 && hue <= 346)) || LATGbits.LATG1 == 1) {
 [e $ ! || && > _clear_norm -> -> 60 `i `ui ! && >= _hue -> -> 302 `i `ui <= _hue -> -> 346 `i `ui == -> . . _LATGbits 0 1 `i -> 1 `i 2025  ]
 {
-"160
-[; ;main.c: 160:             unsigned int white = 8;
+"162
+[; ;main.c: 162:             unsigned int white = 8;
 [v _white `ui ~T0 @X0 1 a ]
 [e = _white -> -> 8 `i `ui ]
-"161
-[; ;main.c: 161:             send2USART(white);
-[e ( _send2USART (1 _white ]
-"162
-[; ;main.c: 162:             returnHome(&motorL, &motorR, path_step);
-[e ( _returnHome (3 , , &U _motorL &U _motorR _path_step ]
 "163
-[; ;main.c: 163:             LATGbits.LATG1 = 0;
-[e = . . _LATGbits 0 1 -> -> 0 `i `uc ]
+[; ;main.c: 163:             send2USART(white);
+[e ( _send2USART (1 _white ]
 "164
-[; ;main.c: 164:         }
+[; ;main.c: 164:             returnHome(&motorL, &motorR, path_step);
+[e ( _returnHome (3 , , &U _motorL &U _motorR _path_step ]
+"165
+[; ;main.c: 165:             LATGbits.LATG1 = 0;
+[e = . . _LATGbits 0 1 -> -> 0 `i `uc ]
+"166
+[; ;main.c: 166:         }
 }
 [e :U 2025 ]
-"166
-[; ;main.c: 166:         path_step = decision(hue, path_step);
+"168
+[; ;main.c: 168:         path_step = decision(hue, path_step);
 [e = _path_step ( _decision (2 , _hue _path_step ]
-"167
-[; ;main.c: 167:     }
+"169
+[; ;main.c: 169:     }
 }
 [e :U 2018 ]
 [e $U 2019  ]
 [e :U 2020 ]
-"170
-[; ;main.c: 170: }
+"172
+[; ;main.c: 172: }
 [e :UE 2017 ]
 }
