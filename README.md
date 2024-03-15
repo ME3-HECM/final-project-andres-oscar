@@ -23,6 +23,14 @@ In that said order
 
 A tough part of this project was providing the buggy with a 'memory' of its actions as it traverses the maze so it can accurately recreate them in reverse on when returning. We handled this by creating 2 global arrays, one for the 'action' that it performed at each instance, and the second for the associate 'time' duration of that action. The second array serves the purpose of remembering how far the straight sections of the maze are. Every time the buggy either advances or makes a correct reading of a color, it logs the corresponding action and time using our 'logAction()' function. We also create a local variable in the main.c file, 'path_step' that keeps track of the total number of actions so that the logAction function knows which index to insert the action and time into, and for the 'returnHome' function to read backwards through the arrays using the following for loop.
 
+	for (i=path_length-1,i>=0,i--)
+		{
+			if (action[i] == 0) //reverses the straight movement for time[i] seconds
+   			else //goes through the turns in reverse
+      			Sleep(); //goes to sleep to conserve energy
+		}
+	
+
 Colour | Action pointer | Instruction
 ---------|---------|---------
 Red | 1 | Turn Right 90
