@@ -82,16 +82,22 @@ void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step
         
     moveWhite(&motorL,&motorR);
     
-    for (unsigned int i = path_step; i>=0; i--) { //going through each item in the path in reverse
-        
-        long time_ms = time[i]*65535*4*8192/64000000;
-        char action_turn = action[i];
-        if (action[i] == 0){reverseStraight(&motorL, &motorR, time_ms);} //0 is forward
-             
-        else {
-            reverseTurn(&motorL, &motorR,action_turn);
+    if (path_step > 0) { // Check to ensure there's at least one action to reverse.
+        for (unsigned int i = path_step - 1; ; i--) {
+            // Correct time calculation method here if needed.
+            long time_ms = time[i]*65535*4*8192/64000000; // Assuming this is already in milliseconds or calculate correctly.
+            char action_turn = action[i];
+
+            if (action_turn == 0) { // Assuming 0 denotes straight movement.
+                reverseStraight(mL, mR, time_ms);
+            } else {
+                reverseTurn(mL, mR, action_turn);
+            }
+
+            if (i == 0) break; // Break at 0 to avoid underflow.
         }
-        
-    }
+    }   
     Sleep();
 }
+    
+

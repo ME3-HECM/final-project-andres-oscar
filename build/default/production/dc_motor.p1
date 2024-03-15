@@ -2682,8 +2682,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;dc_motor.c: 151:         mL->power = power;
 [e = . *U _mL 0 -> _power `uc ]
 "152
-[; ;dc_motor.c: 152:         mR->power = power*1.6;
-[e = . *U _mR 0 -> * -> _power `d .1.6 `uc ]
+[; ;dc_motor.c: 152:         mR->power = power*1.05;
+[e = . *U _mR 0 -> * -> _power `d .1.05 `uc ]
 "155
 [; ;dc_motor.c: 155:         setMotorPWM(mL);
 [e ( _setMotorPWM (1 _mL ]

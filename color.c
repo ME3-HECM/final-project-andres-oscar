@@ -282,38 +282,40 @@ unsigned int decision(unsigned int hue, unsigned int path_step) {
         moveRed(&motorL, &motorR);
         logAction('1',0, path_step); //turning actions have time = 0
         color = 1;
+        path_step++; //adds a new step to the path
     }
         else if (hue>=105 && hue<=130){ // Green hue range
         moveGreen(&motorL, &motorR);
         logAction('2',0, path_step);
         color = 2;
+        path_step++; //adds a new step to the path
     } else if (hue>=230 && hue<=240){ // Blue hue range
         moveBlue(&motorL,&motorR);
         logAction('3',0, path_step); //turning actions have time = 0
         color = 3;
-    } else if (hue>=216 && hue<=221){ // Light Blue hue range
+        path_step++; //adds a new step to the path
+    } else if (hue>=216 && hue<=221 ){ // Light Blue hue range
         moveLightBlue(&motorL,&motorR);
         logAction('5',0, path_step); //turning actions have time = 0
         color = 4;
+        path_step++; //adds a new step to the path
     } else if (hue>=302 && hue<=346){ // Light Blue hue range
         moveYellow(&motorL,&motorR);
         logAction('1',0, path_step); //turning actions have time = 0 CHECK THIS TO SEE IF WE NEED TO REMOVE TIME FROM THE STRAIGHT 
         color = 5;
+        path_step++; //adds a new step to the path
     } else if (hue>14 && hue<=35){ // Light Blue hue range
         moveOrange(&motorL,&motorR);
         logAction('4',0, path_step); //turning actions have time = 0
         color= 6;
+        path_step++; //adds a new step to the path
     } else if (hue>=244 && hue<=251){ // Light Blue hue range
         movePink(&motorL,&motorR);  
         logAction('2',0, path_step); //turning actions have time = 0 CHECK THIS TO SEE IF WE NEED TO REMOVE TIME FROM THE STRAIGHT 
         color = 7;
+        path_step++; //adds a new step to the path
 
     }
-    send2USART(color);
-    path_step++; //adds a new step to the path
+    //send2USART(color);
     return path_step;
-
-
-    // Here, you can add additional logic to act upon the color detection,
-    // such as controlling LEDs or other outputs.
 }

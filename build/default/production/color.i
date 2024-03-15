@@ -24944,38 +24944,40 @@ unsigned int decision(unsigned int hue, unsigned int path_step) {
         moveRed(&motorL, &motorR);
         logAction('1',0, path_step);
         color = 1;
+        path_step++;
     }
         else if (hue>=105 && hue<=130){
         moveGreen(&motorL, &motorR);
         logAction('2',0, path_step);
         color = 2;
+        path_step++;
     } else if (hue>=230 && hue<=240){
         moveBlue(&motorL,&motorR);
         logAction('3',0, path_step);
         color = 3;
-    } else if (hue>=216 && hue<=221){
+        path_step++;
+    } else if (hue>=216 && hue<=221 ){
         moveLightBlue(&motorL,&motorR);
         logAction('5',0, path_step);
         color = 4;
+        path_step++;
     } else if (hue>=302 && hue<=346){
         moveYellow(&motorL,&motorR);
         logAction('1',0, path_step);
         color = 5;
+        path_step++;
     } else if (hue>14 && hue<=35){
         moveOrange(&motorL,&motorR);
         logAction('4',0, path_step);
         color= 6;
+        path_step++;
     } else if (hue>=244 && hue<=251){
         movePink(&motorL,&motorR);
         logAction('2',0, path_step);
         color = 7;
+        path_step++;
 
     }
-    send2USART(color);
-    path_step++;
+
     return path_step;
-
-
-
-
 }

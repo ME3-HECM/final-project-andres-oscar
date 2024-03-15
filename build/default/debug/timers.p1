@@ -1,12 +1,8 @@
 Version 4.0 HI-TECH Software Intermediate Code
-"10 ./dc_motor.h
-[; ;./dc_motor.h: 10: typedef struct DC_motor {
+"12 ./dc_motor.h
+[; ;./dc_motor.h: 12: typedef struct DC_motor {
 [s S2015 `uc 1 `uc 1 `uc 1 `ui 1 `*uc 1 `*uc 1 ]
 [n S2015 DC_motor power direction brakemode PWMperiod posDutyHighByte negDutyHighByte ]
-"21
-[; ;./dc_motor.h: 21: typedef struct PathStep{
-[s S2016 `uc 1 `i 1 `ui 1 ]
-[n S2016 PathStep action time path_length ]
 "39328 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 39328:     struct {
 [s S1925 :4 `uc 1 :1 `uc 1 :3 `uc 1 ]
@@ -129,6 +125,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 "39003
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 39003: extern volatile unsigned char TMR0H __attribute__((address(0xFD4)));
 [v _TMR0H `Vuc ~T0 @X0 0 e@4052 ]
+"15 ./return_func.h
+[; ;./return_func.h: 15: void logAction(char newAction, int newTime, unsigned int path_step);
+[v _logAction `(v ~T0 @X0 0 ef3`uc`i`ui ]
 [t ~ __interrupt . k ]
 [t T1 __interrupt low_priority ]
 "54 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
@@ -2105,107 +2104,127 @@ Version 4.0 HI-TECH Software Intermediate Code
 "40592
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 40592: __asm("TOSU equ 0FFFh");
 [; <" TOSU equ 0FFFh ;# ">
-"19 ./dc_motor.h
-[; ;./dc_motor.h: 19: struct DC_motor motorL, motorR;
+"9 ./dc_motor.h
+[; ;./dc_motor.h: 9: char action[50];
+[v _action `uc ~T0 @X0 -> 50 `i e ]
+"10
+[; ;./dc_motor.h: 10: int time[50];
+[v _time `i ~T0 @X0 -> 50 `i e ]
+"21
+[; ;./dc_motor.h: 21: struct DC_motor motorL, motorR;
 [v _motorL `S2015 ~T0 @X0 1 e ]
 [v _motorR `S2015 ~T0 @X0 1 e ]
-"27
-[; ;./dc_motor.h: 27: struct PathStep path[50];
-[v _path `S2016 ~T0 @X0 -> 50 `i e ]
-"7 timers.c
-[; ;timers.c: 7: void Timer0_init(void)
+"11 ./return_func.h
+[; ;./return_func.h: 11: char action[50];
+[v _action `uc ~T0 @X0 -> 50 `i e ]
+"12
+[; ;./return_func.h: 12: int time[50];
+[v _time `i ~T0 @X0 -> 50 `i e ]
+"8 timers.c
+[; ;timers.c: 8: void Timer0_init(void)
 [v _Timer0_init `(v ~T0 @X0 1 ef ]
-"8
-[; ;timers.c: 8: {
+"9
+[; ;timers.c: 9: {
 {
 [e :U _Timer0_init ]
 [f ]
-"9
-[; ;timers.c: 9:     T0CON1bits.T0CS=0b010;
-[e = . . _T0CON1bits 0 2 -> -> 2 `i `uc ]
 "10
-[; ;timers.c: 10:     T0CON1bits.T0ASYNC=1;
-[e = . . _T0CON1bits 0 1 -> -> 1 `i `uc ]
+[; ;timers.c: 10:     T0CON1bits.T0CS=0b010;
+[e = . . _T0CON1bits 0 2 -> -> 2 `i `uc ]
 "11
-[; ;timers.c: 11:     T0CON1bits.T0CKPS=0b1101;
-[e = . . _T0CON1bits 0 0 -> -> 13 `i `uc ]
+[; ;timers.c: 11:     T0CON1bits.T0ASYNC=1;
+[e = . . _T0CON1bits 0 1 -> -> 1 `i `uc ]
 "12
-[; ;timers.c: 12:     T0CON0bits.T016BIT=1;
+[; ;timers.c: 12:     T0CON1bits.T0CKPS=0b1101;
+[e = . . _T0CON1bits 0 0 -> -> 13 `i `uc ]
+"13
+[; ;timers.c: 13:     T0CON0bits.T016BIT=1;
 [e = . . _T0CON0bits 0 1 -> -> 1 `i `uc ]
-"14
-[; ;timers.c: 14:     PIE0bits.TMR0IE = 1;
-[e = . . _PIE0bits 0 5 -> -> 1 `i `uc ]
 "15
-[; ;timers.c: 15:     PIR0bits.TMR0IF = 0;
-[e = . . _PIR0bits 0 5 -> -> 0 `i `uc ]
+[; ;timers.c: 15:     PIE0bits.TMR0IE = 1;
+[e = . . _PIE0bits 0 5 -> -> 1 `i `uc ]
 "16
-[; ;timers.c: 16:     IPR0bits.TMR0IP = 0;
-[e = . . _IPR0bits 0 5 -> -> 0 `i `uc ]
+[; ;timers.c: 16:     PIR0bits.TMR0IF = 0;
+[e = . . _PIR0bits 0 5 -> -> 0 `i `uc ]
 "17
-[; ;timers.c: 17:     INTCONbits.IPEN = 1;
-[e = . . _INTCONbits 0 5 -> -> 1 `i `uc ]
+[; ;timers.c: 17:     IPR0bits.TMR0IP = 0;
+[e = . . _IPR0bits 0 5 -> -> 0 `i `uc ]
 "18
-[; ;timers.c: 18:     INTCONbits.PEIE = 1;
-[e = . . _INTCONbits 1 1 -> -> 1 `i `uc ]
+[; ;timers.c: 18:     INTCONbits.IPEN = 1;
+[e = . . _INTCONbits 0 5 -> -> 1 `i `uc ]
 "19
-[; ;timers.c: 19:     INTCONbits.GIE = 1;
+[; ;timers.c: 19:     INTCONbits.PEIE = 1;
+[e = . . _INTCONbits 1 1 -> -> 1 `i `uc ]
+"20
+[; ;timers.c: 20:     INTCONbits.GIE = 1;
 [e = . . _INTCONbits 1 2 -> -> 1 `i `uc ]
-"21
-[; ;timers.c: 21:     TRISGbits.TRISG1 = 1;
-[e = . . _TRISGbits 0 1 -> -> 1 `i `uc ]
 "22
-[; ;timers.c: 22:     LATGbits.LATG1 = 0;
+[; ;timers.c: 22:     TRISGbits.TRISG1 = 1;
+[e = . . _TRISGbits 0 1 -> -> 1 `i `uc ]
+"23
+[; ;timers.c: 23:     LATGbits.LATG1 = 0;
 [e = . . _LATGbits 0 1 -> -> 0 `i `uc ]
-"26
-[; ;timers.c: 26: }
-[e :UE 2017 ]
+"27
+[; ;timers.c: 27: }
+[e :UE 2016 ]
 }
-"32
-[; ;timers.c: 32: unsigned int get16bitTMR0val(void)
-[v _get16bitTMR0val `(ui ~T0 @X0 1 ef ]
 "33
-[; ;timers.c: 33: {
+[; ;timers.c: 33: unsigned int get16bitTMR0val(unsigned int path_step)
+[v _get16bitTMR0val `(ui ~T0 @X0 1 ef1`ui ]
+"34
+[; ;timers.c: 34: {
 {
 [e :U _get16bitTMR0val ]
-[f ]
+"33
+[; ;timers.c: 33: unsigned int get16bitTMR0val(unsigned int path_step)
+[v _path_step `ui ~T0 @X0 1 r1 ]
 "34
-[; ;timers.c: 34:     unsigned int combined_value;
-[v _combined_value `ui ~T0 @X0 1 a ]
+[; ;timers.c: 34: {
+[f ]
 "35
-[; ;timers.c: 35:     combined_value = TMR0L | (TMR0H << 8);
-[e = _combined_value -> | -> _TMR0L `i << -> _TMR0H `i -> 8 `i `ui ]
+[; ;timers.c: 35:     int combined_value;
+[v _combined_value `i ~T0 @X0 1 a ]
 "36
-[; ;timers.c: 36:     return combined_value;
-[e ) _combined_value ]
-[e $UE 2018  ]
+[; ;timers.c: 36:     combined_value = TMR0L | (TMR0H << 8);
+[e = _combined_value | -> _TMR0L `i << -> _TMR0H `i -> 8 `i ]
 "37
-[; ;timers.c: 37: }
-[e :UE 2018 ]
+[; ;timers.c: 37:     T0CON0bits.T0EN=0;
+[e = . . _T0CON0bits 0 4 -> -> 0 `i `uc ]
+"38
+[; ;timers.c: 38:     logAction('0',combined_value, path_step);
+[e ( _logAction (3 , , -> -> 48 `ui `uc _combined_value _path_step ]
+"39
+[; ;timers.c: 39:     return path_step;
+[e ) _path_step ]
+[e $UE 2017  ]
+"40
+[; ;timers.c: 40: }
+[e :UE 2017 ]
 }
 [v $root$_LowISR `(v ~T0 @X0 0 e ]
-"38
-[; ;timers.c: 38: void __attribute__((picinterrupt(("low_priority")))) LowISR()
+"41
+[; ;timers.c: 41: void __attribute__((picinterrupt(("low_priority")))) LowISR()
 [v _LowISR `(v ~T1 @X0 1 ef ]
-"39
-[; ;timers.c: 39: {
+"42
+[; ;timers.c: 42: {
 {
 [e :U _LowISR ]
 [f ]
-"41
-[; ;timers.c: 41:     if (PIR0bits.TMR0IF == 1) {
-[e $ ! == -> . . _PIR0bits 0 5 `i -> 1 `i 2020  ]
-{
-"42
-[; ;timers.c: 42:         LATGbits.LATG1 = 1;
-[e = . . _LATGbits 0 1 -> -> 1 `i `uc ]
 "44
-[; ;timers.c: 44:         PIR0bits.TMR0IF = 0;
-[e = . . _PIR0bits 0 5 -> -> 0 `i `uc ]
+[; ;timers.c: 44:     if (PIR0bits.TMR0IF == 1) {
+[e $ ! == -> . . _PIR0bits 0 5 `i -> 1 `i 2019  ]
+{
 "45
-[; ;timers.c: 45:     }
+[; ;timers.c: 45:         LATGbits.LATG1 = 1;
+[e = . . _LATGbits 0 1 -> -> 1 `i `uc ]
+"47
+[; ;timers.c: 47:         PIR0bits.TMR0IF = 0;
+[e = . . _PIR0bits 0 5 -> -> 0 `i `uc ]
+"48
+[; ;timers.c: 48:     }
 }
-[e :U 2020 ]
-"46
-[; ;timers.c: 46: }
-[e :UE 2019 ]
+[e :U 2019 ]
+"49
+[; ;timers.c: 49: }
+[e :UE 2018 ]
 }

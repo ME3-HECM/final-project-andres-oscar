@@ -149,7 +149,7 @@ void fullSpeedAhead(DC_motor *mL, DC_motor *mR)
 
     for(int power = 0; power <= 50; power++) {
         mL->power = power;
-        mR->power = power*1.6;
+        mR->power = power*1.05;
         
         //setting new values to the pins
         setMotorPWM(mL);

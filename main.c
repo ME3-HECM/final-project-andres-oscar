@@ -92,14 +92,15 @@ void main(void) {
     
     
     calibration_routine(&colorCalibration);
-
+    send2USART(colorCalibration.ambient);
     unsigned int clear_norm;
     float current;
     unsigned int path_step = 0;
     unsigned int hue;
     unsigned int ambient;
+
     
-    ambient = colorCurrent.ambient;
+    
 
 
     //code structure for testing the movement functions
@@ -114,44 +115,56 @@ void main(void) {
         T0CON0bits.T0EN=1;	//start the timer
     
         (colorCurrent.clear) = color_read_Clear();
-        current = colorCurrent.clear;
 
-        clear_norm = (current-ambient)*100/(colorCalibration.clear - ambient); //normalises clear value depending on calibration routine
-//        send2USART(clear_norm);
+ 
+        clear_norm = (colorCurrent.clear)*100/colorCalibration.clear;    
+                
+        
+        send2USART(clear_norm);
         //when clear above a certain threshold, start the colour detection and movement process
-        if (clear_norm > 8){  //normalised clear value range for colour detection
-            
-            stop(&motorL,&motorR); //stops moving
-            
-            
-            path_step = get16bitTMR0val(path_step); //takes the timer value at that instant
-            
-            __delay_ms(200);
-            
-            //small sequence to bump wall for better readings
-            fullSpeedAhead(&motorL,&motorR);
-            __delay_ms(300);
-            stop(&motorL,&motorR);
-            __delay_ms(300);
-            hue = reading_hue(&colorCurrent);
+        while(clear_norm<8){
+            (colorCurrent.clear) = color_read_Clear();
+            clear_norm = (colorCurrent.clear)*100/colorCalibration.clear;    
 
-         if (clear_norm > 20){
-             fullSpeedAhead(&motorL,&motorR);
+            send2USART(clear_norm);
+
+        }
+       
+        T0CON0bits.T0EN=0;	//stop the timer
+        stop(&motorL,&motorR); //stops moving
+
+
+        path_step = get16bitTMR0val(path_step); //takes the timer value at that instant
+
+        __delay_ms(200);
+
+        //small sequence to bump wall for better readings
+        fullSpeedAhead(&motorL,&motorR);
+        __delay_ms(300);
+        stop(&motorL,&motorR);
+        __delay_ms(300);
+
+        hue = reading_hue(&colorCurrent);
+
+        clear_norm = (colorCurrent.clear)*100/colorCalibration.clear;    
+
+                
+        if (clear_norm > 20){
+            fullSpeedAhead(&motorL,&motorR);
             __delay_ms(100);
             stop(&motorL,&motorR);
-         }  
-         if ((clear_norm > 50 && !(hue >= 302 && hue <= 346)) || LATGbits.LATG1 == 1) {
+        }  
+        if ((clear_norm > 60 && !(hue >= 302 && hue <= 346)) || LATGbits.LATG1 == 1) {
 
-
-                unsigned int white = 8;
-                send2USART(white);
-                returnHome(&motorL, &motorR, path_step);
-                LATGbits.LATG1 = 0;
-            }
-            
-            path_step = decision(hue, path_step);
+            unsigned int white = 8;
+            send2USART(white);
+            returnHome(&motorL, &motorR, path_step);
+            LATGbits.LATG1 = 0;
         }
+            
+        path_step = decision(hue, path_step);
+    }
 
             
-    }
 }
+

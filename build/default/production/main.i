@@ -24388,14 +24388,15 @@ void main(void) {
 
 
     calibration_routine(&colorCalibration);
-
+    send2USART(colorCalibration.ambient);
     unsigned int clear_norm;
     float current;
     unsigned int path_step = 0;
     unsigned int hue;
     unsigned int ambient;
 
-    ambient = colorCurrent.ambient;
+
+
 
 
 
@@ -24410,44 +24411,55 @@ void main(void) {
         T0CON0bits.T0EN=1;
 
         (colorCurrent.clear) = color_read_Clear();
-        current = colorCurrent.clear;
-
-        clear_norm = (current-ambient)*100/(colorCalibration.clear - ambient);
 
 
-        if (clear_norm > 8){
-
-            stop(&motorL,&motorR);
+        clear_norm = (colorCurrent.clear)*100/colorCalibration.clear;
 
 
-            path_step = get16bitTMR0val(path_step);
+        send2USART(clear_norm);
 
-            _delay((unsigned long)((200)*(64000000/4000.0)));
+        while(clear_norm<8){
+            (colorCurrent.clear) = color_read_Clear();
+            clear_norm = (colorCurrent.clear)*100/colorCalibration.clear;
 
+            send2USART(clear_norm);
 
-            fullSpeedAhead(&motorL,&motorR);
-            _delay((unsigned long)((300)*(64000000/4000.0)));
-            stop(&motorL,&motorR);
-            _delay((unsigned long)((300)*(64000000/4000.0)));
-            hue = reading_hue(&colorCurrent);
-
-         if (clear_norm > 20){
-             fullSpeedAhead(&motorL,&motorR);
-            _delay((unsigned long)((100)*(64000000/4000.0)));
-            stop(&motorL,&motorR);
-         }
-         if ((clear_norm > 50 && !(hue >= 302 && hue <= 346)) || LATGbits.LATG1 == 1) {
-
-
-                unsigned int white = 8;
-                send2USART(white);
-                returnHome(&motorL, &motorR, path_step);
-                LATGbits.LATG1 = 0;
-            }
-
-            path_step = decision(hue, path_step);
         }
 
+        T0CON0bits.T0EN=0;
+        stop(&motorL,&motorR);
 
+
+        path_step = get16bitTMR0val(path_step);
+
+        _delay((unsigned long)((200)*(64000000/4000.0)));
+
+
+        fullSpeedAhead(&motorL,&motorR);
+        _delay((unsigned long)((300)*(64000000/4000.0)));
+        stop(&motorL,&motorR);
+        _delay((unsigned long)((300)*(64000000/4000.0)));
+
+        hue = reading_hue(&colorCurrent);
+
+        clear_norm = (colorCurrent.clear)*100/colorCalibration.clear;
+
+
+        if (clear_norm > 20){
+            fullSpeedAhead(&motorL,&motorR);
+            _delay((unsigned long)((100)*(64000000/4000.0)));
+            stop(&motorL,&motorR);
+        }
+        if ((clear_norm > 60 && !(hue >= 302 && hue <= 346)) || LATGbits.LATG1 == 1) {
+
+            unsigned int white = 8;
+            send2USART(white);
+            returnHome(&motorL, &motorR, path_step);
+            LATGbits.LATG1 = 0;
+        }
+
+        path_step = decision(hue, path_step);
     }
+
+
 }

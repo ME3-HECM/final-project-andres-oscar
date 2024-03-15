@@ -24093,15 +24093,18 @@ unsigned char __t3rd16on(void);
 
 
 
-
-
-
-void Timer0_init(void);
-unsigned int get16bitTMR0val(void);
-# 2 "timers.c" 2
-
 # 1 "./dc_motor.h" 1
-# 10 "./dc_motor.h"
+
+
+
+
+
+
+
+
+char action[50];
+int time[50];
+
 typedef struct DC_motor {
     char power;
     char direction;
@@ -24113,13 +24116,8 @@ typedef struct DC_motor {
 
 struct DC_motor motorL, motorR;
 
-typedef struct PathStep{
-    char action;
-    int time;
-    unsigned int path_length;
-} PathStep;
 
-struct PathStep path[50];
+
 
 
 void initDCmotorsPWM(unsigned int PWMperiod);
@@ -24137,20 +24135,37 @@ void left135(struct DC_motor *mL, struct DC_motor *mR);
 void backHalf(struct DC_motor *mL, struct DC_motor *mR);
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
 
-void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR,unsigned int path_length);
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveWhite(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
+void moveRed(struct DC_motor *mL, struct DC_motor *mR);
+void moveGreen(struct DC_motor *mL, struct DC_motor *mR);
+void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
+void moveYellow(struct DC_motor *mL, struct DC_motor *mR);
+void movePink(struct DC_motor *mL, struct DC_motor *mR);
+void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
+void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
+void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
+# 5 "./timers.h" 2
 
-void logAction(char action, int time, unsigned int pathLength);
-void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection);
-void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time);
-void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path[], int pathLength);
-# 3 "timers.c" 2
+
+
+
+
+void Timer0_init(void);
+unsigned int get16bitTMR0val(unsigned int path_step);
+# 2 "timers.c" 2
+
+
+# 1 "./return_func.h" 1
+# 11 "./return_func.h"
+char action[50];
+int time[50];
+
+
+void logAction(char newAction, int newTime, unsigned int path_step);
+void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char actionStep);
+void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, long time_ms);
+void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step);
+void customDelayMs(unsigned int milliseconds);
+# 4 "timers.c" 2
 
 
 
@@ -24180,11 +24195,13 @@ void Timer0_init(void)
 
 
 
-unsigned int get16bitTMR0val(void)
+unsigned int get16bitTMR0val(unsigned int path_step)
 {
-    unsigned int combined_value;
+    int combined_value;
     combined_value = TMR0L | (TMR0H << 8);
-    return combined_value;
+    T0CON0bits.T0EN=0;
+    logAction('0',combined_value, path_step);
+    return path_step;
 }
 void __attribute__((picinterrupt(("low_priority")))) LowISR()
 {

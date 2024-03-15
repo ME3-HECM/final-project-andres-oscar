@@ -24104,6 +24104,59 @@ unsigned char __t3rd16on(void);
 
 
 
+# 1 "./dc_motor.h" 1
+
+
+
+
+
+
+
+
+char action[50];
+int time[50];
+
+typedef struct DC_motor {
+    char power;
+    char direction;
+    char brakemode;
+    unsigned int PWMperiod;
+    unsigned char *posDutyHighByte;
+    unsigned char *negDutyHighByte;
+} DC_motor;
+
+struct DC_motor motorL, motorR;
+
+
+
+
+
+void initDCmotorsPWM(unsigned int PWMperiod);
+void setMotorPWM(DC_motor *m);
+void stop(DC_motor *mL, DC_motor *mR);
+void turnLeft(DC_motor *mL, DC_motor *mR);
+void turnRight(DC_motor *mL, DC_motor *mR);
+void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
+
+void right90(struct DC_motor *mL, struct DC_motor *mR);
+void left90(struct DC_motor *mL, struct DC_motor *mR);
+void turn180(struct DC_motor *mL, struct DC_motor *mR);
+void right135(struct DC_motor *mL, struct DC_motor *mR);
+void left135(struct DC_motor *mL, struct DC_motor *mR);
+void backHalf(struct DC_motor *mL, struct DC_motor *mR);
+void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
+
+void moveRed(struct DC_motor *mL, struct DC_motor *mR);
+void moveGreen(struct DC_motor *mL, struct DC_motor *mR);
+void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
+void moveYellow(struct DC_motor *mL, struct DC_motor *mR);
+void movePink(struct DC_motor *mL, struct DC_motor *mR);
+void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
+void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
+void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
+# 5 "./color.h" 2
+
+
 
 
 
@@ -24112,7 +24165,7 @@ typedef struct colors {
     unsigned int green;
     unsigned int blue;
     unsigned int clear;
-    unsigned int clear_ambient;
+    unsigned int ambient;
 } colors;
 
 
@@ -24163,7 +24216,7 @@ unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
 
-void decision(unsigned int hue, unsigned int path_length);
+unsigned int decision(unsigned int hue, unsigned int path_step);
 # 12 "main.c" 2
 
 # 1 "./i2c.h" 1
@@ -24249,80 +24302,24 @@ void ADC2String(char *buf, unsigned int ADC_val);
 void send2USART(unsigned int hue);
 # 15 "main.c" 2
 
-# 1 "./dc_motor.h" 1
-# 10 "./dc_motor.h"
-typedef struct DC_motor {
-    char power;
-    char direction;
-    char brakemode;
-    unsigned int PWMperiod;
-    unsigned char *posDutyHighByte;
-    unsigned char *negDutyHighByte;
-} DC_motor;
-
-struct DC_motor motorL, motorR;
-
-typedef struct PathStep{
-    char action;
-    int time;
-    unsigned int path_length;
-} PathStep;
-
-struct PathStep path[50];
-
-
-void initDCmotorsPWM(unsigned int PWMperiod);
-void setMotorPWM(DC_motor *m);
-void stop(DC_motor *mL, DC_motor *mR);
-void turnLeft(DC_motor *mL, DC_motor *mR);
-void turnRight(DC_motor *mL, DC_motor *mR);
-void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
-
-void right90(struct DC_motor *mL, struct DC_motor *mR);
-void left90(struct DC_motor *mL, struct DC_motor *mR);
-void turn180(struct DC_motor *mL, struct DC_motor *mR);
-void right135(struct DC_motor *mL, struct DC_motor *mR);
-void left135(struct DC_motor *mL, struct DC_motor *mR);
-void backHalf(struct DC_motor *mL, struct DC_motor *mR);
-void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
-
-void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR,unsigned int path_length);
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-void moveWhite(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_length);
-
-void logAction(char action, int time, unsigned int pathLength);
-void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char turnDirection);
-void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, int time);
-void returnHome(struct DC_motor *mL, struct DC_motor *mR, struct PathStep *path[], int pathLength);
-# 16 "main.c" 2
-
-# 1 "./functions.h" 1
-
-
-
-
-
-
-
-
-void write2USART(char buf, char red_char, char blue_char, char green_char, char clear_char);
-# 17 "main.c" 2
 
 # 1 "./timers.h" 1
-
-
-
-
-
-
-
+# 10 "./timers.h"
 void Timer0_init(void);
-unsigned int get16bitTMR0val(void);
+unsigned int get16bitTMR0val(unsigned int path_step);
+# 17 "main.c" 2
+
+# 1 "./return_func.h" 1
+# 11 "./return_func.h"
+char action[50];
+int time[50];
+
+
+void logAction(char newAction, int newTime, unsigned int path_step);
+void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char actionStep);
+void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, long time_ms);
+void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step);
+void customDelayMs(unsigned int milliseconds);
 # 18 "main.c" 2
 # 29 "main.c"
 void main(void) {
@@ -24380,14 +24377,6 @@ void main(void) {
     LATGbits.LATG1 = 0;
 
 
-    unsigned int battery_level;
-    unsigned int red;
-    unsigned int blue;
-    unsigned int green;
-    unsigned int clear;
-    unsigned int hue;
-    char hue_char[20];
-    unsigned int path_length = 0;
 
 
 
@@ -24400,10 +24389,16 @@ void main(void) {
 
     calibration_routine(&colorCalibration);
 
-    float maximum = colorCalibration.clear;
-    float ambient = colorCalibration.clear_ambient;
-    float current;
     unsigned int clear_norm;
+    float current;
+    unsigned int path_step = 0;
+    unsigned int hue;
+    unsigned int ambient;
+    unsigned int diff_clears;
+
+
+
+
 
     while (1) {
 
@@ -24416,38 +24411,56 @@ void main(void) {
         T0CON0bits.T0EN=1;
 
         (colorCurrent.clear) = color_read_Clear();
-        current = colorCurrent.clear;
 
-        clear_norm = (current-ambient)*100/(maximum-ambient);
-
-
-        if (clear_norm > 5){
-
-            stop(&motorL,&motorR);
-
-            int time = get16bitTMR0val();
-            T0CON0bits.T0EN=0;
-            logAction('F',time, path_length);
-            _delay((unsigned long)((200)*(64000000/4000.0)));
+        diff_clears = (colorCalibration.clear - colorCurrent.ambient);
+        clear_norm = (colorCurrent.clear - colorCurrent.ambient)*100;
+        clear_norm = clear_norm/diff_clears;
 
 
+        send2USART(clear_norm);
+
+        while(clear_norm<8){
+            (colorCurrent.clear) = color_read_Clear();
+            diff_clears = (colorCalibration.clear - colorCurrent.ambient);
+            clear_norm = (colorCurrent.clear - colorCurrent.ambient)*100;
+            clear_norm = clear_norm/diff_clears;
+        }
+
+        T0CON0bits.T0EN=0;
+        stop(&motorL,&motorR);
+
+
+        path_step = get16bitTMR0val(path_step);
+
+        _delay((unsigned long)((200)*(64000000/4000.0)));
+
+
+        fullSpeedAhead(&motorL,&motorR);
+        _delay((unsigned long)((300)*(64000000/4000.0)));
+        stop(&motorL,&motorR);
+        _delay((unsigned long)((300)*(64000000/4000.0)));
+
+        hue = reading_hue(&colorCurrent);
+
+        diff_clears = (colorCalibration.clear - colorCurrent.ambient);
+        clear_norm = (colorCurrent.clear - colorCurrent.ambient)*100;
+        clear_norm = clear_norm/diff_clears;
+
+        if (clear_norm > 20){
             fullSpeedAhead(&motorL,&motorR);
             _delay((unsigned long)((100)*(64000000/4000.0)));
             stop(&motorL,&motorR);
-            _delay((unsigned long)((300)*(64000000/4000.0)));
+        }
+        if ((clear_norm > 60 && !(hue >= 302 && hue <= 346)) || LATGbits.LATG1 == 1) {
 
-            if (clear_norm > 85 || LATGbits.LATG1 == 1){
-
-                unsigned int white = 8;
-                send2USART(white);
-                returnHome(&motorL, &motorR, &path, path_length);
-                LATGbits.LATG1 = 0;
-            }
-
-            hue = reading_hue(&colorCurrent);
-            decision(hue, path_length);
+            unsigned int white = 8;
+            send2USART(white);
+            returnHome(&motorL, &motorR, path_step);
+            LATGbits.LATG1 = 0;
         }
 
-
+        path_step = decision(hue, path_step);
     }
+
+
 }
