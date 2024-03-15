@@ -1,3 +1,41 @@
+# Course project - Mine navigation search and rescue
+
+## Challenge brief
+
+Our buggy was designed to be capable of navigating a model "mine" by reading instructions for its movement using a predetermined set of colored cards. Once it reached the end of the "mine" our buggy was intended to return to its starting position and sleep to conserve energy. In more detail our buggy had to do the following according to the task brief:
+
+1. Navigate towards a coloured card and stop before impacting the card
+1. Read the card colour
+1. Interpret the card colour using a predefined code and perform the navigation instruction
+1. When the final card is reached, navigate back to the starting position
+1. Handle exceptions and return back to the starting position if final card cannot be found
+
+
+## Assessment
+
+The assessment consisted of running mazes of 3 difficulties:
+
+1. Easy: Just a sequence of 3-4 Red and Green cards.
+2. Medium: Red, Green, and Yellow cards. This maze incorporated the two cards with a step back, which were harder to read.
+3. Hard: Larger maze incorporating all card colors. Maze now had the 135-degree turns and long straight paths making alignment harder.
+
+Our team was assigned a slot at 12:00 for the test, and we were allowed into the room 10 minutes before to perform any last-minute adjustments.
+
+## Performance in the maze
+
+Although we lack recordings for the performance of our buggy in the actual 3 mazes, our buggy performed as expected and succesfully ran our code to make it to the end of the maze
+
+
+
+
+
+
+
+
+
+
+
+
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/c8ng1gdc)
 # Course project - Mine navigation search and rescue
 
