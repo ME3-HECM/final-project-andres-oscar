@@ -24,12 +24,12 @@ In that said order
 Colour | Instruction | Instruction
 ---------|---------|---------
 Red | Turn Right 90 | 1
-Green | Turn Left 90| 1
-Blue | Turn 180| 1
-Yellow | Reverse 1 square and turn right 90| 1
-Pink | Reverse 1 square and turn left 90| 1
-Orange | Turn Right 135| 1
-Light blue | Turn Left 135 | 1
+Green | Turn Left 90| 2
+Blue | Turn 180| 3
+Light blue | Turn Left 135 | 4
+Yellow | Reverse 1 square and turn right 90| 5
+Orange | Turn Right 135| 6
+Pink | Reverse 1 square and turn left 90| 7
 White | Finish (return home)| N/A
 Black | Maze wall colour| N/A
 
