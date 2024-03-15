@@ -52,6 +52,18 @@ Every time the buggy either advances or makes a correct reading of a colour, it 
 
 The time is converted into a 16-bit number by combining TMR0L and TMR0H and is directly converted into ms within that same 'get16bitTMR0val()' function. This is then passed into the global array and used to return the buggy home.
 
+Our return returnHome function also ensures that after performing each inverse movement it can go backwards into the wall to realign itself.
+#### Key feature:
+During the return operation, it became clear that the path back could be optimized, particularly when reading yellow and pink since it could cut that corner out entirely. As a result when logging actions, instead of telling the car to perform the same movement but inverted for pink and yellow, we simply inverted the turn that it performs at the end. However, this came with the problem that the car would then have to advance 1 unit cell less when returning and cutting the corner since the straight action on the way 'into the mine' was longer. 
+As a result, we implemented an if statement in the returning function as follows:
+
+	if (action[i+1]== 5 || action[i+1]==7){
+		time_ms = time[i]-2250;
+	 }
+
+This code checks if the following action is pink or yellow when returning and amends the time for the current path index by approximately a unit cell.
+
+
 ## Lost function
 
 Our buggy also included an additional feature of returning home if lost. This is triggered if enough time has passed to determine that the buggy is certainly not finding the final card (i.e. the end of the maze). We wanted this to occur after approximately 30 seconds of operation, so we selected a timer prescale value of 8912 in 16-bit mode to overflow after 33.55 seconds precisely. The following code shows the interrupt service routine in order to read the flag that triggered in the instance of overflow:
@@ -91,9 +103,9 @@ The assessment consisted of running mazes of 3 difficulties:
 
 Our team was assigned a slot at 12:00 for the test, and we were allowed into the room 10 minutes before to perform any last-minute adjustments.
 
-## Performance in the maze
+## Performance in the maze and Feedback
 
-Although we lack recordings for the performance of our buggy in the actual 3 mazes, our buggy performed as expected and succesfully ran our code to make it to the end of the maze
+Although we lack recordings for the performance of our buggy in the actual 3 mazes, our buggy performed as expected and succesfully ran our code to make it to the end of the maze. After successfully performing our calibration routine for the 3 mazes, our car advanced up to each card, read the hue, and performed the correct action for every available colour. As a results our Buggy excelled in colour detection and movement, including reading the white card at the end of the maze. However, once it turned around 
 
 
 ## Post exam discussion and changes
