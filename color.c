@@ -98,25 +98,25 @@ unsigned int reading_hue(colors *cCurr)
     LATGbits.LATG0 = 1; // Red LED on
     LATEbits.LATE7 = 0; // Green LED off
     LATAbits.LATA3 = 0; // Blue LED off
-    __delay_ms(500);
+    __delay_ms(200);
     (cCurr->red)= color_read_Red();
 
     LATGbits.LATG0 = 0; // Red LED off
     LATEbits.LATE7 = 1; // Green LED on
     LATAbits.LATA3 = 0; // Blue LED off   
-    __delay_ms(500);
+    __delay_ms(200);
     (cCurr->green) = color_read_Green();
 
     LATGbits.LATG0 = 0; // Red LED off
     LATEbits.LATE7 = 0; // Green LED off
     LATAbits.LATA3 = 1; // Blue LED on 
-    __delay_ms(500);
+    __delay_ms(200);
     (cCurr->blue) = color_read_Blue();
 
     LATGbits.LATG0 = 1; // Red LED on
     LATEbits.LATE7 = 1; // Green LED on
     LATAbits.LATA3 = 1; // Blue LED on
-    __delay_ms(500);
+    __delay_ms(200);
     (cCurr->clear) = color_read_Clear();
 
     
@@ -178,7 +178,7 @@ unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
     return (unsigned int)hue;
 }
 
-unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factor) {
+unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factorR, unsigned int factorL) {
     // Assume `colorCurrent` holds the latest colors sensor readings
     // and `colorCalibration` holds the calibration data.
 
@@ -186,38 +186,39 @@ unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int fac
     unsigned int color;
     
     if (hue<=10 || hue>=355) { // Red hue range
-        moveRed(&motorL, &motorR, factor);
+        moveRed(&motorL, &motorR, factorR);
         logAction(1,0, path_step); //turning actions have time = 0
         color = 1;
         path_step++; //adds a new step to the path
     }
         else if (hue>=105 && hue<=130){ // Green hue range
-        moveGreen(&motorL, &motorR,factor);
+        moveGreen(&motorL, &motorR,factorL);
         logAction(2,0, path_step);
         color = 2;
         path_step++; //adds a new step to the path
-    } else if (hue>=230 && hue<=240){ // Blue hue range
-        moveBlue(&motorL,&motorR, factor);
+    } else if (hue>=230 && hue<=248){ // Blue hue range
+        moveBlue(&motorL,&motorR);
         logAction(3,0, path_step); //turning actions have time = 0
         color = 3;
         path_step++; //adds a new step to the path
-    } else if (hue>=216 && hue<=221 ){ // Light Blue hue range
-        moveLightBlue(&motorL,&motorR, factor);
+    } else if (hue>=200 && hue<=230 ){ // Light Blue hue range
+        moveLightBlue(&motorL,&motorR);
         logAction(4,0, path_step); //turning actions have time = 0
         color = 4;
         path_step++; //adds a new step to the path
     } else if (hue>=302 && hue<=346){ // Light Blue hue range
-        moveYellow(&motorL,&motorR, factor);
+        moveYellow(&motorL,&motorR, factorR);
         logAction(5,0, path_step); //turning actions have time = 0 CHECK THIS TO SEE IF WE NEED TO REMOVE TIME FROM THE STRAIGHT 
         color = 5;
         path_step++; //adds a new step to the path
     } else if (hue>14 && hue<=35){ // Light Blue hue range
-        moveOrange(&motorL,&motorR, factor);
+        moveOrange(&motorL,&motorR);
         logAction(6,0, path_step); //turning actions have time = 0
         color= 6;
         path_step++; //adds a new step to the path
-    } else if (hue>=244 && hue<=251){ // Light Blue hue range
-        movePink(&motorL,&motorR, factor);  
+    } else if (hue>=240 && hue<=260){ // Light Blue hue range
+
+        movePink(&motorL,&motorR, factorL);  
         logAction(7,0, path_step); //turning actions have time = 0 CHECK THIS TO SEE IF WE NEED TO REMOVE TIME FROM THE STRAIGHT 
         color = 7;
         path_step++; //adds a new step to the path

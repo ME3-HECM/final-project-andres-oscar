@@ -147,9 +147,9 @@ void fullSpeedAhead(DC_motor *mL, DC_motor *mR)
     mL->direction = 1; //forward
     mR->direction = 1; //forward
 
-    for(int power = 0; power <= 50; power++) {
+    for(int power = 0; power <= 40; power++) {
         mL->power = power;
-        mR->power = power*1.05;
+        mR->power = power*1.12;
         
         //setting new values to the pins
         setMotorPWM(mL);
@@ -190,52 +190,48 @@ void fullSpeedBack(DC_motor *mL, DC_motor *mR)
 ************************************/
 
 //function to turn right 90 degrees
-void right90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor)
+void right90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR)
 {
     unsigned int delay = 290;
-    unsigned int delay_after_calibration = delay * factor;
+    unsigned int delay_after_calibration = delay + factorR;
     turnRight(mL,mR);//set to turning right mode
     customDelayMs(delay_after_calibration);
     stop(mL,mR);//stops the rotation
 }
 
 //function to turn left 90 degrees
-void left90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor)
+void left90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL)
 {
     unsigned int delay = 290;
-    unsigned int delay_after_calibration = delay * factor;
+    unsigned int delay_after_calibration = delay + factorL;
     turnLeft(mL,mR); //set to turning left mode
     customDelayMs(delay_after_calibration);
     stop(mL,mR); //stops the rotation
 }
 
 //function to turn 180
-void turn180(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor)
+void turn180(struct DC_motor *mL, struct DC_motor *mR)
 {
-    unsigned int delay = 580;
-    unsigned int delay_after_calibration = delay * factor;
     turnLeft(mL,mR); //set to turning left mode
-    customDelayMs(delay_after_calibration);
+    __delay_ms(560);
     stop(mL,mR); //stops the rotation
 }
 
 //function to turn right 135
-void right135(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor)
+void right135(struct DC_motor *mL, struct DC_motor *mR)
 {
-    unsigned int delay=400;
-    unsigned int delay_after_calibration = delay * factor;
+
     turnRight(mL,mR); //set to turning left mode
-    customDelayMs(delay_after_calibration);
+    __delay_ms(420);
     stop(mL,mR); //stops the rotation
 }
 
 //function to turn left 135
-void left135(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor)
+void left135(struct DC_motor *mL, struct DC_motor *mR)
 {
-    unsigned int delay=400;
-    unsigned int delay_after_calibration = delay * factor;
+  
     turnLeft(mL,mR); //set to turning left mode
-    customDelayMs(delay_after_calibration);
+    __delay_ms(425);
     stop(mL,mR); //stops the rotation
 }
 
@@ -262,76 +258,78 @@ void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR)
  * This is where you log actions into the path
 ************************************/
 
-void  moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor)
+void  moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR)
 {
     //Move back half a unit and turn right 90
     backHalf(mL,mR); //moving back half a unit
     __delay_ms(500); //delay to slow down potential skidding
-    right90(mL,mR,factor); //turning right 90 function
+    right90(mL,mR,factorR); //turning right 90 function
 
 
     
 }
 
-void  moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor)
+void  moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL)
 {
     //Move back half a unit and turn left 90
     backHalf(mL,mR); //moving back half a unit
     __delay_ms(500); //delay to slow down potential skidding
-    left90(mL,mR,factor); //turning left 90 function
+    left90(mL,mR,factorL); //turning left 90 function
 
 }
 
-void  moveBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor)
+void  moveBlue(struct DC_motor *mL, struct DC_motor *mR)
 {
     //Move back half a unit and turns 180
     backHalf(mL,mR); //moving back half a unit
     __delay_ms(500); //delay to slow down potential skidding
-    turn180(mL,mR, factor); //turning 180 function
+    turn180(mL,mR); //turning 180 function
 
 }
 
- void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor)
+ void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR)
 {
     //Move back one and a half units and turn right 90
     backOneAndHalf(mL,mR); //moving back half a unit
     __delay_ms(500); //delay to slow down potential skidding
-    right90(mL,mR, factor); //turning right 90 function
+    right90(mL,mR, factorR); //turning right 90 function
 }
 
 
-void  movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor)
+void  movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL)
 {
     //Move back one and a half units and turn left 90
     backOneAndHalf(mL,mR); //moving back half a unit
     __delay_ms(500); //delay to slow down potential skidding
-    left90(mL,mR, factor); //turning left 90 function
+    left90(mL,mR, factorL); //turning left 90 function
 
 }
 
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor)
+void moveOrange(struct DC_motor *mL, struct DC_motor *mR)
 {
     //Move back half a unit and turn right 135
     backHalf(mL,mR); //moving back half a unit
     __delay_ms(500); //delay to slow down potential skidding
-    right135(mL,mR, factor); //turning right 135 function
+    right135(mL,mR); //turning right 135 function
 
 }
 
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor)
+void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR)
 {
     //Move back half a unit and turn left 135
     backHalf(mL,mR); //moving back half a unit
     __delay_ms(500); //delay to slow down potential skidding
-    left135(mL,mR,factor); //turning left 135 function
+    left135(mL,mR); //turning left 135 function
 
 
 }
 
-void moveWhite(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor)
+void moveWhite(struct DC_motor *mL, struct DC_motor *mR)
 {
     //Move back half a unit and turn around
     backHalf(mL,mR); //moving back half a unit
     __delay_ms(500); //delay to slow down potential skidding
-    turn180(mL,mR,factor); //turning around 180
+    turn180(mL,mR); //turning around 180
+    backHalf(mL,mR); //moving back half a unit
+
 }

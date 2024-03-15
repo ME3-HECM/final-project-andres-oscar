@@ -24140,20 +24140,20 @@ void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
 
 void right90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
 void left90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void turn180(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void right135(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void left135(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void turn180(struct DC_motor *mL, struct DC_motor *mR);
+void right135(struct DC_motor *mL, struct DC_motor *mR);
+void left135(struct DC_motor *mL, struct DC_motor *mR);
 void backHalf(struct DC_motor *mL, struct DC_motor *mR);
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
 
-void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void moveWhite(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
+void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
+void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
+void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
+void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
+void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
+void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
+void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
 # 5 "./color.h" 2
 
 
@@ -24216,7 +24216,7 @@ unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
 
-unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factor);
+unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factorR, unsigned int factorL);
 # 12 "main.c" 2
 
 # 1 "./i2c.h" 1
@@ -24316,16 +24316,17 @@ long time[50];
 
 
 void logAction(char newAction, long newTime, unsigned int path_step);
-void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char actionStep, long time_ms,unsigned int factor);
+void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char actionStep, long time_ms,unsigned int factorR, unsigned int factorL);
 void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, long time_ms);
-void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step, unsigned int factor);
+void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step, unsigned int factorR, unsigned int factorL);
 void customDelayMs(unsigned int milliseconds);
 # 18 "main.c" 2
 
 # 1 "./calibration.h" 1
 # 12 "./calibration.h"
 void calibration_colors(colors *cCal);
-unsigned int calibration_turning(struct DC_motor *mL, struct DC_motor *mR);
+unsigned int calibration_turningR(struct DC_motor *mL, struct DC_motor *mR);
+unsigned int calibration_turningL(struct DC_motor *mL, struct DC_motor *mR);
 void customDelayMs(unsigned int milliseconds);
 # 19 "main.c" 2
 # 30 "main.c"
@@ -24396,9 +24397,12 @@ void main(void) {
     unsigned int ambient;
     float clear_current;
     float clear_max;
-    unsigned int factor;
+    unsigned int factorR;
+    unsigned int factorL;
 
 
+    factorR = calibration_turningR(&motorL, &motorR) ;
+    factorL = calibration_turningL(&motorL, &motorR) ;
 
     ambient = colorCalibration.ambient;
 
@@ -24423,14 +24427,12 @@ void main(void) {
         clear_norm = (clear_current)*100/clear_max;
 
 
-        send2USART(clear_norm);
 
-        while(clear_norm<7){
+        while(clear_norm<10){
             (colorCurrent.clear) = color_read_Clear();
             clear_current = colorCurrent.clear;
             clear_max = colorCalibration.clear;
             clear_norm = clear_current*100/clear_max;
-            send2USART(clear_norm);
 
             }
 
@@ -24450,17 +24452,18 @@ void main(void) {
         _delay((unsigned long)((300)*(64000000/4000.0)));
 
         hue = reading_hue(&colorCurrent);
-
+        send2USART(hue);
         clear_current = colorCurrent.clear;
         clear_max = colorCalibration.clear;
         clear_norm = clear_current*100/clear_max;
+        send2USART(clear_norm);
 
         if (clear_norm > 20){
             fullSpeedAhead(&motorL,&motorR);
             _delay((unsigned long)((100)*(64000000/4000.0)));
             stop(&motorL,&motorR);
         }
-        if ((clear_norm > 60 && !(hue >= 302 && hue <= 346)) || LATGbits.LATG1 == 1) {
+        if ((clear_norm > 85 && !(hue >= 302 && hue <= 346)) && !(hue>14 && hue<=35) || LATGbits.LATG1 == 1) {
 
             LATGbits.LATG0 = 0;
             LATEbits.LATE7 = 0;
@@ -24471,11 +24474,11 @@ void main(void) {
             }
             unsigned int white = 8;
             send2USART(white);
-            returnHome(&motorL, &motorR, path_step, factor);
+            returnHome(&motorL, &motorR, path_step, factorR, factorL);
 
         }
 
-        path_step = decision(hue, path_step, factor);
+        path_step = decision(hue, path_step, factorR, factorL);
     }
 
 

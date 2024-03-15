@@ -81,28 +81,28 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;./color.h: 62: unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 [v _convert_rgb2hue `(ui ~T0 @X0 0 ef2`*S2016`*S2016 ]
 "42 ./dc_motor.h
-[; ;./dc_motor.h: 42: void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+[; ;./dc_motor.h: 42: void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
 [v _moveRed `(v ~T0 @X0 0 ef3`*S2015`*S2015`ui ]
 "15 ./return_func.h
 [; ;./return_func.h: 15: void logAction(char newAction, long newTime, unsigned int path_step);
 [v _logAction `(v ~T0 @X0 0 ef3`uc`l`ui ]
 "43 ./dc_motor.h
-[; ;./dc_motor.h: 43: void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+[; ;./dc_motor.h: 43: void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
 [v _moveGreen `(v ~T0 @X0 0 ef3`*S2015`*S2015`ui ]
 "44
-[; ;./dc_motor.h: 44: void moveBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-[v _moveBlue `(v ~T0 @X0 0 ef3`*S2015`*S2015`ui ]
+[; ;./dc_motor.h: 44: void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
+[v _moveBlue `(v ~T0 @X0 0 ef2`*S2015`*S2015 ]
 "48
-[; ;./dc_motor.h: 48: void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-[v _moveLightBlue `(v ~T0 @X0 0 ef3`*S2015`*S2015`ui ]
+[; ;./dc_motor.h: 48: void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
+[v _moveLightBlue `(v ~T0 @X0 0 ef2`*S2015`*S2015 ]
 "45
-[; ;./dc_motor.h: 45: void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+[; ;./dc_motor.h: 45: void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
 [v _moveYellow `(v ~T0 @X0 0 ef3`*S2015`*S2015`ui ]
 "47
-[; ;./dc_motor.h: 47: void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-[v _moveOrange `(v ~T0 @X0 0 ef3`*S2015`*S2015`ui ]
+[; ;./dc_motor.h: 47: void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
+[v _moveOrange `(v ~T0 @X0 0 ef2`*S2015`*S2015 ]
 "46
-[; ;./dc_motor.h: 46: void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+[; ;./dc_motor.h: 46: void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
 [v _movePink `(v ~T0 @X0 0 ef3`*S2015`*S2015`ui ]
 "54 C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h
 [; ;C:/Program Files/Microchip/MPLABX/v6.15/packs/Microchip/PIC18F-K_DFP/1.11.281/xc8\pic\include\proc\pic18f67k40.h: 54: __asm("PPSLOCK equ 0DEFh");
@@ -2389,8 +2389,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;color.c: 100:     LATAbits.LATA3 = 0;
 [e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
 "101
-[; ;color.c: 101:     _delay((unsigned long)((500)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+[; ;color.c: 101:     _delay((unsigned long)((200)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
 "102
 [; ;color.c: 102:     (cCurr->red)= color_read_Red();
 [e = . *U _cCurr 0 ( _color_read_Red ..  ]
@@ -2404,8 +2404,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;color.c: 106:     LATAbits.LATA3 = 0;
 [e = . . _LATAbits 0 3 -> -> 0 `i `uc ]
 "107
-[; ;color.c: 107:     _delay((unsigned long)((500)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+[; ;color.c: 107:     _delay((unsigned long)((200)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
 "108
 [; ;color.c: 108:     (cCurr->green) = color_read_Green();
 [e = . *U _cCurr 1 ( _color_read_Green ..  ]
@@ -2419,8 +2419,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;color.c: 112:     LATAbits.LATA3 = 1;
 [e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
 "113
-[; ;color.c: 113:     _delay((unsigned long)((500)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+[; ;color.c: 113:     _delay((unsigned long)((200)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
 "114
 [; ;color.c: 114:     (cCurr->blue) = color_read_Blue();
 [e = . *U _cCurr 2 ( _color_read_Blue ..  ]
@@ -2434,8 +2434,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;color.c: 118:     LATAbits.LATA3 = 1;
 [e = . . _LATAbits 0 3 -> -> 1 `i `uc ]
 "119
-[; ;color.c: 119:     _delay((unsigned long)((500)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 500 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+[; ;color.c: 119:     _delay((unsigned long)((200)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 200 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
 "120
 [; ;color.c: 120:     (cCurr->clear) = color_read_Clear();
 [e = . *U _cCurr 3 ( _color_read_Clear ..  ]
@@ -2606,13 +2606,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :UE 2024 ]
 }
 "181
-[; ;color.c: 181: unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factor) {
-[v _decision `(ui ~T0 @X0 1 ef3`ui`ui`ui ]
+[; ;color.c: 181: unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factorR, unsigned int factorL) {
+[v _decision `(ui ~T0 @X0 1 ef4`ui`ui`ui`ui ]
 {
 [e :U _decision ]
 [v _hue `ui ~T0 @X0 1 r1 ]
 [v _path_step `ui ~T0 @X0 1 r2 ]
-[v _factor `ui ~T0 @X0 1 r3 ]
+[v _factorR `ui ~T0 @X0 1 r3 ]
+[v _factorL `ui ~T0 @X0 1 r4 ]
 [f ]
 "186
 [; ;color.c: 186:     unsigned int color;
@@ -2622,8 +2623,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ ! || <= _hue -> -> 10 `i `ui >= _hue -> -> 355 `i `ui 2034  ]
 {
 "189
-[; ;color.c: 189:         moveRed(&motorL, &motorR, factor);
-[e ( _moveRed (3 , , &U _motorL &U _motorR _factor ]
+[; ;color.c: 189:         moveRed(&motorL, &motorR, factorR);
+[e ( _moveRed (3 , , &U _motorL &U _motorR _factorR ]
 "190
 [; ;color.c: 190:         logAction(1,0, path_step);
 [e ( _logAction (3 , , -> -> 1 `i `uc -> -> 0 `i `l _path_step ]
@@ -2643,8 +2644,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ ! && >= _hue -> -> 105 `i `ui <= _hue -> -> 130 `i `ui 2036  ]
 {
 "195
-[; ;color.c: 195:         moveGreen(&motorL, &motorR,factor);
-[e ( _moveGreen (3 , , &U _motorL &U _motorR _factor ]
+[; ;color.c: 195:         moveGreen(&motorL, &motorR,factorL);
+[e ( _moveGreen (3 , , &U _motorL &U _motorR _factorL ]
 "196
 [; ;color.c: 196:         logAction(2,0, path_step);
 [e ( _logAction (3 , , -> -> 2 `i `uc -> -> 0 `i `l _path_step ]
@@ -2655,15 +2656,15 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;color.c: 198:         path_step++;
 [e ++ _path_step -> -> 1 `i `ui ]
 "199
-[; ;color.c: 199:     } else if (hue>=230 && hue<=240){
+[; ;color.c: 199:     } else if (hue>=230 && hue<=248){
 }
 [e $U 2037  ]
 [e :U 2036 ]
-[e $ ! && >= _hue -> -> 230 `i `ui <= _hue -> -> 240 `i `ui 2038  ]
+[e $ ! && >= _hue -> -> 230 `i `ui <= _hue -> -> 248 `i `ui 2038  ]
 {
 "200
-[; ;color.c: 200:         moveBlue(&motorL,&motorR, factor);
-[e ( _moveBlue (3 , , &U _motorL &U _motorR _factor ]
+[; ;color.c: 200:         moveBlue(&motorL,&motorR);
+[e ( _moveBlue (2 , &U _motorL &U _motorR ]
 "201
 [; ;color.c: 201:         logAction(3,0, path_step);
 [e ( _logAction (3 , , -> -> 3 `i `uc -> -> 0 `i `l _path_step ]
@@ -2674,15 +2675,15 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;color.c: 203:         path_step++;
 [e ++ _path_step -> -> 1 `i `ui ]
 "204
-[; ;color.c: 204:     } else if (hue>=216 && hue<=221 ){
+[; ;color.c: 204:     } else if (hue>=200 && hue<=230 ){
 }
 [e $U 2039  ]
 [e :U 2038 ]
-[e $ ! && >= _hue -> -> 216 `i `ui <= _hue -> -> 221 `i `ui 2040  ]
+[e $ ! && >= _hue -> -> 200 `i `ui <= _hue -> -> 230 `i `ui 2040  ]
 {
 "205
-[; ;color.c: 205:         moveLightBlue(&motorL,&motorR, factor);
-[e ( _moveLightBlue (3 , , &U _motorL &U _motorR _factor ]
+[; ;color.c: 205:         moveLightBlue(&motorL,&motorR);
+[e ( _moveLightBlue (2 , &U _motorL &U _motorR ]
 "206
 [; ;color.c: 206:         logAction(4,0, path_step);
 [e ( _logAction (3 , , -> -> 4 `i `uc -> -> 0 `i `l _path_step ]
@@ -2700,8 +2701,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ ! && >= _hue -> -> 302 `i `ui <= _hue -> -> 346 `i `ui 2042  ]
 {
 "210
-[; ;color.c: 210:         moveYellow(&motorL,&motorR, factor);
-[e ( _moveYellow (3 , , &U _motorL &U _motorR _factor ]
+[; ;color.c: 210:         moveYellow(&motorL,&motorR, factorR);
+[e ( _moveYellow (3 , , &U _motorL &U _motorR _factorR ]
 "211
 [; ;color.c: 211:         logAction(5,0, path_step);
 [e ( _logAction (3 , , -> -> 5 `i `uc -> -> 0 `i `l _path_step ]
@@ -2719,8 +2720,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e $ ! && > _hue -> -> 14 `i `ui <= _hue -> -> 35 `i `ui 2044  ]
 {
 "215
-[; ;color.c: 215:         moveOrange(&motorL,&motorR, factor);
-[e ( _moveOrange (3 , , &U _motorL &U _motorR _factor ]
+[; ;color.c: 215:         moveOrange(&motorL,&motorR);
+[e ( _moveOrange (2 , &U _motorL &U _motorR ]
 "216
 [; ;color.c: 216:         logAction(6,0, path_step);
 [e ( _logAction (3 , , -> -> 6 `i `uc -> -> 0 `i `l _path_step ]
@@ -2731,26 +2732,26 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;color.c: 218:         path_step++;
 [e ++ _path_step -> -> 1 `i `ui ]
 "219
-[; ;color.c: 219:     } else if (hue>=244 && hue<=251){
+[; ;color.c: 219:     } else if (hue>=240 && hue<=260){
 }
 [e $U 2045  ]
 [e :U 2044 ]
-[e $ ! && >= _hue -> -> 244 `i `ui <= _hue -> -> 251 `i `ui 2046  ]
+[e $ ! && >= _hue -> -> 240 `i `ui <= _hue -> -> 260 `i `ui 2046  ]
 {
-"220
-[; ;color.c: 220:         movePink(&motorL,&motorR, factor);
-[e ( _movePink (3 , , &U _motorL &U _motorR _factor ]
 "221
-[; ;color.c: 221:         logAction(7,0, path_step);
-[e ( _logAction (3 , , -> -> 7 `i `uc -> -> 0 `i `l _path_step ]
+[; ;color.c: 221:         movePink(&motorL,&motorR, factorL);
+[e ( _movePink (3 , , &U _motorL &U _motorR _factorL ]
 "222
-[; ;color.c: 222:         color = 7;
-[e = _color -> -> 7 `i `ui ]
+[; ;color.c: 222:         logAction(7,0, path_step);
+[e ( _logAction (3 , , -> -> 7 `i `uc -> -> 0 `i `l _path_step ]
 "223
-[; ;color.c: 223:         path_step++;
+[; ;color.c: 223:         color = 7;
+[e = _color -> -> 7 `i `ui ]
+"224
+[; ;color.c: 224:         path_step++;
 [e ++ _path_step -> -> 1 `i `ui ]
-"225
-[; ;color.c: 225:     }
+"226
+[; ;color.c: 226:     }
 }
 [e :U 2046 ]
 [e :U 2045 ]
@@ -2759,11 +2760,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e :U 2039 ]
 [e :U 2037 ]
 [e :U 2035 ]
-"227
-[; ;color.c: 227:     return path_step;
+"228
+[; ;color.c: 228:     return path_step;
 [e ) _path_step ]
 [e $UE 2033  ]
-"228
-[; ;color.c: 228: }
+"229
+[; ;color.c: 229: }
 [e :UE 2033 ]
 }

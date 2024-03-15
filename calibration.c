@@ -100,47 +100,145 @@ void calibration_colors(colors *cCal)
 }
 
 
-unsigned int calibration_turning(struct DC_motor *mL, struct DC_motor *mR){
-    float factor = 1.0; // Use float for more precise adjustment
-    float adjustment = 0.05; // Adjustment rate
+//unsigned int calibration_turning(struct DC_motor *mL, struct DC_motor *mR){
+//    float factor = 1.0; // Use float for more precise adjustment
+//    float adjustment = 0.05; // Adjustment rate
+//
+//    // Introduce a way to break out of the while loop
+//    unsigned char exitLoop = 0;
+//
+//    while(!exitLoop){
+//        // Increase factor with RF3
+//        if (PORTFbits.RF2 == 0){
+//            __delay_ms(200); // Debounce delay
+//            factor += adjustment;
+//            while(PORTFbits.RF2 == 0); // Wait until button is released
+//        }
+//
+//
+//
+//        // Perform the calibration turns with the final factor
+//         for(int i = 0; i < 4; i++) {
+//             right90(mL, mR, factor);
+//             __delay_ms(300); // Delay between turns for observation
+//            }
+//        __delay_ms(1000);
+//        
+//        // Check if both buttons are pressed to confirm and exit
+//        if (PORTFbits.RF3 == 0){
+//            __delay_ms(200); // Debounce delay
+//            exitLoop = 1; // Set to exit the loop
+//            while(PORTFbits.RF3 == 0); // Wait until both buttons are released
+//        }
+//     while(PORTFbits.RF3){}
+//
+//    }
+//
+//    
+//
+//    // Assuming factor needs to be an integer for some reason, otherwise just use float
+//    return (unsigned int)(factor); // Return factor scaled up
+//}
 
-    // Introduce a way to break out of the while loop
-    unsigned char exitLoop = 0;
+unsigned int calibration_turningR(struct DC_motor *mL, struct DC_motor *mR) {
+    int factorR = 0;
+    float adjustment = 10; // Adjustment rate for the factor.
+    unsigned long inactivityCounter = 0;
+    const unsigned long inactivityLimit = 3000 / 1; // 5 seconds divided by the delay in the loop below (1ms)
 
-    while(!exitLoop){
-        // Increase factor with RF3
-        if (PORTFbits.RF2 == 0){
-            __delay_ms(200); // Debounce delay
-            factor += adjustment;
-            while(PORTFbits.RF2 == 0); // Wait until button is released
+    while (1) {
+        // Perform calibration turns.
+        for (int i = 0; i < 4; i++) {
+            right90(mL, mR, factorR);
+            __delay_ms(1000); // Wait a bit between turns for observation.
         }
 
+        inactivityCounter = 0; // Reset inactivity counter after turns.
 
-
-        // Perform the calibration turns with the final factor
-         for(int i = 0; i < 4; i++) {
-             right90(mL, mR, factor);
-             __delay_ms(300); // Delay between turns for observation
+        // Wait for button input or inactivity timeout.
+        while (1) {
+            if (!PORTFbits.RF2 || !PORTFbits.RF3) { // If any button is pressed.
+                inactivityCounter = 0; // Reset inactivity counter on button press.
+            } else {
+                inactivityCounter++;
+                if (inactivityCounter > inactivityLimit) {
+                    // If inactivity timeout is reached, exit function.
+                    return (unsigned int)factorR;
+                }
             }
-        __delay_ms(1000);
-        
-        // Check if both buttons are pressed to confirm and exit
-        if (PORTFbits.RF3 == 0){
-            __delay_ms(200); // Debounce delay
-            exitLoop = 1; // Set to exit the loop
-            while(PORTFbits.RF3 == 0); // Wait until both buttons are released
-        }
-     while(PORTFbits.RF3){}
+            __delay_ms(1); // Delay for inactivity checking.
 
+            // Increase factor with Button 1 (RF2).
+            if (PORTFbits.RF2 == 0) {
+                __delay_ms(200); // Debounce delay.
+                factorR += adjustment;
+                while (PORTFbits.RF2 == 0); // Wait until button is released.
+                __delay_ms(200); // Further debounce after release.
+                break; // Break the inner while loop to reset the process.
+            }
+
+            // Decrease factor with Button 2 (RF3).
+            if (PORTFbits.RF3 == 0) {
+                __delay_ms(200); // Debounce delay.
+                factorR -= adjustment;
+                while (PORTFbits.RF3 == 0); // Wait until button is released.
+                __delay_ms(200); // Further debounce after release.
+                break; // Break the inner while loop to reset the process.
+            }
+        }
     }
 
-    
-
-    // Assuming factor needs to be an integer for some reason, otherwise just use float
-    return (unsigned int)(factor); // Return factor scaled up
 }
 
+unsigned int calibration_turningL(struct DC_motor *mL, struct DC_motor *mR) {
+    int factorL = 0;
+    float adjustment = 10; // Adjustment rate for the factor.
+    unsigned long inactivityCounter = 0;
+    const unsigned long inactivityLimit = 5000 / 1; // 5 seconds divided by the delay in the loop below (1ms)
 
+    while (1) {
+        // Perform calibration turns.
+        for (int i = 0; i < 4; i++) {
+            left90(mL, mR, factorL);
+            __delay_ms(1000); // Wait a bit between turns for observation.
+        }
+
+        inactivityCounter = 0; // Reset inactivity counter after turns.
+
+        // Wait for button input or inactivity timeout.
+        while (1) {
+            if (!PORTFbits.RF2 || !PORTFbits.RF3) { // If any button is pressed.
+                inactivityCounter = 0; // Reset inactivity counter on button press.
+            } else {
+                inactivityCounter++;
+                if (inactivityCounter > inactivityLimit) {
+                    // If inactivity timeout is reached, exit function.
+                    return (unsigned int)factorL;
+                }
+            }
+            __delay_ms(1); // Delay for inactivity checking.
+
+            // Increase factor with Button 1 (RF2).
+            if (PORTFbits.RF2 == 0) {
+                __delay_ms(200); // Debounce delay.
+                factorL += adjustment;
+                while (PORTFbits.RF2 == 0); // Wait until button is released.
+                __delay_ms(200); // Further debounce after release.
+                break; // Break the inner while loop to reset the process.
+            }
+
+            // Decrease factor with Button 2 (RF3).
+            if (PORTFbits.RF3 == 0) {
+                __delay_ms(200); // Debounce delay.
+                factorL -= adjustment;
+                while (PORTFbits.RF3 == 0); // Wait until button is released.
+                __delay_ms(200); // Further debounce after release.
+                break; // Break the inner while loop to reset the process.
+            }
+        }
+    }
+
+}
     
 
 

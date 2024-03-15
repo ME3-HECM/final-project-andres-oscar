@@ -24503,20 +24503,20 @@ void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
 
 void right90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
 void left90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void turn180(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void right135(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void left135(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void turn180(struct DC_motor *mL, struct DC_motor *mR);
+void right135(struct DC_motor *mL, struct DC_motor *mR);
+void left135(struct DC_motor *mL, struct DC_motor *mR);
 void backHalf(struct DC_motor *mL, struct DC_motor *mR);
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
 
-void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void moveWhite(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
+void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
+void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
+void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
+void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
+void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
+void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
+void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
 # 5 "./color.h" 2
 
 
@@ -24579,7 +24579,7 @@ unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
 
-unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factor);
+unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factorR, unsigned int factorL);
 # 3 "color.c" 2
 
 # 1 "./i2c.h" 1
@@ -24661,9 +24661,9 @@ long time[50];
 
 
 void logAction(char newAction, long newTime, unsigned int path_step);
-void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char actionStep, long time_ms,unsigned int factor);
+void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char actionStep, long time_ms,unsigned int factorR, unsigned int factorL);
 void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, long time_ms);
-void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step, unsigned int factor);
+void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step, unsigned int factorR, unsigned int factorL);
 void customDelayMs(unsigned int milliseconds);
 # 7 "color.c" 2
 
@@ -24760,25 +24760,25 @@ unsigned int reading_hue(colors *cCurr)
     LATGbits.LATG0 = 1;
     LATEbits.LATE7 = 0;
     LATAbits.LATA3 = 0;
-    _delay((unsigned long)((500)*(64000000/4000.0)));
+    _delay((unsigned long)((200)*(64000000/4000.0)));
     (cCurr->red)= color_read_Red();
 
     LATGbits.LATG0 = 0;
     LATEbits.LATE7 = 1;
     LATAbits.LATA3 = 0;
-    _delay((unsigned long)((500)*(64000000/4000.0)));
+    _delay((unsigned long)((200)*(64000000/4000.0)));
     (cCurr->green) = color_read_Green();
 
     LATGbits.LATG0 = 0;
     LATEbits.LATE7 = 0;
     LATAbits.LATA3 = 1;
-    _delay((unsigned long)((500)*(64000000/4000.0)));
+    _delay((unsigned long)((200)*(64000000/4000.0)));
     (cCurr->blue) = color_read_Blue();
 
     LATGbits.LATG0 = 1;
     LATEbits.LATE7 = 1;
     LATAbits.LATA3 = 1;
-    _delay((unsigned long)((500)*(64000000/4000.0)));
+    _delay((unsigned long)((200)*(64000000/4000.0)));
     (cCurr->clear) = color_read_Clear();
 
 
@@ -24840,7 +24840,7 @@ unsigned int convert_rgb2hue(struct colors *cMax, struct colors *cCurr)
     return (unsigned int)hue;
 }
 
-unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factor) {
+unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factorR, unsigned int factorL) {
 
 
 
@@ -24848,38 +24848,39 @@ unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int fac
     unsigned int color;
 
     if (hue<=10 || hue>=355) {
-        moveRed(&motorL, &motorR, factor);
+        moveRed(&motorL, &motorR, factorR);
         logAction(1,0, path_step);
         color = 1;
         path_step++;
     }
         else if (hue>=105 && hue<=130){
-        moveGreen(&motorL, &motorR,factor);
+        moveGreen(&motorL, &motorR,factorL);
         logAction(2,0, path_step);
         color = 2;
         path_step++;
-    } else if (hue>=230 && hue<=240){
-        moveBlue(&motorL,&motorR, factor);
+    } else if (hue>=230 && hue<=248){
+        moveBlue(&motorL,&motorR);
         logAction(3,0, path_step);
         color = 3;
         path_step++;
-    } else if (hue>=216 && hue<=221 ){
-        moveLightBlue(&motorL,&motorR, factor);
+    } else if (hue>=200 && hue<=230 ){
+        moveLightBlue(&motorL,&motorR);
         logAction(4,0, path_step);
         color = 4;
         path_step++;
     } else if (hue>=302 && hue<=346){
-        moveYellow(&motorL,&motorR, factor);
+        moveYellow(&motorL,&motorR, factorR);
         logAction(5,0, path_step);
         color = 5;
         path_step++;
     } else if (hue>14 && hue<=35){
-        moveOrange(&motorL,&motorR, factor);
+        moveOrange(&motorL,&motorR);
         logAction(6,0, path_step);
         color= 6;
         path_step++;
-    } else if (hue>=244 && hue<=251){
-        movePink(&motorL,&motorR, factor);
+    } else if (hue>=240 && hue<=260){
+
+        movePink(&motorL,&motorR, factorL);
         logAction(7,0, path_step);
         color = 7;
         path_step++;

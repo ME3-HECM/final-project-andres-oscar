@@ -63,5 +63,5 @@ unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
 
-unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factor);
+unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factorR, unsigned int factorL);
 #endif

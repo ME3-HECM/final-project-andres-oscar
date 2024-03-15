@@ -87,16 +87,19 @@ void main(void) {
     
     
     calibration_colors(&colorCalibration);
-    
+
     unsigned int clear_norm;
     unsigned int path_step = 0;
     unsigned int hue;
     unsigned int ambient;
     float clear_current;
     float clear_max;
-    unsigned int factor;
+    unsigned int factorR;
+    unsigned int factorL;
+
     
-    //factor = calibration_turning(&motorL, &motorR);
+    factorR = calibration_turningR(&motorL, &motorR) ;
+    factorL = calibration_turningL(&motorL, &motorR) ;
     
     ambient = colorCalibration.ambient;
 
@@ -121,14 +124,12 @@ void main(void) {
         clear_norm = (clear_current)*100/clear_max;    
                 
         
-        send2USART(clear_norm);
         //when clear above a certain threshold, start the colour detection and movement process
-        while(clear_norm<7){ //change the addition depending on ambient
+        while(clear_norm<10){ //change the addition depending on ambient
             (colorCurrent.clear) = color_read_Clear();
             clear_current = colorCurrent.clear;
             clear_max = colorCalibration.clear;
             clear_norm = clear_current*100/clear_max;   
-            send2USART(clear_norm);
                 
             }
         
@@ -148,17 +149,18 @@ void main(void) {
         __delay_ms(300);
 
         hue = reading_hue(&colorCurrent);
-
+        send2USART(hue);
         clear_current = colorCurrent.clear;
         clear_max = colorCalibration.clear;
         clear_norm = clear_current*100/clear_max;   
+        send2USART(clear_norm);
                 
         if (clear_norm > 20){
             fullSpeedAhead(&motorL,&motorR);
             __delay_ms(100);
             stop(&motorL,&motorR);
         }  
-        if ((clear_norm > 60 && !(hue >= 302 && hue <= 346)) || LATGbits.LATG1 == 1) {
+        if ((clear_norm > 85 && !(hue >= 302 && hue <= 346)) && !(hue>14 && hue<=35) || LATGbits.LATG1 == 1) {
                     //turn off white light during normal operation
             LATGbits.LATG0 = 0; //Red is G0
             LATEbits.LATE7 = 0; //Green is E7
@@ -169,11 +171,11 @@ void main(void) {
             }
             unsigned int white = 8;
             send2USART(white);
-            returnHome(&motorL, &motorR, path_step, factor);
+            returnHome(&motorL, &motorR, path_step, factorR, factorL);
             
         }
             
-        path_step = decision(hue, path_step, factor);
+        path_step = decision(hue, path_step, factorR, factorL);
     }
 
             

@@ -24503,20 +24503,20 @@ void fullSpeedAhead(DC_motor *mL, DC_motor *mR);
 
 void right90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
 void left90(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void turn180(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void right135(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void left135(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void turn180(struct DC_motor *mL, struct DC_motor *mR);
+void right135(struct DC_motor *mL, struct DC_motor *mR);
+void left135(struct DC_motor *mL, struct DC_motor *mR);
 void backHalf(struct DC_motor *mL, struct DC_motor *mR);
 void backOneAndHalf(struct DC_motor *mL, struct DC_motor *mR);
 
-void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void moveBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void moveOrange(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
-void moveWhite(struct DC_motor *mL, struct DC_motor *mR, unsigned int factor);
+void moveRed(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
+void moveGreen(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
+void moveBlue(struct DC_motor *mL, struct DC_motor *mR);
+void moveYellow(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorR);
+void movePink(struct DC_motor *mL, struct DC_motor *mR, unsigned int factorL);
+void moveOrange(struct DC_motor *mL, struct DC_motor *mR);
+void moveLightBlue(struct DC_motor *mL, struct DC_motor *mR);
+void moveWhite(struct DC_motor *mL, struct DC_motor *mR);
 # 5 "./color.h" 2
 
 
@@ -24579,7 +24579,7 @@ unsigned int convert_rgb2hue(colors *cMax, colors *cCurr);
 
 void calibration_routine(colors *cCal);
 
-unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factor);
+unsigned int decision(unsigned int hue, unsigned int path_step, unsigned int factorR, unsigned int factorL);
 # 3 "calibration.c" 2
 
 # 1 "./i2c.h" 1
@@ -24661,16 +24661,17 @@ long time[50];
 
 
 void logAction(char newAction, long newTime, unsigned int path_step);
-void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char actionStep, long time_ms,unsigned int factor);
+void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char actionStep, long time_ms,unsigned int factorR, unsigned int factorL);
 void reverseStraight(struct DC_motor *mL, struct DC_motor *mR, long time_ms);
-void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step, unsigned int factor);
+void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step, unsigned int factorR, unsigned int factorL);
 void customDelayMs(unsigned int milliseconds);
 # 7 "calibration.c" 2
 
 # 1 "./calibration.h" 1
 # 12 "./calibration.h"
 void calibration_colors(colors *cCal);
-unsigned int calibration_turning(struct DC_motor *mL, struct DC_motor *mR);
+unsigned int calibration_turningR(struct DC_motor *mL, struct DC_motor *mR);
+unsigned int calibration_turningL(struct DC_motor *mL, struct DC_motor *mR);
 void customDelayMs(unsigned int milliseconds);
 # 8 "calibration.c" 2
 
@@ -24766,49 +24767,106 @@ void calibration_colors(colors *cCal)
     }
     _delay((unsigned long)((500)*(64000000/4000.0)));
 }
+# 143 "calibration.c"
+unsigned int calibration_turningR(struct DC_motor *mL, struct DC_motor *mR) {
+    int factorR = 0;
+    float adjustment = 10;
+    unsigned long inactivityCounter = 0;
+    const unsigned long inactivityLimit = 3000 / 1;
 
+    while (1) {
 
-unsigned int calibration_turning(struct DC_motor *mL, struct DC_motor *mR){
-    float factor = 1.0;
-    float adjustment = 0.05;
-
-
-    unsigned char exitLoop = 0;
-
-    while(!exitLoop){
-
-        if (PORTFbits.RF2 == 0){
-            _delay((unsigned long)((200)*(64000000/4000.0)));
-            factor += adjustment;
-            while(PORTFbits.RF2 == 0);
+        for (int i = 0; i < 4; i++) {
+            right90(mL, mR, factorR);
+            _delay((unsigned long)((1000)*(64000000/4000.0)));
         }
 
+        inactivityCounter = 0;
 
 
+        while (1) {
+            if (!PORTFbits.RF2 || !PORTFbits.RF3) {
+                inactivityCounter = 0;
+            } else {
+                inactivityCounter++;
+                if (inactivityCounter > inactivityLimit) {
 
-         for(int i = 0; i < 4; i++) {
-             right90(mL, mR, factor);
-             _delay((unsigned long)((300)*(64000000/4000.0)));
+                    return (unsigned int)factorR;
+                }
             }
-        _delay((unsigned long)((1000)*(64000000/4000.0)));
+            _delay((unsigned long)((1)*(64000000/4000.0)));
 
 
-        if (PORTFbits.RF3 == 0){
-            _delay((unsigned long)((200)*(64000000/4000.0)));
-            exitLoop = 1;
-            while(PORTFbits.RF3 == 0);
+            if (PORTFbits.RF2 == 0) {
+                _delay((unsigned long)((200)*(64000000/4000.0)));
+                factorR += adjustment;
+                while (PORTFbits.RF2 == 0);
+                _delay((unsigned long)((200)*(64000000/4000.0)));
+                break;
+            }
+
+
+            if (PORTFbits.RF3 == 0) {
+                _delay((unsigned long)((200)*(64000000/4000.0)));
+                factorR -= adjustment;
+                while (PORTFbits.RF3 == 0);
+                _delay((unsigned long)((200)*(64000000/4000.0)));
+                break;
+            }
         }
-     while(PORTFbits.RF3){}
-
     }
 
-
-
-
-    return (unsigned int)(factor);
 }
 
+unsigned int calibration_turningL(struct DC_motor *mL, struct DC_motor *mR) {
+    int factorL = 0;
+    float adjustment = 10;
+    unsigned long inactivityCounter = 0;
+    const unsigned long inactivityLimit = 5000 / 1;
 
+    while (1) {
+
+        for (int i = 0; i < 4; i++) {
+            left90(mL, mR, factorL);
+            _delay((unsigned long)((1000)*(64000000/4000.0)));
+        }
+
+        inactivityCounter = 0;
+
+
+        while (1) {
+            if (!PORTFbits.RF2 || !PORTFbits.RF3) {
+                inactivityCounter = 0;
+            } else {
+                inactivityCounter++;
+                if (inactivityCounter > inactivityLimit) {
+
+                    return (unsigned int)factorL;
+                }
+            }
+            _delay((unsigned long)((1)*(64000000/4000.0)));
+
+
+            if (PORTFbits.RF2 == 0) {
+                _delay((unsigned long)((200)*(64000000/4000.0)));
+                factorL += adjustment;
+                while (PORTFbits.RF2 == 0);
+                _delay((unsigned long)((200)*(64000000/4000.0)));
+                break;
+            }
+
+
+            if (PORTFbits.RF3 == 0) {
+                _delay((unsigned long)((200)*(64000000/4000.0)));
+                factorL -= adjustment;
+                while (PORTFbits.RF3 == 0);
+                _delay((unsigned long)((200)*(64000000/4000.0)));
+                break;
+            }
+        }
+    }
+
+}
 
 
 

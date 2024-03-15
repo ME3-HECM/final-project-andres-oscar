@@ -10,7 +10,8 @@
 #endif
 
 void calibration_colors(colors *cCal);
-unsigned int calibration_turning(struct DC_motor *mL, struct DC_motor *mR);
+unsigned int calibration_turningR(struct DC_motor *mL, struct DC_motor *mR);
+unsigned int calibration_turningL(struct DC_motor *mL, struct DC_motor *mR);
 void customDelayMs(unsigned int milliseconds);
 
 
