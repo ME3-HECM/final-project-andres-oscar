@@ -21,17 +21,19 @@ In that said order
 
 ## Logging actions
 
-Colour | Instruction | Instruction
+A tough part of this project was providing the buggy with a 'memory' of its actions as it traverses the maze so it can accurately recreate them in reverse on when returning. We handled this by creating 2 global arrays, one for the 'action' that it performed at each instance, and the second for the associate 'time' duration of that action. The second array serves the purpose of remembering how far the straight sections of the maze are. Every time the buggy either advances or makes a correct reading of a color, it logs the corresponding action and time using our 'logAction()' function. We also create a local variable in the main.c file, 'path_step' that keeps track of the total number of actions so that the logAction function knows which index to insert the action and time into, and for the 'returnHome' function to read backwards through the arrays using the following for loop.
+
+Colour | Action pointer | Instruction
 ---------|---------|---------
-Red | Turn Right 90 | 1
-Green | Turn Left 90| 2
-Blue | Turn 180| 3
-Light blue | Turn Left 135 | 4
-Yellow | Reverse 1 square and turn right 90| 5
-Orange | Turn Right 135| 6
-Pink | Reverse 1 square and turn left 90| 7
-White | Finish (return home)| N/A
-Black | Maze wall colour| N/A
+Red | 1 | Turn Right 90
+Green | 2 | 2Turn Left 90
+Blue | 3 | Turn 180
+Light blue | 4 | Turn Left 135
+Yellow | 5 | Reverse 1 square and turn right 90
+Orange | 6 | Turn Right 135
+Pink | 7 | Reverse 1 square and turn left 90
+White | N/A | Finish (return home)
+Black | N/A | Maze wall colour
 
 ***
 ## Assessment
