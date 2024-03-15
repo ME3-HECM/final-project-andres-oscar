@@ -99,11 +99,7 @@ void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step
     
     long time_ms;
 
-    //turn off white light during normal operation
-    LATGbits.LATG0 = 0; //Red is G0
-    LATEbits.LATE7 = 0; //Green is E7
-    LATAbits.LATA3 = 0; //Blue is A3
-        
+
     moveWhite(&motorL,&motorR,factor);
     
     if (path_step > 0) { // Check to ensure there's at least one action to reverse.

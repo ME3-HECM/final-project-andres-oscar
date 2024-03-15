@@ -19,8 +19,10 @@ void Timer0_init(void)
     INTCONbits.PEIE = 1; // peripheral interrupt
     INTCONbits.GIE = 1; // global interrupt
     
-    TRISGbits.TRISG1 = 1;
+    //initialising another pin on the board to hold interrupt value
+    TRISGbits.TRISG1 = 0;
     LATGbits.LATG1 = 0;
+    
       
     TMR0L = 0;
     TMR0H = 0;

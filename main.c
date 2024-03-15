@@ -73,9 +73,7 @@ void main(void) {
     TRISFbits.TRISF3=1; //set TRIS value for pin (input)
     ANSELFbits.ANSELF3=0; //turn off analogue input on pin 
     
-    //initialising another pin on the board to hold interrupt value
-    TRISGbits.TRISG1 = 0;
-    LATGbits.LATG1 = 0;
+  
     
 
     
@@ -161,11 +159,18 @@ void main(void) {
             stop(&motorL,&motorR);
         }  
         if ((clear_norm > 60 && !(hue >= 302 && hue <= 346)) || LATGbits.LATG1 == 1) {
+                    //turn off white light during normal operation
+            LATGbits.LATG0 = 0; //Red is G0
+            LATEbits.LATE7 = 0; //Green is E7
+            LATAbits.LATA3 = 0; //Blue is A3
 
+            if (LATGbits.LATG1 == 1){
+                path_step = get16bitTMR0val(path_step);
+            }
             unsigned int white = 8;
             send2USART(white);
             returnHome(&motorL, &motorR, path_step, factor);
-            LATGbits.LATG1 = 0;
+            
         }
             
         path_step = decision(hue, path_step, factor);

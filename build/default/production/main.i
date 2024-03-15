@@ -24376,8 +24376,6 @@ void main(void) {
     ANSELFbits.ANSELF3=0;
 
 
-    TRISGbits.TRISG1 = 0;
-    LATGbits.LATG1 = 0;
 
 
 
@@ -24464,10 +24462,17 @@ void main(void) {
         }
         if ((clear_norm > 60 && !(hue >= 302 && hue <= 346)) || LATGbits.LATG1 == 1) {
 
+            LATGbits.LATG0 = 0;
+            LATEbits.LATE7 = 0;
+            LATAbits.LATA3 = 0;
+
+            if (LATGbits.LATG1 == 1){
+                path_step = get16bitTMR0val(path_step);
+            }
             unsigned int white = 8;
             send2USART(white);
             returnHome(&motorL, &motorR, path_step, factor);
-            LATGbits.LATG1 = 0;
+
         }
 
         path_step = decision(hue, path_step, factor);

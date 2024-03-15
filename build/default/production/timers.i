@@ -24184,8 +24184,10 @@ void Timer0_init(void)
     INTCONbits.PEIE = 1;
     INTCONbits.GIE = 1;
 
-    TRISGbits.TRISG1 = 1;
+
+    TRISGbits.TRISG1 = 0;
     LATGbits.LATG1 = 0;
+
 
     TMR0L = 0;
     TMR0H = 0;

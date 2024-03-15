@@ -24312,10 +24312,6 @@ void returnHome(struct DC_motor *mL, struct DC_motor *mR, unsigned int path_step
     long time_ms;
 
 
-    LATGbits.LATG0 = 0;
-    LATEbits.LATE7 = 0;
-    LATAbits.LATA3 = 0;
-
     moveWhite(&motorL,&motorR,factor);
 
     if (path_step > 0) {
