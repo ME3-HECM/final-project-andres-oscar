@@ -24769,7 +24769,7 @@ void calibration_colors(colors *cCal)
 
 
 unsigned int calibration_turning(struct DC_motor *mL, struct DC_motor *mR){
-    float factor = 0.9;
+    float factor = 1.0;
     float adjustment = 0.05;
 
 
@@ -24798,6 +24798,7 @@ unsigned int calibration_turning(struct DC_motor *mL, struct DC_motor *mR){
             exitLoop = 1;
             while(PORTFbits.RF3 == 0);
         }
+     while(PORTFbits.RF3){}
 
     }
 

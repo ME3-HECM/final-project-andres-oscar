@@ -98,12 +98,11 @@ void main(void) {
     float clear_max;
     unsigned int factor;
     
-    factor = calibration_turning(&motorL, &motorR);
-
+    //factor = calibration_turning(&motorL, &motorR);
     
-    
+    ambient = colorCalibration.ambient;
 
-
+    send2USART(ambient);
     //code structure for testing the movement functions
     while (1) {
         //turn on white light during normal operation
@@ -118,20 +117,23 @@ void main(void) {
         colorCurrent.clear = color_read_Clear();
 
         clear_current = colorCurrent.clear;
+        send2USART(clear_current);
         clear_max = colorCalibration.clear;
-        clear_norm = clear_current*100/clear_max;    
+        //float diff = clear_max - ambient;
+        clear_norm = (clear_current)*100/clear_max;    
                 
         
         send2USART(clear_norm);
         //when clear above a certain threshold, start the colour detection and movement process
-        while(clear_norm<8){
+        while(clear_norm<7){ //change the addition depending on ambient
             (colorCurrent.clear) = color_read_Clear();
             clear_current = colorCurrent.clear;
             clear_max = colorCalibration.clear;
             clear_norm = clear_current*100/clear_max;   
             send2USART(clear_norm);
-
-        }
+                
+            }
+        
         T0CON0bits.T0EN=0;	//stops the timer
 
         stop(&motorL,&motorR); //stops moving

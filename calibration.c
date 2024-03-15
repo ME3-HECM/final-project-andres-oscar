@@ -101,7 +101,7 @@ void calibration_colors(colors *cCal)
 
 
 unsigned int calibration_turning(struct DC_motor *mL, struct DC_motor *mR){
-    float factor = 0.9; // Use float for more precise adjustment
+    float factor = 1.0; // Use float for more precise adjustment
     float adjustment = 0.05; // Adjustment rate
 
     // Introduce a way to break out of the while loop
@@ -130,7 +130,8 @@ unsigned int calibration_turning(struct DC_motor *mL, struct DC_motor *mR){
             exitLoop = 1; // Set to exit the loop
             while(PORTFbits.RF3 == 0); // Wait until both buttons are released
         }
-        
+     while(PORTFbits.RF3){}
+
     }
 
     

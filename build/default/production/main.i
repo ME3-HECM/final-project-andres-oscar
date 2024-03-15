@@ -24400,12 +24400,11 @@ void main(void) {
     float clear_max;
     unsigned int factor;
 
-    factor = calibration_turning(&motorL, &motorR);
 
 
+    ambient = colorCalibration.ambient;
 
-
-
+    send2USART(ambient);
 
     while (1) {
 
@@ -24420,20 +24419,23 @@ void main(void) {
         colorCurrent.clear = color_read_Clear();
 
         clear_current = colorCurrent.clear;
+        send2USART(clear_current);
         clear_max = colorCalibration.clear;
-        clear_norm = clear_current*100/clear_max;
+
+        clear_norm = (clear_current)*100/clear_max;
 
 
         send2USART(clear_norm);
 
-        while(clear_norm<8){
+        while(clear_norm<7){
             (colorCurrent.clear) = color_read_Clear();
             clear_current = colorCurrent.clear;
             clear_max = colorCalibration.clear;
             clear_norm = clear_current*100/clear_max;
             send2USART(clear_norm);
 
-        }
+            }
+
         T0CON0bits.T0EN=0;
 
         stop(&motorL,&motorR);

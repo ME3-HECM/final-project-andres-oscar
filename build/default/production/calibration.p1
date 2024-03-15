@@ -2367,9 +2367,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _mR `*S2015 ~T0 @X0 1 r2 ]
 [f ]
 "104
-[; ;calibration.c: 104:     float factor = 0.9;
+[; ;calibration.c: 104:     float factor = 1.0;
 [v _factor `f ~T0 @X0 1 a ]
-[e = _factor -> .0.9 `f ]
+[e = _factor -> .1.0 `f ]
 "105
 [; ;calibration.c: 105:     float adjustment = 0.05;
 [v _adjustment `f ~T0 @X0 1 a ]
@@ -2450,51 +2450,60 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;calibration.c: 132:         }
 }
 [e :U 2047 ]
-"134
-[; ;calibration.c: 134:     }
+"133
+[; ;calibration.c: 133:      while(PORTFbits.RF3){}
+[e $U 2051  ]
+[e :U 2052 ]
+{
+}
+[e :U 2051 ]
+[e $ != -> . . _PORTFbits 0 3 `i -> 0 `i 2052  ]
+[e :U 2053 ]
+"135
+[; ;calibration.c: 135:     }
 }
 [e :U 2037 ]
 "110
 [; ;calibration.c: 110:     while(!exitLoop){
 [e $ ! != -> _exitLoop `i -> 0 `i 2038  ]
 [e :U 2039 ]
-"139
-[; ;calibration.c: 139:     return (unsigned int)(factor);
+"140
+[; ;calibration.c: 140:     return (unsigned int)(factor);
 [e ) -> _factor `ui ]
 [e $UE 2036  ]
-"140
-[; ;calibration.c: 140: }
+"141
+[; ;calibration.c: 141: }
 [e :UE 2036 ]
 }
-"148
-[; ;calibration.c: 148: void customDelayMs(unsigned int milliseconds) {
+"149
+[; ;calibration.c: 149: void customDelayMs(unsigned int milliseconds) {
 [v _customDelayMs `(v ~T0 @X0 1 ef1`ui ]
 {
 [e :U _customDelayMs ]
 [v _milliseconds `ui ~T0 @X0 1 r1 ]
 [f ]
-"149
-[; ;calibration.c: 149:     for (unsigned int i = 0; i < milliseconds; i++) {
+"150
+[; ;calibration.c: 150:     for (unsigned int i = 0; i < milliseconds; i++) {
 {
 [v _i `ui ~T0 @X0 1 a ]
 [e = _i -> -> 0 `i `ui ]
-[e $U 2055  ]
-[e :U 2052 ]
+[e $U 2058  ]
+[e :U 2055 ]
 {
-"150
-[; ;calibration.c: 150:         _delay((unsigned long)((1)*(64000000/4000.0)));
-[e ( __delay (1 -> * -> -> 1 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
 "151
-[; ;calibration.c: 151:     }
+[; ;calibration.c: 151:         _delay((unsigned long)((1)*(64000000/4000.0)));
+[e ( __delay (1 -> * -> -> 1 `i `d / -> -> 64000000 `l `d .4000.0 `ul ]
+"152
+[; ;calibration.c: 152:     }
 }
 [e ++ _i -> -> 1 `i `ui ]
-[e :U 2055 ]
-[e $ < _i _milliseconds 2052  ]
-[e :U 2053 ]
+[e :U 2058 ]
+[e $ < _i _milliseconds 2055  ]
+[e :U 2056 ]
 }
-"152
-[; ;calibration.c: 152: }
-[e :UE 2051 ]
+"153
+[; ;calibration.c: 153: }
+[e :UE 2054 ]
 }
 [a 9C 67 97 108 105 98 114 97 116 105 111 110 32 115 116 97 116 101 32 61 32 32 97 109 98 105 101 110 116 0 ]
 [a 7C 67 97 108 105 98 114 97 116 105 111 110 32 115 116 97 116 101 32 61 32 32 119 104 105 116 101 0 ]
