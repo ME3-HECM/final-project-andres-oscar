@@ -26,7 +26,7 @@ A tough part of this project was providing the buggy with a 'memory' of its acti
 Colour | Action pointer | Instruction
 ---------|---------|---------
 Red | 1 | Turn Right 90
-Green | 2 | 2Turn Left 90
+Green | 2 | Turn Left 90
 Blue | 3 | Turn 180
 Light blue | 4 | Turn Left 135
 Yellow | 5 | Reverse 1 square and turn right 90
