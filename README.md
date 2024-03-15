@@ -114,7 +114,7 @@ The assessment consisted of running mazes of 3 difficulties:
 
 Our team was assigned a slot at 12:00 for the test, and we were allowed into the room 10 minutes before to perform any last-minute adjustments.
 
-## Performance in the maze and Feedback
+## Performance in the Maze and Feedback
 
 ### Key Achievements
 #### Advanced Color Detection: 
