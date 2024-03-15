@@ -2,13 +2,22 @@
 
 ## Challenge brief
 
-Our buggy was designed to be capable of navigating a model "mine" by reading instructions for its movement using a predetermined set of colored cards. Once it reached the end of the "mine" our buggy was intended to return to its starting position and sleep to conserve energy. In more detail our buggy had to do the following according to the task brief:
+Our buggy was designed to be capable of navigating a model "mine" by reading instructions for its movement using a predetermined set of colored cards. Once it reached the end of the "mine", our buggy was intended to return to its starting position and sleep to conserve energy. In more detail our buggy had to do the following according to the task brief:
 
-1. Navigate towards a coloured card and stop before impacting the card
-1. Read the card colour
-1. Interpret the card colour using a predefined code and perform the navigation instruction
+1. Navigate towards a colored card and stop before impacting the card
+1. Read the card color
+1. Interpret the card color using a predefined code and perform the navigation instruction
 1. When the final card is reached, navigate back to the starting position
-1. Handle exceptions and return back to the starting position if final card cannot be found
+1. Handle exceptions and return to the starting position if the final card cannot be found
+
+***
+# Our code explained:
+
+## Calibration routine
+
+Before running the maze our buggy has to run a calibration routine to adjust its readings for hue, which regulates color detection according to the surroundings. Another stage of the calibration routine is to adjust the amount the buggy turns by doing some dummy rotations to operate on any given terrain without additional coding.
+
+In that said order 
 
 
 ## Assessment
