@@ -132,8 +132,8 @@ void main(void) {
             send2USART(clear_norm);
 
         }
-       
-        T0CON0bits.T0EN=0;	//stop the timer
+        T0CON0bits.T0EN=0;	//stops the timer
+
         stop(&motorL,&motorR); //stops moving
 
 

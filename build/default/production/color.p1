@@ -2881,8 +2881,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;color.c: 283:         moveRed(&motorL, &motorR);
 [e ( _moveRed (2 , &U _motorL &U _motorR ]
 "284
-[; ;color.c: 284:         logAction('1',0, path_step);
-[e ( _logAction (3 , , -> -> 49 `ui `uc -> 0 `i _path_step ]
+[; ;color.c: 284:         logAction(1,0, path_step);
+[e ( _logAction (3 , , -> -> 1 `i `uc -> 0 `i _path_step ]
 "285
 [; ;color.c: 285:         color = 1;
 [e = _color -> -> 1 `i `ui ]
@@ -2902,8 +2902,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;color.c: 289:         moveGreen(&motorL, &motorR);
 [e ( _moveGreen (2 , &U _motorL &U _motorR ]
 "290
-[; ;color.c: 290:         logAction('2',0, path_step);
-[e ( _logAction (3 , , -> -> 50 `ui `uc -> 0 `i _path_step ]
+[; ;color.c: 290:         logAction(2,0, path_step);
+[e ( _logAction (3 , , -> -> 2 `i `uc -> 0 `i _path_step ]
 "291
 [; ;color.c: 291:         color = 2;
 [e = _color -> -> 2 `i `ui ]
@@ -2921,8 +2921,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;color.c: 294:         moveBlue(&motorL,&motorR);
 [e ( _moveBlue (2 , &U _motorL &U _motorR ]
 "295
-[; ;color.c: 295:         logAction('3',0, path_step);
-[e ( _logAction (3 , , -> -> 51 `ui `uc -> 0 `i _path_step ]
+[; ;color.c: 295:         logAction(3,0, path_step);
+[e ( _logAction (3 , , -> -> 3 `i `uc -> 0 `i _path_step ]
 "296
 [; ;color.c: 296:         color = 3;
 [e = _color -> -> 3 `i `ui ]
@@ -2940,8 +2940,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;color.c: 299:         moveLightBlue(&motorL,&motorR);
 [e ( _moveLightBlue (2 , &U _motorL &U _motorR ]
 "300
-[; ;color.c: 300:         logAction('5',0, path_step);
-[e ( _logAction (3 , , -> -> 53 `ui `uc -> 0 `i _path_step ]
+[; ;color.c: 300:         logAction(5,0, path_step);
+[e ( _logAction (3 , , -> -> 5 `i `uc -> 0 `i _path_step ]
 "301
 [; ;color.c: 301:         color = 4;
 [e = _color -> -> 4 `i `ui ]
@@ -2959,8 +2959,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;color.c: 304:         moveYellow(&motorL,&motorR);
 [e ( _moveYellow (2 , &U _motorL &U _motorR ]
 "305
-[; ;color.c: 305:         logAction('1',0, path_step);
-[e ( _logAction (3 , , -> -> 49 `ui `uc -> 0 `i _path_step ]
+[; ;color.c: 305:         logAction(1,0, path_step);
+[e ( _logAction (3 , , -> -> 1 `i `uc -> 0 `i _path_step ]
 "306
 [; ;color.c: 306:         color = 5;
 [e = _color -> -> 5 `i `ui ]
@@ -2978,8 +2978,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;color.c: 309:         moveOrange(&motorL,&motorR);
 [e ( _moveOrange (2 , &U _motorL &U _motorR ]
 "310
-[; ;color.c: 310:         logAction('4',0, path_step);
-[e ( _logAction (3 , , -> -> 52 `ui `uc -> 0 `i _path_step ]
+[; ;color.c: 310:         logAction(4,0, path_step);
+[e ( _logAction (3 , , -> -> 4 `i `uc -> 0 `i _path_step ]
 "311
 [; ;color.c: 311:         color= 6;
 [e = _color -> -> 6 `i `ui ]
@@ -2997,8 +2997,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;color.c: 314:         movePink(&motorL,&motorR);
 [e ( _movePink (2 , &U _motorL &U _motorR ]
 "315
-[; ;color.c: 315:         logAction('2',0, path_step);
-[e ( _logAction (3 , , -> -> 50 `ui `uc -> 0 `i _path_step ]
+[; ;color.c: 315:         logAction(2,0, path_step);
+[e ( _logAction (3 , , -> -> 2 `i `uc -> 0 `i _path_step ]
 "316
 [; ;color.c: 316:         color = 7;
 [e = _color -> -> 7 `i `ui ]

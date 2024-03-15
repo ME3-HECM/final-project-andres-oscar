@@ -173,7 +173,7 @@
 [v _Timer0_init Timer0_init `(v  1 e 1 0 ]
 "34
 [v _get16bitTMR0val get16bitTMR0val `(ui  1 e 2 0 ]
-"43
+"42
 [v _LowISR LowISR `IIL(v  1 e 1 0 ]
 [s S31 colors 10 `ui 1 red 2 0 `ui 1 green 2 2 `ui 1 blue 2 4 `ui 1 clear 2 6 `ui 1 ambient 2 8 ]
 "20 C:\Users\ablan\OneDrive - Imperial College London\Documents\GitHub\final-project-andres-oscar.X/color.h
@@ -1241,7 +1241,7 @@
 [v get16bitTMR0val@combined_value combined_value `i  1 a 2 12 ]
 "34
 [v get16bitTMR0val@path_step path_step `ui  1 p 2 6 ]
-"42
+"41
 } 0
 "275 C:\Users\ablan\OneDrive - Imperial College London\Documents\GitHub\final-project-andres-oscar.X\color.c
 [v _decision decision `(ui  1 e 2 0 ]
@@ -1718,8 +1718,8 @@
 {
 "21
 } 0
-"43 C:\Users\ablan\OneDrive - Imperial College London\Documents\GitHub\final-project-andres-oscar.X\timers.c
+"42 C:\Users\ablan\OneDrive - Imperial College London\Documents\GitHub\final-project-andres-oscar.X\timers.c
 [v _LowISR LowISR `IIL(v  1 e 1 0 ]
 {
-"51
+"50
 } 0

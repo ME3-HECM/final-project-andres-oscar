@@ -2503,8 +2503,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 127:         while(clear_norm<8){
 [e $ < _clear_norm -> -> 8 `i `ui 2022  ]
 [e :U 2023 ]
-"136
-[; ;main.c: 136:         T0CON0bits.T0EN=0;
+"135
+[; ;main.c: 135:         T0CON0bits.T0EN=0;
 [e = . . _T0CON0bits 0 4 -> -> 0 `i `uc ]
 "137
 [; ;main.c: 137:         stop(&motorL,&motorR);

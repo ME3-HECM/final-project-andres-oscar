@@ -24428,8 +24428,8 @@ void main(void) {
             send2USART(clear_norm);
 
         }
-
         T0CON0bits.T0EN=0;
+
         stop(&motorL,&motorR);
 
 

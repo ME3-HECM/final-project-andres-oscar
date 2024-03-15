@@ -2164,32 +2164,35 @@ Version 4.0 HI-TECH Software Intermediate Code
 "23
 [; ;timers.c: 23:     LATGbits.LATG1 = 0;
 [e = . . _LATGbits 0 1 -> -> 0 `i `uc ]
-"27
-[; ;timers.c: 27: }
+"25
+[; ;timers.c: 25:     TMR0L = 0;
+[e = _TMR0L -> -> 0 `i `uc ]
+"26
+[; ;timers.c: 26:     TMR0H = 0;
+[e = _TMR0H -> -> 0 `i `uc ]
+"28
+[; ;timers.c: 28: }
 [e :UE 2016 ]
 }
-"33
-[; ;timers.c: 33: unsigned int get16bitTMR0val(unsigned int path_step)
-[v _get16bitTMR0val `(ui ~T0 @X0 1 ef1`ui ]
 "34
-[; ;timers.c: 34: {
+[; ;timers.c: 34: unsigned int get16bitTMR0val(unsigned int path_step)
+[v _get16bitTMR0val `(ui ~T0 @X0 1 ef1`ui ]
+"35
+[; ;timers.c: 35: {
 {
 [e :U _get16bitTMR0val ]
-"33
-[; ;timers.c: 33: unsigned int get16bitTMR0val(unsigned int path_step)
-[v _path_step `ui ~T0 @X0 1 r1 ]
 "34
-[; ;timers.c: 34: {
-[f ]
+[; ;timers.c: 34: unsigned int get16bitTMR0val(unsigned int path_step)
+[v _path_step `ui ~T0 @X0 1 r1 ]
 "35
-[; ;timers.c: 35:     int combined_value;
-[v _combined_value `i ~T0 @X0 1 a ]
+[; ;timers.c: 35: {
+[f ]
 "36
-[; ;timers.c: 36:     combined_value = TMR0L | (TMR0H << 8);
-[e = _combined_value | -> _TMR0L `i << -> _TMR0H `i -> 8 `i ]
+[; ;timers.c: 36:     int combined_value;
+[v _combined_value `i ~T0 @X0 1 a ]
 "37
-[; ;timers.c: 37:     T0CON0bits.T0EN=0;
-[e = . . _T0CON0bits 0 4 -> -> 0 `i `uc ]
+[; ;timers.c: 37:     combined_value = TMR0L | (TMR0H << 8);
+[e = _combined_value | -> _TMR0L `i << -> _TMR0H `i -> 8 `i ]
 "38
 [; ;timers.c: 38:     logAction('0',combined_value, path_step);
 [e ( _logAction (3 , , -> -> 48 `ui `uc _combined_value _path_step ]

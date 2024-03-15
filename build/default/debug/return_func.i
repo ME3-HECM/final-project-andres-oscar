@@ -24172,7 +24172,7 @@ void logAction(char newAction, int newTime, unsigned int path_step) {
 
 
 void reverseTurn(struct DC_motor *mL, struct DC_motor *mR, char actionStep) {
-    if (actionStep == 1) {
+    if (actionStep == 49) {
         backHalf(mL,mR);
         _delay((unsigned long)((500)*(64000000/4000.0)));
         left90(mL,mR);

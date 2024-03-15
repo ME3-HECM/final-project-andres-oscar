@@ -24327,6 +24327,7 @@ void main(void) {
     ADC_init();
     color_click_init();
     initUSART4();
+    Timer0_init();
 
 
     unsigned int PWMcycle = 99;
@@ -24427,8 +24428,8 @@ void main(void) {
             send2USART(clear_norm);
 
         }
-
         T0CON0bits.T0EN=0;
+
         stop(&motorL,&motorR);
 
 

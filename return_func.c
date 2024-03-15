@@ -1,7 +1,7 @@
 #include <xc.h>
 #include "return_func.h"
 #include "dc_motor.h"
-
+#define MAX_PATH_LENGTH 50
 /************************************
  * #RETURN FUNCTIONS
  * Whenever a turn is made or the buggy is moving forward, it logs this into a structure that includes the action and the time duration

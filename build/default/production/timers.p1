@@ -2194,46 +2194,43 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;timers.c: 37:     combined_value = TMR0L | (TMR0H << 8);
 [e = _combined_value | -> _TMR0L `i << -> _TMR0H `i -> 8 `i ]
 "38
-[; ;timers.c: 38:     T0CON0bits.T0EN=0;
-[e = . . _T0CON0bits 0 4 -> -> 0 `i `uc ]
+[; ;timers.c: 38:     logAction(0,combined_value, path_step);
+[e ( _logAction (3 , , -> -> 0 `i `uc _combined_value _path_step ]
 "39
-[; ;timers.c: 39:     logAction('0',combined_value, path_step);
-[e ( _logAction (3 , , -> -> 48 `ui `uc _combined_value _path_step ]
-"40
-[; ;timers.c: 40:     path_step++;
+[; ;timers.c: 39:     path_step++;
 [e ++ _path_step -> -> 1 `i `ui ]
-"41
-[; ;timers.c: 41:     return path_step;
+"40
+[; ;timers.c: 40:     return path_step;
 [e ) _path_step ]
 [e $UE 2017  ]
-"42
-[; ;timers.c: 42: }
+"41
+[; ;timers.c: 41: }
 [e :UE 2017 ]
 }
 [v $root$_LowISR `(v ~T0 @X0 0 e ]
-"43
-[; ;timers.c: 43: void __attribute__((picinterrupt(("low_priority")))) LowISR()
+"42
+[; ;timers.c: 42: void __attribute__((picinterrupt(("low_priority")))) LowISR()
 [v _LowISR `(v ~T1 @X0 1 ef ]
-"44
-[; ;timers.c: 44: {
+"43
+[; ;timers.c: 43: {
 {
 [e :U _LowISR ]
 [f ]
-"46
-[; ;timers.c: 46:     if (PIR0bits.TMR0IF == 1) {
+"45
+[; ;timers.c: 45:     if (PIR0bits.TMR0IF == 1) {
 [e $ ! == -> . . _PIR0bits 0 5 `i -> 1 `i 2019  ]
 {
-"47
-[; ;timers.c: 47:         LATGbits.LATG1 = 1;
+"46
+[; ;timers.c: 46:         LATGbits.LATG1 = 1;
 [e = . . _LATGbits 0 1 -> -> 1 `i `uc ]
-"49
-[; ;timers.c: 49:         PIR0bits.TMR0IF = 0;
+"48
+[; ;timers.c: 48:         PIR0bits.TMR0IF = 0;
 [e = . . _PIR0bits 0 5 -> -> 0 `i `uc ]
-"50
-[; ;timers.c: 50:     }
+"49
+[; ;timers.c: 49:     }
 }
 [e :U 2019 ]
-"51
-[; ;timers.c: 51: }
+"50
+[; ;timers.c: 50: }
 [e :UE 2018 ]
 }

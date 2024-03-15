@@ -281,38 +281,38 @@ unsigned int decision(unsigned int hue, unsigned int path_step) {
     
     if (hue<=10 || hue>=355) { // Red hue range
         moveRed(&motorL, &motorR);
-        logAction('1',0, path_step); //turning actions have time = 0
+        logAction(1,0, path_step); //turning actions have time = 0
         color = 1;
         path_step++; //adds a new step to the path
     }
         else if (hue>=105 && hue<=130){ // Green hue range
         moveGreen(&motorL, &motorR);
-        logAction('2',0, path_step);
+        logAction(2,0, path_step);
         color = 2;
         path_step++; //adds a new step to the path
     } else if (hue>=230 && hue<=240){ // Blue hue range
         moveBlue(&motorL,&motorR);
-        logAction('3',0, path_step); //turning actions have time = 0
+        logAction(3,0, path_step); //turning actions have time = 0
         color = 3;
         path_step++; //adds a new step to the path
     } else if (hue>=216 && hue<=221 ){ // Light Blue hue range
         moveLightBlue(&motorL,&motorR);
-        logAction('5',0, path_step); //turning actions have time = 0
+        logAction(5,0, path_step); //turning actions have time = 0
         color = 4;
         path_step++; //adds a new step to the path
     } else if (hue>=302 && hue<=346){ // Light Blue hue range
         moveYellow(&motorL,&motorR);
-        logAction('1',0, path_step); //turning actions have time = 0 CHECK THIS TO SEE IF WE NEED TO REMOVE TIME FROM THE STRAIGHT 
+        logAction(1,0, path_step); //turning actions have time = 0 CHECK THIS TO SEE IF WE NEED TO REMOVE TIME FROM THE STRAIGHT 
         color = 5;
         path_step++; //adds a new step to the path
     } else if (hue>14 && hue<=35){ // Light Blue hue range
         moveOrange(&motorL,&motorR);
-        logAction('4',0, path_step); //turning actions have time = 0
+        logAction(4,0, path_step); //turning actions have time = 0
         color= 6;
         path_step++; //adds a new step to the path
     } else if (hue>=244 && hue<=251){ // Light Blue hue range
         movePink(&motorL,&motorR);  
-        logAction('2',0, path_step); //turning actions have time = 0 CHECK THIS TO SEE IF WE NEED TO REMOVE TIME FROM THE STRAIGHT 
+        logAction(2,0, path_step); //turning actions have time = 0 CHECK THIS TO SEE IF WE NEED TO REMOVE TIME FROM THE STRAIGHT 
         color = 7;
         path_step++; //adds a new step to the path
 
