@@ -2,11 +2,11 @@
 
 ## Challenge brief
 
-Our buggy was designed to be capable of navigating a model "mine" by reading instructions for its movement using a predetermined set of colored cards. Once it reached the end of the "mine", our buggy was intended to return to its starting position and sleep to conserve energy. In more detail our buggy had to do the following according to the task brief:
+Our buggy was designed to be capable of navigating a model "mine" by reading instructions for its movement using a predetermined set of coloured cards. Once it reached the end of the "mine", our buggy was intended to return to its starting position and sleep to conserve energy. In more detail our buggy had to do the following according to the task brief:
 
 1. Navigate towards a colored card and stop before impacting the card
-1. Read the card color
-1. Interpret the card color using a predefined code and perform the navigation instruction
+1. Read the card colour
+1. Interpret the card colour using a predefined code and perform the navigation instruction
 1. When the final card is reached, navigate back to the starting position
 1. Handle exceptions and return to the starting position if the final card cannot be found
 
@@ -15,7 +15,7 @@ Our buggy was designed to be capable of navigating a model "mine" by reading ins
 
 ## Calibration routine
 
-Before running the maze our buggy has to run a calibration routine to adjust its readings for hue, which regulates color detection according to the surroundings. Another stage of the calibration routine is to adjust the amount the buggy turns by doing some dummy rotations to operate on any given terrain without additional coding.
+Before running the maze our buggy has to run a calibration routine to adjust its readings for hue, which regulates colour detection according to the surroundings. Another stage of the calibration routine is to adjust the amount the buggy turns by doing some dummy rotations to operate on any given terrain without additional coding.
 
 In that said order 
 
@@ -35,7 +35,7 @@ Pink | 7 | Reverse 1 square and turn left 90
 White | N/A | Finish (return home)
 Black | N/A | Maze wall colour
 
-Every time the buggy either advances or makes a correct reading of a color, it logs the corresponding action and time using our 'logAction()' function. We also create a local variable in the main.c file, 'path_step' that keeps track of the total number of actions so that the logAction function knows which index to insert the action and time into, and for our 'returnHome' function to read backward through the arrays using the following for loop:
+Every time the buggy either advances or makes a correct reading of a colour, it logs the corresponding action and time using our 'logAction()' function. We also create a local variable in the main.c file, 'path_step' that keeps track of the total number of actions so that the logAction function knows which index to insert the action and time into, and for our 'returnHome' function to read backward through the arrays using the following for loop:
 
 	for (i=path_length-1,i>=0,i--)
 	{
@@ -81,7 +81,7 @@ The assessment consisted of running mazes of 3 difficulties:
 
 1. Easy: Just a sequence of 3-4 Red and Green cards.
 2. Medium: Red, Green, and Yellow cards. This maze incorporated the two cards with a step back, which were harder to read.
-3. Hard: Larger maze incorporating all card colors. Maze now had the 135-degree turns and long straight paths making alignment harder.
+3. Hard: Larger maze incorporating all card colours. Maze now had the 135-degree turns and long straight paths making alignment harder.
 
 Our team was assigned a slot at 12:00 for the test, and we were allowed into the room 10 minutes before to perform any last-minute adjustments.
 
