@@ -43,9 +43,36 @@ Every time the buggy either advances or makes a correct reading of a color, it l
 		else //goes through the turns in reverse
 		Sleep(); //goes to sleep to conserve energy
 	}
-	
 
+The time is converted into a 16-bit number by combining TMR0L and TMR0H and is directly converted into ms within that same 'get16bitTMR0val()' function. This is then passed into the global array and used to return the buggy home.
 
+## Lost function
+
+Our buggy also included an additional feature of returning home if lost. This is triggered if enough time has passed to determine that the buggy is certainly not finding the final card (i.e. the end of the maze). We wanted this to occur after approximately 30 seconds of operation, so we selected a timer prescale value of 8912 in 16-bit mode to overflow after 33.55 seconds precisely. The following code shows the interrupt service routine in order to read the flag that triggered in the instance of overflow:
+
+	void __interrupt(low_priority) LowISR()
+	{  
+	    //toggles bit on board on, to show that it needs to go home and abondon search
+	    if (PIR0bits.TMR0IF == 1) { // check interrupt flag
+	        LATGbits.LATG1 = 1;
+	       
+	        PIR0bits.TMR0IF = 0; // clear interrupt flag
+	    }
+	}
+
+An additional feature of this code is that the interrupt service routine for timer overflow also triggers the return function:
+
+	if ((clear_norm > 85 && !(hue >= 302 && hue <= 346)) && !(hue>14 && hue<=35) || LATGbits.LATG1 == 1) {
+ 		//turn off white light during normal operation
+        	LATGbits.LATG0 = 0; //Red is G0
+        	LATEbits.LATE7 = 0; //Green is E7
+        	LATAbits.LATA3 = 0; //Blue is A3
+
+		if (LATGbits.LATG1 == 1){
+                	path_step = get16bitTMR0val(path_step);
+            	}
+            returnHome(&motorL, &motorR, path_step, factorR, factorL);
+        }
 
 ***
 ## Assessment
