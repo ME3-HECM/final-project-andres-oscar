@@ -78,7 +78,7 @@ Our buggy also included an additional feature of returning home if lost. This is
 	    }
 	}
 
-An additional feature of this code is that the interrupt service routine for timer overflow also triggers the return function:
+An additional feature of this code is that the interrupt service routine for timer overflow also triggers the return function by writing to a arbitrary unused pin 'G1' on the buggy:
 
 	if ((clear_norm > 85 && !(hue >= 302 && hue <= 346)) && !(hue>14 && hue<=35) || LATGbits.LATG1 == 1) {
  		//turn off white light during normal operation
