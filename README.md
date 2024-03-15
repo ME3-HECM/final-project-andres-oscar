@@ -19,7 +19,7 @@ Before running the maze our buggy has to run a calibration routine to adjust its
 
 In that said order 
 
-
+***
 ## Assessment
 
 The assessment consisted of running mazes of 3 difficulties:
@@ -35,7 +35,7 @@ Our team was assigned a slot at 12:00 for the test, and we were allowed into the
 Although we lack recordings for the performance of our buggy in the actual 3 mazes, our buggy performed as expected and succesfully ran our code to make it to the end of the maze
 
 
-
+## Post exam discussion and changes
 
 
 
