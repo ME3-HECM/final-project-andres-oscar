@@ -61,7 +61,7 @@ As a result, we implemented an if statement in the returning function as follows
 		time_ms = time[i]-2250;
 	 }
 
-This code checks if the following action is pink or yellow when returning and amends the time for the current path index by approximately a unit cell.
+This code checks if the following action is pink or yellow when returning and amends the time for the current path index by approximately a unit cell. **This key feature is evident when watching the video that has been attached.**
 
 
 ## Lost function
