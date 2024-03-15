@@ -25,7 +25,7 @@ Before running the maze our buggy has to run a calibration routine to adjust its
 
 As for the turning calibrations we made 2 functions 'calibration_turningR' and 'calibration_turningL' in their own file called 'calibration.c'. This routine consisted of turning right 90 degrees 4 times with noticeable delays in between to attempt to complete a full circle. Once this action ocurred you can click either RF2 or RF3 to increase or decrease the rotation angle respectively. This was done by creating a 'factorR' or 'factorL' variable that increases or decreases the delay in the right90 or left90 functions. The 4 90 degree turns are then repeated. If you are satisfied with the full spin, the code will exit the calibration after 3 seconds and either start the left turn calibrations, followed by starting the forward movement after a similar 3-second wait.
 
-## Logging actions
+## Logging actions and Returning
 
 A tough part of this project was providing the buggy with a 'memory' of its actions as it traverses the maze so it can accurately recreate them in reverse on when returning. We handled this by creating 2 global arrays, one for the 'action' that it performed at each instance, and the second for the associate 'time' duration of that action. The second array serves the purpose of remembering how far the straight sections of the maze are. The following table shows each colour, the 'action' that we referred to it as in our code, and the instruction it carried out:
 
