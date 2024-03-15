@@ -13,11 +13,13 @@ Our buggy was designed to be capable of navigating a model "mine" by reading ins
 ***
 # Our code explained:
 
-## Calibration routine
+## Colour Reading
+
+## Calibration Routine
 
 Before running the maze our buggy has to run a calibration routine to adjust its readings for hue, which regulates colour detection according to the surroundings. Another stage of the calibration routine is to adjust the amount the buggy turns by doing some dummy rotations to operate on any given terrain without additional coding.
 
-In that said order 
+As for the turning calibrations we made 2 functions 'calibration_turningR' and 'calibration_turningL' in their own file called 'calibration.c'. This routine consisted of turning right 90 degrees 4 times with noticeable delays in between to attempt to complete a full circle. Once this action ocurred you can click either RF2 or RF3 to increase or decrease the rotation angle respectively. This was done by creating a 'factorR' or 'factorL' variable that increases or decreases the delay in the right90 or left90 functions. The 4 90 degree turns are then repeated. If you are satisfied with the full spin, the code will exit the calibration after 3 seconds and either start the left turn calibrations, followed by starting the forward movement after a similar 3-second wait.
 
 ## Logging actions
 
